@@ -1,6 +1,7 @@
 import { defineConfig } from "electron-vite";
 import react from "@vitejs/plugin-react";
 import { resolve } from "path";
+import { devtools } from "@tanstack/devtools-vite";
 
 export default defineConfig({
   main: {
@@ -37,7 +38,22 @@ export default defineConfig({
   },
   renderer: {
     root: resolve(__dirname, "./renderer"),
-    plugins: [react()],
+    plugins: [
+      react(),
+      devtools({
+        injectSource: {
+          enabled: true,
+          ignore: {
+            files: ["node_modules", /.*\.test\.(js|ts|jsx|tsx)$/],
+            components: ["InternalComponent", /.*Provider$/],
+          },
+        },
+        logging: true,
+        enhancedLogs: {
+          enabled: true,
+        },
+      }),
+    ],
     resolve: {
       alias: {
         "@": resolve(__dirname, "./renderer"),
