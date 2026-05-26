@@ -1,4 +1,4 @@
-import "../styles/globals.css";
+import "./styles/globals.css";
 import { Provider } from "jotai";
 import "react-tooltip/dist/react-tooltip.css";
 import { Toaster } from "@/components/ui/toaster";
@@ -13,7 +13,7 @@ const AppProviders = ({ children }: { children: React.ReactNode }) => {
           {children}
           <Toaster />
           <Tooltip
-            className="!bg-secondary z-[999] max-w-sm break-words"
+            className="bg-secondary! z-999 max-w-sm wrap-break-word"
             id="tooltip"
           />
         </PostHogProviderWrapper>

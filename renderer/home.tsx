@@ -2,15 +2,15 @@
 import { useState, useEffect } from "react";
 import { ELECTRON_COMMANDS } from "@common/electron-commands";
 import { useAtomValue, useSetAtom } from "jotai";
-import { customModelIdsAtom } from "../atoms/models-list-atom";
+import { customModelIdsAtom } from "./atoms/models-list-atom";
 import {
   batchModeAtom,
   savedOutputPathAtom,
   progressAtom,
   rememberOutputFolderAtom,
   userStatsAtom,
-} from "../atoms/user-settings-atom";
-import useLogger from "../components/hooks/use-logger";
+} from "./atoms/user-settings-atom";
+import useLogger from "./components/hooks/use-logger";
 import { useToast } from "@/components/ui/use-toast";
 import { ToastAction } from "@/components/ui/toast";
 import UpscaylSVGLogo from "@/components/icons/upscayl-logo-svg";

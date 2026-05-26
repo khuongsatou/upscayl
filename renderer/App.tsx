@@ -1,6 +1,6 @@
-import AppProviders from "./pages/_app";
+import AppProviders from "./app-providers";
 import RendererErrorBoundary from "./error-boundary";
-import Home from "./pages/index";
+import Home from "./home";
 import { TanStackDevtools } from "@tanstack/react-devtools";
 
 const App = () => {

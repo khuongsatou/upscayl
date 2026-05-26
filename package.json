@@ -37,7 +37,7 @@
   ],
   "main": "out/main/index.js",
   "scripts": {
-    "clean": "rimraf dist out renderer/.next renderer/out",
+    "clean": "rimraf dist out",
     "start": "npm run build && electron .",
     "dev": "electron-vite dev",
     "build:electron": "electron-vite build",
