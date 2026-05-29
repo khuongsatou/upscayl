@@ -20,7 +20,7 @@ const PostHogProviderWrapper = ({
       capture_pageleave: false,
       disable_session_recording: true,
       loaded: async (posthog) => {
-        if (process.env.NODE_ENV === "development") posthog.debug();
+        // if (process.env.NODE_ENV === "development") posthog.debug();
         const systemInfo = await window.electron.getSystemInfo();
         const appVersion = await window.electron.getAppVersion();
         // Set super properties that will be included with all events

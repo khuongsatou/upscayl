@@ -55,3 +55,4 @@ main/utils/*.js
 flags.ts
 *.p12
 dockerfile
+.plan

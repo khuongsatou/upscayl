@@ -327,13 +327,13 @@ const Home = () => {
 
   if (isLoading) {
     return (
-      <UpscaylSVGLogo className="absolute left-1/2 top-1/2 w-36 -translate-x-1/2 -translate-y-1/2 animate-pulse" />
+      <UpscaylSVGLogo className="absolute top-1/2 left-1/2 w-36 -translate-x-1/2 -translate-y-1/2 animate-pulse" />
     );
   }
 
   return (
     <div
-      className="flex h-screen w-screen flex-row overflow-hidden bg-base-300"
+      className="bg-base-300 flex h-screen w-screen flex-row overflow-hidden"
       onPaste={(e) => console.log(e)}
     >
       <Sidebar
