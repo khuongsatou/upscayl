@@ -1,22 +1,22 @@
-import AppProviders from "./app-providers";
+import Providers from "./providers";
 import MacTitlebarDragRegion from "./components/main-content/mac-titlebar-drag-region";
 import RendererErrorBoundary from "./error-boundary";
 import Home from "./home";
-import { TanStackDevtools } from "@tanstack/react-devtools";
+import "./styles/globals.css";
 
 const App = () => {
   return (
     <RendererErrorBoundary>
-      <AppProviders>
+      <Providers>
         <MacTitlebarDragRegion />
         <Home />
-        <TanStackDevtools
+        {/* <TanStackDevtools
           config={{
             inspectHotkey: ["Alt"],
             sourceAction: "ide-warp",
           }}
-        />
-      </AppProviders>
+        /> */}
+      </Providers>
     </RendererErrorBoundary>
   );
 };

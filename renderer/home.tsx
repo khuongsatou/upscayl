@@ -15,8 +15,6 @@ import { useToast } from "@/components/ui/use-toast";
 import { ToastAction } from "@/components/ui/toast";
 import UpscaylSVGLogo from "@/components/icons/upscayl-logo-svg";
 import { translationAtom } from "@/atoms/translations-atom";
-import Sidebar from "@/components/sidebar";
-import MainContent from "@/components/main-content";
 import getDirectoryFromPath from "@common/get-directory-from-path";
 import { FEATURE_FLAGS } from "@common/feature-flags";
 import { ImageFormat, VALID_IMAGE_FORMATS } from "@/lib/valid-formats";
@@ -24,14 +22,17 @@ import { initCustomModels } from "@/components/hooks/use-custom-models";
 import { OnboardingDialog } from "@/components/main-content/onboarding-dialog";
 import useSystemInfo from "@/components/hooks/use-system-info";
 import Sidenav from "./components/sidenav";
-import MacTitlebarDragRegion from "./components/main-content/mac-titlebar-drag-region";
 import { cn } from "./lib/utils";
+import Sidebar from "./components/sidebar";
+import Header from "./components/header";
+import useUpscaylVersion from "./components/hooks/use-upscayl-version";
 
 const Home = () => {
   const t = useAtomValue(translationAtom);
   const logit = useLogger();
   const { toast } = useToast();
   const { systemInfo } = useSystemInfo();
+  const version = useUpscaylVersion();
 
   initCustomModels();
 
@@ -337,20 +338,27 @@ const Home = () => {
   return (
     <div
       className={cn(
-        "bg-base-300 flex h-screen w-screen flex-row overflow-hidden p-2",
+        "bg-backround flex h-screen w-screen flex-row gap-2 overflow-hidden p-2",
       )}
       onPaste={(e) => console.log(e)}
     >
+      {/* <SidebarProvider>
+        <AppSidebar />
+      </SidebarProvider> */}
       <Sidenav />
-      {/* <Sidebar
-        imagePath={imagePath}
-        dimensions={dimensions}
-        setUpscaledImagePath={setUpscaledImagePath}
-        batchFolderPath={batchFolderPath}
-        setUpscaledBatchFolderPath={setUpscaledBatchFolderPath}
-        selectImageHandler={selectImageHandler}
-        selectFolderHandler={selectFolderHandler}
-      /> */}
+
+      <div className="flex flex-col">
+        <Header version={version} />
+        <Sidebar
+          imagePath={imagePath}
+          dimensions={dimensions}
+          setUpscaledImagePath={setUpscaledImagePath}
+          batchFolderPath={batchFolderPath}
+          setUpscaledBatchFolderPath={setUpscaledBatchFolderPath}
+          selectImageHandler={selectImageHandler}
+          selectFolderHandler={selectFolderHandler}
+        />
+      </div>
       {/* <MainContent
         imagePath={imagePath}
         resetImagePaths={resetImagePaths}

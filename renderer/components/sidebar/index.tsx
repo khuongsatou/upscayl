@@ -66,7 +66,6 @@ const Sidebar = ({
   const t = useTranslation();
   const logit = useLogger();
   const { toast } = useToast();
-  const version = useUpscaylVersion();
 
   // LOCAL STATES
   // TODO: Add electron handler for os
@@ -194,69 +193,40 @@ const Sidebar = ({
   };
 
   return (
-    <>
-      {/* TOP LOGO WHEN SIDEBAR IS HIDDEN */}
-      {!showSidebar && <UpscaylLogo />}
+    <div className="relative flex flex-col bg-accent">
+      {selectedTab === 0 && (
+        <UpscaylSteps
+          selectImageHandler={selectImageHandler}
+          selectFolderHandler={selectFolderHandler}
+          upscaylHandler={upscaylHandler}
+          batchMode={batchMode}
+          setBatchMode={setBatchMode}
+          imagePath={imagePath}
+          doubleUpscayl={doubleUpscayl}
+          setDoubleUpscayl={setDoubleUpscayl}
+          dimensions={dimensions}
+          setGpuId={setGpuId}
+          setSaveImageAs={setSaveImageAs}
+        />
+      )}
 
-      <SidebarToggleButton
-        showSidebar={showSidebar}
-        setShowSidebar={setShowSidebar}
-      />
-
-      <div
-        className={`bg-base-100 relative flex h-screen max-w-[350px] min-w-[350px] flex-col ${showSidebar ? "" : "hidden"}`}
-      >
-        <button
-          className="bg-base-100 absolute top-1/2 -right-0 z-50 translate-x-1/2 -translate-y-1/2 rounded-full p-4"
-          onClick={() => setShowSidebar((prev) => !prev)}
-        >
-          <ChevronLeftIcon />
-        </button>
-
-        {window.electron.platform === "mac" && (
-          <div className="mac-titlebar pt-8"></div>
-        )}
-
-        <Header version={version} />
-
-        <NewsModal />
-
-        <Tabs selectedTab={selectedTab} setSelectedTab={setSelectedTab} />
-
-        {selectedTab === 0 && (
-          <UpscaylSteps
-            selectImageHandler={selectImageHandler}
-            selectFolderHandler={selectFolderHandler}
-            upscaylHandler={upscaylHandler}
-            batchMode={batchMode}
-            setBatchMode={setBatchMode}
-            imagePath={imagePath}
-            doubleUpscayl={doubleUpscayl}
-            setDoubleUpscayl={setDoubleUpscayl}
-            dimensions={dimensions}
-            setGpuId={setGpuId}
-            setSaveImageAs={setSaveImageAs}
-          />
-        )}
-
-        {selectedTab === 1 && (
-          <SettingsTab
-            batchMode={batchMode}
-            compression={compression}
-            setCompression={setCompression}
-            gpuId={gpuId}
-            setGpuId={setGpuId}
-            saveImageAs={saveImageAs}
-            setSaveImageAs={setSaveImageAs}
-            logData={logData}
-            show={showCloudModal}
-            setShow={setShowCloudModal}
-            setDontShowCloudModal={setDontShowCloudModal}
-          />
-        )}
-        <Footer />
-      </div>
-    </>
+      {selectedTab === 1 && (
+        <SettingsTab
+          batchMode={batchMode}
+          compression={compression}
+          setCompression={setCompression}
+          gpuId={gpuId}
+          setGpuId={setGpuId}
+          saveImageAs={saveImageAs}
+          setSaveImageAs={setSaveImageAs}
+          logData={logData}
+          show={showCloudModal}
+          setShow={setShowCloudModal}
+          setDontShowCloudModal={setDontShowCloudModal}
+        />
+      )}
+      <Footer />
+    </div>
   );
 };
 
