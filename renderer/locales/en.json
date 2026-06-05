@@ -117,7 +117,7 @@
       "DESCRIPTION": "This will let you Upscayl all files in a folder at once"
     },
     "FILE_SELECTION": {
-      "TITLE": "Step 1",
+      "TITLE": "Upload Image",
       "BATCH_MODE_TYPE": "Select Folder",
       "SINGLE_MODE_TYPE": "Select Image"
     },

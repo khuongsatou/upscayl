@@ -110,34 +110,16 @@ function UpscaylSteps({
 
   return (
     <div
-      className={`animate-step-in animate flex h-screen flex-col gap-7 overflow-y-auto overflow-x-hidden p-5`}
+      className={`animate-step-in animate flex h-screen flex-col gap-7 overflow-x-hidden overflow-y-auto p-5`}
     >
-      {/* BATCH OPTION */}
-      <div className="flex flex-row items-center gap-2">
-        <input
-          type="checkbox"
-          className="toggle"
-          defaultChecked={batchMode}
-          onClick={() => {
-            if (!rememberOutputFolder) {
-              setOutputPath("");
-            }
-            setProgress("");
-            setBatchMode((oldValue) => !oldValue);
-          }}
-        ></input>
-        <p
-          className="mr-1 inline-block cursor-help text-sm"
-          data-tooltip-id="tooltip"
-          data-tooltip-content={t("APP.BATCH_MODE.DESCRIPTION")}
-        >
-          {t("APP.BATCH_MODE.TITLE")}
-        </p>
-      </div>
-
       {/* STEP 1 */}
       <div className="animate-step-in">
-        <p className="step-heading">{t("APP.FILE_SELECTION.TITLE")}</p>
+        <p className="step-heading">
+          <span className="flex items-center justify-center rounded-lg bg-foreground/10 px-2 text-sm">
+            1
+          </span>
+          {t("APP.FILE_SELECTION.TITLE")}
+        </p>
         <button
           className="btn btn-primary"
           onClick={!batchMode ? selectImageHandler : selectFolderHandler}
@@ -149,7 +131,6 @@ function UpscaylSteps({
             : t("APP.FILE_SELECTION.SINGLE_MODE_TYPE")}
         </button>
       </div>
-
       {/* STEP 2 */}
       <div className="animate-step-in group flex flex-col gap-4">
         <div>
@@ -193,7 +174,6 @@ function UpscaylSteps({
 
         <SelectImageScale scale={scale} setScale={setScale} hideInfo />
       </div>
-
       {/* STEP 3 */}
       <div className="animate-step-in">
         <div className="flex flex-col pb-2">
@@ -214,7 +194,7 @@ function UpscaylSteps({
           </div>
           {!outputPath && FEATURE_FLAGS.APP_STORE_BUILD && (
             <div className="text-xs">
-              <span className="rounded-btn bg-base-200 px-2 font-medium uppercase text-base-content/50">
+              <span className="rounded-btn bg-base-200 text-base-content/50 px-2 font-medium uppercase">
                 {t("APP.OUTPUT_PATH_SELECTION.NOT_SELECTED")}
               </span>
             </div>
@@ -236,7 +216,6 @@ function UpscaylSteps({
           {t("APP.OUTPUT_PATH_SELECTION.BUTTON_TITLE")}
         </button>
       </div>
-
       {/* STEP 4 */}
       <div className="animate-step-in">
         <p className="step-heading">{t("APP.SCALE_SELECTION.TITLE")}</p>

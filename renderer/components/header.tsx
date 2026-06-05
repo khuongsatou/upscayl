@@ -1,5 +1,4 @@
 import { FEATURE_FLAGS } from "@common/feature-flags";
-import UpscaylSVGLogo from "@/components/icons/upscayl-logo-svg";
 import { useAtomValue } from "jotai";
 import { translationAtom } from "@/atoms/translations-atom";
 
@@ -14,16 +13,17 @@ export default function Header({ version }: { version: string }) {
       data-tooltip-id="tooltip"
       data-tooltip-content={t("HEADER.GITHUB_BUTTON_TITLE")}
     >
-      <div className="flex gap-2">
-        <img src="/logo.svg" className="size-12" />
+      <div className="flex gap-4">
+        <img src="/logo.svg" className="size-10 self-center" />
 
         <div className="flex flex-col items-start justify-start">
-          <h1 className="text-lg text-medium text-foreground/80">{t("TITLE")} </h1>
+          <h1 className="text-medium text-lg text-foreground/80">
+            {t("TITLE")}{" "}
+          </h1>
           <p className="text-xs text-muted-foreground">
             {version} {FEATURE_FLAGS.APP_STORE_BUILD && "Mac"}
           </p>
         </div>
-        
       </div>
     </a>
   );

@@ -342,12 +342,11 @@ const Home = () => {
       )}
       onPaste={(e) => console.log(e)}
     >
-      {/* <SidebarProvider>
-        <AppSidebar />
-      </SidebarProvider> */}
-      <Sidenav />
+      <div className="pt-5">
+        <Sidenav />
+      </div>
 
-      <div className="flex flex-col">
+      <div className="flex flex-col gap-4">
         <Header version={version} />
         <Sidebar
           imagePath={imagePath}
