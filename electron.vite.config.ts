@@ -2,6 +2,7 @@ import { defineConfig } from "electron-vite";
 import react from "@vitejs/plugin-react";
 import { resolve } from "path";
 import { devtools } from "@tanstack/devtools-vite";
+import tailwindcss from "@tailwindcss/vite";
 
 export default defineConfig({
   main: {
@@ -53,6 +54,7 @@ export default defineConfig({
           enabled: true,
         },
       }),
+      tailwindcss(),
     ],
     resolve: {
       alias: {

@@ -23,6 +23,9 @@ import { ImageFormat, VALID_IMAGE_FORMATS } from "@/lib/valid-formats";
 import { initCustomModels } from "@/components/hooks/use-custom-models";
 import { OnboardingDialog } from "@/components/main-content/onboarding-dialog";
 import useSystemInfo from "@/components/hooks/use-system-info";
+import Sidenav from "./components/sidenav";
+import MacTitlebarDragRegion from "./components/main-content/mac-titlebar-drag-region";
+import { cn } from "./lib/utils";
 
 const Home = () => {
   const t = useAtomValue(translationAtom);
@@ -333,10 +336,13 @@ const Home = () => {
 
   return (
     <div
-      className="bg-base-300 flex h-screen w-screen flex-row overflow-hidden"
+      className={cn(
+        "bg-base-300 flex h-screen w-screen flex-row overflow-hidden p-2",
+      )}
       onPaste={(e) => console.log(e)}
     >
-      <Sidebar
+      <Sidenav />
+      {/* <Sidebar
         imagePath={imagePath}
         dimensions={dimensions}
         setUpscaledImagePath={setUpscaledImagePath}
@@ -344,8 +350,8 @@ const Home = () => {
         setUpscaledBatchFolderPath={setUpscaledBatchFolderPath}
         selectImageHandler={selectImageHandler}
         selectFolderHandler={selectFolderHandler}
-      />
-      <MainContent
+      /> */}
+      {/* <MainContent
         imagePath={imagePath}
         resetImagePaths={resetImagePaths}
         upscaledBatchFolderPath={upscaledBatchFolderPath}
@@ -357,7 +363,7 @@ const Home = () => {
         upscaledImagePath={upscaledImagePath}
         doubleUpscaylCounter={doubleUpscaylCounter}
         setDimensions={setDimensions}
-      />
+      /> */}
       <OnboardingDialog />
     </div>
   );

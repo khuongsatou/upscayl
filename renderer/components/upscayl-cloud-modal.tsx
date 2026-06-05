@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { waitlistCollection } from "../firebase";
+import { waitlistCollection } from "../lib/firebase";
 import { doc, setDoc } from "firebase/firestore";
 import { useAtomValue } from "jotai";
 import { translationAtom } from "@/atoms/translations-atom";
@@ -16,7 +16,7 @@ export const UpscaylCloudModal = ({ show, setShow, setDontShowCloudModal }) => {
     <dialog className={`modal ${show && "modal-open"}`}>
       <div className="modal-box flex flex-col items-center gap-4 text-center">
         <button
-          className="btn btn-circle absolute right-4 top-2"
+          className="btn btn-circle absolute top-2 right-4"
           onClick={() => setShow(false)}
         >
           <svg
@@ -103,13 +103,13 @@ export const UpscaylCloudModal = ({ show, setShow, setDontShowCloudModal }) => {
           </div>
           <button
             type="submit"
-            className="rounded-2xl bg-success px-4 py-2 text-success-content"
+            className="bg-success text-success-content rounded-2xl px-4 py-2"
           >
             {t("UPSCAYL_CLOUD.JOIN_WAITLIST")}
           </button>
 
           <button
-            className="text-xs text-base-content/50"
+            className="text-base-content/50 text-xs"
             onClick={() => {
               setDontShowCloudModal(true);
               setShow(false);

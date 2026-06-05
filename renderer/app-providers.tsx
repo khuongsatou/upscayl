@@ -1,4 +1,4 @@
-import "./styles/globals.css";
+import "./index.css";
 import { Provider } from "jotai";
 import "react-tooltip/dist/react-tooltip.css";
 import { Toaster } from "@/components/ui/toaster";

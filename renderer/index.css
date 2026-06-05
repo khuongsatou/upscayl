@@ -3,7 +3,7 @@
 @plugin "daisyui" {
   themes:
     light --default,
-    dark --prefersdark,
+    dark,
     cupcake,
     bumblebee,
     emerald,
@@ -32,10 +32,10 @@
     coffee,
     winter;
 }
-@plugin "daisyui/theme" {
+/* @plugin "daisyui/theme" {
   name: "upscayl";
-  default: true;
-  prefersdark: false;
+  default: false;
+  prefersdark: true;
   color-scheme: dark;
 
   --color-base-100: #1e293b;
@@ -67,7 +67,7 @@
   --border: 1px;
   --depth: 0;
   --noise: 0;
-}
+} */
 
 @theme inline {
   --color-border: color-mix(
