@@ -119,7 +119,7 @@
     "FILE_SELECTION": {
       "TITLE": "Upload Image",
       "BATCH_MODE_TYPE": "Select Folder",
-      "SINGLE_MODE_TYPE": "Select Image"
+      "SINGLE_MODE_TYPE": "Upload Image"
     },
     "MODEL_SELECTION": {
       "TITLE": "Step 2",

@@ -1,6 +1,5 @@
 import { useAtom, useAtomValue } from "jotai";
 import React, { useEffect, useMemo } from "react";
-import { Tooltip } from "react-tooltip";
 import { themeChange } from "theme-change";
 import useLogger from "../../hooks/use-logger";
 import {
@@ -18,6 +17,8 @@ import { translationAtom } from "@/atoms/translations-atom";
 import { SelectImageScale } from "../settings-tab/select-image-scale";
 import SelectModelDialog from "./select-model-dialog";
 import { ImageFormat } from "@/lib/valid-formats";
+import { Button } from "@/components/ui/button";
+import { FolderIcon, UploadIcon } from "lucide-react";
 
 interface IProps {
   selectImageHandler: () => Promise<void>;
@@ -120,17 +121,33 @@ function UpscaylSteps({
           </span>
           {t("APP.FILE_SELECTION.TITLE")}
         </p>
-        <button
-          className="btn btn-primary"
-          onClick={!batchMode ? selectImageHandler : selectFolderHandler}
-          data-tooltip-id="tooltip"
-          data-tooltip-content={imagePath}
-        >
-          {batchMode
-            ? t("APP.FILE_SELECTION.BATCH_MODE_TYPE")
-            : t("APP.FILE_SELECTION.SINGLE_MODE_TYPE")}
-        </button>
+        <div className="flex flex-col gap-2">
+          <Button
+            variant="default"
+            className="btn btn-primary w-full py-8"
+            onClick={!batchMode ? selectImageHandler : selectFolderHandler}
+          >
+            <UploadIcon className="mr-2 size-5" strokeWidth={2} />
+            <div className="flex flex-col">
+              {t("APP.FILE_SELECTION.SINGLE_MODE_TYPE")}
+              <span className="text-xs text-muted-foreground">
+                PNG, JPG, WEBP
+              </span>
+            </div>
+          </Button>
+          <Button
+            variant="outline"
+            className="btn btn-primary w-full py-8"
+            onClick={!batchMode ? selectImageHandler : selectFolderHandler}
+          >
+            <FolderIcon className="mr-2 size-5" strokeWidth={2} />
+            <div className="flex flex-col">
+              {t("APP.FILE_SELECTION.BATCH_MODE_TYPE")}
+            </div>
+          </Button>
+        </div>
       </div>
+
       {/* STEP 2 */}
       <div className="animate-step-in group flex flex-col gap-4">
         <div>
