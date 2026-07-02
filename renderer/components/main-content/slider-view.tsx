@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from "react";
+import { useCallback, useState } from "react";
 import { ReactCompareSlider } from "react-compare-slider";
 import useTranslation from "../hooks/use-translation";
 
@@ -26,7 +26,7 @@ const SliderView = ({
     <ReactCompareSlider
       itemOne={
         <>
-          <p className="absolute bottom-1 left-1 rounded-md bg-black p-1 text-sm font-medium text-white opacity-30">
+          <p className="absolute bottom-1 left-1 items-center rounded-md border bg-black p-1 text-sm font-medium text-white opacity-30">
             {t("APP.SLIDER.ORIGINAL_TITLE")}
           </p>
 
@@ -61,11 +61,11 @@ const SliderView = ({
               ["--zoom-scale" as string]: `${(Number(zoomAmount) || 100) / 100}`,
             }}
             onMouseMove={handleMouseMove}
-            className="slider-zoom from-base-300 to-base-100 h-full w-full bg-gradient-to-br transition-transform"
+            className="slider-zoom from-base-300 to-base-100 h-full w-full bg-linear-to-br transition-transform"
           />
         </>
       }
-      className="compare-slider-group h-screen"
+      className="compare-slider-group relative h-full"
     />
   );
 };

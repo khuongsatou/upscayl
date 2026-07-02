@@ -1,11 +1,14 @@
+import { cn } from "@/lib/utils";
 import { sanitizePath } from "@common/sanitize-path";
 
 const ImageViewer = ({
   imagePath,
   setDimensions,
+  className,
 }: {
   imagePath: string;
   setDimensions: (dimensions: { width: number; height: number }) => void;
+  className?: string;
 }) => {
   return (
     <img
@@ -18,7 +21,10 @@ const ImageViewer = ({
       }}
       draggable="false"
       alt=""
-      className="h-full w-full bg-gradient-to-br from-base-300 to-base-100 object-contain"
+      className={cn(
+        "bg-base size-full bg-linear-to-br object-contain",
+        className,
+      )}
     />
   );
 };

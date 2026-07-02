@@ -19,6 +19,7 @@ import { FEATURE_FLAGS } from "../common/feature-flags";
 import settings from "electron-settings";
 import pasteImage from "./commands/paste-image";
 import path from "path";
+import getImagePaths from "./commands/get-image-paths";
 
 // INITIALIZATION
 log.initialize({ preload: true });
@@ -95,6 +96,8 @@ ipcMain.on(ELECTRON_COMMANDS.FOLDER_UPSCAYL, batchUpscayl);
 ipcMain.on(ELECTRON_COMMANDS.DOUBLE_UPSCAYL, doubleUpscayl);
 
 ipcMain.on(ELECTRON_COMMANDS.PASTE_IMAGE, pasteImage);
+
+ipcMain.on(ELECTRON_COMMANDS.GET_IMAGE_PATHS, getImagePaths);
 
 ipcMain.handle("get-gpu-info", async () => {
   try {

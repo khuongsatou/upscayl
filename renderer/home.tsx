@@ -26,6 +26,7 @@ import { cn } from "./lib/utils";
 import Sidebar from "./components/sidebar";
 import Header from "./components/header";
 import useUpscaylVersion from "./components/hooks/use-upscayl-version";
+import MainContent from "./components/main-content";
 
 const Home = () => {
   const t = useAtomValue(translationAtom);
@@ -338,7 +339,7 @@ const Home = () => {
   return (
     <div
       className={cn(
-        "bg-backround flex h-screen w-screen flex-row gap-2 overflow-hidden p-2",
+        "flex h-screen w-screen flex-row gap-2 overflow-hidden bg-background p-2",
       )}
       onPaste={(e) => console.log(e)}
     >
@@ -346,31 +347,37 @@ const Home = () => {
         <Sidenav />
       </div>
 
-      <div className="flex flex-col gap-4">
+      <div className="flex h-full w-full flex-col gap-4">
         <Header version={version} />
-        <Sidebar
-          imagePath={imagePath}
-          dimensions={dimensions}
-          setUpscaledImagePath={setUpscaledImagePath}
-          batchFolderPath={batchFolderPath}
-          setUpscaledBatchFolderPath={setUpscaledBatchFolderPath}
-          selectImageHandler={selectImageHandler}
-          selectFolderHandler={selectFolderHandler}
-        />
+        <div className="flex h-full min-h-0 gap-2 p-2">
+          <Sidebar
+            imagePath={imagePath}
+            dimensions={dimensions}
+            setUpscaledImagePath={setUpscaledImagePath}
+            batchFolderPath={batchFolderPath}
+            setUpscaledBatchFolderPath={setUpscaledBatchFolderPath}
+            selectImageHandler={selectImageHandler}
+            selectFolderHandler={selectFolderHandler}
+          />
+
+          <MainContent
+            imagePath={imagePath}
+            resetImagePaths={resetImagePaths}
+            upscaledBatchFolderPath={upscaledBatchFolderPath}
+            setUpscaledBatchFolderPath={setUpscaledBatchFolderPath}
+            setImagePath={setImagePath}
+            validateImagePath={validateImagePath}
+            selectFolderHandler={selectFolderHandler}
+            selectImageHandler={selectImageHandler}
+            batchFolderPath={batchFolderPath}
+            setBatchFolderPath={setBatchFolderPath}
+            upscaledImagePath={upscaledImagePath}
+            doubleUpscaylCounter={doubleUpscaylCounter}
+            setDimensions={setDimensions}
+            dimensions={dimensions}
+          />
+        </div>
       </div>
-      {/* <MainContent
-        imagePath={imagePath}
-        resetImagePaths={resetImagePaths}
-        upscaledBatchFolderPath={upscaledBatchFolderPath}
-        setImagePath={setImagePath}
-        validateImagePath={validateImagePath}
-        selectFolderHandler={selectFolderHandler}
-        selectImageHandler={selectImageHandler}
-        batchFolderPath={batchFolderPath}
-        upscaledImagePath={upscaledImagePath}
-        doubleUpscaylCounter={doubleUpscaylCounter}
-        setDimensions={setDimensions}
-      /> */}
       <OnboardingDialog />
     </div>
   );
