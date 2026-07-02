@@ -106,7 +106,6 @@ const LensViewer = ({
         className="relative h-full w-full cursor-crosshair"
         ref={originalImageContainerRef}
       >
-        ORIGINAL IMAGE
         <img
           src={originalImage}
           alt="Original"
@@ -145,7 +144,7 @@ const LensViewer = ({
             backgroundSize: `${originalImageRef.current?.naturalWidth * zoomLevel}px ${originalImageRef.current?.naturalHeight * zoomLevel}px`,
           }}
         >
-          <span className="absolute bottom-0 w-full bg-black bg-opacity-60 px-2 py-1 text-center text-xs text-white">
+          <span className="bg-opacity-60 absolute bottom-0 w-full bg-black px-2 py-1 text-center text-xs text-white">
             Original
           </span>
         </div>
@@ -158,7 +157,7 @@ const LensViewer = ({
             backgroundSize: `${originalImageRef.current?.naturalWidth * zoomLevel}px ${originalImageRef.current?.naturalHeight * zoomLevel}px`,
           }}
         >
-          <span className="absolute bottom-0 w-full bg-black bg-opacity-60 px-2 py-1 text-center text-xs text-white">
+          <span className="bg-opacity-60 absolute bottom-0 w-full bg-black px-2 py-1 text-center text-xs text-white">
             Upscayl AI
           </span>
         </div>

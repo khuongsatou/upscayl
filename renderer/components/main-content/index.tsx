@@ -32,13 +32,27 @@ import { cn } from "@/lib/utils";
 import { Button } from "../ui/button";
 import {
   ArrowRightIcon,
+  ChevronDown,
   FolderOpenIcon,
+  LensConvexIcon,
   LoaderCircle,
+  MinusIcon,
+  PlusIcon,
+  SearchIcon,
   TriangleAlertIcon,
 } from "lucide-react";
 import useUpscaylResolution from "../hooks/use-upscayl-resolution";
 import getFilenameFromPath from "@common/get-file-name";
 import getBaseFileName from "@common/get-base-file-name";
+import {
+  Popover,
+  PopoverContent,
+  PopoverDescription,
+  PopoverHeader,
+  PopoverTitle,
+  PopoverTrigger,
+} from "../ui/popover";
+import ToolBar from "./toolbar";
 
 type MainContentProps = {
   imagePath: string;
@@ -402,6 +416,14 @@ const MainContent = ({
     });
   }, [batchImagePaths, upscayledBatchImagePaths]);
 
+  useEffect(() => {
+    if (!localStorage.getItem("zoomAmount")) {
+      localStorage.setItem("zoomAmount", zoomAmount);
+    } else {
+      setZoomAmount(localStorage.getItem("zoomAmount"));
+    }
+  }, []);
+
   return (
     <div className="relative flex size-full flex-col items-center justify-center gap-2">
       <MacTitlebarDragRegion />
@@ -413,36 +435,54 @@ const MainContent = ({
       {/* /> */}
 
       <div className="flex size-full gap-2 overflow-hidden">
-        <div
-          onDrop={handleDrop}
-          onDragOver={handleDragOver}
-          onDragEnter={handleDragEnter}
-          onDragLeave={handleDragLeave}
-          onDoubleClick={batchMode ? selectFolderHandler : selectImageHandler}
-          className="flex h-full w-full flex-col gap-4 overflow-hidden rounded-4xl border bg-accent p-4"
-        >
+        <div className="flex h-full w-full flex-col gap-4 overflow-hidden rounded-4xl border bg-accent p-4">
           {(selectedBatchImage.length > 0 || imagePath.length > 0) && (
-            <div className="space-y-1.5 text-sm">
-              <p className="font-semibold">
-                {selectedBatchImage.length > 0
-                  ? getFilenameFromPath(selectedBatchImage)
-                  : getFilenameFromPath(imagePath)}
-              </p>
-              {!batchMode && imagePath.length > 0 && (
-                <div className="inline-flex items-center gap-1 text-muted-foreground">
-                  <span>{`${dimensions.width}x${dimensions.height}`}</span>
-                  <ArrowRightIcon size={16} />
-                  {parseInt(scale) >= 6 && (
-                    <TriangleAlertIcon
-                      size={18}
-                      className="fill-yellow-500 stroke-black"
-                      data-tooltip-id="tooltip"
-                      data-tooltip-content={t("SETTINGS.IMAGE_SCALE.WARNING")}
-                    />
-                  )}
-                  <span>{`${upscaylResolution.width}x${upscaylResolution.height} (${scale}x)`}</span>
-                </div>
-              )}
+            <div className="inline-flex items-center justify-between">
+              <div className="space-y-1.5 text-sm">
+                <p className="font-semibold">
+                  {selectedBatchImage.length > 0
+                    ? getFilenameFromPath(selectedBatchImage)
+                    : getFilenameFromPath(imagePath)}
+                </p>
+                {!batchMode && imagePath.length > 0 && (
+                  <div className="inline-flex items-center gap-1 text-muted-foreground">
+                    <span>{`${dimensions.width}x${dimensions.height}`}</span>
+                    <ArrowRightIcon size={16} />
+                    {parseInt(scale) >= 6 && (
+                      <TriangleAlertIcon
+                        size={18}
+                        className="fill-yellow-500 stroke-black"
+                        data-tooltip-id="tooltip"
+                        data-tooltip-content={t("SETTINGS.IMAGE_SCALE.WARNING")}
+                      />
+                    )}
+                    <span>{`${upscaylResolution.width}x${upscaylResolution.height} (${scale}x)`}</span>
+                  </div>
+                )}
+              </div>
+              <Popover>
+                <PopoverTrigger disabled={viewType === "lens"} asChild>
+                  <Button variant="outline">
+                    <span>Zoom</span>
+                    <span className="ml-3">{zoomAmount}%</span>
+                    <ChevronDown />
+                  </Button>
+                </PopoverTrigger>
+                <PopoverContent>
+                  <input
+                    type="range"
+                    min="100"
+                    max="1000"
+                    step={10}
+                    className="range range-md"
+                    value={parseInt(zoomAmount)}
+                    onChange={(e) => {
+                      setZoomAmount(e.target.value);
+                      localStorage.setItem("zoomAmount", e.target.value);
+                    }}
+                  />
+                </PopoverContent>
+              </Popover>
             </div>
           )}
 
@@ -463,17 +503,34 @@ const MainContent = ({
 
           {/* DEFAULT PANE INFO */}
           {showInformationCard && (
-            <InstructionsCard version={version} batchMode={batchMode} />
+            <div
+              onDrop={handleDrop}
+              onDragOver={handleDragOver}
+              onDragEnter={handleDragEnter}
+              onDragLeave={handleDragLeave}
+              onDoubleClick={
+                batchMode ? selectFolderHandler : selectImageHandler
+              }
+              className="size-full"
+            >
+              <InstructionsCard version={version} batchMode={batchMode} />
+            </div>
           )}
 
           <div
             className={cn({
-              "h-full overflow-hidden rounded-3xl border bg-secondary/20":
+              "relative h-full overflow-hidden rounded-3xl border bg-secondary":
                 !batchMode
                   ? imagePath.length > 0 || upscaledImagePath.length > 0
                   : batchImagePaths.length > 0,
             })}
           >
+            <ToolBar
+              zoomAmount={zoomAmount}
+              setZoomAmount={setZoomAmount}
+              resetImagePaths={resetImagePaths}
+            />
+
             {/* BATCH UPSCALE SHOW SELECTED FOLDER */}
             {selectedBatchImage.length > 0 &&
               upscaledBatchFolderPath.length === 0 &&
@@ -536,10 +593,8 @@ const MainContent = ({
               upscaledImagePath &&
               imagePath && (
                 <LensViewer
-                  sanitizedImagePath={sanitizePath(selectedBatchImage)}
-                  sanitizedUpscaledImagePath={sanitizePath(
-                    selectedUpscayldBatchImage,
-                  )}
+                  sanitizedImagePath={sanitizedImagePath}
+                  sanitizedUpscaledImagePath={sanitizedUpscaledImagePath}
                 />
               )}
 
@@ -548,8 +603,10 @@ const MainContent = ({
               selectedBatchImage.length > 0 &&
               selectedUpscayldBatchImage.length > 0 && (
                 <LensViewer
-                  sanitizedImagePath={sanitizedImagePath}
-                  sanitizedUpscaledImagePath={sanitizedUpscaledImagePath}
+                  sanitizedImagePath={sanitizePath(selectedBatchImage)}
+                  sanitizedUpscaledImagePath={sanitizePath(
+                    selectedUpscayldBatchImage,
+                  )}
                 />
               )}
           </div>
@@ -602,10 +659,15 @@ const MainContent = ({
                 );
               })}
             </div>
-            <Button onClick={openFolderHandler}>
-              <FolderOpenIcon />
-              Open Output Folder
-            </Button>
+            {batchMode && upscaledBatchFolderPath.length > 0 && (
+              <div className="flex w-full flex-col items-center justify-center gap-3">
+                <p className="sr-only">{t("APP.PROGRESS.BATCH.DONE_TITLE")}</p>
+                <Button onClick={openFolderHandler} className="w-full">
+                  <FolderOpenIcon />
+                  {t("APP.PROGRESS.BATCH.OPEN_UPSCAYLED_FOLDER_TITLE")}
+                </Button>
+              </div>
+            )}
           </div>
         )}
       </div>
