@@ -88,6 +88,48 @@ const Home = () => {
     }
   };
 
+  const selectHandler = async () => {
+    resetImagePaths();
+    const result = (await window.electron.invoke(
+      ELECTRON_COMMANDS.SELECT_FILES_AND_FOLDERS,
+    )) as {
+      mode: "single-image" | "files" | "folder" | "mixed";
+      batchFolderPath: string;
+      singleImagePath: string | null;
+      imagePaths: string[];
+    } | null;
+
+    if (!result) {
+      logit("🚫 Selection cancelled");
+      return;
+    }
+
+    if (result.mode === "single-image" && result.singleImagePath) {
+      logit("🖼 Selected single image: ", result.singleImagePath);
+      setImagePath(result.singleImagePath);
+      const dirname = getDirectoryFromPath(result.singleImagePath);
+      if (!FEATURE_FLAGS.APP_STORE_BUILD && !rememberOutputFolder) {
+        setOutputPath(dirname);
+      }
+      validateImagePath(result.singleImagePath);
+      return;
+    }
+
+    // Any other mode → batch.
+    logit(
+      "📂 Selected for batch: ",
+      JSON.stringify({
+        mode: result.mode,
+        batchFolderPath: result.batchFolderPath,
+        imageCount: result.imagePaths.length,
+      }),
+    );
+    setBatchFolderPath(result.batchFolderPath);
+    if (!FEATURE_FLAGS.APP_STORE_BUILD && !rememberOutputFolder) {
+      setOutputPath(result.batchFolderPath);
+    }
+  };
+
   const validateImagePath = (path: string) => {
     if (path.length > 0) {
       logit("🖼 imagePath: ", path);
@@ -356,8 +398,8 @@ const Home = () => {
             setUpscaledImagePath={setUpscaledImagePath}
             batchFolderPath={batchFolderPath}
             setUpscaledBatchFolderPath={setUpscaledBatchFolderPath}
-            selectImageHandler={selectImageHandler}
-            selectFolderHandler={selectFolderHandler}
+            selectImageHandler={selectHandler}
+            selectFolderHandler={selectHandler}
           />
 
           <MainContent
@@ -367,8 +409,8 @@ const Home = () => {
             setUpscaledBatchFolderPath={setUpscaledBatchFolderPath}
             setImagePath={setImagePath}
             validateImagePath={validateImagePath}
-            selectFolderHandler={selectFolderHandler}
-            selectImageHandler={selectImageHandler}
+            selectFolderHandler={selectHandler}
+            selectImageHandler={selectHandler}
             batchFolderPath={batchFolderPath}
             setBatchFolderPath={setBatchFolderPath}
             upscaledImagePath={upscaledImagePath}

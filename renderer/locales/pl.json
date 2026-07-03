@@ -119,7 +119,15 @@
     "FILE_SELECTION": {
       "TITLE": "Krok 1",
       "BATCH_MODE_TYPE": "Wybierz Folder",
-      "SINGLE_MODE_TYPE": "Wybierz Obraz"
+      "SINGLE_MODE_TYPE": "Wybierz Obraz",
+      "UNIFIED_MODE_TYPE": "Wybierz obraz lub folder",
+      "PICKER_TITLE": "Co chcesz powiększyć?",
+      "PICKER_IMAGES": "Obraz(y)",
+      "PICKER_IMAGES_DESC": "Wybierz jeden lub więcej plików obrazów",
+      "PICKER_FOLDER": "Folder",
+      "PICKER_FOLDER_DESC": "Wybierz folder z obrazami",
+      "PICKER_BOTH": "Wiele plików i folderów",
+      "PICKER_BOTH_DESC": "Wybierz kilka elementów naraz"
     },
     "MODEL_SELECTION": {
       "TITLE": "Krok 2",
@@ -200,9 +208,9 @@
     "RESET_BUTTON_TITLE": "Reset",
     "RIGHT_PANE_INFO": {
       "SELECT_FOLDER": "Wybierz Folder",
-      "SELECT_IMAGE": "Wybierz Obraz",
+      "SELECT_IMAGE": "Wybierz obraz lub folder",
       "SELECT_FOLDER_DESCRIPTION": "Upewnij się, że folder nie zawiera niczego poza obrazami PNG, JPG, JPEG i WEBP.",
-      "SELECT_IMAGES_DESCRIPTION": "Wybierz lub przeciągnij i upuść obraz PNG, JPG, JPEG lub WEBP.",
+      "SELECT_IMAGES_DESCRIPTION": "Wybierz lub przeciągnij i upuść obraz PNG, JPG, JPEG, WEBP albo folder z obrazami.",
       "PASTE_IMAGE_DESCRIPTION": "Wciśnij Ctrl+V lub ⌘+V aby wkleić obraz ze Schowka"
     },
     "PROGRESS": {

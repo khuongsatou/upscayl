@@ -119,7 +119,15 @@
     "FILE_SELECTION": {
       "TITLE": "ขั้นตอนที่ 1",
       "BATCH_MODE_TYPE": "เลือกโฟลเดอร์",
-      "SINGLE_MODE_TYPE": "เลือกรูป"
+      "SINGLE_MODE_TYPE": "เลือกรูป",
+      "UNIFIED_MODE_TYPE": "เลือกรูปภาพหรือโฟลเดอร์",
+      "PICKER_TITLE": "คุณต้องการอัปสเกลอะไร?",
+      "PICKER_IMAGES": "รูปภาพ",
+      "PICKER_IMAGES_DESC": "เลือกไฟล์รูปภาพหนึ่งไฟล์หรือมากกว่า",
+      "PICKER_FOLDER": "โฟลเดอร์",
+      "PICKER_FOLDER_DESC": "เลือกโฟลเดอร์ที่มีรูปภาพ",
+      "PICKER_BOTH": "หลายไฟล์และโฟลเดอร์",
+      "PICKER_BOTH_DESC": "เลือกหลายรายการพร้อมกัน"
     },
     "MODEL_SELECTION": {
       "TITLE": "ขั้นตอนที่ 2",
@@ -200,9 +208,9 @@
     "RESET_BUTTON_TITLE": "คืนค่า",
     "RIGHT_PANE_INFO": {
       "SELECT_FOLDER": "เลือกโฟลเดอร์",
-      "SELECT_IMAGE": "เลือกรูป",
+      "SELECT_IMAGE": "เลือกรูปภาพหรือโฟลเดอร์",
       "SELECT_FOLDER_DESCRIPTION": "ตรวจสอบให้แน่ใจว่าในโฟลเดอร์ไม่มีสิ่งอื่นนอกจากรูป PNG, JPG, JPEG & WEBP",
-      "SELECT_IMAGES_DESCRIPTION": "เลือกหรือลากรูป PNG, JPG, JPEG หรือ WEBP",
+      "SELECT_IMAGES_DESCRIPTION": "เลือกหรือลากรูป PNG, JPG, JPEG หรือ WEBP หรือโฟลเดอร์ที่มีรูปภาพ",
       "PASTE_IMAGE_DESCRIPTION": "กด Ctrl+V หรือ ⌘+V เพื่อวางรูปจากคลิปบอร์ด"
     },
     "PROGRESS": {

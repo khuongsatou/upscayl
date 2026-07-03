@@ -2,7 +2,7 @@
 import useLogger from "../hooks/use-logger";
 import { useState, useMemo, useEffect, useId } from "react";
 import { ELECTRON_COMMANDS } from "@common/electron-commands";
-import { useAtom, useAtomValue } from "jotai";
+import { useAtom, useAtomValue, useSetAtom } from "jotai";
 import {
   batchModeAtom,
   lensSizeAtom,
@@ -101,6 +101,7 @@ const MainContent = ({
   const [outputPath, setOutputPath] = useAtom(savedOutputPathAtom);
   const progress = useAtomValue(progressAtom);
   const batchMode = useAtomValue(batchModeAtom);
+  const setBatchMode = useSetAtom(batchModeAtom);
 
   const viewType = useAtomValue(viewTypeAtom);
   const lensSize = useAtomValue(lensSizeAtom);
@@ -158,17 +159,17 @@ const MainContent = ({
   };
 
   // DRAG AND DROP HANDLERS
-  const handleDragEnter = (e) => {
+  const handleDragEnter = (e: React.DragEvent<HTMLDivElement>) => {
     e.preventDefault();
-    console.log("drag enter");
+    logit("drag enter");
   };
-  const handleDragLeave = (e) => {
+  const handleDragLeave = (e: React.DragEvent<HTMLDivElement>) => {
     e.preventDefault();
-    console.log("drag leave");
+    logit("drag leave");
   };
-  const handleDragOver = (e) => {
+  const handleDragOver = (e: React.DragEvent<HTMLDivElement>) => {
     e.preventDefault();
-    console.log("drag over");
+    logit("drag over");
   };
 
   const openFolderHandler = (e) => {
@@ -185,45 +186,83 @@ const MainContent = ({
     [imagePath],
   );
 
-  const handleDrop = (e) => {
+  const handleDrop = (e: React.DragEvent<HTMLDivElement>) => {
     e.preventDefault();
-    resetImagePaths();
-    if (
-      e.dataTransfer.items.length === 0 ||
-      e.dataTransfer.files.length === 0
-    ) {
-      logit("👎 No valid files dropped");
+    e.stopPropagation();
+
+    if (e.dataTransfer.items.length === 0) {
+      logit("👎 No valid items in drop");
       toast({
         title: t("ERRORS.INVALID_IMAGE_ERROR.TITLE"),
         description: t("ERRORS.INVALID_IMAGE_ERROR.ADDITIONAL_DESCRIPTION"),
       });
       return;
     }
-    const type = e.dataTransfer.items[0].type;
-    const filePath = e.dataTransfer.files[0].path;
-    const extension = e.dataTransfer.files[0].name.split(".").at(-1);
-    logit("⤵️ Dropped file: ", JSON.stringify({ type, filePath, extension }));
-    if (
-      !type.includes("image") ||
-      !VALID_IMAGE_FORMATS.includes(extension.toLowerCase())
-    ) {
-      logit("🚫 Invalid file dropped");
-      toast({
-        title: t("ERRORS.INVALID_IMAGE_ERROR.TITLE"),
-        description: t("ERRORS.INVALID_IMAGE_ERROR.ADDITIONAL_DESCRIPTION"),
-      });
-    } else {
-      logit("🖼 Setting image path: ", filePath);
-      setImagePath(filePath);
-      const dirname = getDirectoryFromPath(filePath);
-      logit("🗂 Setting output path: ", dirname);
-      if (!FEATURE_FLAGS.APP_STORE_BUILD) {
-        if (!rememberOutputFolder) {
-          setOutputPath(dirname);
+
+    const droppedFolders: string[] = [];
+    const droppedFiles: string[] = [];
+
+    for (let i = 0; i < e.dataTransfer.items.length; i++) {
+      const item = e.dataTransfer.items[i];
+      const entry = item.webkitGetAsEntry?.();
+      if (!entry) continue;
+
+      if (entry.isDirectory) {
+        const file = item.getAsFile();
+        const path = file ? window.electron.getPathForFile(file) : "";
+        if (path) droppedFolders.push(path);
+      } else {
+        const file = item.getAsFile();
+        if (!file) continue;
+        const path = window.electron.getPathForFile(file);
+        const extension = (file.name.split(".").at(-1) ?? "").toLowerCase();
+        const type = file.type;
+        const isImageExt = (VALID_IMAGE_FORMATS as readonly string[]).includes(
+          extension,
+        );
+        if ((type.includes("image") || isImageExt) && isImageExt && path) {
+          droppedFiles.push(path);
         }
       }
-      validateImagePath(filePath);
     }
+
+    // Mixed selection → activate batch mode over the first folder; the
+    // unified select dialog handles staging loose files into it on the
+    // renderer side. For drag-and-drop we keep it simple: just route to
+    // batch mode using the first folder if any, else use the first file's
+    // parent directory.
+    if (droppedFolders.length > 0 || droppedFiles.length > 1) {
+      resetImagePaths();
+      setBatchMode(true);
+      const batchRoot = droppedFolders[0] || "";
+      setBatchFolderPath(batchRoot);
+      setUpscaledBatchFolderPath("");
+      if (!FEATURE_FLAGS.APP_STORE_BUILD && !rememberOutputFolder) {
+        setOutputPath(batchRoot);
+      }
+      return;
+    }
+
+    if (droppedFiles.length === 1) {
+      // Single image → single-image mode.
+      const droppedFile = droppedFiles[0];
+      resetImagePaths();
+      setBatchMode(false);
+      setImagePath(droppedFile);
+      const dirname = getDirectoryFromPath(droppedFile);
+      logit("🗂 Setting output path: ", dirname);
+      if (!FEATURE_FLAGS.APP_STORE_BUILD && !rememberOutputFolder) {
+        setOutputPath(dirname);
+      }
+      validateImagePath(droppedFile);
+      return;
+    }
+
+    logit("🚫 Unsupported item dropped");
+    toast({
+      title: t("ERRORS.INVALID_IMAGE_ERROR.TITLE"),
+      description: t("ERRORS.INVALID_IMAGE_ERROR.ADDITIONAL_DESCRIPTION"),
+    });
   };
 
   const handlePaste = (e: React.ClipboardEvent<HTMLDivElement>) => {

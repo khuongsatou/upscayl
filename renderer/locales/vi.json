@@ -47,7 +47,7 @@
     "COPY_METADATA": {
       "TITLE": "SAO CHÉP METADATA ẢNH",
       "DESCRIPTION": "Giữ metadata gốc của ảnh (EXIF) trong ảnh đã được nâng cao.",
-      "SUGGEST_JPG_TITLE": "Đề Xuất Thay Đổi Định Dạng", 
+      "SUGGEST_JPG_TITLE": "Đề Xuất Thay Đổi Định Dạng",
       "SUGGEST_JPG_DESCRIPTION": "Để có khả năng tương thích metadata tốt hơn trên các hệ thống khác nhau, chúng tôi khuyên bạn nên sử dụng định dạng JPG. Bạn có muốn thay đổi không?",
       "CHANGE_TO_JPG": "Chuyển sang JPG",
       "KEEP_CURRENT_FORMAT": "Giữ {format}"
@@ -119,7 +119,15 @@
     "FILE_SELECTION": {
       "TITLE": "Bước 1",
       "BATCH_MODE_TYPE": "Chọn Thư mục",
-      "SINGLE_MODE_TYPE": "Chọn Hình ảnh"
+      "SINGLE_MODE_TYPE": "Chọn Hình ảnh",
+      "UNIFIED_MODE_TYPE": "Chọn Hình ảnh hoặc Thư mục",
+      "PICKER_TITLE": "Bạn muốn phóng to cái gì?",
+      "PICKER_IMAGES": "Hình ảnh",
+      "PICKER_IMAGES_DESC": "Chọn một hoặc nhiều tệp hình ảnh",
+      "PICKER_FOLDER": "Thư mục",
+      "PICKER_FOLDER_DESC": "Chọn một thư mục hình ảnh",
+      "PICKER_BOTH": "Nhiều tệp và thư mục",
+      "PICKER_BOTH_DESC": "Chọn nhiều mục cùng lúc"
     },
     "MODEL_SELECTION": {
       "TITLE": "Bước 2",
@@ -200,9 +208,9 @@
     "RESET_BUTTON_TITLE": "Đặt Lại",
     "RIGHT_PANE_INFO": {
       "SELECT_FOLDER": "Chọn một Thư mục",
-      "SELECT_IMAGE": "Chọn một Hình ảnh",
+      "SELECT_IMAGE": "Chọn hình ảnh hoặc thư mục",
       "SELECT_FOLDER_DESCRIPTION": "Đảm bảo rằng thư mục không chứa gì ngoài các hình ảnh PNG, JPG, JPEG & WEBP.",
-      "SELECT_IMAGES_DESCRIPTION": "Chọn hoặc kéo và thả một hình ảnh PNG, JPG, JPEG hoặc WEBP.",
+      "SELECT_IMAGES_DESCRIPTION": "Chọn hoặc kéo thả hình ảnh PNG, JPG, JPEG, WEBP hoặc một thư mục chứa hình ảnh.",
       "PASTE_IMAGE_DESCRIPTION": "Nhấn Ctrl+V hoặc ⌘+V để Dán hình ảnh từ Clipboard"
     },
     "PROGRESS": {
@@ -263,7 +271,7 @@
       "DESCRIPTION": "Vui lòng chọn một hình ảnh để tăng cường"
     },
     "METADATA_ERROR": {
-      "TITLE": "Lỗi Sao Chép Metadata", 
+      "TITLE": "Lỗi Sao Chép Metadata",
       "DESCRIPTION": "Không thể sao chép metadata từ ảnh gốc sang ảnh đã tạo. ({data})"
     },
     "OPEN_DOCS_TITLE": "Mở Tài liệu",
@@ -277,7 +285,7 @@
       "TITLE": "Cảnh báo về Metadata",
       "DESCRIPTION": "Trên một số hệ thống, metadata có thể không hiển thị trong các định dạng khác ngoài JPG. Sử dụng các công cụ chuyên dụng để xem metadata nếu cần."
     }
-  },    
+  },
   "UPSCAYL_CLOUD": {
     "COMING_SOON": "Sẽ ra mắt sớm!",
     "CATCHY_PHRASE_1": "Không còn lỗi, vấn đề phần cứng, thỏa hiệp chất lượng hoặc thời gian tải lâu!",

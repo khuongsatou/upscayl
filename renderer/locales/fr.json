@@ -119,7 +119,15 @@
     "FILE_SELECTION": {
       "TITLE": "Étape 1",
       "BATCH_MODE_TYPE": "Sélectionner un dossier",
-      "SINGLE_MODE_TYPE": "Sélectionner une image"
+      "SINGLE_MODE_TYPE": "Sélectionner une image",
+      "UNIFIED_MODE_TYPE": "Sélectionner une image ou un dossier",
+      "PICKER_TITLE": "Que voulez-vous mettre à l'échelle ?",
+      "PICKER_IMAGES": "Image(s)",
+      "PICKER_IMAGES_DESC": "Choisir un ou plusieurs fichiers image",
+      "PICKER_FOLDER": "Dossier",
+      "PICKER_FOLDER_DESC": "Choisir un dossier d'images",
+      "PICKER_BOTH": "Plusieurs fichiers et dossiers",
+      "PICKER_BOTH_DESC": "Sélectionner plusieurs éléments à la fois"
     },
     "MODEL_SELECTION": {
       "TITLE": "Étape 2",
@@ -200,9 +208,9 @@
     "RESET_BUTTON_TITLE": "Réinitialiser",
     "RIGHT_PANE_INFO": {
       "SELECT_FOLDER": "Sélectionnez un dossier à améliorer",
-      "SELECT_IMAGE": "Sélectionnez une image à améliorer",
+      "SELECT_IMAGE": "Sélectionnez une image ou un dossier",
       "SELECT_FOLDER_DESCRIPTION": "Assurez-vous que le dossier ne contient rien d'autre que des images PNG, JPG, JPEG et WEBP.",
-      "SELECT_IMAGES_DESCRIPTION": "Sélectionnez ou glissez-déposez une image PNG, JPG, JPEG ou WEBP.",
+      "SELECT_IMAGES_DESCRIPTION": "Sélectionnez ou glissez-déposez une image PNG, JPG, JPEG ou WEBP, ou un dossier d'images.",
       "PASTE_IMAGE_DESCRIPTION": "Appuyez sur Ctrl+V ou ⌘+V pour coller l'image depuis le presse-papiers"
     },
     "PROGRESS": {
@@ -277,7 +285,7 @@
       "TITLE": "Avertissement sur les métadonnées",
       "DESCRIPTION": "Sur certains systèmes, les métadonnées peuvent ne pas être visibles dans les formats autres que JPG. Utilisez des outils spécifiques pour visualiser les métadonnées si nécessaire."
     }
-  },  
+  },
   "UPSCAYL_CLOUD": {
     "COMING_SOON": "Bientôt disponible !",
     "CATCHY_PHRASE_1": "Plus d'erreurs, de problèmes matériels, de compromis sur la qualité ou de longs temps de chargement !",

@@ -119,7 +119,15 @@
     "FILE_SELECTION": {
       "TITLE": "1. Lépés",
       "BATCH_MODE_TYPE": "Mappa kiválasztása",
-      "SINGLE_MODE_TYPE": "Kép kiválasztása"
+      "SINGLE_MODE_TYPE": "Kép kiválasztása",
+      "UNIFIED_MODE_TYPE": "Válasszon képet vagy mappát",
+      "PICKER_TITLE": "Mit szeretnél felnagyítani?",
+      "PICKER_IMAGES": "Kép(ek)",
+      "PICKER_IMAGES_DESC": "Válassz egy vagy több képfájlt",
+      "PICKER_FOLDER": "Mappa",
+      "PICKER_FOLDER_DESC": "Válassz egy képeket tartalmazó mappát",
+      "PICKER_BOTH": "Több fájl és mappa",
+      "PICKER_BOTH_DESC": "Válassz ki több elemet egyszerre"
     },
     "MODEL_SELECTION": {
       "TITLE": "2. Lépés",
@@ -200,9 +208,9 @@
     "RESET_BUTTON_TITLE": "Visszaállítás",
     "RIGHT_PANE_INFO": {
       "SELECT_FOLDER": "Mappa kiválasztása",
-      "SELECT_IMAGE": "Kép kiválasztása",
+      "SELECT_IMAGE": "Válassz képet vagy mappát",
       "SELECT_FOLDER_DESCRIPTION": "Győződj meg róla, hogy a mappa csak PNG, JPG, JPEG és WEBP képeket tartalmaz.",
-      "SELECT_IMAGES_DESCRIPTION": "Válassz vagy húzz ide egy PNG, JPG, JPEG vagy WEBP formátumú képet.",
+      "SELECT_IMAGES_DESCRIPTION": "Válassz vagy húzz ide egy PNG, JPG, JPEG, WEBP képet, vagy egy mappát képekkel.",
       "PASTE_IMAGE_DESCRIPTION": "Nyomd meg a Ctrl+V vagy ⌘+V billentyűt a kép beillesztéséhez a vágólapról."
     },
     "PROGRESS": {

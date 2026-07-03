@@ -9,6 +9,7 @@ import {
   scaleAtom,
   customWidthAtom,
   useCustomWidthAtom,
+  batchModeAtom,
 } from "../../../atoms/user-settings-atom";
 import { FEATURE_FLAGS } from "@common/feature-flags";
 import { ELECTRON_COMMANDS } from "@common/electron-commands";
@@ -24,8 +25,6 @@ interface IProps {
   selectImageHandler: () => Promise<void>;
   selectFolderHandler: () => Promise<void>;
   upscaylHandler: () => Promise<void>;
-  batchMode: boolean;
-  setBatchMode: React.Dispatch<React.SetStateAction<boolean>>;
   imagePath: string;
   doubleUpscayl: boolean;
   setDoubleUpscayl: React.Dispatch<React.SetStateAction<boolean>>;
@@ -41,8 +40,6 @@ function UpscaylSteps({
   selectImageHandler,
   selectFolderHandler,
   upscaylHandler,
-  batchMode,
-  setBatchMode,
   imagePath,
   doubleUpscayl,
   setDoubleUpscayl,
@@ -54,6 +51,7 @@ function UpscaylSteps({
   const rememberOutputFolder = useAtomValue(rememberOutputFolderAtom);
   const customWidth = useAtomValue(customWidthAtom);
   const useCustomWidth = useAtomValue(useCustomWidthAtom);
+  const batchMode = useAtomValue(batchModeAtom);
 
   const logit = useLogger();
   const { toast } = useToast();
@@ -85,13 +83,6 @@ function UpscaylSteps({
     <div
       className={`animate-step-in animate flex h-full flex-col gap-7 overflow-x-hidden overflow-y-auto p-5`}
     >
-      <Button
-        variant={batchMode ? "default" : "outline"}
-        onClick={() => setBatchMode((prev) => !prev)}
-      >
-        Batch Mode
-      </Button>
-
       {/* STEP 1 */}
       <div className="animate-step-in">
         <p className="step-heading">
@@ -101,14 +92,12 @@ function UpscaylSteps({
           {t("APP.FILE_SELECTION.TITLE")}
         </p>
         <button
-          className="btn btn-primary"
-          onClick={!batchMode ? selectImageHandler : selectFolderHandler}
+          className="btn btn-primary w-full"
+          onClick={selectImageHandler}
           data-tooltip-id="tooltip"
           data-tooltip-content={imagePath}
         >
-          {batchMode
-            ? t("APP.FILE_SELECTION.BATCH_MODE_TYPE")
-            : t("APP.FILE_SELECTION.SINGLE_MODE_TYPE")}
+          {t("APP.FILE_SELECTION.UNIFIED_MODE_TYPE")}
         </button>
       </div>
       {/* STEP 2 */}

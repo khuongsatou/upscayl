@@ -119,7 +119,15 @@
     "FILE_SELECTION": {
       "TITLE": "Upload Image",
       "BATCH_MODE_TYPE": "Select Folder",
-      "SINGLE_MODE_TYPE": "Select Image"
+      "SINGLE_MODE_TYPE": "Select Image",
+      "UNIFIED_MODE_TYPE": "Select Image or Folder",
+      "PICKER_TITLE": "What do you want to upscale?",
+      "PICKER_IMAGES": "Image(s)",
+      "PICKER_IMAGES_DESC": "Pick one or more image files",
+      "PICKER_FOLDER": "Folder",
+      "PICKER_FOLDER_DESC": "Pick a folder of images",
+      "PICKER_BOTH": "Multiple files & folders",
+      "PICKER_BOTH_DESC": "Pick several items at once"
     },
     "MODEL_SELECTION": {
       "TITLE": "Step 2",
@@ -200,9 +208,9 @@
     "RESET_BUTTON_TITLE": "Reset",
     "RIGHT_PANE_INFO": {
       "SELECT_FOLDER": "Select a Folder",
-      "SELECT_IMAGE": "Select an Image",
+      "SELECT_IMAGE": "Select an Image or Folder",
       "SELECT_FOLDER_DESCRIPTION": "Make sure that the folder doesn't contain anything except PNG, JPG, JPEG & WEBP images.",
-      "SELECT_IMAGES_DESCRIPTION": "Select or drag and drop a PNG, JPG, JPEG or WEBP image.",
+      "SELECT_IMAGES_DESCRIPTION": "Select or drag and drop a PNG, JPG, JPEG or WEBP image, or a folder of images.",
       "PASTE_IMAGE_DESCRIPTION": "Hit Ctrl+V or ⌘+V to Paste image from Clipboard"
     },
     "PROGRESS": {

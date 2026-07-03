@@ -119,7 +119,15 @@
     "FILE_SELECTION": {
       "TITLE": "Langkah 1",
       "BATCH_MODE_TYPE": "Pilih Folder",
-      "SINGLE_MODE_TYPE": "Pilih Imej"
+      "SINGLE_MODE_TYPE": "Pilih Imej",
+      "UNIFIED_MODE_TYPE": "Pilih Imej atau Folder",
+      "PICKER_TITLE": "Apakah yang ingin anda upscale?",
+      "PICKER_IMAGES": "Imej",
+      "PICKER_IMAGES_DESC": "Pilih satu atau lebih fail imej",
+      "PICKER_FOLDER": "Folder",
+      "PICKER_FOLDER_DESC": "Pilih folder yang mengandungi imej",
+      "PICKER_BOTH": "Banyak fail & folder",
+      "PICKER_BOTH_DESC": "Pilih beberapa item serentak"
     },
     "MODEL_SELECTION": {
       "TITLE": "Langkah 2",
@@ -200,9 +208,9 @@
     "RESET_BUTTON_TITLE": "Tetapkan Semula",
     "RIGHT_PANE_INFO": {
       "SELECT_FOLDER": "Pilih Folder",
-      "SELECT_IMAGE": "Pilih Imej",
+      "SELECT_IMAGE": "Pilih imej atau folder",
       "SELECT_FOLDER_DESCRIPTION": "Pastikan folder tidak mengandungi apa-apa kecuali imej PNG, JPG, JPEG & WEBP.",
-      "SELECT_IMAGES_DESCRIPTION": "Pilih atau seret dan lepas imej PNG, JPG, JPEG atau WEBP.",
+      "SELECT_IMAGES_DESCRIPTION": "Pilih atau seret dan lepas imej PNG, JPG, JPEG, WEBP atau folder yang mengandungi imej.",
       "PASTE_IMAGE_DESCRIPTION": "Tekan Ctrl+V atau ⌘+V untuk Tampal imej dari Papan Keratan"
     },
     "PROGRESS": {

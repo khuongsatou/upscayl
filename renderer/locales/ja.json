@@ -119,7 +119,15 @@
     "FILE_SELECTION": {
       "TITLE": "ステップ 1",
       "BATCH_MODE_TYPE": "フォルダを選択",
-      "SINGLE_MODE_TYPE": "画像を選択"
+      "SINGLE_MODE_TYPE": "画像を選択",
+      "UNIFIED_MODE_TYPE": "画像またはフォルダを選択",
+      "PICKER_TITLE": "何をアップスケールしますか？",
+      "PICKER_IMAGES": "画像",
+      "PICKER_IMAGES_DESC": "1つまたは複数の画像ファイルを選択",
+      "PICKER_FOLDER": "フォルダ",
+      "PICKER_FOLDER_DESC": "画像が入ったフォルダを選択",
+      "PICKER_BOTH": "複数のファイルとフォルダ",
+      "PICKER_BOTH_DESC": "複数の項目を一度に選択"
     },
     "MODEL_SELECTION": {
       "TITLE": "ステップ 2",
@@ -200,9 +208,9 @@
     "RESET_BUTTON_TITLE": "リセット",
     "RIGHT_PANE_INFO": {
       "SELECT_FOLDER": "Upscaylするフォルダを選択",
-      "SELECT_IMAGE": "Upscaylする画像を選択",
+      "SELECT_IMAGE": "画像またはフォルダを選択",
       "SELECT_FOLDER_DESCRIPTION": "フォルダにはPNG、JPG、JPEG、WEBPの画像以外のものが含まれていないことを確認してください。",
-      "SELECT_IMAGES_DESCRIPTION": "PNG、JPG、JPEG、またはWEBP画像を選択するか、ドラッグアンドドロップしてください。",
+      "SELECT_IMAGES_DESCRIPTION": "PNG、JPG、JPEG、またはWEBP画像(または画像が入ったフォルダ)を選択・ドラッグ＆ドロップしてください。",
       "PASTE_IMAGE_DESCRIPTION": "Ctrl+V または ⌘+V を押してクリップボードから画像を貼り付けます"
     },
     "PROGRESS": {
@@ -277,7 +285,7 @@
       "TITLE": "メタデータの警告",
       "DESCRIPTION": "一部のシステムでは、JPG以外の形式ではメタデータが表示されない場合があります。必要に応じて専用のツールを使用してメタデータを表示してください。"
     }
-  },   
+  },
   "UPSCAYL_CLOUD": {
     "COMING_SOON": "近日公開！",
     "CATCHY_PHRASE_1": "もうエラー、ハードウェアの問題、品質の妥協や長い読み込み時間はありません！",

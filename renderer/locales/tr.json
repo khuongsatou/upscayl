@@ -119,7 +119,15 @@
     "FILE_SELECTION": {
       "TITLE": "1. Adım",
       "BATCH_MODE_TYPE": "Klasör seç",
-      "SINGLE_MODE_TYPE": "Görsel seç"
+      "SINGLE_MODE_TYPE": "Görsel seç",
+      "UNIFIED_MODE_TYPE": "Görsel veya Klasör seç",
+      "PICKER_TITLE": "Neyi büyütmek istiyorsunuz?",
+      "PICKER_IMAGES": "Görsel(ler)",
+      "PICKER_IMAGES_DESC": "Bir veya birden fazla görsel dosyası seçin",
+      "PICKER_FOLDER": "Klasör",
+      "PICKER_FOLDER_DESC": "Görsel içeren bir klasör seçin",
+      "PICKER_BOTH": "Birden çok dosya ve klasör",
+      "PICKER_BOTH_DESC": "Aynı anda birden çok öğe seçin"
     },
     "MODEL_SELECTION": {
       "TITLE": "2. Adım",
@@ -200,9 +208,9 @@
     "RESET_BUTTON_TITLE": "Sıfırla",
     "RIGHT_PANE_INFO": {
       "SELECT_FOLDER": "Klasör Seçin",
-      "SELECT_IMAGE": "Görsel Seçin",
+      "SELECT_IMAGE": "Görsel veya klasör seçin",
       "SELECT_FOLDER_DESCRIPTION": "Lütfen klasörün PNG, JPG, JPEG ve WEBP uzantılı görseller haricinde birşey içermediğinden emin olun.",
-      "SELECT_IMAGES_DESCRIPTION": "Lütfen PNG, JPG, JPEG yahut WEBP uzantılı bir görsel seçin ya da sürükleyip buraya bırakın.",
+      "SELECT_IMAGES_DESCRIPTION": "PNG, JPG, JPEG veya WEBP görseli ya da görsel içeren bir klasör seçin ya da sürükleyip bırakın.",
       "PASTE_IMAGE_DESCRIPTION": "Ctrl+V yahut ⌘+V tuşlarına basarak bir görsel yapıştırın."
     },
     "PROGRESS": {
@@ -277,7 +285,7 @@
       "TITLE": "Meta Veri Uyarısı",
       "DESCRIPTION": "Bazı sistemlerde, JPG dışındaki formatlarda meta veriler görüntülenemeyebilir. Gerekirse meta verileri görüntülemek için özel araçlar kullanın."
     }
-  },    
+  },
   "UPSCAYL_CLOUD": {
     "COMING_SOON": "Yakında sizlerle!",
     "CATCHY_PHRASE_1": "Artık hatalar, donanım uyuşmazlıkları, kalite tavizleri ya da uzun yükleme süreleri yok!",

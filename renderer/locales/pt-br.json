@@ -119,7 +119,15 @@
     "FILE_SELECTION": {
       "TITLE": "Passo 1",
       "BATCH_MODE_TYPE": "Escolha uma Pasta",
-      "SINGLE_MODE_TYPE": "Escolha uma Imagem"
+      "SINGLE_MODE_TYPE": "Escolha uma Imagem",
+      "UNIFIED_MODE_TYPE": "Escolha uma Imagem ou Pasta",
+      "PICKER_TITLE": "O que você quer aumentar?",
+      "PICKER_IMAGES": "Imagem(ns)",
+      "PICKER_IMAGES_DESC": "Escolha um ou mais arquivos de imagem",
+      "PICKER_FOLDER": "Pasta",
+      "PICKER_FOLDER_DESC": "Escolha uma pasta de imagens",
+      "PICKER_BOTH": "Vários arquivos e pastas",
+      "PICKER_BOTH_DESC": "Selecione vários itens de uma vez"
     },
     "MODEL_SELECTION": {
       "TITLE": "Passo 2",
@@ -200,9 +208,9 @@
     "RESET_BUTTON_TITLE": "Resetar",
     "RIGHT_PANE_INFO": {
       "SELECT_FOLDER": "Selecione uma Pasta",
-      "SELECT_IMAGE": "Selecione uma Imagem",
+      "SELECT_IMAGE": "Selecione uma imagem ou pasta",
       "SELECT_FOLDER_DESCRIPTION": "Garanta que a pasta não contenha nada além de imagens PNG, JPG, JPEG & WEBP.",
-      "SELECT_IMAGES_DESCRIPTION": "Selecione ou arraste e solte uma imagem PNG, JPG, JPEG ou WEBP.",
+      "SELECT_IMAGES_DESCRIPTION": "Selecione ou arraste e solte uma imagem PNG, JPG, JPEG ou WEBP, ou uma pasta com imagens.",
       "PASTE_IMAGE_DESCRIPTION": "Tecle Ctrl+V ou ⌘+V para colar uma imagem da Área de Transferência"
     },
     "PROGRESS": {
@@ -277,7 +285,7 @@
       "TITLE": "Aviso de Metadados",
       "DESCRIPTION": "Em alguns sistemas, os metadados podem não ser visíveis em formatos diferentes de JPG. Use ferramentas específicas para visualizar metadados se necessário."
     }
-  },    
+  },
   "UPSCAYL_CLOUD": {
     "COMING_SOON": "Em breve!",
     "CATCHY_PHRASE_1": "Chega de erros, problemas de hardware, sacrifício de qualidade, ou tempos de espera longos!",

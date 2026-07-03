@@ -119,7 +119,15 @@
     "FILE_SELECTION": {
       "TITLE": "Paso 1",
       "BATCH_MODE_TYPE": "Seleccionar carpeta",
-      "SINGLE_MODE_TYPE": "Seleccionar imagen"
+      "SINGLE_MODE_TYPE": "Seleccionar imagen",
+      "UNIFIED_MODE_TYPE": "Seleccionar imagen o carpeta",
+      "PICKER_TITLE": "¿Qué quieres ampliar?",
+      "PICKER_IMAGES": "Imagen(es)",
+      "PICKER_IMAGES_DESC": "Elige uno o varios archivos de imagen",
+      "PICKER_FOLDER": "Carpeta",
+      "PICKER_FOLDER_DESC": "Elige una carpeta de imágenes",
+      "PICKER_BOTH": "Varios archivos y carpetas",
+      "PICKER_BOTH_DESC": "Selecciona varios elementos a la vez"
     },
     "MODEL_SELECTION": {
       "TITLE": "Paso 2",
@@ -201,9 +209,9 @@
     "RESET_BUTTON_TITLE": "Restablecer",
     "RIGHT_PANE_INFO": {
       "SELECT_FOLDER": "Selecciona una carpeta",
-      "SELECT_IMAGE": "Selecciona una imagen",
+      "SELECT_IMAGE": "Selecciona una imagen o carpeta",
       "SELECT_FOLDER_DESCRIPTION": "Asegúrate de que la carpeta no contenga nada excepto imágenes PNG, JPG, JPEG y WEBP.",
-      "SELECT_IMAGES_DESCRIPTION": "Selecciona o arrastra y suelta una imagen PNG, JPG, JPEG o WEBP.",
+      "SELECT_IMAGES_DESCRIPTION": "Selecciona o arrastra y suelta una imagen PNG, JPG, JPEG o WEBP, o una carpeta de imágenes.",
       "PASTE_IMAGE_DESCRIPTION": "Presiona Ctrl+V o ⌘+V para pegar la imagen desde el portapapeles"
     },
     "PROGRESS": {

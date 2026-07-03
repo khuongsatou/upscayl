@@ -119,7 +119,15 @@
     "FILE_SELECTION": {
       "TITLE": "Крок 1",
       "BATCH_MODE_TYPE": "Обрати теку",
-      "SINGLE_MODE_TYPE": "Обрати зображення"
+      "SINGLE_MODE_TYPE": "Обрати зображення",
+      "UNIFIED_MODE_TYPE": "Обрати зображення або теку",
+      "PICKER_TITLE": "Що ви хочете збільшити?",
+      "PICKER_IMAGES": "Зображення",
+      "PICKER_IMAGES_DESC": "Виберіть один або кілька файлів зображень",
+      "PICKER_FOLDER": "Тека",
+      "PICKER_FOLDER_DESC": "Виберіть теку із зображеннями",
+      "PICKER_BOTH": "Кілька файлів і тек",
+      "PICKER_BOTH_DESC": "Виберіть кілька об'єктів одночасно"
     },
     "MODEL_SELECTION": {
       "TITLE": "Крок 2",
@@ -200,9 +208,9 @@
     "RESET_BUTTON_TITLE": "Скинути",
     "RIGHT_PANE_INFO": {
       "SELECT_FOLDER": "Оберіть теку",
-      "SELECT_IMAGE": "Оберіть зображення",
+      "SELECT_IMAGE": "Оберіть зображення або теку",
       "SELECT_FOLDER_DESCRIPTION": "Переконайтеся, що тека містить лише зображення PNG, JPG, JPEG та WEBP.",
-      "SELECT_IMAGES_DESCRIPTION": "Оберіть або перетягніть зображення PNG, JPG, JPEG чи WEBP.",
+      "SELECT_IMAGES_DESCRIPTION": "Оберіть або перетягніть зображення PNG, JPG, JPEG чи WEBP, або теку із зображеннями.",
       "PASTE_IMAGE_DESCRIPTION": "Натисніть Ctrl+V або ⌘+V для вставки зображення з буфера обміну"
     },
     "PROGRESS": {
@@ -277,7 +285,7 @@
       "TITLE": "Попередження про метадані",
       "DESCRIPTION": "На деяких системах метадані можуть не відображатися в форматах, відмінних від JPG. За потреби використовуйте спеціальні інструменти для перегляду метаданих."
     }
-  },    
+  },
   "UPSCAYL_CLOUD": {
     "COMING_SOON": "Скоро!",
     "CATCHY_PHRASE_1": "Більше жодних помилок, проблем з обладнанням, компромісів з якістю чи довгого очікування!",

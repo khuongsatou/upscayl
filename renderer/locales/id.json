@@ -119,7 +119,15 @@
     "FILE_SELECTION": {
       "TITLE": "Langkah 1",
       "BATCH_MODE_TYPE": "Pilih Folder",
-      "SINGLE_MODE_TYPE": "Pilih Gambar"
+      "SINGLE_MODE_TYPE": "Pilih Gambar",
+      "UNIFIED_MODE_TYPE": "Pilih Gambar atau Folder",
+      "PICKER_TITLE": "Apa yang ingin di-upscayl?",
+      "PICKER_IMAGES": "Gambar",
+      "PICKER_IMAGES_DESC": "Pilih satu atau beberapa file gambar",
+      "PICKER_FOLDER": "Folder",
+      "PICKER_FOLDER_DESC": "Pilih folder berisi gambar",
+      "PICKER_BOTH": "Banyak file & folder",
+      "PICKER_BOTH_DESC": "Pilih beberapa item sekaligus"
     },
     "MODEL_SELECTION": {
       "TITLE": "Langkah 2",
@@ -200,9 +208,9 @@
     "RESET_BUTTON_TITLE": "Reset",
     "RIGHT_PANE_INFO": {
       "SELECT_FOLDER": "Pilih Folder",
-      "SELECT_IMAGE": "Pilih Gambar",
+      "SELECT_IMAGE": "Pilih gambar atau folder",
       "SELECT_FOLDER_DESCRIPTION": "Pastikan folder tidak berisi apapun kecuali gambar PNG, JPG, JPEG & WEBP.",
-      "SELECT_IMAGES_DESCRIPTION": "Pilih atau seret dan lepas gambar PNG, JPG, JPEG atau WEBP.",
+      "SELECT_IMAGES_DESCRIPTION": "Pilih atau seret dan lepas gambar PNG, JPG, JPEG, WEBP, atau folder berisi gambar.",
       "PASTE_IMAGE_DESCRIPTION": "Tekan Ctrl+V atau ⌘+V untuk Menempel gambar dari Clipboard"
     },
     "PROGRESS": {

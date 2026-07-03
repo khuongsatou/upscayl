@@ -121,7 +121,15 @@
     "FILE_SELECTION": {
       "TITLE": "Pas 1",
       "BATCH_MODE_TYPE": "Selecciona carpeta",
-      "SINGLE_MODE_TYPE": "Selecciona imatge"
+      "SINGLE_MODE_TYPE": "Selecciona imatge",
+      "UNIFIED_MODE_TYPE": "Selecciona imatge o carpeta",
+      "PICKER_TITLE": "Què vols ampliar?",
+      "PICKER_IMAGES": "Imatge(s)",
+      "PICKER_IMAGES_DESC": "Tria un o més fitxers d'imatge",
+      "PICKER_FOLDER": "Carpeta",
+      "PICKER_FOLDER_DESC": "Tria una carpeta d'imatges",
+      "PICKER_BOTH": "Diversos fitxers i carpetes",
+      "PICKER_BOTH_DESC": "Selecciona diversos elements alhora"
     },
     "MODEL_SELECTION": {
       "TITLE": "Pas 2",
@@ -203,9 +211,9 @@
     "RESET_BUTTON_TITLE": "Restablix",
     "RIGHT_PANE_INFO": {
       "SELECT_FOLDER": "Seleccioneu una carpeta",
-      "SELECT_IMAGE": "Seleccioneu una imatge",
+      "SELECT_IMAGE": "Seleccioneu una imatge o carpeta",
       "SELECT_FOLDER_DESCRIPTION": "Assegureu-vos que la carpeta no continga res excepte imatges PNG, JPG, JPEG i WEBP.",
-      "SELECT_IMAGES_DESCRIPTION": "Seleccioneu o arrossegueu i solteu una imatge PNG, JPG, JPEG o WEBP.",
+      "SELECT_IMAGES_DESCRIPTION": "Seleccioneu o arrossegueu una imatge PNG, JPG, JPEG o WEBP, o una carpeta d'imatges.",
       "PASTE_IMAGE_DESCRIPTION": "Pressioneu Ctrl+V o ⌘+V per a apegar la imatge des del porta-retalls"
     },
     "PROGRESS": {

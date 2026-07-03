@@ -119,7 +119,15 @@
     "FILE_SELECTION": {
       "TITLE": "第一步",
       "BATCH_MODE_TYPE": "选择文件夹",
-      "SINGLE_MODE_TYPE": "选择图片"
+      "SINGLE_MODE_TYPE": "选择图片",
+      "UNIFIED_MODE_TYPE": "选择图片或文件夹",
+      "PICKER_TITLE": "你想要放大什么？",
+      "PICKER_IMAGES": "图片",
+      "PICKER_IMAGES_DESC": "选择一个或多个图片文件",
+      "PICKER_FOLDER": "文件夹",
+      "PICKER_FOLDER_DESC": "选择一个图片文件夹",
+      "PICKER_BOTH": "多个文件和文件夹",
+      "PICKER_BOTH_DESC": "一次选择多项"
     },
     "MODEL_SELECTION": {
       "TITLE": "第二步",
@@ -200,9 +208,9 @@
     "RESET_BUTTON_TITLE": "重置",
     "RIGHT_PANE_INFO": {
       "SELECT_FOLDER": "选择要升级的图片所在的文件夹",
-      "SELECT_IMAGE": "选择要升级的图片",
+      "SELECT_IMAGE": "选择图片或文件夹",
       "SELECT_FOLDER_DESCRIPTION": "文件夹中只支持 PNG、JPG、JPEG 和 WEBP 图片。",
-      "SELECT_IMAGES_DESCRIPTION": "选择或拖放 PNG、JPG、JPEG 或 WEBP 图片。",
+      "SELECT_IMAGES_DESCRIPTION": "选择或拖放 PNG、JPG、JPEG 或 WEBP 图片，或一个包含图片的文件夹。",
       "PASTE_IMAGE_DESCRIPTION": "按 Ctrl+V 或 ⌘+V 来粘贴图像"
     },
     "PROGRESS": {
@@ -277,7 +285,7 @@
       "TITLE": "元数据警告",
       "DESCRIPTION": "在某些系统上，JPG 以外的格式可能无法显示元数据。如有需要，请使用专门的工具查看元数据。"
     }
-  },    
+  },
   "UPSCAYL_CLOUD": {
     "COMING_SOON": "即将推出！",
     "CATCHY_PHRASE_1": "该与错误、硬件问题、质量妥协和漫长的等待告别喽！",

@@ -119,7 +119,15 @@
     "FILE_SELECTION": {
       "TITLE": "الخطوة الأولة",
       "BATCH_MODE_TYPE": "اختر مجلدا",
-      "SINGLE_MODE_TYPE": "اختر صورة"
+      "SINGLE_MODE_TYPE": "اختر صورة",
+      "UNIFIED_MODE_TYPE": "اختر صورة أو مجلد",
+      "PICKER_TITLE": "ماذا تريد تكبيره؟",
+      "PICKER_IMAGES": "صورة (صور)",
+      "PICKER_IMAGES_DESC": "اختر ملف صورة واحدًا أو أكثر",
+      "PICKER_FOLDER": "مجلد",
+      "PICKER_FOLDER_DESC": "اختر مجلدًا يحتوي على صور",
+      "PICKER_BOTH": "ملفات ومجلدات متعددة",
+      "PICKER_BOTH_DESC": "اختر عدة عناصر في وقت واحد"
     },
     "MODEL_SELECTION": {
       "TITLE": "الخطوة الثانية",
@@ -200,9 +208,9 @@
     "RESET_BUTTON_TITLE": "اعادة ضبط",
     "RIGHT_PANE_INFO": {
       "SELECT_FOLDER": "اختر مجلد",
-      "SELECT_IMAGE": "اختر صورة",
+      "SELECT_IMAGE": "اختر صورة أو مجلد",
       "SELECT_FOLDER_DESCRIPTION": "تأكد ان المجلد لا يحوي اي شيء ما عدى PNG, JPG, JPEG & WEBP images.",
-      "SELECT_IMAGES_DESCRIPTION": "اختر صورة او قم بسحب و الاسقاط",
+      "SELECT_IMAGES_DESCRIPTION": "اختر صورة أو مجلدًا من الصور، أو اسحبها وأفلتها.",
       "PASTE_IMAGE_DESCRIPTION": "اضغط Ctrl+V او ⌘+V للصق الصورة من المحفظة"
     },
     "PROGRESS": {
@@ -311,5 +319,3 @@
     }
   }
 }
-
-

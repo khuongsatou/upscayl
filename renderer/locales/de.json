@@ -119,7 +119,15 @@
     "FILE_SELECTION": {
       "TITLE": "Schritt 1",
       "BATCH_MODE_TYPE": "Ordner auswählen",
-      "SINGLE_MODE_TYPE": "Bild auswählen"
+      "SINGLE_MODE_TYPE": "Bild auswählen",
+      "UNIFIED_MODE_TYPE": "Bild oder Ordner auswählen",
+      "PICKER_TITLE": "Was möchtest du hochskalieren?",
+      "PICKER_IMAGES": "Bild(er)",
+      "PICKER_IMAGES_DESC": "Eine oder mehrere Bilddateien wählen",
+      "PICKER_FOLDER": "Ordner",
+      "PICKER_FOLDER_DESC": "Einen Ordner mit Bildern wählen",
+      "PICKER_BOTH": "Mehrere Dateien & Ordner",
+      "PICKER_BOTH_DESC": "Mehrere Elemente gleichzeitig wählen"
     },
     "MODEL_SELECTION": {
       "TITLE": "Schritt 2",
@@ -200,9 +208,9 @@
     "RESET_BUTTON_TITLE": "Zurücksetzen",
     "RIGHT_PANE_INFO": {
       "SELECT_FOLDER": "Ordner auswählen",
-      "SELECT_IMAGE": "Bild auswählen",
+      "SELECT_IMAGE": "Bild oder Ordner auswählen",
       "SELECT_FOLDER_DESCRIPTION": "Stelle sicher, dass der Ordner nur PNG-, JPG-, JPEG- und WEBP-Bilder enthält.",
-      "SELECT_IMAGES_DESCRIPTION": "Wähle oder ziehe und platziere ein PNG-, JPG-, JPEG- oder WEBP-Bild.",
+      "SELECT_IMAGES_DESCRIPTION": "Wähle oder ziehe ein PNG-, JPG-, JPEG- oder WEBP-Bild oder einen Ordner mit Bildern.",
       "PASTE_IMAGE_DESCRIPTION": "Drücke Strg+V oder ⌘+V, um ein Bild aus der Zwischenablage einzufügen"
     },
     "PROGRESS": {
@@ -277,7 +285,7 @@
       "TITLE": "Metadaten-Warnung",
       "DESCRIPTION": "Auf einigen Systemen sind die Metadaten in anderen Formaten als JPG möglicherweise nicht sichtbar. Verwende gegebenenfalls spezielle Tools zum Anzeigen der Metadaten."
     }
-  },  
+  },
   "UPSCAYL_CLOUD": {
     "COMING_SOON": "Kommt bald!",
     "CATCHY_PHRASE_1": "Keine Fehler mehr, Hardwareprobleme, Qualitätseinbußen oder lange Ladezeiten!",

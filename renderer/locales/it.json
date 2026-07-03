@@ -119,7 +119,15 @@
     "FILE_SELECTION": {
       "TITLE": "Fase 1",
       "BATCH_MODE_TYPE": "Seleziona una cartella",
-      "SINGLE_MODE_TYPE": "Seleziona un'immagine"
+      "SINGLE_MODE_TYPE": "Seleziona un'immagine",
+      "UNIFIED_MODE_TYPE": "Seleziona immagine o cartella",
+      "PICKER_TITLE": "Cosa vuoi ingrandire?",
+      "PICKER_IMAGES": "Immagini",
+      "PICKER_IMAGES_DESC": "Scegli uno o più file immagine",
+      "PICKER_FOLDER": "Cartella",
+      "PICKER_FOLDER_DESC": "Scegli una cartella di immagini",
+      "PICKER_BOTH": "Più file e cartelle",
+      "PICKER_BOTH_DESC": "Seleziona più elementi contemporaneamente"
     },
     "MODEL_SELECTION": {
       "TITLE": "Fase 2",
@@ -200,9 +208,9 @@
     "RESET_BUTTON_TITLE": "Resettare",
     "RIGHT_PANE_INFO": {
       "SELECT_FOLDER": "Seleziona una cartella da sovracampionare",
-      "SELECT_IMAGE": "Seleziona un'immagine da sovracampionare",
+      "SELECT_IMAGE": "Seleziona un'immagine o una cartella",
       "SELECT_FOLDER_DESCRIPTION": "Assicurati che la cartella non contenga altro che immagini PNG, JPG, JPEG e WEBP.",
-      "SELECT_IMAGES_DESCRIPTION": "Seleziona o trascina e rilascia un'immagine PNG, JPG, JPEG o WEBP.",
+      "SELECT_IMAGES_DESCRIPTION": "Seleziona o trascina un'immagine PNG, JPG, JPEG o WEBP, oppure una cartella di immagini.",
       "PASTE_IMAGE_DESCRIPTION": "Premi Ctrl+V o ⌘+V per incollare l'immagine dagli appunti"
     },
     "PROGRESS": {
@@ -277,7 +285,7 @@
       "TITLE": "Avviso sui metadati",
       "DESCRIPTION": "Su alcuni sistemi, i metadati potrebbero non essere visibili in formati diversi da JPG. Utilizza strumenti specifici per visualizzare i metadati se necessario."
     }
-  },  
+  },
   "UPSCAYL_CLOUD": {
     "COMING_SOON": "Presto disponibile !",
     "CATCHY_PHRASE_1": "Niente più errori, problemi hardware, compromessi di qualità o lunghi tempi di caricamento !",
