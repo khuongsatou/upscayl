@@ -29,7 +29,7 @@ const Sidenav = () => {
   return (
     <div
       className={cn(
-        "w-20 rounded-box p-4",
+        "rounded-box w-20 p-2",
         window.electron.platform === "mac" && "mt-6",
       )}
     >
