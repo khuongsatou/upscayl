@@ -524,7 +524,7 @@ const MainContent = ({
           )}
 
           <div
-            className={cn(maximize ? "absolute inset-0" : "relative", {
+            className={cn(maximize ? "absolute inset-0 z-10" : "relative", {
               "h-full overflow-hidden rounded-3xl border bg-secondary":
                 !batchMode
                   ? imagePath.length > 0 || upscaledImagePath.length > 0
@@ -537,6 +537,11 @@ const MainContent = ({
               resetImagePaths={resetImagePaths}
               maximize={maximize}
               setMaximize={setMaximize}
+              hasImage={imagePath.length > 0 || selectedBatchImage.length > 0}
+              hasUpscayledImage={
+                sanitizedUpscaledImagePath.length > 0 ||
+                selectedUpscayldBatchImage.length > 0
+              }
             />
 
             {/* BATCH UPSCALE SHOW SELECTED FOLDER */}
