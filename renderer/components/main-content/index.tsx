@@ -1,6 +1,6 @@
 "use client";
 import useLogger from "../hooks/use-logger";
-import { useState, useMemo, useEffect, useId } from "react";
+import { useState, useMemo, useEffect, useId, SetStateAction } from "react";
 import { ELECTRON_COMMANDS } from "@common/electron-commands";
 import { useAtom, useAtomValue } from "jotai";
 import {
@@ -106,6 +106,7 @@ const MainContent = ({
   const lensSize = useAtomValue(lensSizeAtom);
   const rememberOutputFolder = useAtomValue(rememberOutputFolderAtom);
   const [zoomAmount, setZoomAmount] = useState("100");
+  const [maximize, setMaximize] = useState(false);
 
   const [batchImagePaths, setBatchImagePaths] = useState<string[]>([]);
   const [upscayledBatchImagePaths, setUpscayledBatchImagePaths] = useState<
@@ -425,7 +426,12 @@ const MainContent = ({
   }, []);
 
   return (
-    <div className="relative flex size-full flex-col items-center justify-center gap-2">
+    <div
+      className={cn(
+        "flex size-full flex-col items-center justify-center gap-2",
+        { relative: !maximize },
+      )}
+    >
       <MacTitlebarDragRegion />
 
       {/* <MoreOptionsDrawer */}
@@ -518,8 +524,8 @@ const MainContent = ({
           )}
 
           <div
-            className={cn({
-              "relative h-full overflow-hidden rounded-3xl border bg-secondary":
+            className={cn(maximize ? "absolute inset-0" : "relative", {
+              "h-full overflow-hidden rounded-3xl border bg-secondary":
                 !batchMode
                   ? imagePath.length > 0 || upscaledImagePath.length > 0
                   : batchImagePaths.length > 0,
@@ -529,6 +535,8 @@ const MainContent = ({
               zoomAmount={zoomAmount}
               setZoomAmount={setZoomAmount}
               resetImagePaths={resetImagePaths}
+              maximize={maximize}
+              setMaximize={setMaximize}
             />
 
             {/* BATCH UPSCALE SHOW SELECTED FOLDER */}
@@ -662,7 +670,7 @@ const MainContent = ({
             {batchMode && upscaledBatchFolderPath.length > 0 && (
               <div className="flex w-full flex-col items-center justify-center gap-3">
                 <p className="sr-only">{t("APP.PROGRESS.BATCH.DONE_TITLE")}</p>
-                <Button onClick={openFolderHandler} className="w-full">
+                <Button onClick={openFolderHandler}>
                   <FolderOpenIcon />
                   {t("APP.PROGRESS.BATCH.OPEN_UPSCAYLED_FOLDER_TITLE")}
                 </Button>

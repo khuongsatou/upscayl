@@ -4,6 +4,8 @@ import {
   PlusIcon,
   RotateCcwIcon,
   InfoIcon,
+  MaximizeIcon,
+  MinimizeIcon,
 } from "lucide-react";
 import { Button } from "../ui/button";
 import { userStatsAtom, viewTypeAtom } from "@/atoms/user-settings-atom";
@@ -17,6 +19,7 @@ import {
   DrawerTrigger,
 } from "../ui/drawer";
 import { translationAtom } from "@/atoms/translations-atom";
+import React from "react";
 
 const formatDuration = (seconds: number): string => {
   if (seconds < 60) return `${seconds.toFixed(1)}s`;
@@ -34,12 +37,16 @@ interface ToolBarProps {
   zoomAmount: string;
   setZoomAmount: (arg: any) => void;
   resetImagePaths: () => void;
+  maximize: boolean;
+  setMaximize: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 export default function ToolBar({
   zoomAmount,
   setZoomAmount,
   resetImagePaths,
+  maximize,
+  setMaximize,
 }: ToolBarProps) {
   const t = useAtomValue(translationAtom);
   const userStats = useAtomValue(userStatsAtom);
@@ -78,6 +85,14 @@ export default function ToolBar({
           <PlusIcon />
         </Button>
         <Separator orientation="vertical" className="h-6 w-px shrink-0" />
+        <Button
+          variant="outline"
+          size="icon"
+          className="group"
+          onClick={() => setMaximize((prev) => !prev)}
+        >
+          {maximize ? <MinimizeIcon /> : <MaximizeIcon />}
+        </Button>
         <Drawer>
           <DrawerTrigger asChild>
             <Button variant="outline" size="icon">
