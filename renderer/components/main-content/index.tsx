@@ -1,6 +1,6 @@
 "use client";
 import useLogger from "../hooks/use-logger";
-import { useState, useMemo, useEffect, useId, SetStateAction } from "react";
+import { useState, useMemo, useEffect, useId } from "react";
 import { ELECTRON_COMMANDS } from "@common/electron-commands";
 import { useAtom, useAtomValue } from "jotai";
 import {
@@ -34,24 +34,13 @@ import {
   ArrowRightIcon,
   ChevronDown,
   FolderOpenIcon,
-  LensConvexIcon,
   LoaderCircle,
-  MinusIcon,
-  PlusIcon,
-  SearchIcon,
   TriangleAlertIcon,
 } from "lucide-react";
 import useUpscaylResolution from "../hooks/use-upscayl-resolution";
 import getFilenameFromPath from "@common/get-file-name";
 import getBaseFileName from "@common/get-base-file-name";
-import {
-  Popover,
-  PopoverContent,
-  PopoverDescription,
-  PopoverHeader,
-  PopoverTitle,
-  PopoverTrigger,
-} from "../ui/popover";
+import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
 import ToolBar from "./toolbar";
 
 type MainContentProps = {
@@ -441,11 +430,11 @@ const MainContent = ({
       {/* /> */}
 
       <div className="flex size-full gap-2 overflow-hidden">
-        <div className="flex h-full w-full flex-col gap-4 overflow-hidden rounded-4xl border bg-accent p-4">
+        <div className="flex h-full w-full flex-col gap-2 overflow-hidden rounded-4xl border bg-accent p-2">
           {(selectedBatchImage.length > 0 || imagePath.length > 0) && (
-            <div className="inline-flex items-center justify-between">
-              <div className="space-y-1.5 text-sm">
-                <p className="font-semibold">
+            <div className="inline-flex items-center justify-between gap-8">
+              <div className="space-y-1.5 px-1.5 text-sm">
+                <p className="line-clamp-1 w-full font-semibold">
                   {selectedBatchImage.length > 0
                     ? getFilenameFromPath(selectedBatchImage)
                     : getFilenameFromPath(imagePath)}
@@ -525,10 +514,9 @@ const MainContent = ({
 
           <div
             className={cn(maximize ? "absolute inset-0 z-10" : "relative", {
-              "h-full overflow-hidden rounded-3xl border bg-secondary":
-                !batchMode
-                  ? imagePath.length > 0 || upscaledImagePath.length > 0
-                  : batchImagePaths.length > 0,
+              "h-full overflow-hidden rounded-3xl border bg-card": !batchMode
+                ? imagePath.length > 0 || upscaledImagePath.length > 0
+                : batchImagePaths.length > 0,
             })}
           >
             <ToolBar
@@ -573,6 +561,10 @@ const MainContent = ({
                   sanitizedImagePath={sanitizedImagePath}
                   sanitizedUpscaledImagePath={sanitizedUpscaledImagePath}
                   zoomAmount={zoomAmount}
+                  beforeSize={`${dimensions.width} x ${dimensions.height}`}
+                  afterSize={`${upscaylResolution.width} x ${upscaylResolution.height}`}
+                  isMaximized={maximize}
+                  scale={scale}
                 />
               )}
 
@@ -587,6 +579,10 @@ const MainContent = ({
                     selectedUpscayldBatchImage,
                   )}
                   zoomAmount={zoomAmount}
+                  beforeSize={""}
+                  afterSize={""}
+                  isMaximized={maximize}
+                  scale={""}
                 />
               )}
 
