@@ -1,5 +1,5 @@
 "use client";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { ELECTRON_COMMANDS } from "@common/electron-commands";
 import { useAtomValue, useSetAtom } from "jotai";
 import { customModelIdsAtom } from "./atoms/models-list-atom";
@@ -336,20 +336,21 @@ const Home = () => {
     );
   }
 
+  const isMac = window.electron.platform === "mac";
+
   return (
     <div
       className={cn(
-        "flex h-screen w-screen flex-row gap-2 overflow-hidden bg-background p-2",
+        "flex h-screen w-screen flex-col gap-3 overflow-hidden bg-background p-2",
       )}
-      onPaste={(e) => console.log(e)}
     >
-      <div className="pt-5">
-        <Sidenav />
-      </div>
-
-      <div className="flex h-full w-full flex-col gap-4">
+      <div className={cn({ "pl-22": isMac })}>
         <Header version={version} />
-        <div className="flex h-full min-h-0 gap-2 p-2">
+      </div>
+      <div className="flex size-full flex-row">
+        <Sidenav />
+
+        <div className="flex size-full min-h-0 gap-2 p-2">
           <Sidebar
             imagePath={imagePath}
             dimensions={dimensions}
@@ -377,8 +378,8 @@ const Home = () => {
             dimensions={dimensions}
           />
         </div>
+        <OnboardingDialog />
       </div>
-      <OnboardingDialog />
     </div>
   );
 };

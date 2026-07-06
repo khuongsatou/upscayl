@@ -4,6 +4,8 @@ import {
   PlusIcon,
   RotateCcwIcon,
   InfoIcon,
+  MaximizeIcon,
+  MinimizeIcon,
 } from "lucide-react";
 import { Button } from "../ui/button";
 import { userStatsAtom, viewTypeAtom } from "@/atoms/user-settings-atom";
@@ -17,6 +19,7 @@ import {
   DrawerTrigger,
 } from "../ui/drawer";
 import { translationAtom } from "@/atoms/translations-atom";
+import React from "react";
 
 const formatDuration = (seconds: number): string => {
   if (seconds < 60) return `${seconds.toFixed(1)}s`;
@@ -34,12 +37,20 @@ interface ToolBarProps {
   zoomAmount: string;
   setZoomAmount: (arg: any) => void;
   resetImagePaths: () => void;
+  maximize: boolean;
+  setMaximize: React.Dispatch<React.SetStateAction<boolean>>;
+  hasImage: boolean;
+  hasUpscayledImage: boolean;
 }
 
 export default function ToolBar({
   zoomAmount,
   setZoomAmount,
   resetImagePaths,
+  maximize,
+  setMaximize,
+  hasImage,
+  hasUpscayledImage,
 }: ToolBarProps) {
   const t = useAtomValue(translationAtom);
   const userStats = useAtomValue(userStatsAtom);
@@ -50,6 +61,7 @@ export default function ToolBar({
     <div className="absolute right-0 bottom-0 left-0 z-20 flex items-center pb-8">
       <div className="mx-auto inline-flex items-center gap-2 rounded-4xl bg-black/30 p-2 backdrop-blur-sm">
         <Button
+          disabled={!hasUpscayledImage}
           variant={viewType === "lens" ? "default" : "secondary"}
           onClick={() => setViewType(viewType === "lens" ? "slider" : "lens")}
           size="icon"
@@ -58,7 +70,11 @@ export default function ToolBar({
         </Button>
         <Separator orientation="vertical" className="h-6 w-px shrink-0" />
         <Button
-          disabled={viewType === "lens" || parseInt(zoomAmount) === 100}
+          disabled={
+            !hasUpscayledImage ||
+            viewType === "lens" ||
+            parseInt(zoomAmount) === 100
+          }
           variant="outline"
           size="icon"
           onClick={() =>
@@ -68,7 +84,11 @@ export default function ToolBar({
           <MinusIcon />
         </Button>
         <Button
-          disabled={viewType === "lens" || parseInt(zoomAmount) === 1000}
+          disabled={
+            !hasUpscayledImage ||
+            viewType === "lens" ||
+            parseInt(zoomAmount) === 1000
+          }
           variant="outline"
           size="icon"
           onClick={() =>
@@ -78,6 +98,15 @@ export default function ToolBar({
           <PlusIcon />
         </Button>
         <Separator orientation="vertical" className="h-6 w-px shrink-0" />
+        <Button
+          disabled={!hasImage}
+          variant="outline"
+          size="icon"
+          className="group"
+          onClick={() => setMaximize((prev) => !prev)}
+        >
+          {maximize ? <MinimizeIcon /> : <MaximizeIcon />}
+        </Button>
         <Drawer>
           <DrawerTrigger asChild>
             <Button variant="outline" size="icon">
@@ -157,7 +186,12 @@ export default function ToolBar({
           </DrawerContent>
         </Drawer>
         <Separator orientation="vertical" className="h-6 w-px shrink-0" />
-        <Button variant="destructive" size="icon" onClick={resetImagePaths}>
+        <Button
+          disabled={!hasImage}
+          variant="destructive"
+          size="icon"
+          onClick={resetImagePaths}
+        >
           <RotateCcwIcon />
         </Button>
       </div>

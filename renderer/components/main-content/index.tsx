@@ -34,24 +34,13 @@ import {
   ArrowRightIcon,
   ChevronDown,
   FolderOpenIcon,
-  LensConvexIcon,
   LoaderCircle,
-  MinusIcon,
-  PlusIcon,
-  SearchIcon,
   TriangleAlertIcon,
 } from "lucide-react";
 import useUpscaylResolution from "../hooks/use-upscayl-resolution";
 import getFilenameFromPath from "@common/get-file-name";
 import getBaseFileName from "@common/get-base-file-name";
-import {
-  Popover,
-  PopoverContent,
-  PopoverDescription,
-  PopoverHeader,
-  PopoverTitle,
-  PopoverTrigger,
-} from "../ui/popover";
+import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
 import ToolBar from "./toolbar";
 
 type MainContentProps = {
@@ -106,6 +95,7 @@ const MainContent = ({
   const lensSize = useAtomValue(lensSizeAtom);
   const rememberOutputFolder = useAtomValue(rememberOutputFolderAtom);
   const [zoomAmount, setZoomAmount] = useState("100");
+  const [maximize, setMaximize] = useState(false);
 
   const [batchImagePaths, setBatchImagePaths] = useState<string[]>([]);
   const [upscayledBatchImagePaths, setUpscayledBatchImagePaths] = useState<
@@ -425,7 +415,12 @@ const MainContent = ({
   }, []);
 
   return (
-    <div className="relative flex size-full flex-col items-center justify-center gap-2">
+    <div
+      className={cn(
+        "flex size-full flex-col items-center justify-center gap-2",
+        { relative: !maximize },
+      )}
+    >
       <MacTitlebarDragRegion />
 
       {/* <MoreOptionsDrawer */}
@@ -435,11 +430,11 @@ const MainContent = ({
       {/* /> */}
 
       <div className="flex size-full gap-2 overflow-hidden">
-        <div className="flex h-full w-full flex-col gap-4 overflow-hidden rounded-4xl border bg-accent p-4">
+        <div className="flex h-full w-full flex-col gap-2 overflow-hidden rounded-4xl border bg-accent p-2">
           {(selectedBatchImage.length > 0 || imagePath.length > 0) && (
-            <div className="inline-flex items-center justify-between">
-              <div className="space-y-1.5 text-sm">
-                <p className="font-semibold">
+            <div className="inline-flex items-center justify-between gap-8">
+              <div className="space-y-1.5 px-1.5 text-sm">
+                <p className="line-clamp-1 w-full font-semibold">
                   {selectedBatchImage.length > 0
                     ? getFilenameFromPath(selectedBatchImage)
                     : getFilenameFromPath(imagePath)}
@@ -518,17 +513,23 @@ const MainContent = ({
           )}
 
           <div
-            className={cn({
-              "relative h-full overflow-hidden rounded-3xl border bg-secondary":
-                !batchMode
-                  ? imagePath.length > 0 || upscaledImagePath.length > 0
-                  : batchImagePaths.length > 0,
+            className={cn(maximize ? "absolute inset-0 z-10" : "relative", {
+              "h-full overflow-hidden rounded-3xl border bg-card": !batchMode
+                ? imagePath.length > 0 || upscaledImagePath.length > 0
+                : batchImagePaths.length > 0,
             })}
           >
             <ToolBar
               zoomAmount={zoomAmount}
               setZoomAmount={setZoomAmount}
               resetImagePaths={resetImagePaths}
+              maximize={maximize}
+              setMaximize={setMaximize}
+              hasImage={imagePath.length > 0 || selectedBatchImage.length > 0}
+              hasUpscayledImage={
+                sanitizedUpscaledImagePath.length > 0 ||
+                selectedUpscayldBatchImage.length > 0
+              }
             />
 
             {/* BATCH UPSCALE SHOW SELECTED FOLDER */}
@@ -560,6 +561,10 @@ const MainContent = ({
                   sanitizedImagePath={sanitizedImagePath}
                   sanitizedUpscaledImagePath={sanitizedUpscaledImagePath}
                   zoomAmount={zoomAmount}
+                  beforeSize={`${dimensions.width} x ${dimensions.height}`}
+                  afterSize={`${upscaylResolution.width} x ${upscaylResolution.height}`}
+                  isMaximized={maximize}
+                  scale={scale}
                 />
               )}
 
@@ -574,6 +579,10 @@ const MainContent = ({
                     selectedUpscayldBatchImage,
                   )}
                   zoomAmount={zoomAmount}
+                  beforeSize={""}
+                  afterSize={""}
+                  isMaximized={maximize}
+                  scale={""}
                 />
               )}
 
@@ -662,7 +671,7 @@ const MainContent = ({
             {batchMode && upscaledBatchFolderPath.length > 0 && (
               <div className="flex w-full flex-col items-center justify-center gap-3">
                 <p className="sr-only">{t("APP.PROGRESS.BATCH.DONE_TITLE")}</p>
-                <Button onClick={openFolderHandler} className="w-full">
+                <Button onClick={openFolderHandler}>
                   <FolderOpenIcon />
                   {t("APP.PROGRESS.BATCH.OPEN_UPSCAYLED_FOLDER_TITLE")}
                 </Button>
