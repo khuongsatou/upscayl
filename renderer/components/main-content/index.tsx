@@ -1,6 +1,6 @@
 "use client";
 import useLogger from "../hooks/use-logger";
-import { useState, useMemo, useEffect } from "react";
+import { useState, useMemo, useEffect, useId } from "react";
 import { ELECTRON_COMMANDS } from "@common/electron-commands";
 import { useAtom, useAtomValue } from "jotai";
 import {
@@ -10,6 +10,10 @@ import {
   progressAtom,
   viewTypeAtom,
   rememberOutputFolderAtom,
+  scaleAtom,
+  customWidthAtom,
+  useCustomWidthAtom,
+  doubleUpscaylAtom,
 } from "../../atoms/user-settings-atom";
 import { useToast } from "@/components/ui/use-toast";
 import { sanitizePath } from "@common/sanitize-path";
@@ -18,24 +22,51 @@ import { FEATURE_FLAGS } from "@common/feature-flags";
 import { ImageFormat, VALID_IMAGE_FORMATS } from "@/lib/valid-formats";
 import ProgressBar from "./progress-bar";
 import InstructionsCard from "./instructions-card";
-import MoreOptionsDrawer from "./more-options-drawer";
 import useUpscaylVersion from "../hooks/use-upscayl-version";
 import MacTitlebarDragRegion from "./mac-titlebar-drag-region";
 import LensViewer from "./lens-view";
 import ImageViewer from "./image-viewer";
 import useTranslation from "../hooks/use-translation";
 import SliderView from "./slider-view";
+import { cn } from "@/lib/utils";
+import { Button } from "../ui/button";
+import {
+  ArrowRightIcon,
+  ChevronDown,
+  FolderOpenIcon,
+  LensConvexIcon,
+  LoaderCircle,
+  MinusIcon,
+  PlusIcon,
+  SearchIcon,
+  TriangleAlertIcon,
+} from "lucide-react";
+import useUpscaylResolution from "../hooks/use-upscayl-resolution";
+import getFilenameFromPath from "@common/get-file-name";
+import getBaseFileName from "@common/get-base-file-name";
+import {
+  Popover,
+  PopoverContent,
+  PopoverDescription,
+  PopoverHeader,
+  PopoverTitle,
+  PopoverTrigger,
+} from "../ui/popover";
+import ToolBar from "./toolbar";
 
 type MainContentProps = {
   imagePath: string;
   resetImagePaths: () => void;
   upscaledBatchFolderPath: string;
+  setUpscaledBatchFolderPath: React.Dispatch<React.SetStateAction<string>>;
   setImagePath: React.Dispatch<React.SetStateAction<string>>;
   validateImagePath: (path: string) => void;
   selectFolderHandler: () => void;
   selectImageHandler: () => void;
   upscaledImagePath: string;
   batchFolderPath: string;
+  setBatchFolderPath: React.Dispatch<React.SetStateAction<string>>;
+  dimensions: Record<"width" | "height", number | null>;
   doubleUpscaylCounter: number;
   setDimensions: React.Dispatch<
     React.SetStateAction<{
@@ -49,15 +80,19 @@ const MainContent = ({
   imagePath,
   resetImagePaths,
   upscaledBatchFolderPath,
+  setUpscaledBatchFolderPath,
   setImagePath,
   validateImagePath,
   selectFolderHandler,
   selectImageHandler,
   upscaledImagePath,
   batchFolderPath,
+  setBatchFolderPath,
+  dimensions,
   doubleUpscaylCounter,
   setDimensions,
 }: MainContentProps) => {
+  const componentId = useId();
   const t = useTranslation();
   const logit = useLogger();
   const { toast } = useToast();
@@ -71,6 +106,27 @@ const MainContent = ({
   const lensSize = useAtomValue(lensSizeAtom);
   const rememberOutputFolder = useAtomValue(rememberOutputFolderAtom);
   const [zoomAmount, setZoomAmount] = useState("100");
+
+  const [batchImagePaths, setBatchImagePaths] = useState<string[]>([]);
+  const [upscayledBatchImagePaths, setUpscayledBatchImagePaths] = useState<
+    string[]
+  >([]);
+  const [selectedBatchImage, setSelectedBatchImage] = useState("");
+  const [selectedUpscayldBatchImage, setUpscayledSelectedBatchImage] =
+    useState("");
+
+  const scale = useAtomValue(scaleAtom);
+  const customWidth = useAtomValue(customWidthAtom);
+  const useCustomWidth = useAtomValue(useCustomWidthAtom);
+  const doubleUpscayl = useAtomValue(doubleUpscaylAtom);
+
+  const upscaylResolution = useUpscaylResolution({
+    dimensions,
+    customWidth,
+    useCustomWidth,
+    doubleUpscayl,
+    scale,
+  });
 
   const sanitizedUpscaledImagePath = useMemo(
     () => sanitizePath(upscaledImagePath),
@@ -92,6 +148,14 @@ const MainContent = ({
     batchFolderPath,
     upscaledBatchFolderPath,
   ]);
+
+  // BATCH MODE HANDLERS
+  const resetBatchFolderPath = () => {
+    setUpscaledBatchFolderPath("");
+    setSelectedBatchImage("");
+    setBatchFolderPath("");
+    setBatchImagePaths([]);
+  };
 
   // DRAG AND DROP HANDLERS
   const handleDragEnter = (e) => {
@@ -265,89 +329,348 @@ const MainContent = ({
     };
   }, [t, outputPath]);
 
+  // Get image paths within batch folder
+  useEffect(() => {
+    window.electron.on(
+      ELECTRON_COMMANDS.IMAGE_FILES_LIST,
+      (_, { images, folderPath }) => {
+        if (folderPath !== batchFolderPath) return;
+
+        if (images?.[0].length > 0) setSelectedBatchImage(images[0]);
+        setBatchImagePaths(images);
+      },
+    );
+
+    if (batchFolderPath.length > 0) {
+      window.electron.send(ELECTRON_COMMANDS.GET_IMAGE_PATHS, batchFolderPath);
+    }
+  }, [batchFolderPath]);
+
+  useEffect(() => {
+    if (!batchMode) return;
+
+    window.electron.on(
+      ELECTRON_COMMANDS.IMAGE_FILES_LIST,
+      (_, { images, folderPath }) => {
+        if (folderPath !== upscaledBatchFolderPath) return;
+        if (!images || images.length === 0) return;
+
+        setUpscayledBatchImagePaths(images);
+
+        // Try to keep the upscayled preview in sync with whatever's selected in the
+        // original slider. Fall back to the first matching pair if the current
+        // selection has no upscayled counterpart yet.
+        const selectedBaseName = getBaseFileName(
+          getFilenameFromPath(selectedBatchImage),
+        );
+
+        const matchForSelected = selectedBaseName
+          ? (images as string[]).find(
+              (img) =>
+                getBaseFileName(getFilenameFromPath(img)) === selectedBaseName,
+            )
+          : null;
+
+        if (matchForSelected) setUpscayledSelectedBatchImage(matchForSelected);
+
+        // TODO: Handle failed upscayls — right now a failed image just won't have a
+        // matching entry in `images`, so selection can silently fall out of sync.
+        // Detect that case and re-sync selectedBatchImage <-> upscayledSelectedBatchImage
+        // (or skip to the next successfully upscayled image) instead of leaving stale state.
+      },
+    );
+
+    if (upscaledBatchFolderPath.length > 0) {
+      window.electron.send(
+        ELECTRON_COMMANDS.GET_IMAGE_PATHS,
+        upscaledBatchFolderPath,
+      );
+    }
+  }, [upscaledBatchFolderPath, selectedBatchImage]);
+
+  useEffect(() => {
+    if (!batchMode) {
+      resetBatchFolderPath();
+    } else if (batchMode && batchImagePaths.length > 0) {
+      resetImagePaths();
+    }
+  }, [batchMode]);
+
+  // Merge original + upscayled image paths by matching base filename
+  const batchImageFiles = useMemo(() => {
+    const upscaylDone =
+      upscayledBatchImagePaths.length === batchImagePaths.length;
+
+    return batchImagePaths.map((image) => {
+      const baseName = getBaseFileName(getFilenameFromPath(image));
+      const upscayledImage = upscayledBatchImagePaths.find(
+        (u) => getBaseFileName(getFilenameFromPath(u)) === baseName,
+      );
+
+      return {
+        image,
+        upscayledImage: upscayledImage ?? null,
+        isUpscayled: Boolean(upscayledImage),
+        disabled: upscaylDone && !upscayledImage,
+      };
+    });
+  }, [batchImagePaths, upscayledBatchImagePaths]);
+
+  useEffect(() => {
+    if (!localStorage.getItem("zoomAmount")) {
+      localStorage.setItem("zoomAmount", zoomAmount);
+    } else {
+      setZoomAmount(localStorage.getItem("zoomAmount"));
+    }
+  }, []);
+
   return (
-    <div
-      className="relative flex h-screen w-full flex-col items-center justify-center"
-      onDrop={handleDrop}
-      onDragOver={handleDragOver}
-      onDragEnter={handleDragEnter}
-      onDragLeave={handleDragLeave}
-      onDoubleClick={batchMode ? selectFolderHandler : selectImageHandler}
-    >
+    <div className="relative flex size-full flex-col items-center justify-center gap-2">
       <MacTitlebarDragRegion />
 
-      {progress.length > 0 &&
-        upscaledImagePath.length === 0 &&
-        upscaledBatchFolderPath.length === 0 && (
-          <ProgressBar
-            batchMode={batchMode}
-            progress={progress}
-            doubleUpscaylCounter={doubleUpscaylCounter}
-            resetImagePaths={resetImagePaths}
-          />
-        )}
+      {/* <MoreOptionsDrawer */}
+      {/*   zoomAmount={zoomAmount} */}
+      {/*   setZoomAmount={setZoomAmount} */}
+      {/*   resetImagePaths={resetImagePaths} */}
+      {/* /> */}
 
-      {/* DEFAULT PANE INFO */}
-      {showInformationCard && (
-        <InstructionsCard version={version} batchMode={batchMode} />
-      )}
+      <div className="flex size-full gap-2 overflow-hidden">
+        <div className="flex h-full w-full flex-col gap-4 overflow-hidden rounded-4xl border bg-accent p-4">
+          {(selectedBatchImage.length > 0 || imagePath.length > 0) && (
+            <div className="inline-flex items-center justify-between">
+              <div className="space-y-1.5 text-sm">
+                <p className="font-semibold">
+                  {selectedBatchImage.length > 0
+                    ? getFilenameFromPath(selectedBatchImage)
+                    : getFilenameFromPath(imagePath)}
+                </p>
+                {!batchMode && imagePath.length > 0 && (
+                  <div className="inline-flex items-center gap-1 text-muted-foreground">
+                    <span>{`${dimensions.width}x${dimensions.height}`}</span>
+                    <ArrowRightIcon size={16} />
+                    {parseInt(scale) >= 6 && (
+                      <TriangleAlertIcon
+                        size={18}
+                        className="fill-yellow-500 stroke-black"
+                        data-tooltip-id="tooltip"
+                        data-tooltip-content={t("SETTINGS.IMAGE_SCALE.WARNING")}
+                      />
+                    )}
+                    <span>{`${upscaylResolution.width}x${upscaylResolution.height} (${scale}x)`}</span>
+                  </div>
+                )}
+              </div>
+              <Popover>
+                <PopoverTrigger disabled={viewType === "lens"} asChild>
+                  <Button variant="outline">
+                    <span>Zoom</span>
+                    <span className="ml-3">{zoomAmount}%</span>
+                    <ChevronDown />
+                  </Button>
+                </PopoverTrigger>
+                <PopoverContent>
+                  <input
+                    type="range"
+                    min="100"
+                    max="1000"
+                    step={10}
+                    className="range range-md"
+                    value={parseInt(zoomAmount)}
+                    onChange={(e) => {
+                      setZoomAmount(e.target.value);
+                      localStorage.setItem("zoomAmount", e.target.value);
+                    }}
+                  />
+                </PopoverContent>
+              </Popover>
+            </div>
+          )}
 
-      <MoreOptionsDrawer
-        zoomAmount={zoomAmount}
-        setZoomAmount={setZoomAmount}
-        resetImagePaths={resetImagePaths}
-      />
+          {/* BATCH UPSCALE DONE INFO */}
+          {/* {batchMode && upscaledBatchFolderPath.length > 0 && ( */}
+          {/*   <div className="z-50 flex flex-col items-center"> */}
+          {/*     <p className="text-base-content py-4 font-bold select-none"> */}
+          {/*       {t("APP.PROGRESS.BATCH.DONE_TITLE")} */}
+          {/*     </p> */}
+          {/*     <button */}
+          {/*       className="bg-gradient-blue btn btn-primary rounded-btn p-3 font-medium text-white/90 transition-colors" */}
+          {/*       onClick={openFolderHandler} */}
+          {/*     > */}
+          {/*       {t("APP.PROGRESS.BATCH.OPEN_UPSCAYLED_FOLDER_TITLE")} */}
+          {/*     </button> */}
+          {/*   </div> */}
+          {/* )} */}
 
-      {/* SHOW SELECTED IMAGE */}
-      {!batchMode && upscaledImagePath.length === 0 && imagePath.length > 0 && (
-        <ImageViewer imagePath={imagePath} setDimensions={setDimensions} />
-      )}
+          {/* DEFAULT PANE INFO */}
+          {showInformationCard && (
+            <div
+              onDrop={handleDrop}
+              onDragOver={handleDragOver}
+              onDragEnter={handleDragEnter}
+              onDragLeave={handleDragLeave}
+              onDoubleClick={
+                batchMode ? selectFolderHandler : selectImageHandler
+              }
+              className="size-full"
+            >
+              <InstructionsCard version={version} batchMode={batchMode} />
+            </div>
+          )}
 
-      {/* BATCH UPSCALE SHOW SELECTED FOLDER */}
-      {batchMode &&
-        upscaledBatchFolderPath.length === 0 &&
-        batchFolderPath.length > 0 && (
-          <p className="select-none text-base-content">
-            <span className="font-bold">
-              {t("APP.PROGRESS.BATCH.SELECTED_FOLDER_TITLE")}
-            </span>{" "}
-            {batchFolderPath}
-          </p>
-        )}
-      {/* BATCH UPSCALE DONE INFO */}
-
-      {batchMode && upscaledBatchFolderPath.length > 0 && (
-        <div className="z-50 flex flex-col items-center">
-          <p className="select-none py-4 font-bold text-base-content">
-            {t("APP.PROGRESS.BATCH.DONE_TITLE")}
-          </p>
-          <button
-            className="bg-gradient-blue btn btn-primary rounded-btn p-3 font-medium text-white/90 transition-colors"
-            onClick={openFolderHandler}
+          <div
+            className={cn({
+              "relative h-full overflow-hidden rounded-3xl border bg-secondary":
+                !batchMode
+                  ? imagePath.length > 0 || upscaledImagePath.length > 0
+                  : batchImagePaths.length > 0,
+            })}
           >
-            {t("APP.PROGRESS.BATCH.OPEN_UPSCAYLED_FOLDER_TITLE")}
-          </button>
+            <ToolBar
+              zoomAmount={zoomAmount}
+              setZoomAmount={setZoomAmount}
+              resetImagePaths={resetImagePaths}
+            />
+
+            {/* BATCH UPSCALE SHOW SELECTED FOLDER */}
+            {selectedBatchImage.length > 0 &&
+              upscaledBatchFolderPath.length === 0 &&
+              batchFolderPath.length > 0 && (
+                <ImageViewer
+                  imagePath={selectedBatchImage}
+                  setDimensions={setDimensions}
+                />
+              )}
+
+            {/* SHOW SELECTED IMAGE */}
+            {!batchMode &&
+              upscaledImagePath.length === 0 &&
+              imagePath.length > 0 && (
+                <ImageViewer
+                  imagePath={imagePath}
+                  setDimensions={setDimensions}
+                />
+              )}
+
+            {/* COMPARISON SLIDER */}
+            {!batchMode &&
+              viewType === "slider" &&
+              imagePath.length > 0 &&
+              upscaledImagePath.length > 0 && (
+                <SliderView
+                  sanitizedImagePath={sanitizedImagePath}
+                  sanitizedUpscaledImagePath={sanitizedUpscaledImagePath}
+                  zoomAmount={zoomAmount}
+                />
+              )}
+
+            {/* BATCH COMPARISON SLIDER */}
+            {batchMode &&
+              viewType === "slider" &&
+              selectedBatchImage.length > 0 &&
+              selectedUpscayldBatchImage.length > 0 && (
+                <SliderView
+                  sanitizedImagePath={sanitizePath(selectedBatchImage)}
+                  sanitizedUpscaledImagePath={sanitizePath(
+                    selectedUpscayldBatchImage,
+                  )}
+                  zoomAmount={zoomAmount}
+                />
+              )}
+
+            {progress.length > 0 &&
+              upscaledImagePath.length === 0 &&
+              upscaledBatchFolderPath.length === 0 && (
+                <ProgressBar
+                  batchMode={batchMode}
+                  progress={progress}
+                  doubleUpscaylCounter={doubleUpscaylCounter}
+                  resetImagePaths={resetImagePaths}
+                />
+              )}
+
+            {!batchMode &&
+              viewType === "lens" &&
+              upscaledImagePath &&
+              imagePath && (
+                <LensViewer
+                  sanitizedImagePath={sanitizedImagePath}
+                  sanitizedUpscaledImagePath={sanitizedUpscaledImagePath}
+                />
+              )}
+
+            {batchMode &&
+              viewType === "lens" &&
+              selectedBatchImage.length > 0 &&
+              selectedUpscayldBatchImage.length > 0 && (
+                <LensViewer
+                  sanitizedImagePath={sanitizePath(selectedBatchImage)}
+                  sanitizedUpscaledImagePath={sanitizePath(
+                    selectedUpscayldBatchImage,
+                  )}
+                />
+              )}
+          </div>
         </div>
-      )}
 
-      {!batchMode && viewType === "lens" && upscaledImagePath && imagePath && (
-        <LensViewer
-          sanitizedImagePath={sanitizedImagePath}
-          sanitizedUpscaledImagePath={sanitizedUpscaledImagePath}
-        />
-      )}
+        {batchFolderPath.length > 0 && batchImagePaths.length > 0 && (
+          <div className="flex w-72 shrink-0 flex-col gap-3 rounded-4xl border bg-accent p-4">
+            <div className="inline-flex items-center justify-between">
+              <p className="text-sm font-medium">
+                Batch Queue {batchImagePaths.length}
+              </p>
+              <Button variant="ghost" onClick={resetBatchFolderPath}>
+                Clear All
+              </Button>
+            </div>
+            <div className="h-full w-full gap-2 space-y-3 overflow-y-auto">
+              {batchImageFiles.map((batch, index) => {
+                return (
+                  <div
+                    key={`${componentId}-${index}`}
+                    aria-disabled={batch.disabled}
+                    onClick={(e) => {
+                      e.preventDefault();
+                      if (batch.disabled || progress.length > 0) return;
 
-      {/* COMPARISON SLIDER */}
-      {!batchMode &&
-        viewType === "slider" &&
-        imagePath.length > 0 &&
-        upscaledImagePath.length > 0 && (
-          <SliderView
-            sanitizedImagePath={sanitizedImagePath}
-            sanitizedUpscaledImagePath={sanitizedUpscaledImagePath}
-            zoomAmount={zoomAmount}
-          />
+                      setSelectedBatchImage(batch.image);
+
+                      if (batch.isUpscayled && batch.upscayledImage) {
+                        setUpscayledSelectedBatchImage(batch.upscayledImage);
+                      }
+                    }}
+                    className={cn(
+                      "group relative aspect-square overflow-hidden rounded-2xl transition-all duration-200 ease-out",
+                      batch.disabled
+                        ? "cursor-not-allowed opacity-40 grayscale"
+                        : "cursor-pointer",
+                    )}
+                  >
+                    {progress.length > 0 && (
+                      <div className="absolute inset-0 flex items-center justify-center bg-black/60">
+                        <LoaderCircle className="animate-spin" />
+                      </div>
+                    )}
+                    <ImageViewer
+                      imagePath={batch.image}
+                      setDimensions={setDimensions}
+                      className="object-cover"
+                    />
+                  </div>
+                );
+              })}
+            </div>
+            {batchMode && upscaledBatchFolderPath.length > 0 && (
+              <div className="flex w-full flex-col items-center justify-center gap-3">
+                <p className="sr-only">{t("APP.PROGRESS.BATCH.DONE_TITLE")}</p>
+                <Button onClick={openFolderHandler} className="w-full">
+                  <FolderOpenIcon />
+                  {t("APP.PROGRESS.BATCH.OPEN_UPSCAYLED_FOLDER_TITLE")}
+                </Button>
+              </div>
+            )}
+          </div>
         )}
+      </div>
     </div>
   );
 };

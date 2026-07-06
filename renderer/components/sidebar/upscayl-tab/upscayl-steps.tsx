@@ -1,5 +1,5 @@
 import { useAtom, useAtomValue } from "jotai";
-import React, { useEffect, useMemo } from "react";
+import React, { useEffect } from "react";
 import { themeChange } from "theme-change";
 import useLogger from "../../hooks/use-logger";
 import {
@@ -73,46 +73,25 @@ function UpscaylSteps({
     themeChange(false);
   }, []);
 
-  const upscaylResolution = useMemo(() => {
-    const newDimensions = {
-      width: dimensions.width,
-      height: dimensions.height,
-    };
-
-    let doubleScale = parseInt(scale) * parseInt(scale);
-    let singleScale = parseInt(scale);
-
-    if (doubleUpscayl) {
-      if (useCustomWidth) {
-        newDimensions.width = customWidth;
-        newDimensions.height = Math.round(
-          customWidth * (dimensions.height / dimensions.width),
-        );
-      } else {
-        const newWidth = dimensions.width * doubleScale;
-        const newHeight = dimensions.height * doubleScale;
-        newDimensions.width = newWidth;
-        newDimensions.height = newHeight;
-      }
-    } else {
-      if (useCustomWidth) {
-        newDimensions.width = customWidth;
-        newDimensions.height = Math.round(
-          customWidth * (dimensions.height / dimensions.width),
-        );
-      } else {
-        newDimensions.width = dimensions.width * singleScale;
-        newDimensions.height = dimensions.height * singleScale;
-      }
-    }
-
-    return newDimensions;
-  }, [dimensions.width, dimensions.height, doubleUpscayl, scale]);
+  // const { upscayl: upscaylResolution } = useUpscaylResolution({
+  //   dimensions,
+  //   customWidth,
+  //   useCustomWidth,
+  //   doubleUpscayl,
+  //   scale,
+  // });
 
   return (
     <div
-      className={`animate-step-in animate flex h-screen flex-col gap-7 overflow-x-hidden overflow-y-auto p-5`}
+      className={`animate-step-in animate flex h-full flex-col gap-7 overflow-x-hidden overflow-y-auto p-5`}
     >
+      <Button
+        variant={batchMode ? "default" : "outline"}
+        onClick={() => setBatchMode((prev) => !prev)}
+      >
+        Batch Mode
+      </Button>
+
       {/* STEP 1 */}
       <div className="animate-step-in">
         <p className="step-heading">
@@ -236,18 +215,18 @@ function UpscaylSteps({
       {/* STEP 4 */}
       <div className="animate-step-in">
         <p className="step-heading">{t("APP.SCALE_SELECTION.TITLE")}</p>
-        {dimensions.width && dimensions.height && (
-          <p className="mb-2 text-sm">
-            {t("APP.SCALE_SELECTION.FROM_TITLE")}
-            <span className="font-bold">
-              {dimensions.width}x{dimensions.height}
-            </span>
-            {t("APP.SCALE_SELECTION.TO_TITLE")}
-            <span className="font-bold">
-              {upscaylResolution.width}x{upscaylResolution.height}
-            </span>
-          </p>
-        )}
+        {/* {dimensions.width && dimensions.height && ( */}
+        {/*   <p className="mb-2 text-sm"> */}
+        {/*     {t("APP.SCALE_SELECTION.FROM_TITLE")} */}
+        {/*     <span className="font-bold"> */}
+        {/*       {dimensions.width}x{dimensions.height} */}
+        {/*     </span> */}
+        {/*     {t("APP.SCALE_SELECTION.TO_TITLE")} */}
+        {/*     <span className="font-bold"> */}
+        {/*       {upscaylResolution.width}x{upscaylResolution.height} */}
+        {/*     </span> */}
+        {/*   </p> */}
+        {/* )} */}
         <button
           className="btn btn-secondary"
           onClick={
