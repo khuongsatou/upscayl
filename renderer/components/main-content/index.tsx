@@ -516,7 +516,7 @@ const MainContent = ({
             className={cn(maximize ? "absolute inset-0 z-10" : "relative", {
               "h-full overflow-hidden rounded-3xl border bg-card": !batchMode
                 ? imagePath.length > 0 || upscaledImagePath.length > 0
-                : batchImagePaths.length > 0,
+                : batchFolderPath.length > 0 && batchImagePaths.length > 0,
             })}
           >
             <ToolBar

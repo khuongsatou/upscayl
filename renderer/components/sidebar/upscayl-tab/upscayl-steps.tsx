@@ -18,6 +18,7 @@ import { SelectImageScale } from "../settings-tab/select-image-scale";
 import SelectModelDialog from "./select-model-dialog";
 import { ImageFormat } from "@/lib/valid-formats";
 import { Button } from "@/components/ui/button";
+import useUpscaylResolution from "@/components/hooks/use-upscayl-resolution";
 import { FolderIcon, UploadIcon } from "lucide-react";
 
 interface IProps {
@@ -85,44 +86,37 @@ function UpscaylSteps({
     <div
       className={`animate-step-in animate flex h-full flex-col gap-7 overflow-x-hidden overflow-y-auto p-5`}
     >
-      <Button
-        variant={batchMode ? "default" : "outline"}
-        onClick={() => setBatchMode((prev) => !prev)}
-      >
-        Batch Mode
-      </Button>
-
       {/* STEP 1 */}
       <div className="animate-step-in">
         <p className="step-heading">
           <span className="flex items-center justify-center rounded-lg bg-foreground/10 px-2 text-sm">
             1
           </span>
-          {t("APP.FILE_SELECTION.TITLE")}
+          {t("APP.FILE_SELECTION.SINGLE_MODE_TYPE")}
         </p>
-        <div className="flex flex-col gap-2">
+        <div className="flex flex-col gap-2 [&_svg]:size-4.5!">
           <Button
-            variant="default"
-            className="btn btn-primary w-full py-8"
-            onClick={!batchMode ? selectImageHandler : selectFolderHandler}
+            className="h-18 gap-2"
+            onClick={selectImageHandler}
+            data-tooltip-id="tooltip"
+            data-tooltip-content={imagePath}
           >
-            <UploadIcon className="mr-2 size-5" strokeWidth={2} />
-            <div className="flex flex-col">
-              {t("APP.FILE_SELECTION.SINGLE_MODE_TYPE")}
-              <span className="text-xs text-muted-foreground">
-                PNG, JPG, WEBP
+            <UploadIcon />
+            <div className="flex flex-col text-start">
+              <span className="font-semibold">
+                {t("APP.FILE_SELECTION.TITLE")}
               </span>
+              <span className="text-primary-foreground/50">PNG, JPG, WEBP</span>
             </div>
+            <p></p>
           </Button>
           <Button
             variant="outline"
-            className="btn btn-primary w-full py-8"
-            onClick={!batchMode ? selectImageHandler : selectFolderHandler}
+            className="h-18 font-semibold"
+            onClick={selectFolderHandler}
           >
-            <FolderIcon className="mr-2 size-5" strokeWidth={2} />
-            <div className="flex flex-col">
-              {t("APP.FILE_SELECTION.BATCH_MODE_TYPE")}
-            </div>
+            <FolderIcon />
+            {t("APP.FILE_SELECTION.BATCH_MODE_TYPE")}
           </Button>
         </div>
       </div>

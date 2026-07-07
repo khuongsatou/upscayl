@@ -1,7 +1,7 @@
 "use client";
 import { useState, useEffect, useRef } from "react";
 import { ELECTRON_COMMANDS } from "@common/electron-commands";
-import { useAtomValue, useSetAtom } from "jotai";
+import { useAtom, useAtomValue, useSetAtom } from "jotai";
 import { customModelIdsAtom } from "./atoms/models-list-atom";
 import {
   batchModeAtom,
@@ -46,7 +46,7 @@ const Home = () => {
   });
   const setOutputPath = useSetAtom(savedOutputPathAtom);
   const rememberOutputFolder = useAtomValue(rememberOutputFolderAtom);
-  const batchMode = useAtomValue(batchModeAtom);
+  const [batchMode, setBatchMode] = useAtom(batchModeAtom);
   const [batchFolderPath, setBatchFolderPath] = useState("");
   const [upscaledBatchFolderPath, setUpscaledBatchFolderPath] = useState("");
   const setProgress = useSetAtom(progressAtom);
@@ -68,6 +68,7 @@ const Home = () => {
       }
     }
     validateImagePath(path);
+    setBatchMode(false);
   };
 
   const selectFolderHandler = async () => {
@@ -79,12 +80,14 @@ const Home = () => {
       if (!rememberOutputFolder) {
         setOutputPath(path);
       }
+      setBatchMode(true);
     } else {
       logit("🚫 Folder selection cancelled");
       setBatchFolderPath("");
       if (!rememberOutputFolder) {
         setOutputPath("");
       }
+      setBatchMode(false);
     }
   };
 
@@ -347,10 +350,10 @@ const Home = () => {
       <div className={cn({ "pl-22": isMac })}>
         <Header version={version} />
       </div>
-      <div className="flex size-full flex-row">
+      <div className="flex size-full min-h-0 flex-row">
         <Sidenav />
 
-        <div className="flex size-full min-h-0 gap-2 p-2">
+        <div className="flex size-full gap-2 p-2">
           <Sidebar
             imagePath={imagePath}
             dimensions={dimensions}
