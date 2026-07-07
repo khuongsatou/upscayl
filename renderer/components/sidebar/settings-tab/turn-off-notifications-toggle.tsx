@@ -1,5 +1,12 @@
 import { translationAtom } from "@/atoms/translations-atom";
 import { turnOffNotificationsAtom } from "@/atoms/user-settings-atom";
+import {
+  Field,
+  FieldContent,
+  FieldLabel,
+  FieldDescription,
+} from "@/components/ui/field";
+import { Switch } from "@/components/ui/switch";
 import { useAtom, useAtomValue } from "jotai";
 
 const TurnOffNotificationsToggle = () => {
@@ -9,22 +16,22 @@ const TurnOffNotificationsToggle = () => {
   const t = useAtomValue(translationAtom);
 
   return (
-    <div className="flex flex-col gap-2">
-      <p className="text-sm font-medium">
-        {t("SETTINGS.TURN_OFF_NOTIFICATIONS.TITLE")}
-      </p>
-      <p className="text-xs text-base-content/80">
-        {t("SETTINGS.TURN_OFF_NOTIFICATIONS.DESCRIPTION")}
-      </p>
-      <input
-        type="checkbox"
-        className="toggle"
+    <Field orientation="horizontal">
+      <FieldContent>
+        <FieldLabel htmlFor="turn-off-notifications-switch">
+          {t("SETTINGS.TURN_OFF_NOTIFICATIONS.TITLE")}
+        </FieldLabel>
+        <FieldDescription>
+          {t("SETTINGS.TURN_OFF_NOTIFICATIONS.DESCRIPTION")}
+        </FieldDescription>
+      </FieldContent>
+
+      <Switch
+        id="turn-off-notifications-switch"
         checked={turnOffNotifications}
-        onClick={() => {
-          setTurnOffNotifications(!turnOffNotifications);
-        }}
+        onCheckedChange={setTurnOffNotifications}
       />
-    </div>
+    </Field>
   );
 };
 

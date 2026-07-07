@@ -1,4 +1,5 @@
 import { translationAtom } from "@/atoms/translations-atom";
+import { Button } from "@/components/ui/button";
 import { useAtomValue } from "jotai";
 
 type ImageFormatSelectProps = {
@@ -15,7 +16,7 @@ export function SelectImageFormat({
   const t = useAtomValue(translationAtom);
 
   return (
-    <div className="flex flex-col gap-2">
+    <div className="inline-flex items-center justify-between gap-2">
       <div className="flex flex-row gap-1">
         <p className="text-sm font-medium">
           {t("SETTINGS.IMAGE_FORMAT.TITLE")}
@@ -25,29 +26,34 @@ export function SelectImageFormat({
         </p> */}
       </div>
       <div className="flex flex-col gap-2">
-        {batchMode && <p className="text-xs text-base-content/80"></p>}
+        {batchMode && <p className="text-base-content/80 text-xs"></p>}
         <div className="flex flex-wrap gap-2">
           {/* PNG */}
-          <button
-            className={`btn ${saveImageAs === "png" && "btn-primary"}`}
+          <Button
+            variant={saveImageAs === "png" ? "default" : "outline"}
+            size="sm"
             onClick={() => setExportType("png")}
           >
             {t("SETTINGS.IMAGE_FORMAT.PNG")}
-          </button>
+          </Button>
+
           {/* JPG */}
-          <button
-            className={`btn ${saveImageAs === "jpg" && "btn-primary"}`}
+          <Button
+            variant={saveImageAs === "jpg" ? "default" : "outline"}
+            size="sm"
             onClick={() => setExportType("jpg")}
           >
             {t("SETTINGS.IMAGE_FORMAT.JPG")}
-          </button>
+          </Button>
+
           {/* WEBP */}
-          <button
-            className={`btn ${saveImageAs === "webp" && "btn-primary"}`}
+          <Button
+            variant={saveImageAs === "webp" ? "default" : "outline"}
+            size="sm"
             onClick={() => setExportType("webp")}
           >
             {t("SETTINGS.IMAGE_FORMAT.WEBP")}
-          </button>
+          </Button>
         </div>
       </div>
     </div>

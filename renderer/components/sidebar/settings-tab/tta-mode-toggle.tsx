@@ -1,26 +1,35 @@
 import { translationAtom } from "@/atoms/translations-atom";
 import { ttaModeAtom } from "@/atoms/user-settings-atom";
+import {
+  Field,
+  FieldContent,
+  FieldLabel,
+  FieldDescription,
+} from "@/components/ui/field";
 import { useAtom, useAtomValue } from "jotai";
+import { Switch } from "@/components/ui/switch";
 
 const TTAModeToggle = () => {
   const [ttaMode, setTTAMode] = useAtom(ttaModeAtom);
   const t = useAtomValue(translationAtom);
 
   return (
-    <div className="flex flex-col gap-2">
-      <p className="text-sm font-medium">{t("SETTINGS.TTA_MODE.TITLE")}</p>
-      <p className="text-xs text-base-content/80">
-        {t("SETTINGS.TTA_MODE.DESCRIPTION")}
-      </p>
-      <input
-        type="checkbox"
-        className="toggle"
+    <Field orientation="horizontal">
+      <FieldContent>
+        <FieldLabel htmlFor="tta-mode-switch">
+          {t("SETTINGS.TTA_MODE.TITLE")}
+        </FieldLabel>
+        <FieldDescription>
+          {t("SETTINGS.TTA_MODE.DESCRIPTION")}
+        </FieldDescription>
+      </FieldContent>
+
+      <Switch
+        id="tta-mode-switch"
         checked={ttaMode}
-        onClick={() => {
-          setTTAMode(!ttaMode);
-        }}
+        onCheckedChange={setTTAMode}
       />
-    </div>
+    </Field>
   );
 };
 

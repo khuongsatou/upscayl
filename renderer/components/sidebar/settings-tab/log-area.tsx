@@ -1,4 +1,5 @@
 import { translationAtom } from "@/atoms/translations-atom";
+import { Button } from "@/components/ui/button";
 import { useAtomValue } from "jotai";
 import React, { useEffect } from "react";
 
@@ -24,18 +25,18 @@ export function LogArea({
 
   return (
     <div className="relative flex flex-col gap-2">
-      <div className="flex items-center gap-2">
+      <div className="flex items-center justify-between gap-2">
         <p className="text-sm font-medium">LOGS</p>
-        <button className="btn btn-primary btn-xs" onClick={copyOnClickHandler}>
+        <Button size="xs" onClick={copyOnClickHandler}>
           {isCopied ? (
             <span>{t("SETTINGS.LOG_AREA.ON_COPY")}</span>
           ) : (
             <span>{t("SETTINGS.LOG_AREA.BUTTON_TITLE")}</span>
           )}
-        </button>
+        </Button>
       </div>
       <code
-        className="relative flex h-52 max-h-52 flex-col gap-3 overflow-y-auto break-all rounded-btn rounded-r-none bg-base-200 p-4 text-xs"
+        className="relative flex h-52 max-h-52 flex-col gap-3 overflow-y-auto rounded-3xl border bg-secondary p-4 text-xs break-all"
         ref={ref}
       >
         {logData.length === 0 && (

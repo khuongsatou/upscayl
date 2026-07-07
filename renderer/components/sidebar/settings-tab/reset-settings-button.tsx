@@ -1,4 +1,6 @@
 import { translationAtom } from "@/atoms/translations-atom";
+import { Button } from "@/components/ui/button";
+import { Field, FieldLabel } from "@/components/ui/field";
 import { useAtomValue } from "jotai";
 import React from "react";
 
@@ -9,21 +11,20 @@ export function ResetSettingsButton({
 }) {
   const t = useAtomValue(translationAtom);
   return (
-    <div className="flex flex-col items-start gap-2">
+    <Field orientation="horizontal">
       {!hideLabel && (
-        <p className="text-sm font-medium">
-          {t("SETTINGS.RESET_SETTINGS.BUTTON_TITLE")}
-        </p>
+        <FieldLabel>{t("SETTINGS.RESET_SETTINGS.BUTTON_TITLE")}</FieldLabel>
       )}
-      <button
-        className="btn btn-primary"
-        onClick={async () => {
+
+      <Button
+        className="max-w-50"
+        onClick={() => {
           localStorage.clear();
           alert(t("SETTINGS.RESET_SETTINGS.ALERT"));
         }}
       >
         {t("SETTINGS.RESET_SETTINGS.BUTTON_TITLE")}
-      </button>
-    </div>
+      </Button>
+    </Field>
   );
 }

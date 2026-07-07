@@ -35,6 +35,7 @@ import Footer from "../footer";
 import { logAtom } from "@/atoms/log-atom";
 import { ELECTRON_COMMANDS } from "@common/electron-commands";
 import useTranslation from "../hooks/use-translation";
+import SettingsDialog from "./settings-dialog";
 
 const Sidebar = ({
   setUpscaledImagePath,
@@ -203,21 +204,19 @@ const Sidebar = ({
         />
       )}
 
-      {selectedTab === 1 && (
-        <SettingsTab
-          batchMode={batchMode}
-          compression={compression}
-          setCompression={setCompression}
-          gpuId={gpuId}
-          setGpuId={setGpuId}
-          saveImageAs={saveImageAs}
-          setSaveImageAs={setSaveImageAs}
-          logData={logData}
-          show={showCloudModal}
-          setShow={setShowCloudModal}
-          setDontShowCloudModal={setDontShowCloudModal}
-        />
-      )}
+      <SettingsTab
+        batchMode={batchMode}
+        compression={compression}
+        setCompression={setCompression}
+        gpuId={gpuId}
+        setGpuId={setGpuId}
+        saveImageAs={saveImageAs}
+        setSaveImageAs={setSaveImageAs}
+        logData={logData}
+        show={showCloudModal}
+        setShow={setShowCloudModal}
+        setDontShowCloudModal={setDontShowCloudModal}
+      />
       <Footer />
     </div>
   );

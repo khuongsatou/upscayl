@@ -2,6 +2,13 @@ import React from "react";
 import { ELECTRON_COMMANDS } from "@common/electron-commands";
 import { useAtomValue } from "jotai";
 import { translationAtom } from "@/atoms/translations-atom";
+import { Button } from "@/components/ui/button";
+import {
+  Field,
+  FieldLabel,
+  FieldDescription,
+  FieldContent,
+} from "@/components/ui/field";
 
 type CustomModelsFolderSelectProps = {
   customModelsPath: string;
@@ -15,21 +22,25 @@ export function CustomModelsFolderSelect({
   const t = useAtomValue(translationAtom);
 
   return (
-    <div className="flex flex-col items-start gap-2">
-      <p className="text-sm font-medium">{t("SETTINGS.CUSTOM_MODELS.TITLE")}</p>
-      <p className="text-xs text-base-content/80">
-        {t("SETTINGS.CUSTOM_MODELS.DESCRIPTION")}{" "}
-        <a
-          href="https://github.com/upscayl/custom-models/blob/main/README.md"
-          className="link uppercase underline"
-          target="_blank"
-        >
-          {t("SETTINGS.CUSTOM_MODELS.LINK_TITLE")}
-        </a>
-      </p>
-      <p className="text-sm text-base-content/60">{customModelsPath}</p>
-      <button
-        className="btn btn-primary"
+    <Field orientation="horizontal">
+      <FieldContent>
+        <FieldLabel>{t("SETTINGS.CUSTOM_MODELS.TITLE")}</FieldLabel>
+
+        <FieldDescription>
+          {t("SETTINGS.CUSTOM_MODELS.DESCRIPTION")}{" "}
+          <a
+            href="https://github.com/upscayl/custom-models/blob/main/README.md"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="underline"
+          >
+            {t("SETTINGS.CUSTOM_MODELS.LINK_TITLE")}
+          </a>
+          <p className="text-sm text-muted-foreground">{customModelsPath}</p>
+        </FieldDescription>
+      </FieldContent>
+
+      <Button
         onClick={async () => {
           const customModelPath = await window.electron.invoke(
             ELECTRON_COMMANDS.SELECT_CUSTOM_MODEL_FOLDER,
@@ -47,7 +58,7 @@ export function CustomModelsFolderSelect({
         }}
       >
         {t("SETTINGS.CUSTOM_MODELS.BUTTON_FOLDER")}
-      </button>
-    </div>
+      </Button>
+    </Field>
   );
 }

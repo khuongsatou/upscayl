@@ -1,39 +1,39 @@
-import SelectTheme from "./select-theme";
-import { SaveOutputFolderToggle } from "./save-output-folder-toggle";
-import { InputGpuId } from "./input-gpu-id";
-import { CustomModelsFolderSelect } from "./select-custom-models-folder";
-import { LogArea } from "./log-area";
-import { SelectImageScale } from "./select-image-scale";
-import { SelectImageFormat } from "./select-image-format";
-import { DonateButton } from "./donate-button";
-import React, { useState } from "react";
-import { useAtom, useAtomValue } from "jotai";
-import { customModelsPathAtom, scaleAtom } from "@/atoms/user-settings-atom";
-import { InputCompression } from "./input-compression";
-import OverwriteToggle from "./overwrite-toggle";
-import { UpscaylCloudModal } from "@/components/upscayl-cloud-modal";
-import { ResetSettingsButton } from "./reset-settings-button";
-import { FEATURE_FLAGS } from "@common/feature-flags";
-import TurnOffNotificationsToggle from "./turn-off-notifications-toggle";
-import { cn } from "@/lib/utils";
-import { InputCustomResolution } from "./input-custom-resolution";
-import { InputTileSize } from "./input-tile-size";
-import LanguageSwitcher from "./language-switcher";
 import { translationAtom } from "@/atoms/translations-atom";
+import { customModelsPathAtom, scaleAtom } from "@/atoms/user-settings-atom";
+import { cn } from "@/lib/utils";
 import { ImageFormat } from "@/lib/valid-formats";
-import EnableContributionToggle from "./enable-contributions-toggle";
-import AutoUpdateToggle from "./auto-update-toggle";
-import TTAModeToggle from "./tta-mode-toggle";
-import SystemInfo from "./system-info";
-import CopyMetadataToggle from "./copy-metadata-toggle";
+import { FEATURE_FLAGS } from "@common/feature-flags";
+import { useAtom, useAtomValue } from "jotai";
+import { useState } from "react";
+import { UpscaylCloudModal } from "../upscayl-cloud-modal";
+import AutoUpdateToggle from "./settings-tab/auto-update-toggle";
+import CopyMetadataToggle from "./settings-tab/copy-metadata-toggle";
+import { DonateButton } from "./settings-tab/donate-button";
+import EnableContributionToggle from "./settings-tab/enable-contributions-toggle";
+import { InputCompression } from "./settings-tab/input-compression";
+import { InputCustomResolution } from "./settings-tab/input-custom-resolution";
+import { InputGpuId } from "./settings-tab/input-gpu-id";
+import { InputTileSize } from "./settings-tab/input-tile-size";
+import LanguageSwitcher from "./settings-tab/language-switcher";
+import { LogArea } from "./settings-tab/log-area";
+import OverwriteToggle from "./settings-tab/overwrite-toggle";
+import { ResetSettingsButton } from "./settings-tab/reset-settings-button";
+import { SaveOutputFolderToggle } from "./settings-tab/save-output-folder-toggle";
+import { CustomModelsFolderSelect } from "./settings-tab/select-custom-models-folder";
+import { SelectImageFormat } from "./settings-tab/select-image-format";
+import { SelectImageScale } from "./settings-tab/select-image-scale";
+import SelectTheme from "./settings-tab/select-theme";
+import SystemInfo from "./settings-tab/system-info";
+import TTAModeToggle from "./settings-tab/tta-mode-toggle";
+import TurnOffNotificationsToggle from "./settings-tab/turn-off-notifications-toggle";
 import {
   Dialog,
   DialogContent,
   DialogHeader,
   DialogTitle,
-} from "@/components/ui/dialog";
-import { Button } from "@/components/ui/button";
-import { showSettingsDialogAtom } from "@/atoms/toggle-settings";
+  DialogTrigger,
+} from "../ui/dialog";
+import { Button } from "../ui/button";
 
 interface IProps {
   batchMode: boolean;
@@ -49,7 +49,7 @@ interface IProps {
   setDontShowCloudModal: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-function SettingsTab({
+export default function SettingsDialog({
   batchMode,
   compression,
   setCompression,
@@ -68,7 +68,6 @@ function SettingsTab({
   const [scale, setScale] = useAtom(scaleAtom);
   const [enableScrollbar, setEnableScrollbar] = useState(true);
   const [timeoutId, setTimeoutId] = useState(null);
-  const [showSettings, setShowSettings] = useAtom(showSettingsDialogAtom);
   const t = useAtomValue(translationAtom);
 
   // HANDLERS
@@ -76,8 +75,8 @@ function SettingsTab({
     setSaveImageAs(format);
   };
 
-  const handleCompressionChange = (value) => {
-    setCompression(value);
+  const handleCompressionChange = (e) => {
+    setCompression(e.target.value);
   };
 
   const handleGpuIdChange = (e) => {
@@ -137,15 +136,16 @@ function SettingsTab({
   }
 
   return (
-    <Dialog open={showSettings} onOpenChange={setShowSettings}>
+    <Dialog>
+      <DialogTrigger>Open</DialogTrigger>
       <DialogContent className="md:max-h-125 md:max-w-175 lg:max-w-200">
         <DialogHeader className="h-8 border-b">
-          <DialogTitle>{t("SETTINGS.TITLE")}</DialogTitle>
+          <DialogTitle>Settings</DialogTitle>
         </DialogHeader>
         <div className="h-100 overflow-hidden">
           <div
             className={cn(
-              "animate-step-in animate z-50 flex h-full flex-col gap-5 overflow-x-hidden pr-4",
+              "animate-step-in animate z-50 flex h-full flex-col gap-7 overflow-x-hidden",
               enableScrollbar ? "" : "hide-scrollbar",
             )}
             onScroll={() => {
@@ -156,19 +156,12 @@ function SettingsTab({
             }}
           >
             <div className="flex flex-col gap-2 text-sm font-medium uppercase">
-              <div className="inline-flex items-center justify-between">
-                <p>{t("SETTINGS.SUPPORT.TITLE")}</p>
-                <Button
-                  variant="outline"
-                  size="sm"
-                  className="min-w-28"
-                  asChild
-                >
-                  <a href="https://docs.upscayl.org/" target="_blank">
-                    {t("SETTINGS.SUPPORT.DOCS_BUTTON_TITLE")}
-                  </a>
-                </Button>
-              </div>
+              <p>{t("SETTINGS.SUPPORT.TITLE")}</p>
+              <Button variant="outline" size="sm" asChild>
+                <a href="https://docs.upscayl.org/" target="_blank">
+                  {t("SETTINGS.SUPPORT.DOCS_BUTTON_TITLE")}
+                </a>
+              </Button>
               {FEATURE_FLAGS.APP_STORE_BUILD && (
                 <button
                   className="btn btn-primary"
@@ -184,14 +177,13 @@ function SettingsTab({
               )}
               {!FEATURE_FLAGS.APP_STORE_BUILD && <DonateButton />}
             </div>
-            <hr />
+
             <LogArea
               copyOnClickHandler={copyOnClickHandler}
               isCopied={isCopied}
               logData={logData}
             />
 
-            <hr />
             {/* THEME SELECTOR */}
             <SelectTheme />
 
@@ -240,12 +232,8 @@ function SettingsTab({
 
             <TTAModeToggle />
 
-            <hr />
-
             {/* RESET SETTINGS */}
             <ResetSettingsButton />
-
-            <hr />
 
             {FEATURE_FLAGS.SHOW_UPSCAYL_CLOUD_INFO && (
               <>
@@ -273,5 +261,3 @@ function SettingsTab({
     </Dialog>
   );
 }
-
-export default SettingsTab;

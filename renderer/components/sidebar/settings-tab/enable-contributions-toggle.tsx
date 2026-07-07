@@ -1,5 +1,12 @@
 import { translationAtom } from "@/atoms/translations-atom";
 import { enableContributionAtom } from "@/atoms/user-settings-atom";
+import {
+  Field,
+  FieldContent,
+  FieldLabel,
+  FieldDescription,
+} from "@/components/ui/field";
+import { Switch } from "@/components/ui/switch";
 import { useAtom, useAtomValue } from "jotai";
 
 const EnableContributionToggle = () => {
@@ -9,22 +16,22 @@ const EnableContributionToggle = () => {
   const t = useAtomValue(translationAtom);
 
   return (
-    <div className="flex flex-col gap-2">
-      <p className="text-sm font-medium">
-        {t("SETTINGS.ENABLE_CONTRIBUTION.TITLE")}
-      </p>
-      <p className="text-xs text-base-content/80">
-        {t("SETTINGS.ENABLE_CONTRIBUTION.DESCRIPTION")}
-      </p>
-      <input
-        type="checkbox"
-        className="toggle"
+    <Field orientation="horizontal">
+      <FieldContent>
+        <FieldLabel htmlFor="enable-contribution-switch">
+          {t("SETTINGS.ENABLE_CONTRIBUTION.TITLE")}
+        </FieldLabel>
+        <FieldDescription>
+          {t("SETTINGS.ENABLE_CONTRIBUTION.DESCRIPTION")}
+        </FieldDescription>
+      </FieldContent>
+
+      <Switch
+        id="enable-contribution-switch"
         checked={enableContribution}
-        onClick={() => {
-          setEnableContribution((prev) => !prev);
-        }}
+        onCheckedChange={setEnableContribution}
       />
-    </div>
+    </Field>
   );
 };
 
