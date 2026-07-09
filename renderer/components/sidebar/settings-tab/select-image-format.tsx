@@ -6,14 +6,53 @@ type ImageFormatSelectProps = {
   batchMode: boolean;
   saveImageAs: string;
   setExportType: (arg: string) => void;
+  hideLabel?: boolean;
 };
 
 export function SelectImageFormat({
   batchMode,
   saveImageAs,
   setExportType,
+  hideLabel,
 }: ImageFormatSelectProps) {
   const t = useAtomValue(translationAtom);
+
+  const renderButtons = (
+    <>
+      <Button
+        variant={saveImageAs === "png" ? "default" : "outline"}
+        size="sm"
+        className="rounded-lg"
+        onClick={() => setExportType("png")}
+      >
+        {t("SETTINGS.IMAGE_FORMAT.PNG")}
+      </Button>
+
+      {/* JPG */}
+      <Button
+        variant={saveImageAs === "jpg" ? "default" : "outline"}
+        size="sm"
+        className="rounded-lg"
+        onClick={() => setExportType("jpg")}
+      >
+        {t("SETTINGS.IMAGE_FORMAT.JPG")}
+      </Button>
+
+      {/* WEBP */}
+      <Button
+        variant={saveImageAs === "webp" ? "default" : "outline"}
+        size="sm"
+        className="rounded-lg"
+        onClick={() => setExportType("webp")}
+      >
+        {t("SETTINGS.IMAGE_FORMAT.WEBP")}
+      </Button>
+    </>
+  );
+
+  if (hideLabel) {
+    return <div className="flex flex-wrap gap-1">{renderButtons}</div>;
+  }
 
   return (
     <div className="inline-flex items-center justify-between gap-2">
@@ -27,34 +66,7 @@ export function SelectImageFormat({
       </div>
       <div className="flex flex-col gap-2">
         {batchMode && <p className="text-base-content/80 text-xs"></p>}
-        <div className="flex flex-wrap gap-2">
-          {/* PNG */}
-          <Button
-            variant={saveImageAs === "png" ? "default" : "outline"}
-            size="sm"
-            onClick={() => setExportType("png")}
-          >
-            {t("SETTINGS.IMAGE_FORMAT.PNG")}
-          </Button>
-
-          {/* JPG */}
-          <Button
-            variant={saveImageAs === "jpg" ? "default" : "outline"}
-            size="sm"
-            onClick={() => setExportType("jpg")}
-          >
-            {t("SETTINGS.IMAGE_FORMAT.JPG")}
-          </Button>
-
-          {/* WEBP */}
-          <Button
-            variant={saveImageAs === "webp" ? "default" : "outline"}
-            size="sm"
-            onClick={() => setExportType("webp")}
-          >
-            {t("SETTINGS.IMAGE_FORMAT.WEBP")}
-          </Button>
-        </div>
+        <div className="flex flex-wrap gap-1">{renderButtons}</div>
       </div>
     </div>
   );

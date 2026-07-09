@@ -35,7 +35,6 @@ import Footer from "../footer";
 import { logAtom } from "@/atoms/log-atom";
 import { ELECTRON_COMMANDS } from "@common/electron-commands";
 import useTranslation from "../hooks/use-translation";
-import SettingsDialog from "./settings-dialog";
 
 const Sidebar = ({
   setUpscaledImagePath,

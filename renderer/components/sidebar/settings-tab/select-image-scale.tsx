@@ -18,7 +18,7 @@ export function SelectImageScale({
   const t = useAtomValue(translationAtom);
 
   return (
-    <div className={`${useCustomWidth && "opacity-50"}`}>
+    <div className={` ${useCustomWidth && "opacity-50"}`}>
       <div className="flex flex-row items-center gap-2">
         {hideInfo ? (
           <>
@@ -72,7 +72,7 @@ export function SelectImageScale({
           setScale(value.toString());
         }}
         disabled={useCustomWidth}
-        className="mt-2 w-full max-w-52"
+        className="mt-3 w-full"
       />
     </div>
   );

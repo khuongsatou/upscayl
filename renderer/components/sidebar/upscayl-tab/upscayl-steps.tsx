@@ -9,6 +9,7 @@ import {
   scaleAtom,
   customWidthAtom,
   useCustomWidthAtom,
+  saveImageAsAtom,
 } from "../../../atoms/user-settings-atom";
 import { FEATURE_FLAGS } from "@common/feature-flags";
 import { ELECTRON_COMMANDS } from "@common/electron-commands";
@@ -19,7 +20,18 @@ import SelectModelDialog from "./select-model-dialog";
 import { ImageFormat } from "@/lib/valid-formats";
 import { Button } from "@/components/ui/button";
 import useUpscaylResolution from "@/components/hooks/use-upscayl-resolution";
-import { FolderIcon, UploadIcon } from "lucide-react";
+import { FolderIcon, SparklesIcon, UploadIcon } from "lucide-react";
+import { Badge } from "@/components/ui/badge";
+import { SelectImageFormat } from "../settings-tab/select-image-format";
+import {
+  Field,
+  FieldContent,
+  FieldDescription,
+  FieldGroup,
+  FieldLabel,
+  FieldTitle,
+} from "@/components/ui/field";
+import { Switch } from "@/components/ui/switch";
 
 interface IProps {
   selectImageHandler: () => Promise<void>;
@@ -52,6 +64,7 @@ function UpscaylSteps({
   const [scale, setScale] = useAtom(scaleAtom);
   const [outputPath, setOutputPath] = useAtom(savedOutputPathAtom);
   const [progress, setProgress] = useAtom(progressAtom);
+  const [saveImageAs, setSaveImageAs] = useAtom(saveImageAsAtom);
   const rememberOutputFolder = useAtomValue(rememberOutputFolderAtom);
   const customWidth = useAtomValue(customWidthAtom);
   const useCustomWidth = useAtomValue(useCustomWidthAtom);
@@ -59,6 +72,11 @@ function UpscaylSteps({
   const logit = useLogger();
   const { toast } = useToast();
   const t = useAtomValue(translationAtom);
+
+  // HANDLERS
+  const setExportType = (format: ImageFormat) => {
+    setSaveImageAs(format);
+  };
 
   const outputHandler = async () => {
     const path = await window.electron.invoke(ELECTRON_COMMANDS.SELECT_FOLDER);
@@ -83,20 +101,18 @@ function UpscaylSteps({
   // });
 
   return (
-    <div
-      className={`animate-step-in animate flex h-full flex-col gap-7 overflow-x-hidden overflow-y-auto p-5`}
-    >
+    <div className="animate-step-in animate flex h-full max-w-[320px] flex-col gap-7 overflow-x-hidden overflow-y-auto p-5">
       {/* STEP 1 */}
       <div className="animate-step-in">
-        <p className="step-heading">
-          <span className="flex items-center justify-center rounded-lg bg-foreground/10 px-2 text-sm">
-            1
+        <div className="step-heading flex flex-col text-sm">
+          <span className="flex items-center justify-center self-start rounded-lg bg-foreground/10 px-2 text-sm font-medium">
+            Step 1
           </span>
-          {t("APP.FILE_SELECTION.SINGLE_MODE_TYPE")}
-        </p>
+          <p>{t("APP.FILE_SELECTION.SINGLE_MODE_TYPE")}</p>
+        </div>
         <div className="flex flex-col gap-2 [&_svg]:size-4.5!">
           <Button
-            className="h-18 gap-2"
+            className="h-16 gap-2"
             onClick={selectImageHandler}
             data-tooltip-id="tooltip"
             data-tooltip-content={imagePath}
@@ -112,7 +128,7 @@ function UpscaylSteps({
           </Button>
           <Button
             variant="outline"
-            className="h-18 font-semibold"
+            className="h-16 font-semibold"
             onClick={selectFolderHandler}
           >
             <FolderIcon />
@@ -123,52 +139,61 @@ function UpscaylSteps({
 
       {/* STEP 2 */}
       <div className="animate-step-in group flex flex-col gap-4">
-        <div>
-          <p className="step-heading">{t("APP.MODEL_SELECTION.TITLE")}</p>
-          <p className="mb-2 text-sm">{t("APP.MODEL_SELECTION.DESCRIPTION")}</p>
+        <div className="flex flex-col gap-1 text-sm">
+          <p className="flex items-center justify-center self-start rounded-lg bg-foreground/10 px-2 text-sm font-medium">
+            {t("APP.MODEL_SELECTION.TITLE")}
+          </p>
+          <p>{t("APP.MODEL_SELECTION.DESCRIPTION")}</p>
 
           <SelectModelDialog />
         </div>
 
         {!batchMode && (
-          <div className="flex items-center gap-1">
-            <input
-              type="checkbox"
-              className="checkbox"
-              checked={doubleUpscayl}
-              onChange={(e) => {
-                if (e.target.checked) {
-                  setDoubleUpscayl(true);
-                } else {
-                  setDoubleUpscayl(false);
-                }
-              }}
-            />
-            <p
-              className="cursor-pointer text-sm"
-              onClick={(e) => {
-                setDoubleUpscayl((prev) => !prev);
-              }}
-            >
-              {t("APP.DOUBLE_UPSCAYL.TITLE")}
-            </p>
-            <button
-              className="badge badge-neutral badge-sm cursor-help"
-              data-tooltip-id="tooltip"
-              data-tooltip-content={t("APP.DOUBLE_UPSCAYL.DESCRIPTION")}
-            >
-              ?
-            </button>
-          </div>
+          <FieldGroup>
+            <FieldLabel htmlFor="double-upscayl-toggle">
+              <Field orientation="horizontal">
+                <FieldContent
+                  data-tooltip-id="tooltip"
+                  data-tooltip-content={t("APP.DOUBLE_UPSCAYL.DESCRIPTION")}
+                >
+                  <FieldTitle>{t("APP.DOUBLE_UPSCAYL.TITLE")}</FieldTitle>
+                  <FieldDescription className="line-clamp-2 max-w-58">
+                    {t("APP.DOUBLE_UPSCAYL.DESCRIPTION")}
+                  </FieldDescription>
+                </FieldContent>
+                <Switch
+                  id="double-upscayl-toggle"
+                  checked={doubleUpscayl}
+                  onCheckedChange={(isChecked) => {
+                    if (isChecked) setDoubleUpscayl(true);
+                    else setDoubleUpscayl(false);
+                  }}
+                />
+              </Field>
+            </FieldLabel>
+          </FieldGroup>
         )}
 
         <SelectImageScale scale={scale} setScale={setScale} hideInfo />
+
+        {/* IMAGE FORMAT BUTTONS */}
+        <div className="space-y-1">
+          <p className="capitalize">
+            {t("SETTINGS.IMAGE_FORMAT.TITLE").toLowerCase()}
+          </p>
+          <SelectImageFormat
+            batchMode={batchMode}
+            saveImageAs={saveImageAs}
+            setExportType={setExportType}
+            hideLabel
+          />
+        </div>
       </div>
       {/* STEP 3 */}
       <div className="animate-step-in">
         <div className="flex flex-col pb-2">
           <div className="step-heading flex items-center gap-2">
-            <span className="leading-none">
+            <span className="flex items-center justify-center self-start rounded-lg bg-foreground/10 px-2 text-sm font-medium">
               {t("APP.OUTPUT_PATH_SELECTION.TITLE")}
             </span>
             {FEATURE_FLAGS.APP_STORE_BUILD && (
@@ -197,18 +222,19 @@ function UpscaylSteps({
               : t("APP.OUTPUT_PATH_SELECTION.DEFAULT_FOLDER_PATH")}
           </p>
         )}
-        <button
-          className="btn btn-primary"
+        <Button
+          variant="outline"
+          className="w-full justify-start rounded-xl"
           data-tooltip-content={outputPath}
           data-tooltip-id="tooltip"
           onClick={outputHandler}
         >
           {t("APP.OUTPUT_PATH_SELECTION.BUTTON_TITLE")}
-        </button>
+        </Button>
       </div>
       {/* STEP 4 */}
-      <div className="animate-step-in">
-        <p className="step-heading">{t("APP.SCALE_SELECTION.TITLE")}</p>
+      <div className="animate-step-in flex h-full items-end">
+        <p className="step-heading sr-only">{t("APP.SCALE_SELECTION.TITLE")}</p>
         {/* {dimensions.width && dimensions.height && ( */}
         {/*   <p className="mb-2 text-sm"> */}
         {/*     {t("APP.SCALE_SELECTION.FROM_TITLE")} */}
@@ -221,8 +247,8 @@ function UpscaylSteps({
         {/*     </span> */}
         {/*   </p> */}
         {/* )} */}
-        <button
-          className="btn btn-secondary"
+        <Button
+          className="h-14 w-full bg-linear-to-r bg-[linear-gradient(120deg,#fde68a_20%,#f472b6,#a78bfa,#bae6fd)]"
           onClick={
             progress.length > 0 || !outputPath
               ? () =>
@@ -237,7 +263,7 @@ function UpscaylSteps({
           {progress.length > 0
             ? t("APP.SCALE_SELECTION.IN_PROGRESS_BUTTON_TITLE")
             : t("APP.SCALE_SELECTION.START_BUTTON_TITLE")}
-        </button>
+        </Button>
       </div>
     </div>
   );
