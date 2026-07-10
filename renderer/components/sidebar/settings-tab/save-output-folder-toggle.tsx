@@ -3,6 +3,13 @@ import {
   savedOutputPathAtom,
   rememberOutputFolderAtom,
 } from "@/atoms/user-settings-atom";
+import {
+  Field,
+  FieldContent,
+  FieldDescription,
+  FieldLabel,
+} from "@/components/ui/field";
+import { Switch } from "@/components/ui/switch";
 import { useAtom, useAtomValue } from "jotai";
 
 export function SaveOutputFolderToggle() {
@@ -13,20 +20,22 @@ export function SaveOutputFolderToggle() {
   const t = useAtomValue(translationAtom);
 
   return (
-    <div className="flex flex-col gap-2">
-      <p className="text-sm font-medium">
-        {t("SETTINGS.SAVE_OUTPUT_FOLDER.TITLE")}
-      </p>
-      <p className="text-xs text-base-content/80">
-        {t("SETTINGS.SAVE_OUTPUT_FOLDER.DESCRIPTION")}
-      </p>
+    <Field orientation="horizontal">
+      <FieldContent>
+        <FieldLabel htmlFor="save-outputfolder-toggle">
+          {t("SETTINGS.SAVE_OUTPUT_FOLDER.TITLE")}
+        </FieldLabel>
+        <FieldDescription>
+          <span>{t("SETTINGS.SAVE_OUTPUT_FOLDER.DESCRIPTION")}</span>
+          <span>{outputPath}</span>
+        </FieldDescription>
+      </FieldContent>
 
-      <p className="font-mono text-sm">{outputPath}</p>
-      <input
-        type="checkbox"
-        className="toggle"
+      {/* <p className="font-mono text-sm">{outputPath}</p> */}
+      <Switch
+        id="save-outputfolder-toggle"
         checked={rememberOutputFolder}
-        onClick={() => {
+        onCheckedChange={() => {
           setRememberOutputFolder((oldValue) => {
             if (oldValue === true) {
               setOutputPath("");
@@ -39,6 +48,6 @@ export function SaveOutputFolderToggle() {
           );
         }}
       />
-    </div>
+    </Field>
   );
 }

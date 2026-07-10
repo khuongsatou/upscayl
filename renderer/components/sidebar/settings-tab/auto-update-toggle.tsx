@@ -1,5 +1,12 @@
 import { translationAtom } from "@/atoms/translations-atom";
 import { autoUpdateAtom } from "@/atoms/user-settings-atom";
+import {
+  Field,
+  FieldContent,
+  FieldLabel,
+  FieldDescription,
+} from "@/components/ui/field";
+import { Switch } from "@/components/ui/switch";
 import { useAtom, useAtomValue } from "jotai";
 
 const AutoUpdateToggle = () => {
@@ -7,20 +14,22 @@ const AutoUpdateToggle = () => {
   const t = useAtomValue(translationAtom);
 
   return (
-    <div className="flex flex-col gap-2">
-      <p className="text-sm font-medium">{t("SETTINGS.AUTO_UPDATE.TITLE")}</p>
-      <p className="text-xs text-base-content/80">
-        {t("SETTINGS.AUTO_UPDATE.DESCRIPTION")}
-      </p>
-      <input
-        type="checkbox"
-        className="toggle"
+    <Field orientation="horizontal">
+      <FieldContent>
+        <FieldLabel htmlFor="auto-update-switch">
+          {t("SETTINGS.AUTO_UPDATE.TITLE")}
+        </FieldLabel>
+        <FieldDescription>
+          {t("SETTINGS.AUTO_UPDATE.DESCRIPTION")}
+        </FieldDescription>
+      </FieldContent>
+
+      <Switch
+        id="auto-update-switch"
         checked={autoUpdate}
-        onClick={() => {
-          setAutoUpdate((prev) => !prev);
-        }}
+        onCheckedChange={setAutoUpdate}
       />
-    </div>
+    </Field>
   );
 };
 

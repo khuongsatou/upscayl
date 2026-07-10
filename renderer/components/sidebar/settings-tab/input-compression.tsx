@@ -1,4 +1,11 @@
 import { translationAtom } from "@/atoms/translations-atom";
+import {
+  Field,
+  FieldContent,
+  FieldDescription,
+  FieldLabel,
+} from "@/components/ui/field";
+import { Slider } from "@/components/ui/slider";
 import { useAtomValue } from "jotai";
 
 type CompressionInputProps = {
@@ -13,28 +20,27 @@ export function InputCompression({
   const t = useAtomValue(translationAtom);
 
   return (
-    <div className="flex flex-col gap-2">
-      <div className="flex gap-1 text-sm font-medium uppercase">
-        <p className="shrink-0">
+    <Field orientation="horizontal">
+      <FieldContent className="flex gap-1 text-sm font-medium uppercase">
+        <FieldLabel htmlFor="image-compression-slider">
           {t("SETTINGS.IMAGE_COMPRESSION.TITLE", {
             compression: compression.toString(),
           })}
-        </p>
-      </div>
-      {compression > 0 && (
-        <p className="text-xs text-base-content/80">
-          {t("SETTINGS.IMAGE_COMPRESSION.DESCRIPTION")}
-        </p>
-      )}
-      <input
-        type="range"
-        placeholder="Type here"
-        className="range range-primary w-full max-w-xs"
+        </FieldLabel>
+        {compression > 0 && (
+          <FieldDescription className="max-w-11/12 capitalize">
+            {t("SETTINGS.IMAGE_COMPRESSION.DESCRIPTION")}
+          </FieldDescription>
+        )}
+      </FieldContent>
+      <Slider
+        id="image-compression-slider"
         min={0}
         max={100}
-        value={compression}
-        onChange={handleCompressionChange}
+        value={[Number(compression)]}
+        onValueChange={([value]) => handleCompressionChange(value)}
+        className="mt-2 w-full max-w-52"
       />
-    </div>
+    </Field>
   );
 }

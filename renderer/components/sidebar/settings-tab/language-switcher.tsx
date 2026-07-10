@@ -1,4 +1,11 @@
 import { localeAtom, translationAtom } from "@/atoms/translations-atom";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { useAtom, useAtomValue, useSetAtom } from "jotai";
 
 const locales = {
@@ -27,26 +34,28 @@ const LanguageSwitcher = ({ hideLabel = false }: { hideLabel?: boolean }) => {
 
   return (
     <div>
-      <div className="flex flex-col gap-2">
+      <div className="flex items-center justify-between gap-2">
         {!hideLabel && (
           <p className="text-sm font-medium">{t("SETTINGS.LANGUAGE.TITLE")}</p>
         )}
-        <select
-          className="select select-primary"
+        <Select
           value={locale}
-          onChange={(e) => setLocale(e.target.value as keyof typeof locales)}
+          onValueChange={(value) => setLocale(value as keyof typeof locales)}
         >
-          {Object.entries(locales)
-            .sort(([, a], [, b]) => a.localeCompare(b))
-            .map((entry) => {
-              const [locale, label] = entry;
-              return (
-                <option value={locale} key={locale}>
-                  {label.toLocaleUpperCase()}
-                </option>
-              );
-            })}
-        </select>
+          <SelectTrigger size="sm" className="min-w-50">
+            <SelectValue placeholder="Select language" />
+          </SelectTrigger>
+
+          <SelectContent>
+            {Object.entries(locales)
+              .sort(([, a], [, b]) => a.localeCompare(b))
+              .map(([locale, label]) => (
+                <SelectItem key={locale} value={locale}>
+                  {label.toUpperCase()}
+                </SelectItem>
+              ))}
+          </SelectContent>
+        </Select>
       </div>
     </div>
   );

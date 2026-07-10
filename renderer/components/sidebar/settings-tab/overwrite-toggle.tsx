@@ -1,25 +1,32 @@
 import { translationAtom } from "@/atoms/translations-atom";
 import { overwriteAtom } from "@/atoms/user-settings-atom";
+import {
+  Field,
+  FieldContent,
+  FieldDescription,
+  FieldLabel,
+} from "@/components/ui/field";
+import { Switch } from "@/components/ui/switch";
 import { useAtom, useAtomValue } from "jotai";
-import React, { useEffect } from "react";
 
 const OverwriteToggle = () => {
   const [overwrite, setOverwrite] = useAtom(overwriteAtom);
   const t = useAtomValue(translationAtom);
 
   return (
-    <div className="flex flex-col gap-2">
-      <p className="text-sm font-medium">
-        {t("SETTINGS.OVERWRITE_TOGGLE.TITLE")}
-      </p>
-      <p className="text-xs text-base-content/80">
-        {t("SETTINGS.OVERWRITE_TOGGLE.DESCRIPTION")}
-      </p>
-      <input
-        type="checkbox"
-        className="toggle"
+    <Field orientation="horizontal">
+      <FieldContent>
+        <FieldLabel htmlFor="overwrite-previous-upscale-switch">
+          {t("SETTINGS.OVERWRITE_TOGGLE.TITLE")}
+        </FieldLabel>
+        <FieldDescription>
+          {t("SETTINGS.OVERWRITE_TOGGLE.DESCRIPTION")}
+        </FieldDescription>
+      </FieldContent>
+      <Switch
+        id="overwrite-previous-upscale-switch"
         checked={overwrite}
-        onClick={() => {
+        onCheckedChange={() => {
           setOverwrite((oldValue: boolean) => {
             if (oldValue) {
               localStorage.removeItem("overwrite");
@@ -31,7 +38,7 @@ const OverwriteToggle = () => {
           localStorage.setItem("overwrite", JSON.stringify(!overwrite));
         }}
       />
-    </div>
+    </Field>
   );
 };
 

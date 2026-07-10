@@ -1,5 +1,12 @@
 import { translationAtom } from "@/atoms/translations-atom";
 import { tileSizeAtom } from "@/atoms/user-settings-atom";
+import {
+  Field,
+  FieldLabel,
+  FieldDescription,
+  FieldContent,
+} from "@/components/ui/field";
+import { Input } from "@/components/ui/input";
 import { useAtom, useAtomValue } from "jotai";
 import React from "react";
 
@@ -8,32 +15,33 @@ export function InputTileSize() {
   const t = useAtomValue(translationAtom);
 
   return (
-    <div>
-      <div className="flex flex-col gap-1">
-        <p className="text-sm font-medium">
+    <Field orientation="horizontal">
+      <FieldContent>
+        <FieldLabel htmlFor="custom-tile-size">
           {t("SETTINGS.CUSTOM_TILE_SIZE.TITLE")}
-        </p>
-        <p className="text-xs text-base-content/80">
-          <br />
+        </FieldLabel>
+
+        <FieldDescription>
           {t("SETTINGS.CUSTOM_TILE_SIZE.DESCRIPTION")}
-        </p>
-      </div>
-      <div className="mt-2 flex items-center gap-2">
-        <input
-          type="number"
-          value={tileSize}
-          onChange={(e) => {
-            if (e.currentTarget.value === "") {
-              setTileSize(null);
-              localStorage.removeItem("customWidth");
-              return;
-            }
-            setTileSize(parseInt(e.currentTarget.value));
-          }}
-          placeholder="0 = Auto"
-          className="input input-primary [appearance:textfield] [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none"
-        />
-      </div>
-    </div>
+        </FieldDescription>
+      </FieldContent>
+
+      <Input
+        id="custom-tile-size"
+        type="number"
+        value={tileSize ?? ""}
+        placeholder="0 = Auto"
+        onChange={(e) => {
+          if (e.currentTarget.value === "") {
+            setTileSize(null);
+            localStorage.removeItem("customWidth");
+            return;
+          }
+
+          setTileSize(Number(e.currentTarget.value));
+        }}
+        className="max-w-50"
+      />
+    </Field>
   );
 }

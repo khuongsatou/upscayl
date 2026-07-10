@@ -203,21 +203,19 @@ const Sidebar = ({
         />
       )}
 
-      {selectedTab === 1 && (
-        <SettingsTab
-          batchMode={batchMode}
-          compression={compression}
-          setCompression={setCompression}
-          gpuId={gpuId}
-          setGpuId={setGpuId}
-          saveImageAs={saveImageAs}
-          setSaveImageAs={setSaveImageAs}
-          logData={logData}
-          show={showCloudModal}
-          setShow={setShowCloudModal}
-          setDontShowCloudModal={setDontShowCloudModal}
-        />
-      )}
+      <SettingsTab
+        batchMode={batchMode}
+        compression={compression}
+        setCompression={setCompression}
+        gpuId={gpuId}
+        setGpuId={setGpuId}
+        saveImageAs={saveImageAs}
+        setSaveImageAs={setSaveImageAs}
+        logData={logData}
+        show={showCloudModal}
+        setShow={setShowCloudModal}
+        setDontShowCloudModal={setDontShowCloudModal}
+      />
       <Footer />
     </div>
   );

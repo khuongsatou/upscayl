@@ -26,6 +26,14 @@ import AutoUpdateToggle from "./auto-update-toggle";
 import TTAModeToggle from "./tta-mode-toggle";
 import SystemInfo from "./system-info";
 import CopyMetadataToggle from "./copy-metadata-toggle";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
+import { Button } from "@/components/ui/button";
+import { showSettingsDialogAtom } from "@/atoms/toggle-settings";
 
 interface IProps {
   batchMode: boolean;
@@ -60,6 +68,7 @@ function SettingsTab({
   const [scale, setScale] = useAtom(scaleAtom);
   const [enableScrollbar, setEnableScrollbar] = useState(true);
   const [timeoutId, setTimeoutId] = useState(null);
+  const [showSettings, setShowSettings] = useAtom(showSettingsDialogAtom);
   const t = useAtomValue(translationAtom);
 
   // HANDLERS
@@ -67,8 +76,8 @@ function SettingsTab({
     setSaveImageAs(format);
   };
 
-  const handleCompressionChange = (e) => {
-    setCompression(e.target.value);
+  const handleCompressionChange = (value) => {
+    setCompression(value);
   };
 
   const handleGpuIdChange = (e) => {
@@ -128,121 +137,140 @@ function SettingsTab({
   }
 
   return (
-    <div
-      className={cn(
-        "animate-step-in animate z-50 flex h-full flex-col gap-7 overflow-x-hidden overflow-y-auto p-5",
-        enableScrollbar ? "" : "hide-scrollbar",
-      )}
-      onScroll={() => {
-        if (enableScrollbar) disableScrolling();
-      }}
-      onWheel={() => {
-        enableScrolling();
-      }}
-    >
-      <div className="flex flex-col gap-2 text-sm font-medium uppercase">
-        <p>{t("SETTINGS.SUPPORT.TITLE")}</p>
-        <a
-          className="btn btn-primary"
-          href="https://docs.upscayl.org/"
-          target="_blank"
-        >
-          {t("SETTINGS.SUPPORT.DOCS_BUTTON_TITLE")}
-        </a>
-        {FEATURE_FLAGS.APP_STORE_BUILD && (
-          <button
-            className="btn btn-primary"
-            onClick={async () => {
-              const systemInfo = await window.electron.getSystemInfo();
-              const appVersion = await window.electron.getAppVersion();
-              const mailToUrl = `mailto:support@upscayl.org?subject=Upscayl%20Issue%3A%20%3CWRITE%20HERE%3E&body=Hi%20Nayam!%0AI'm%20having%20an%20issue%20with%20Upscayl%20${appVersion}%0A%0A%3CPLEASE%20DESCRIBE%20ISSUE%20HERE%3E%0A%0A---%0ALOGS%3A%0A${logData.join("\n")}%0A%0ADEVICE%20DETAILS%3A%20${JSON.stringify(systemInfo)}`;
-              window.open(mailToUrl, "_blank");
+    <Dialog open={showSettings} onOpenChange={setShowSettings}>
+      <DialogContent className="md:max-h-125 md:max-w-175 lg:max-w-200">
+        <DialogHeader className="h-8 border-b">
+          <DialogTitle>{t("SETTINGS.TITLE")}</DialogTitle>
+        </DialogHeader>
+        <div className="h-100 overflow-hidden">
+          <div
+            className={cn(
+              "animate-step-in animate z-50 flex h-full flex-col gap-5 overflow-x-hidden pr-4",
+              enableScrollbar ? "" : "hide-scrollbar",
+            )}
+            onScroll={() => {
+              if (enableScrollbar) disableScrolling();
+            }}
+            onWheel={() => {
+              enableScrolling();
             }}
           >
-            {t("SETTINGS.SUPPORT.EMAIL_BUTTON_TITLE")}
-          </button>
-        )}
-        {!FEATURE_FLAGS.APP_STORE_BUILD && <DonateButton />}
-      </div>
+            <div className="flex flex-col gap-2 text-sm font-medium uppercase">
+              <div className="inline-flex items-center justify-between">
+                <p>{t("SETTINGS.SUPPORT.TITLE")}</p>
+                <Button
+                  variant="outline"
+                  size="sm"
+                  className="min-w-28"
+                  asChild
+                >
+                  <a href="https://docs.upscayl.org/" target="_blank">
+                    {t("SETTINGS.SUPPORT.DOCS_BUTTON_TITLE")}
+                  </a>
+                </Button>
+              </div>
+              {FEATURE_FLAGS.APP_STORE_BUILD && (
+                <button
+                  className="btn btn-primary"
+                  onClick={async () => {
+                    const systemInfo = await window.electron.getSystemInfo();
+                    const appVersion = await window.electron.getAppVersion();
+                    const mailToUrl = `mailto:support@upscayl.org?subject=Upscayl%20Issue%3A%20%3CWRITE%20HERE%3E&body=Hi%20Nayam!%0AI'm%20having%20an%20issue%20with%20Upscayl%20${appVersion}%0A%0A%3CPLEASE%20DESCRIBE%20ISSUE%20HERE%3E%0A%0A---%0ALOGS%3A%0A${logData.join("\n")}%0A%0ADEVICE%20DETAILS%3A%20${JSON.stringify(systemInfo)}`;
+                    window.open(mailToUrl, "_blank");
+                  }}
+                >
+                  {t("SETTINGS.SUPPORT.EMAIL_BUTTON_TITLE")}
+                </button>
+              )}
+              {!FEATURE_FLAGS.APP_STORE_BUILD && <DonateButton />}
+            </div>
+            <hr />
+            <LogArea
+              copyOnClickHandler={copyOnClickHandler}
+              isCopied={isCopied}
+              logData={logData}
+            />
 
-      <LogArea
-        copyOnClickHandler={copyOnClickHandler}
-        isCopied={isCopied}
-        logData={logData}
-      />
+            <hr />
+            {/* THEME SELECTOR */}
+            <SelectTheme />
 
-      {/* THEME SELECTOR */}
-      <SelectTheme />
+            <LanguageSwitcher />
 
-      <LanguageSwitcher />
+            {/* IMAGE FORMAT BUTTONS */}
+            <SelectImageFormat
+              batchMode={batchMode}
+              saveImageAs={saveImageAs}
+              setExportType={setExportType}
+            />
 
-      {/* IMAGE FORMAT BUTTONS */}
-      <SelectImageFormat
-        batchMode={batchMode}
-        saveImageAs={saveImageAs}
-        setExportType={setExportType}
-      />
+            {/* COPY METADATA TOGGLE */}
+            <CopyMetadataToggle
+              saveImageAs={saveImageAs}
+              setExportType={setExportType}
+            />
 
-      {/* COPY METADATA TOGGLE */}
-      <CopyMetadataToggle
-        saveImageAs={saveImageAs}
-        setExportType={setExportType}
-      />
+            {/* IMAGE SCALE */}
+            <SelectImageScale scale={scale} setScale={setScale} />
 
-      {/* IMAGE SCALE */}
-      <SelectImageScale scale={scale} setScale={setScale} />
+            <InputCustomResolution />
 
-      <InputCustomResolution />
+            <InputCompression
+              compression={compression}
+              handleCompressionChange={handleCompressionChange}
+            />
 
-      <InputCompression
-        compression={compression}
-        handleCompressionChange={handleCompressionChange}
-      />
+            <SaveOutputFolderToggle />
 
-      <SaveOutputFolderToggle />
+            <OverwriteToggle />
+            <TurnOffNotificationsToggle />
+            <AutoUpdateToggle />
+            <EnableContributionToggle />
 
-      <OverwriteToggle />
-      <TurnOffNotificationsToggle />
-      <AutoUpdateToggle />
-      <EnableContributionToggle />
+            {/* GPU ID INPUT */}
+            <InputGpuId gpuId={gpuId} handleGpuIdChange={handleGpuIdChange} />
 
-      {/* GPU ID INPUT */}
-      <InputGpuId gpuId={gpuId} handleGpuIdChange={handleGpuIdChange} />
+            <InputTileSize />
 
-      <InputTileSize />
+            {/* CUSTOM MODEL */}
+            <CustomModelsFolderSelect
+              customModelsPath={customModelsPath}
+              setCustomModelsPath={setCustomModelsPath}
+            />
 
-      {/* CUSTOM MODEL */}
-      <CustomModelsFolderSelect
-        customModelsPath={customModelsPath}
-        setCustomModelsPath={setCustomModelsPath}
-      />
+            <TTAModeToggle />
 
-      <TTAModeToggle />
+            <hr />
 
-      {/* RESET SETTINGS */}
-      <ResetSettingsButton />
+            {/* RESET SETTINGS */}
+            <ResetSettingsButton />
 
-      {FEATURE_FLAGS.SHOW_UPSCAYL_CLOUD_INFO && (
-        <>
-          <button
-            className="rounded-btn bg-success shadow-success/40 mx-5 mb-5 animate-pulse p-1 text-sm text-slate-50 shadow-lg"
-            onClick={() => {
-              setShow(true);
-            }}
-          >
-            {t("INTRO")}
-          </button>
+            <hr />
 
-          <UpscaylCloudModal
-            show={show}
-            setShow={setShow}
-            setDontShowCloudModal={setDontShowCloudModal}
-          />
-        </>
-      )}
+            {FEATURE_FLAGS.SHOW_UPSCAYL_CLOUD_INFO && (
+              <>
+                <button
+                  className="rounded-btn bg-success shadow-success/40 mx-5 mb-5 animate-pulse p-1 text-sm text-slate-50 shadow-lg"
+                  onClick={() => {
+                    setShow(true);
+                  }}
+                >
+                  {t("INTRO")}
+                </button>
 
-      <SystemInfo />
-    </div>
+                <UpscaylCloudModal
+                  show={show}
+                  setShow={setShow}
+                  setDontShowCloudModal={setDontShowCloudModal}
+                />
+              </>
+            )}
+
+            <SystemInfo />
+          </div>
+        </div>
+      </DialogContent>
+    </Dialog>
   );
 }
 

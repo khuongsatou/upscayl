@@ -1,5 +1,6 @@
 import { translationAtom } from "@/atoms/translations-atom";
 import { useCustomWidthAtom } from "@/atoms/user-settings-atom";
+import { Slider } from "@/components/ui/slider";
 import { useAtomValue } from "jotai";
 
 type ImageScaleSelectProps = {
@@ -17,7 +18,7 @@ export function SelectImageScale({
   const t = useAtomValue(translationAtom);
 
   return (
-    <div className={`${useCustomWidth && "opacity-50"}`}>
+    <div className={` ${useCustomWidth && "opacity-50"}`}>
       <div className="flex flex-row items-center gap-2">
         {hideInfo ? (
           <>
@@ -27,7 +28,7 @@ export function SelectImageScale({
             </p>
             {hideInfo && parseInt(scale) >= 6 && (
               <span
-                className="text-xs font-bold text-error"
+                className="text-error text-xs font-bold"
                 data-tooltip-id="tooltip"
                 data-tooltip-content={t("SETTINGS.IMAGE_SCALE.WARNING")}
               >
@@ -52,28 +53,26 @@ export function SelectImageScale({
         )}
       </div>
       {!hideInfo && (
-        <p className="text-xs text-base-content/80">
+        <p className="text-xs text-muted-foreground">
           {t("SETTINGS.IMAGE_SCALE.DESCRIPTION")}
         </p>
       )}
       {!hideInfo && parseInt(scale) >= 6 && (
-        <p className="text-xs text-base-content/80 text-red-500">
+        <p className="text-base-content/80 text-xs text-red-500">
           {t("SETTINGS.IMAGE_SCALE.ADDITIONAL_WARNING")}
         </p>
       )}
 
-      <input
-        type="range"
-        min="1"
-        max="16"
-        placeholder="Example: 1320"
-        value={scale}
-        onChange={(e: any) => {
-          setScale(e.target.value.toString());
+      <Slider
+        min={1}
+        max={16}
+        step={1}
+        value={[Number(scale)]}
+        onValueChange={([value]) => {
+          setScale(value.toString());
         }}
-        step="1"
-        className="range range-primary mt-2"
         disabled={useCustomWidth}
+        className="mt-3 w-full"
       />
     </div>
   );
