@@ -35,7 +35,7 @@ const Sidenav = () => {
     <div
       className={cn(
         "rounded-box w-20 p-2",
-        window.electron.platform === "mac" && "mt-6",
+        window.electron.platform === "mac" && "mt-0",
       )}
     >
       {/* NAV ITEMS */}

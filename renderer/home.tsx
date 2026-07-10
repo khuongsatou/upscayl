@@ -344,7 +344,7 @@ const Home = () => {
   return (
     <div
       className={cn(
-        "flex h-screen w-screen flex-col gap-3 overflow-hidden bg-background p-2",
+        "flex h-screen w-screen flex-col overflow-hidden bg-background p-2",
       )}
     >
       <div className={cn({ "pl-22": isMac })}>
