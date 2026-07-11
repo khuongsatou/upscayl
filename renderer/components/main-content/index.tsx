@@ -35,6 +35,7 @@ import {
   ChevronDown,
   FolderOpenIcon,
   LoaderCircle,
+  SidebarIcon,
   TriangleAlertIcon,
 } from "lucide-react";
 import useUpscaylResolution from "../hooks/use-upscayl-resolution";
@@ -42,6 +43,7 @@ import getFilenameFromPath from "@common/get-file-name";
 import getBaseFileName from "@common/get-base-file-name";
 import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
 import ToolBar from "./toolbar";
+import { useIsMobile } from "@/hooks/use-mobile";
 
 type MainContentProps = {
   imagePath: string;
@@ -104,6 +106,7 @@ const MainContent = ({
   const [selectedBatchImage, setSelectedBatchImage] = useState("");
   const [selectedUpscayldBatchImage, setUpscayledSelectedBatchImage] =
     useState("");
+  const [isBatchSidebarOpen, setIsBatchSidebarOpen] = useState(false);
 
   const scale = useAtomValue(scaleAtom);
   const customWidth = useAtomValue(customWidthAtom);
@@ -422,23 +425,22 @@ const MainContent = ({
       )}
     >
       <MacTitlebarDragRegion />
-
       {/* <MoreOptionsDrawer */}
       {/*   zoomAmount={zoomAmount} */}
       {/*   setZoomAmount={setZoomAmount} */}
       {/*   resetImagePaths={resetImagePaths} */}
       {/* /> */}
-
       <div className="flex size-full gap-2 overflow-hidden">
         <div className="flex h-full w-full flex-col gap-2 overflow-hidden rounded-4xl border bg-accent p-2">
           {(selectedBatchImage.length > 0 || imagePath.length > 0) && (
-            <div className="inline-flex items-center justify-between gap-8">
+            <div className="inline-flex items-center gap-2">
               <div className="space-y-1.5 px-1.5 text-sm">
                 <p className="line-clamp-1 w-full font-semibold">
                   {selectedBatchImage.length > 0
                     ? getFilenameFromPath(selectedBatchImage)
                     : getFilenameFromPath(imagePath)}
                 </p>
+
                 {!batchMode && imagePath.length > 0 && (
                   <div className="inline-flex items-center gap-1 text-muted-foreground">
                     <span>{`${dimensions.width}x${dimensions.height}`}</span>
@@ -456,7 +458,11 @@ const MainContent = ({
                 )}
               </div>
               <Popover>
-                <PopoverTrigger disabled={viewType === "lens"} asChild>
+                <PopoverTrigger
+                  className="ml-auto"
+                  disabled={viewType === "lens"}
+                  asChild
+                >
                   <Button variant="outline">
                     <span>Zoom</span>
                     <span className="ml-3">{zoomAmount}%</span>
@@ -478,6 +484,19 @@ const MainContent = ({
                   />
                 </PopoverContent>
               </Popover>
+
+              {!isBatchSidebarOpen &&
+                batchFolderPath.length > 0 &&
+                batchImagePaths.length > 0 && (
+                  <Button
+                    variant="outline"
+                    size="icon"
+                    className="xl:hidden"
+                    onClick={() => setIsBatchSidebarOpen((prev) => !prev)}
+                  >
+                    <SidebarIcon />
+                  </Button>
+                )}
             </div>
           )}
 
@@ -620,18 +639,42 @@ const MainContent = ({
               )}
           </div>
         </div>
-
         {batchFolderPath.length > 0 && batchImagePaths.length > 0 && (
-          <div className="flex w-72 shrink-0 flex-col gap-3 rounded-4xl border bg-accent p-4">
-            <div className="inline-flex items-center justify-between">
-              <p className="text-sm font-medium">
-                Batch Queue {batchImagePaths.length}
-              </p>
-              <Button variant="ghost" onClick={resetBatchFolderPath}>
+          <div
+            className={cn(
+              "absolute top-0 right-0 flex h-full w-62 shrink-0 flex-col gap-3 rounded-4xl border bg-accent p-3 transition-transform xl:relative",
+              isBatchSidebarOpen
+                ? "translate-x-0"
+                : "translate-x-[110%] xl:translate-x-0",
+            )}
+          >
+            <div className="relative inline-flex items-center justify-between text-sm">
+              {isBatchSidebarOpen && (
+                <Button
+                  size="icon"
+                  variant="outline"
+                  className="absolute -left-14"
+                  onClick={() => setIsBatchSidebarOpen((prev) => !prev)}
+                >
+                  <SidebarIcon />
+                </Button>
+              )}
+              <div className="inline-flex items-center gap-1 pl-1 text-sm font-medium">
+                <span>Queue</span>
+                <span className="flex size-5 items-center justify-center rounded-sm bg-foreground/10">
+                  {batchImagePaths.length}
+                </span>
+              </div>
+              <Button
+                variant="ghost"
+                size="sm"
+                type="button"
+                onClick={resetBatchFolderPath}
+              >
                 Clear All
               </Button>
             </div>
-            <div className="h-full w-full gap-2 space-y-3 overflow-y-auto">
+            <div className="w-full scrollbar-none gap-2 space-y-3 overflow-y-auto">
               {batchImageFiles.map((batch, index) => {
                 return (
                   <div
@@ -648,7 +691,7 @@ const MainContent = ({
                       }
                     }}
                     className={cn(
-                      "group relative aspect-square overflow-hidden rounded-2xl transition-all duration-200 ease-out",
+                      "group relative aspect-square overflow-hidden rounded-xl border bg-secondary p-1 transition-all duration-200 ease-out",
                       batch.disabled
                         ? "cursor-not-allowed opacity-40 grayscale"
                         : "cursor-pointer",
@@ -662,7 +705,7 @@ const MainContent = ({
                     <ImageViewer
                       imagePath={batch.image}
                       setDimensions={setDimensions}
-                      className="object-cover"
+                      className="rounded-lg object-cover"
                     />
                   </div>
                 );
