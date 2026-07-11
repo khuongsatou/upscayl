@@ -417,6 +417,19 @@ const MainContent = ({
     }
   }, []);
 
+  useEffect(() => {
+    if (!isBatchSidebarOpen) return;
+
+    function handleKeyDown(e) {
+      if (e.key === "Escape") {
+        setIsBatchSidebarOpen(false);
+      }
+    }
+
+    document.addEventListener("keydown", handleKeyDown);
+    return () => document.removeEventListener("keydown", handleKeyDown);
+  }, [isBatchSidebarOpen]);
+
   return (
     <div
       className={cn(
@@ -640,87 +653,97 @@ const MainContent = ({
           </div>
         </div>
         {batchFolderPath.length > 0 && batchImagePaths.length > 0 && (
-          <div
-            className={cn(
-              "absolute top-0 right-0 flex h-full w-62 shrink-0 flex-col gap-3 rounded-4xl border bg-accent p-3 transition-transform xl:relative",
-              isBatchSidebarOpen
-                ? "translate-x-0"
-                : "translate-x-[110%] xl:translate-x-0",
+          <>
+            {isBatchSidebarOpen && (
+              <div
+                className="fixed inset-0 z-10 cursor-pointer"
+                onClick={() => setIsBatchSidebarOpen(false)}
+              ></div>
             )}
-          >
-            <div className="relative inline-flex items-center justify-between text-sm">
-              {isBatchSidebarOpen && (
-                <Button
-                  size="icon"
-                  variant="outline"
-                  className="absolute -left-14"
-                  onClick={() => setIsBatchSidebarOpen((prev) => !prev)}
-                >
-                  <SidebarIcon />
-                </Button>
+            <div
+              className={cn(
+                "absolute top-0 right-0 z-20 flex h-full w-62 shrink-0 flex-col gap-3 rounded-4xl border bg-accent p-3 transition-transform xl:relative",
+                isBatchSidebarOpen
+                  ? "translate-x-0"
+                  : "translate-x-[110%] xl:translate-x-0",
               )}
-              <div className="inline-flex items-center gap-1 pl-1 text-sm font-medium">
-                <span>Queue</span>
-                <span className="flex size-5 items-center justify-center rounded-sm bg-foreground/10">
-                  {batchImagePaths.length}
-                </span>
-              </div>
-              <Button
-                variant="ghost"
-                size="sm"
-                type="button"
-                onClick={resetBatchFolderPath}
-              >
-                Clear All
-              </Button>
-            </div>
-            <div className="w-full scrollbar-none gap-2 space-y-3 overflow-y-auto">
-              {batchImageFiles.map((batch, index) => {
-                return (
-                  <div
-                    key={`${componentId}-${index}`}
-                    aria-disabled={batch.disabled}
-                    onClick={(e) => {
-                      e.preventDefault();
-                      if (batch.disabled || progress.length > 0) return;
-
-                      setSelectedBatchImage(batch.image);
-
-                      if (batch.isUpscayled && batch.upscayledImage) {
-                        setUpscayledSelectedBatchImage(batch.upscayledImage);
-                      }
-                    }}
-                    className={cn(
-                      "group relative aspect-square overflow-hidden rounded-xl border bg-secondary p-1 transition-all duration-200 ease-out",
-                      batch.disabled
-                        ? "cursor-not-allowed opacity-40 grayscale"
-                        : "cursor-pointer",
-                    )}
+            >
+              <div className="relative inline-flex items-center justify-between text-sm">
+                {isBatchSidebarOpen && (
+                  <Button
+                    size="icon"
+                    variant="outline"
+                    className="absolute -left-14 xl:hidden"
+                    onClick={() => setIsBatchSidebarOpen((prev) => !prev)}
                   >
-                    {progress.length > 0 && (
-                      <div className="absolute inset-0 flex items-center justify-center bg-black/60">
-                        <LoaderCircle className="animate-spin" />
-                      </div>
-                    )}
-                    <ImageViewer
-                      imagePath={batch.image}
-                      setDimensions={setDimensions}
-                      className="rounded-lg object-cover"
-                    />
-                  </div>
-                );
-              })}
-            </div>
-            {batchMode && upscaledBatchFolderPath.length > 0 && (
-              <div className="flex w-full flex-col items-center justify-center gap-3">
-                <p className="sr-only">{t("APP.PROGRESS.BATCH.DONE_TITLE")}</p>
-                <Button onClick={openFolderHandler}>
-                  <FolderOpenIcon />
-                  {t("APP.PROGRESS.BATCH.OPEN_UPSCAYLED_FOLDER_TITLE")}
+                    <SidebarIcon />
+                  </Button>
+                )}
+                <div className="inline-flex items-center gap-1 pl-1 text-sm font-medium">
+                  <span>Queue</span>
+                  <span className="flex size-5 items-center justify-center rounded-sm bg-foreground/10">
+                    {batchImagePaths.length}
+                  </span>
+                </div>
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  type="button"
+                  onClick={resetBatchFolderPath}
+                >
+                  Clear All
                 </Button>
               </div>
-            )}
-          </div>
+              <div className="h-full w-full scrollbar-none gap-2 space-y-3 overflow-y-auto">
+                {batchImageFiles.map((batch, index) => {
+                  return (
+                    <div
+                      key={`${componentId}-${index}`}
+                      aria-disabled={batch.disabled}
+                      onClick={(e) => {
+                        e.preventDefault();
+                        if (batch.disabled || progress.length > 0) return;
+
+                        setSelectedBatchImage(batch.image);
+
+                        if (batch.isUpscayled && batch.upscayledImage) {
+                          setUpscayledSelectedBatchImage(batch.upscayledImage);
+                        }
+                      }}
+                      className={cn(
+                        "group relative aspect-square overflow-hidden rounded-xl border bg-secondary p-1 transition-all duration-200 ease-out",
+                        batch.disabled
+                          ? "cursor-not-allowed opacity-40 grayscale"
+                          : "cursor-pointer",
+                      )}
+                    >
+                      {progress.length > 0 && (
+                        <div className="absolute inset-0 flex items-center justify-center bg-black/60">
+                          <LoaderCircle className="animate-spin" />
+                        </div>
+                      )}
+                      <ImageViewer
+                        imagePath={batch.image}
+                        setDimensions={setDimensions}
+                        className="rounded-lg object-cover"
+                      />
+                    </div>
+                  );
+                })}
+              </div>
+              {batchMode && upscaledBatchFolderPath.length > 0 && (
+                <div className="flex w-full flex-col items-center justify-center gap-3">
+                  <p className="sr-only">
+                    {t("APP.PROGRESS.BATCH.DONE_TITLE")}
+                  </p>
+                  <Button onClick={openFolderHandler} className="w-full">
+                    <FolderOpenIcon />
+                    {t("APP.PROGRESS.BATCH.OPEN_UPSCAYLED_FOLDER_TITLE")}
+                  </Button>
+                </div>
+              )}
+            </div>
+          </>
         )}
       </div>
     </div>
