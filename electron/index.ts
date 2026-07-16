@@ -21,6 +21,7 @@ import pasteImage from "./commands/paste-image";
 import path from "path";
 import getImagePaths from "./commands/get-image-paths";
 import getDroppedPathType from "./commands/get-dropped-path-type";
+import getFileSize from "./commands/get-file-size";
 
 // INITIALIZATION
 log.initialize({ preload: true });
@@ -84,6 +85,8 @@ ipcMain.handle(ELECTRON_COMMANDS.SELECT_FOLDER, selectFolder);
 ipcMain.handle(ELECTRON_COMMANDS.SELECT_FILE, selectFile);
 
 ipcMain.handle(ELECTRON_COMMANDS.GET_DROPPED_PATH_TYPE, getDroppedPathType);
+
+ipcMain.handle(ELECTRON_COMMANDS.GET_FILE_SIZE, getFileSize);
 
 ipcMain.on(ELECTRON_COMMANDS.GET_MODELS_LIST, getModelsList);
 

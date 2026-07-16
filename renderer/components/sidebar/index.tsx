@@ -194,6 +194,7 @@ const Sidebar = ({
           selectImageHandler={selectImageHandler}
           selectFolderHandler={selectFolderHandler}
           importDroppedPath={importDroppedPath}
+          imagePath={imagePath}
           upscaylHandler={upscaylHandler}
           batchMode={batchMode}
           setBatchMode={setBatchMode}

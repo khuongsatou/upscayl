@@ -44,11 +44,14 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { cn } from "@/lib/utils";
+import { sanitizePath } from "@common/sanitize-path";
+import getFilenameFromPath from "@common/get-file-name";
 
 interface IProps {
   selectImageHandler: () => Promise<void>;
   selectFolderHandler: () => Promise<void>;
   importDroppedPath: (path: string) => Promise<void>;
+  imagePath: string;
   upscaylHandler: () => Promise<void>;
   batchMode: boolean;
   setBatchMode: React.Dispatch<React.SetStateAction<boolean>>;
@@ -66,6 +69,7 @@ function UpscaylSteps({
   selectImageHandler,
   selectFolderHandler,
   importDroppedPath,
+  imagePath,
   upscaylHandler,
   batchMode,
   setBatchMode,
@@ -78,6 +82,7 @@ function UpscaylSteps({
   const [progress, setProgress] = useAtom(progressAtom);
   const [saveImageAs, setSaveImageAs] = useAtom(saveImageAsAtom);
   const [isInputDragging, setIsInputDragging] = useState(false);
+  const [fileSize, setFileSize] = useState<number | null>(null);
   const rememberOutputFolder = useAtomValue(rememberOutputFolderAtom);
   const customWidth = useAtomValue(customWidthAtom);
   const useCustomWidth = useAtomValue(useCustomWidthAtom);
@@ -113,6 +118,43 @@ function UpscaylSteps({
   useEffect(() => {
     themeChange(false);
   }, []);
+
+  useEffect(() => {
+    let cancelled = false;
+
+    if (!imagePath) {
+      setFileSize(null);
+      return;
+    }
+
+    const getFileSize = async () => {
+      try {
+        const size = await window.electron.invoke(
+          ELECTRON_COMMANDS.GET_FILE_SIZE,
+          imagePath,
+        );
+
+        if (typeof size === "number") return size;
+      } catch {
+        // The renderer can refresh before Electron restarts its main process.
+      }
+
+      const response = await fetch("file:///" + sanitizePath(imagePath));
+      return (await response.blob()).size;
+    };
+
+    void getFileSize()
+      .then((size) => {
+        if (!cancelled) setFileSize(size);
+      })
+      .catch(() => {
+        if (!cancelled) setFileSize(null);
+      });
+
+    return () => {
+      cancelled = true;
+    };
+  }, [imagePath]);
 
   // const { upscayl: upscaylResolution } = useUpscaylResolution({
   //   dimensions,
@@ -176,6 +218,31 @@ function UpscaylSteps({
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
+
+        {!batchMode && imagePath && (
+          <div className="mt-2 flex items-start gap-2 rounded-2xl border bg-background/40 p-2">
+            <img
+              src={"file:///" + sanitizePath(imagePath)}
+              alt=""
+              className="size-16 shrink-0 rounded-xl object-cover"
+            />
+            <div className="min-w-0 space-y-1 text-xs">
+              <p className="truncate font-medium">
+                {getFilenameFromPath(imagePath)}
+              </p>
+              {dimensions.width && dimensions.height && (
+                <p className="text-muted-foreground">
+                  {dimensions.width} × {dimensions.height} px
+                </p>
+              )}
+              {fileSize !== null && (
+                <p className="text-muted-foreground">
+                  {(fileSize / 1024 / 1024).toFixed(1)} MB
+                </p>
+              )}
+            </div>
+          </div>
+        )}
       </div>
 
       {/* STEP 2 */}
