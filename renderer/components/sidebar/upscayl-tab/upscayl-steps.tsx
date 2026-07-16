@@ -168,11 +168,11 @@ function UpscaylSteps({
     <div className="animate-step-in animate flex h-full max-w-[320px] flex-col gap-7 overflow-x-hidden overflow-y-auto p-5">
       {/* STEP 1 */}
       <div className="animate-step-in">
-        <div className="flex items-center gap-2 text-sm">
-          <span className="flex size-8 items-center justify-center rounded-full bg-foreground/10 font-medium">
-            1
+        <div className="step-heading flex flex-row text-sm">
+          <span className="w-fit rounded-lg bg-foreground/10 px-2 text-sm font-medium">
+            Step 1
           </span>
-          <p className="font-medium">{t("APP.FILE_SELECTION.TITLE")}</p>
+          {t("APP.FILE_SELECTION.SINGLE_MODE_TYPE")}
         </div>
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
@@ -189,13 +189,13 @@ function UpscaylSteps({
               onDragOver={(event) => event.preventDefault()}
               onDrop={handleDrop}
               className={cn(
-                "mt-4 flex h-60 w-full flex-col items-center justify-center rounded-3xl border-2 border-dashed px-4 text-center transition-colors",
+                "mt-4 flex h-40 w-full flex-col items-center justify-center rounded-3xl border-2 border-dashed px-4 text-center transition-colors",
                 isInputDragging
                   ? "border-primary bg-primary/10"
                   : "border-border bg-background/40 hover:border-primary/60 hover:bg-primary/5",
               )}
             >
-              <CloudUpload className="size-12" strokeWidth={1.5} />
+              <CloudUpload className="size-10" strokeWidth={1.5} />
               <span className="text-sm font-medium">
                 Drag & drop an image or folder
               </span>
