@@ -571,6 +571,7 @@ const MainContent = ({
                 <ImageViewer
                   imagePath={selectedBatchImage}
                   setDimensions={setDimensions}
+                  zoomAmount={zoomAmount}
                 />
               )}
 
@@ -581,6 +582,7 @@ const MainContent = ({
                 <ImageViewer
                   imagePath={imagePath}
                   setDimensions={setDimensions}
+                  zoomAmount={zoomAmount}
                 />
               )}
 
@@ -662,7 +664,7 @@ const MainContent = ({
             )}
             <div
               className={cn(
-                "absolute top-0 right-0 z-20 flex h-full w-62 shrink-0 flex-col gap-3 rounded-4xl border bg-accent p-3 transition-transform xl:relative",
+                "absolute top-0 right-0 z-20 flex h-full w-48 shrink-0 flex-col gap-3 rounded-4xl border bg-accent p-3 transition-transform xl:relative",
                 isBatchSidebarOpen
                   ? "translate-x-0"
                   : "translate-x-[110%] xl:translate-x-0",

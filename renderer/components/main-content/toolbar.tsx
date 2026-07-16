@@ -77,7 +77,7 @@ export default function ToolBar({
         <Separator orientation="vertical" className="h-6 w-px shrink-0" />
         <Button
           disabled={
-            !hasUpscayledImage ||
+            !hasImage ||
             viewType === "lens" ||
             parseInt(zoomAmount) === 100
           }
@@ -91,7 +91,7 @@ export default function ToolBar({
         </Button>
         <Button
           disabled={
-            !hasUpscayledImage ||
+            !hasImage ||
             viewType === "lens" ||
             parseInt(zoomAmount) === 1000
           }
