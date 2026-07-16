@@ -44,6 +44,7 @@ const Sidebar = ({
   imagePath,
   selectImageHandler,
   selectFolderHandler,
+  importDroppedPath,
 }: {
   setUpscaledImagePath: React.Dispatch<React.SetStateAction<string>>;
   batchFolderPath: string;
@@ -55,6 +56,7 @@ const Sidebar = ({
   imagePath: string;
   selectImageHandler: () => Promise<void>;
   selectFolderHandler: () => Promise<void>;
+  importDroppedPath: (path: string) => Promise<void>;
 }) => {
   const t = useTranslation();
   const logit = useLogger();
@@ -191,10 +193,10 @@ const Sidebar = ({
         <UpscaylSteps
           selectImageHandler={selectImageHandler}
           selectFolderHandler={selectFolderHandler}
+          importDroppedPath={importDroppedPath}
           upscaylHandler={upscaylHandler}
           batchMode={batchMode}
           setBatchMode={setBatchMode}
-          imagePath={imagePath}
           doubleUpscayl={doubleUpscayl}
           setDoubleUpscayl={setDoubleUpscayl}
           dimensions={dimensions}

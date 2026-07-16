@@ -17,8 +17,6 @@ import {
 } from "../../atoms/user-settings-atom";
 import { useToast } from "@/components/ui/use-toast";
 import { sanitizePath } from "@common/sanitize-path";
-import getDirectoryFromPath from "@common/get-directory-from-path";
-import { FEATURE_FLAGS } from "@common/feature-flags";
 import { ImageFormat, VALID_IMAGE_FORMATS } from "@/lib/valid-formats";
 import ProgressBar from "./progress-bar";
 import InstructionsCard from "./instructions-card";
@@ -54,6 +52,7 @@ type MainContentProps = {
   validateImagePath: (path: string) => void;
   selectFolderHandler: () => void;
   selectImageHandler: () => void;
+  importDroppedPath: (path: string) => Promise<void>;
   upscaledImagePath: string;
   batchFolderPath: string;
   setBatchFolderPath: React.Dispatch<React.SetStateAction<string>>;
@@ -76,6 +75,7 @@ const MainContent = ({
   validateImagePath,
   selectFolderHandler,
   selectImageHandler,
+  importDroppedPath,
   upscaledImagePath,
   batchFolderPath,
   setBatchFolderPath,
@@ -180,11 +180,10 @@ const MainContent = ({
 
   const handleDrop = (e) => {
     e.preventDefault();
-    resetImagePaths();
-    if (
-      e.dataTransfer.items.length === 0 ||
-      e.dataTransfer.files.length === 0
-    ) {
+    const file = e.dataTransfer.files[0];
+    const filePath = file ? window.electron.getPathForFile(file) : "";
+
+    if (!filePath) {
       logit("👎 No valid files dropped");
       toast({
         title: t("ERRORS.INVALID_IMAGE_ERROR.TITLE"),
@@ -192,31 +191,8 @@ const MainContent = ({
       });
       return;
     }
-    const type = e.dataTransfer.items[0].type;
-    const filePath = e.dataTransfer.files[0].path;
-    const extension = e.dataTransfer.files[0].name.split(".").at(-1);
-    logit("⤵️ Dropped file: ", JSON.stringify({ type, filePath, extension }));
-    if (
-      !type.includes("image") ||
-      !VALID_IMAGE_FORMATS.includes(extension.toLowerCase())
-    ) {
-      logit("🚫 Invalid file dropped");
-      toast({
-        title: t("ERRORS.INVALID_IMAGE_ERROR.TITLE"),
-        description: t("ERRORS.INVALID_IMAGE_ERROR.ADDITIONAL_DESCRIPTION"),
-      });
-    } else {
-      logit("🖼 Setting image path: ", filePath);
-      setImagePath(filePath);
-      const dirname = getDirectoryFromPath(filePath);
-      logit("🗂 Setting output path: ", dirname);
-      if (!FEATURE_FLAGS.APP_STORE_BUILD) {
-        if (!rememberOutputFolder) {
-          setOutputPath(dirname);
-        }
-      }
-      validateImagePath(filePath);
-    }
+
+    void importDroppedPath(filePath);
   };
 
   const handlePaste = (e: React.ClipboardEvent<HTMLDivElement>) => {

@@ -20,6 +20,7 @@ import settings from "electron-settings";
 import pasteImage from "./commands/paste-image";
 import path from "path";
 import getImagePaths from "./commands/get-image-paths";
+import getDroppedPathType from "./commands/get-dropped-path-type";
 
 // INITIALIZATION
 log.initialize({ preload: true });
@@ -81,6 +82,8 @@ ipcMain.on(ELECTRON_COMMANDS.OPEN_FOLDER, openFolder);
 ipcMain.handle(ELECTRON_COMMANDS.SELECT_FOLDER, selectFolder);
 
 ipcMain.handle(ELECTRON_COMMANDS.SELECT_FILE, selectFile);
+
+ipcMain.handle(ELECTRON_COMMANDS.GET_DROPPED_PATH_TYPE, getDroppedPathType);
 
 ipcMain.on(ELECTRON_COMMANDS.GET_MODELS_LIST, getModelsList);
 

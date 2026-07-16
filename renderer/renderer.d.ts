@@ -5,6 +5,7 @@ export interface IElectronAPI {
   off: (command, func?) => IpcRenderer;
   send: <T>(command, func?: T) => IpcRenderer;
   invoke: (command, func?) => any;
+  getPathForFile: (file: File) => string;
   platform: "mac" | "win" | "linux";
   getSystemInfo: () => Promise<{
     platform: string | undefined;

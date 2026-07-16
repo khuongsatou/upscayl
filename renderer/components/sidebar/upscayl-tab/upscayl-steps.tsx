@@ -1,5 +1,5 @@
 import { useAtom, useAtomValue } from "jotai";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { themeChange } from "theme-change";
 import useLogger from "../../hooks/use-logger";
 import {
@@ -20,7 +20,12 @@ import SelectModelDialog from "./select-model-dialog";
 import { ImageFormat } from "@/lib/valid-formats";
 import { Button } from "@/components/ui/button";
 import useUpscaylResolution from "@/components/hooks/use-upscayl-resolution";
-import { FolderIcon, SparklesIcon, UploadIcon } from "lucide-react";
+import {
+  CloudUpload,
+  FolderIcon,
+  SparklesIcon,
+  UploadIcon,
+} from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { SelectImageFormat } from "../settings-tab/select-image-format";
 import {
@@ -32,14 +37,21 @@ import {
   FieldTitle,
 } from "@/components/ui/field";
 import { Switch } from "@/components/ui/switch";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import { cn } from "@/lib/utils";
 
 interface IProps {
   selectImageHandler: () => Promise<void>;
   selectFolderHandler: () => Promise<void>;
+  importDroppedPath: (path: string) => Promise<void>;
   upscaylHandler: () => Promise<void>;
   batchMode: boolean;
   setBatchMode: React.Dispatch<React.SetStateAction<boolean>>;
-  imagePath: string;
   doubleUpscayl: boolean;
   setDoubleUpscayl: React.Dispatch<React.SetStateAction<boolean>>;
   dimensions: {
@@ -53,10 +65,10 @@ interface IProps {
 function UpscaylSteps({
   selectImageHandler,
   selectFolderHandler,
+  importDroppedPath,
   upscaylHandler,
   batchMode,
   setBatchMode,
-  imagePath,
   doubleUpscayl,
   setDoubleUpscayl,
   dimensions,
@@ -65,6 +77,7 @@ function UpscaylSteps({
   const [outputPath, setOutputPath] = useAtom(savedOutputPathAtom);
   const [progress, setProgress] = useAtom(progressAtom);
   const [saveImageAs, setSaveImageAs] = useAtom(saveImageAsAtom);
+  const [isInputDragging, setIsInputDragging] = useState(false);
   const rememberOutputFolder = useAtomValue(rememberOutputFolderAtom);
   const customWidth = useAtomValue(customWidthAtom);
   const useCustomWidth = useAtomValue(useCustomWidthAtom);
@@ -88,6 +101,15 @@ function UpscaylSteps({
     }
   };
 
+  const handleDrop = (event: React.DragEvent<HTMLButtonElement>) => {
+    event.preventDefault();
+    setIsInputDragging(false);
+
+    const file = event.dataTransfer.files[0];
+    const path = file ? window.electron.getPathForFile(file) : "";
+    if (path) void importDroppedPath(path);
+  };
+
   useEffect(() => {
     themeChange(false);
   }, []);
@@ -104,37 +126,56 @@ function UpscaylSteps({
     <div className="animate-step-in animate flex h-full max-w-[320px] flex-col gap-7 overflow-x-hidden overflow-y-auto p-5">
       {/* STEP 1 */}
       <div className="animate-step-in">
-        <div className="step-heading flex flex-col text-sm">
-          <span className="flex items-center justify-center self-start rounded-lg bg-foreground/10 px-2 text-sm font-medium">
-            Step 1
+        <div className="flex items-center gap-2 text-sm">
+          <span className="flex size-8 items-center justify-center rounded-full bg-foreground/10 font-medium">
+            1
           </span>
-          <p>{t("APP.FILE_SELECTION.SINGLE_MODE_TYPE")}</p>
+          <p className="font-medium">{t("APP.FILE_SELECTION.TITLE")}</p>
         </div>
-        <div className="flex flex-col gap-2 [&_svg]:size-4.5!">
-          <Button
-            className="h-16 gap-2"
-            onClick={selectImageHandler}
-            data-tooltip-id="tooltip"
-            data-tooltip-content={imagePath}
-          >
-            <UploadIcon />
-            <div className="flex flex-col text-start">
-              <span className="font-semibold">
-                {t("APP.FILE_SELECTION.TITLE")}
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <button
+              type="button"
+              onDragEnter={(event) => {
+                event.preventDefault();
+                setIsInputDragging(true);
+              }}
+              onDragLeave={(event) => {
+                event.preventDefault();
+                setIsInputDragging(false);
+              }}
+              onDragOver={(event) => event.preventDefault()}
+              onDrop={handleDrop}
+              className={cn(
+                "mt-4 flex h-60 w-full flex-col items-center justify-center rounded-3xl border-2 border-dashed px-4 text-center transition-colors",
+                isInputDragging
+                  ? "border-primary bg-primary/10"
+                  : "border-border bg-background/40 hover:border-primary/60 hover:bg-primary/5",
+              )}
+            >
+              <CloudUpload className="size-12" strokeWidth={1.5} />
+              <span className="text-sm font-medium">
+                Drag & drop an image or folder
               </span>
-              <span className="text-primary-foreground/50">PNG, JPG, WEBP</span>
-            </div>
-            <p></p>
-          </Button>
-          <Button
-            variant="outline"
-            className="h-16 font-semibold"
-            onClick={selectFolderHandler}
-          >
-            <FolderIcon />
-            {t("APP.FILE_SELECTION.BATCH_MODE_TYPE")}
-          </Button>
-        </div>
+              <span className="-mt-1 text-sm text-muted-foreground">
+                or click to browse
+              </span>
+              <span className="mt-2 text-xs text-muted-foreground">
+                PNG, JPG, JPEG, WEBP
+              </span>
+            </button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent align="center" className="w-56">
+            <DropdownMenuItem onSelect={() => void selectImageHandler()}>
+              <UploadIcon />
+              {t("APP.FILE_SELECTION.TITLE")}
+            </DropdownMenuItem>
+            <DropdownMenuItem onSelect={() => void selectFolderHandler()}>
+              <FolderIcon />
+              {t("APP.FILE_SELECTION.BATCH_MODE_TYPE")}
+            </DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>
       </div>
 
       {/* STEP 2 */}

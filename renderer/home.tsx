@@ -91,6 +91,40 @@ const Home = () => {
     }
   };
 
+  const importDroppedPath = async (path: string) => {
+    const pathType = await window.electron.invoke(
+      ELECTRON_COMMANDS.GET_DROPPED_PATH_TYPE,
+      path,
+    );
+
+    if (pathType === "directory") {
+      resetImagePaths();
+      logit("📁 Dropped Folder Path: ", path);
+      setBatchFolderPath(path);
+      if (!rememberOutputFolder) setOutputPath(path);
+      setBatchMode(true);
+      return;
+    }
+
+    if (pathType === "file") {
+      resetImagePaths();
+      logit("🖼 Dropped Image Path: ", path);
+      setImagePath(path);
+      const dirname = getDirectoryFromPath(path);
+      if (!FEATURE_FLAGS.APP_STORE_BUILD && !rememberOutputFolder) {
+        setOutputPath(dirname);
+      }
+      validateImagePath(path);
+      setBatchMode(false);
+      return;
+    }
+
+    toast({
+      title: t("ERRORS.INVALID_IMAGE_ERROR.TITLE"),
+      description: t("ERRORS.INVALID_IMAGE_ERROR.ADDITIONAL_DESCRIPTION"),
+    });
+  };
+
   const validateImagePath = (path: string) => {
     if (path.length > 0) {
       logit("🖼 imagePath: ", path);
@@ -362,6 +396,7 @@ const Home = () => {
             setUpscaledBatchFolderPath={setUpscaledBatchFolderPath}
             selectImageHandler={selectImageHandler}
             selectFolderHandler={selectFolderHandler}
+            importDroppedPath={importDroppedPath}
           />
 
           <MainContent
@@ -373,6 +408,7 @@ const Home = () => {
             validateImagePath={validateImagePath}
             selectFolderHandler={selectFolderHandler}
             selectImageHandler={selectImageHandler}
+            importDroppedPath={importDroppedPath}
             batchFolderPath={batchFolderPath}
             setBatchFolderPath={setBatchFolderPath}
             upscaledImagePath={upscaledImagePath}
