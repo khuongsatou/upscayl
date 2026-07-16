@@ -681,15 +681,14 @@ const MainContent = ({
                     <SidebarIcon />
                   </Button>
                 )}
-                <div className="inline-flex items-center gap-1 pl-1 text-sm font-medium">
-                  <span>Queue</span>
-                  <span className="flex size-5 items-center justify-center rounded-sm bg-foreground/10">
-                    {batchImagePaths.length}
+                <div className="inline-flex items-center gap-1 pl-1 text-xs font-medium">
+                  <span className="flex items-center justify-center rounded-full bg-foreground/10 px-2 py-1">
+                    {batchImagePaths.length} images
                   </span>
                 </div>
                 <Button
                   variant="ghost"
-                  size="sm"
+                  size="xs"
                   type="button"
                   onClick={resetBatchFolderPath}
                 >
