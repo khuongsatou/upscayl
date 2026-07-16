@@ -6,6 +6,12 @@ import {
   InfoIcon,
   MaximizeIcon,
   MinimizeIcon,
+  ImagesIcon,
+  ImageIcon,
+  LayersIcon,
+  SparklesIcon,
+  TimerIcon,
+  HistoryIcon,
 } from "lucide-react";
 import { Button } from "../ui/button";
 import { userStatsAtom, viewTypeAtom } from "@/atoms/user-settings-atom";
@@ -113,73 +119,99 @@ export default function ToolBar({
               <InfoIcon />
             </Button>
           </DrawerTrigger>
-          <DrawerContent>
+          <DrawerContent className="mx-auto w-full max-w-xl">
             <DrawerHeader>
               <DrawerTitle className="text-start">Stats</DrawerTitle>
             </DrawerHeader>
-            <div className="flex min-h-0 flex-1 flex-col gap-2 px-4">
-              <div className="stats stats-vertical overflow-y-auto">
-                <div className="stat">
-                  <div className="stat-title">
-                    {t("APP.MORE_OPTIONS_DRAWER.TOTAL_UPSCAYLS")}
+            <div className="flex min-h-0 flex-1 flex-col gap-4 overflow-y-auto px-4 pb-5">
+              <div className="rounded-3xl border bg-card p-5 shadow-sm">
+                <div className="flex items-start justify-between gap-4">
+                  <div>
+                    <p className="text-xs font-semibold tracking-[0.16em] uppercase text-muted-foreground">
+                      {t("APP.MORE_OPTIONS_DRAWER.TOTAL_UPSCAYLS")}
+                    </p>
+                    <p className="mt-2 text-5xl font-semibold tracking-tight">
+                      {userStats.totalUpscayls.toLocaleString()}
+                    </p>
                   </div>
-                  <div className="stat-value text-base-content text-2xl">
-                    {userStats.totalUpscayls}
+                  <div className="rounded-2xl bg-muted p-3 text-muted-foreground">
+                    <SparklesIcon className="size-6" />
                   </div>
                 </div>
+              </div>
 
-                <div className="stat">
-                  <div className="stat-title">
+              <div className="grid grid-cols-2 gap-3">
+                <div className="rounded-2xl border bg-card p-4 shadow-sm">
+                  <ImagesIcon className="size-4 text-primary" />
+                  <p className="mt-5 text-2xl font-semibold tracking-tight">
+                    {userStats.batchUpscayls.toLocaleString()}
+                  </p>
+                  <p className="mt-1 text-xs leading-snug text-muted-foreground">
                     {t("APP.MORE_OPTIONS_DRAWER.TOTAL_BATCH_UPSCAYLS")}
-                  </div>
-                  <div className="stat-value text-base-content text-2xl">
-                    {userStats.batchUpscayls}
-                  </div>
+                  </p>
                 </div>
 
-                <div className="stat">
-                  <div className="stat-title">
+                <div className="rounded-2xl border bg-card p-4 shadow-sm">
+                  <ImageIcon className="size-4 text-primary" />
+                  <p className="mt-5 text-2xl font-semibold tracking-tight">
+                    {userStats.imageUpscayls.toLocaleString()}
+                  </p>
+                  <p className="mt-1 text-xs leading-snug text-muted-foreground">
                     {t("APP.MORE_OPTIONS_DRAWER.TOTAL_IMAGE_UPSCAYLS")}
-                  </div>
-                  <div className="stat-value text-base-content text-2xl">
-                    {userStats.imageUpscayls}
-                  </div>
+                  </p>
                 </div>
 
-                <div className="stat">
-                  <div className="stat-title">
-                    {t("APP.MORE_OPTIONS_DRAWER.TOTAL_DOUBLE_UPSCAYLS")}
+                <div className="col-span-2 flex items-center gap-4 rounded-2xl border bg-card p-4 shadow-sm">
+                  <div className="rounded-xl bg-primary/10 p-2.5 text-primary">
+                    <LayersIcon className="size-5" />
                   </div>
-                  <div className="stat-value text-base-content text-2xl">
-                    {userStats.doubleUpscayls}
-                  </div>
-                </div>
-
-                <div className="stat">
-                  <div className="stat-title">
-                    {t("APP.MORE_OPTIONS_DRAWER.AVERAGE_UPSCAYL_TIME")}
-                  </div>
-                  <div className="stat-value text-base-content text-2xl">
-                    {formatDuration(userStats.averageUpscaylTime / 1000)}
+                  <div>
+                    <p className="text-2xl font-semibold tracking-tight">
+                      {userStats.doubleUpscayls.toLocaleString()}
+                    </p>
+                    <p className="text-xs text-muted-foreground">
+                      {t("APP.MORE_OPTIONS_DRAWER.TOTAL_DOUBLE_UPSCAYLS")}
+                    </p>
                   </div>
                 </div>
+              </div>
 
-                <div className="stat">
-                  <div className="stat-title">
-                    {t("APP.MORE_OPTIONS_DRAWER.LAST_UPSCAYL_DURATION")}
+              <div className="rounded-2xl border bg-card p-4 shadow-sm">
+                <div className="flex items-center gap-2">
+                  <TimerIcon className="size-4 text-primary" />
+                  <p className="text-sm font-semibold">Performance</p>
+                </div>
+                <div className="mt-4 grid grid-cols-2 divide-x divide-border">
+                  <div className="pr-4">
+                    <p className="text-xl font-semibold tracking-tight">
+                      {formatDuration(userStats.averageUpscaylTime / 1000)}
+                    </p>
+                    <p className="mt-1 text-xs leading-snug text-muted-foreground">
+                      {t("APP.MORE_OPTIONS_DRAWER.AVERAGE_UPSCAYL_TIME")}
+                    </p>
                   </div>
-                  <div className="stat-value text-base-content text-2xl">
-                    {formatDuration(userStats.lastUpscaylDuration / 1000)}
+                  <div className="pl-4">
+                    <p className="text-xl font-semibold tracking-tight">
+                      {formatDuration(userStats.lastUpscaylDuration / 1000)}
+                    </p>
+                    <p className="mt-1 text-xs leading-snug text-muted-foreground">
+                      {t("APP.MORE_OPTIONS_DRAWER.LAST_UPSCAYL_DURATION")}
+                    </p>
                   </div>
                 </div>
+              </div>
 
-                <div className="stat">
-                  <div className="stat-title">
+              <div className="flex items-start gap-3 rounded-2xl bg-muted/60 p-4">
+                <HistoryIcon className="mt-0.5 size-4 shrink-0 text-muted-foreground" />
+                <div>
+                  <p className="text-xs font-medium text-muted-foreground">
                     {t("APP.MORE_OPTIONS_DRAWER.LAST_USED_AT")}
-                  </div>
-                  <div className="stat-value text-base-content text-2xl">
-                    {new Date(userStats.lastUsedAt).toLocaleString()}
-                  </div>
+                  </p>
+                  <p className="mt-1 text-sm font-medium">
+                    {userStats.lastUsedAt
+                      ? new Date(userStats.lastUsedAt).toLocaleString()
+                      : "—"}
+                  </p>
                 </div>
               </div>
             </div>
