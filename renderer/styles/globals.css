@@ -143,7 +143,7 @@
     @apply transition-all duration-300 ease-in-out;
   }
   .step-heading {
-    @apply mb-2 flex gap-2 font-semibold;
+    @apply flex gap-2 font-semibold;
   }
 
   .react-select-container {

@@ -165,14 +165,13 @@ function UpscaylSteps({
   // });
 
   return (
-    <div className="animate-step-in animate flex h-full max-w-[320px] flex-col gap-7 overflow-x-hidden overflow-y-auto p-5">
+    <div className="animate-step-in animate flex h-full max-w-[320px] flex-col gap-4 overflow-x-hidden overflow-y-auto px-3 py-4">
       {/* STEP 1 */}
-      <div className="animate-step-in">
+      <div className="animate-step-in flex flex-col gap-2">
         <div className="step-heading flex flex-row text-sm">
           <span className="w-fit rounded-lg bg-foreground/10 px-2 text-sm font-medium">
-            Step 1
+            Step 1 - {t("APP.FILE_SELECTION.SINGLE_MODE_TYPE")}
           </span>
-          {t("APP.FILE_SELECTION.SINGLE_MODE_TYPE")}
         </div>
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
@@ -189,7 +188,7 @@ function UpscaylSteps({
               onDragOver={(event) => event.preventDefault()}
               onDrop={handleDrop}
               className={cn(
-                "mt-4 flex h-40 w-full flex-col items-center justify-center rounded-3xl border-2 border-dashed px-4 text-center transition-colors",
+                "flex h-40 w-full flex-col items-center justify-center rounded-3xl border-2 border-dashed px-4 text-center transition-colors",
                 isInputDragging
                   ? "border-primary bg-primary/10"
                   : "border-border bg-background/40 hover:border-primary/60 hover:bg-primary/5",
@@ -246,16 +245,16 @@ function UpscaylSteps({
       </div>
 
       {/* STEP 2 */}
-      <div className="animate-step-in group flex flex-col gap-4">
-        <div className="flex flex-col gap-1 text-sm">
-          <p className="flex items-center justify-center self-start rounded-lg bg-foreground/10 px-2 text-sm font-medium">
-            {t("APP.MODEL_SELECTION.TITLE")}
+      <div className="animate-step-in group flex flex-col gap-2">
+        <div className="step-heading flex flex-row text-sm">
+          <p className="w-fit rounded-lg bg-foreground/10 px-2 text-sm font-medium">
+            Step 2 - Select AI Model
           </p>
-          <p>{t("APP.MODEL_SELECTION.DESCRIPTION")}</p>
-
-          <SelectModelDialog />
         </div>
+        <SelectModelDialog />
+      </div>
 
+      <div className="animate-step-in group flex flex-col gap-2">
         {!batchMode && (
           <FieldGroup>
             <FieldLabel htmlFor="double-upscayl-toggle">
@@ -281,14 +280,21 @@ function UpscaylSteps({
             </FieldLabel>
           </FieldGroup>
         )}
+      </div>
 
+      <div className="animate-step-in group flex flex-col gap-2">
         <SelectImageScale scale={scale} setScale={setScale} hideInfo />
+      </div>
 
-        {/* IMAGE FORMAT BUTTONS */}
+      {/* IMAGE FORMAT BUTTONS */}
+      <div className="animate-step-in group flex flex-col gap-2">
+        <div className="step-heading flex flex-row text-sm">
+          <span className="w-fit rounded-lg bg-foreground/10 px-2 text-sm font-medium">
+            Step 3 - Save Image As
+          </span>
+        </div>
         <div className="space-y-1">
-          <p className="capitalize">
-            {t("SETTINGS.IMAGE_FORMAT.TITLE").toLowerCase()}
-          </p>
+          <p className="capitalize"></p>
           <SelectImageFormat
             batchMode={batchMode}
             saveImageAs={saveImageAs}
@@ -297,6 +303,7 @@ function UpscaylSteps({
           />
         </div>
       </div>
+
       {/* STEP 3 */}
       <div className="animate-step-in">
         <div className="flex flex-col pb-2">

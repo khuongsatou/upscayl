@@ -1,13 +1,14 @@
+import { useEffect, useState } from "react";
 import { translationAtom } from "@/atoms/translations-atom";
 import { useCustomWidthAtom } from "@/atoms/user-settings-atom";
-import { Slider } from "@/components/ui/slider";
+import {
+  IMAGE_SCALE_PRESETS,
+  isImageScalePreset,
+  isValidImageScale,
+} from "@/lib/image-scale";
+import { cn } from "@/lib/utils";
+import type { ImageScaleSelectProps } from "@/types/image-scale";
 import { useAtomValue } from "jotai";
-
-type ImageScaleSelectProps = {
-  scale: string;
-  setScale: React.Dispatch<React.SetStateAction<string>>;
-  hideInfo?: boolean;
-};
 
 export function SelectImageScale({
   scale,
@@ -16,64 +17,137 @@ export function SelectImageScale({
 }: ImageScaleSelectProps) {
   const useCustomWidth = useAtomValue(useCustomWidthAtom);
   const t = useAtomValue(translationAtom);
+  const [showCustomInput, setShowCustomInput] = useState(
+    !isImageScalePreset(scale),
+  );
+  const [customScale, setCustomScale] = useState(
+    isImageScalePreset(scale) ? "" : scale,
+  );
+  const hasValidCustomScale = isValidImageScale(customScale);
+
+  useEffect(() => {
+    const isCustomScale = !isImageScalePreset(scale);
+
+    setShowCustomInput(isCustomScale);
+    setCustomScale(isCustomScale ? scale : "");
+  }, [scale]);
 
   return (
-    <div className={` ${useCustomWidth && "opacity-50"}`}>
-      <div className="flex flex-row items-center gap-2">
-        {hideInfo ? (
-          <>
-            <p className="text-sm">
-              {t("SETTINGS.IMAGE_SCALE.TITLE")}{" "}
-              <span className="text-xs">({scale}X)</span>
-            </p>
-            {hideInfo && parseInt(scale) >= 6 && (
-              <span
-                className="text-error text-xs font-bold"
-                data-tooltip-id="tooltip"
-                data-tooltip-content={t("SETTINGS.IMAGE_SCALE.WARNING")}
-              >
-                <svg
-                  className="h-4 w-4"
-                  stroke="currentColor"
-                  fill="currentColor"
-                  stroke-width="0"
-                  viewBox="0 0 24 24"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path d="M9.836 3.244c.963-1.665 3.365-1.665 4.328 0l8.967 15.504c.963 1.667-.24 3.752-2.165 3.752H3.034c-1.926 0-3.128-2.085-2.165-3.752ZM12 8.5a.75.75 0 0 0-.75.75v4.5a.75.75 0 0 0 1.5 0v-4.5A.75.75 0 0 0 12 8.5Zm1 9a1 1 0 1 0-2 0 1 1 0 0 0 2 0Z"></path>
-                </svg>
-              </span>
-            )}
-          </>
-        ) : (
-          <p className="text-sm font-medium">
-            {t("SETTINGS.IMAGE_SCALE.TITLE")} ({scale}X){" "}
-            {useCustomWidth && "DISABLED"}
-          </p>
-        )}
+    <div className={cn("mt-2 space-y-2", useCustomWidth && "opacity-50")}>
+      <div className="flex items-center justify-between gap-2">
+        <div className="step-heading flex flex-row text-sm">
+          <span className="w-fit rounded-lg bg-foreground/10 px-2 text-sm font-medium">
+            {t("SETTINGS.IMAGE_SCALE.TITLE")}
+            {!hideInfo && useCustomWidth && " DISABLED"} -
+            <span className="text-sm font-medium text-muted-foreground">
+              {" "}
+              {scale}×
+            </span>
+          </span>
+        </div>
+        <div className="flex items-center gap-3">
+          <button
+            type="button"
+            disabled={useCustomWidth}
+            aria-expanded={showCustomInput}
+            aria-controls="custom-image-scale"
+            className="text-xs text-muted-foreground transition-colors hover:text-foreground focus-visible:ring-3 focus-visible:ring-ring/50 focus-visible:outline-none disabled:pointer-events-none"
+            onClick={() => {
+              setShowCustomInput(true);
+              setCustomScale(isImageScalePreset(scale) ? "" : scale);
+            }}
+          >
+            Custom
+          </button>
+        </div>
       </div>
-      {!hideInfo && (
+
+      <div className="grid grid-cols-5 gap-2">
+        {IMAGE_SCALE_PRESETS.map((preset) => {
+          const isSelected = !showCustomInput && scale === preset;
+
+          return (
+            <button
+              type="button"
+              key={preset}
+              disabled={useCustomWidth}
+              aria-pressed={isSelected}
+              className={cn(
+                "h-11 rounded-xl bg-background/70 text-sm font-semibold transition-colors hover:bg-muted/70 focus-visible:ring-3 focus-visible:ring-ring/50 focus-visible:outline-none disabled:pointer-events-none",
+                isSelected && "bg-muted text-foreground shadow-sm",
+              )}
+              onClick={() => {
+                setScale(preset);
+                setShowCustomInput(false);
+                setCustomScale("");
+              }}
+            >
+              {preset}×
+            </button>
+          );
+        })}
+      </div>
+
+      {showCustomInput && (
+        <div className="flex flex-wrap items-center gap-2">
+          <label
+            className="text-xs text-muted-foreground"
+            htmlFor="custom-image-scale"
+          >
+            Custom scale
+          </label>
+          <div className="flex items-center gap-1.5">
+            <input
+              id="custom-image-scale"
+              type="number"
+              min="1"
+              max="16"
+              step="1"
+              inputMode="numeric"
+              value={customScale}
+              disabled={useCustomWidth}
+              aria-invalid={customScale.length > 0 && !hasValidCustomScale}
+              placeholder="1–16"
+              className="h-8 w-18 rounded-lg border bg-background/70 px-2 text-sm transition-colors outline-none focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50 disabled:pointer-events-none"
+              onChange={(event) => {
+                const value = event.target.value;
+                if (value !== "" && !/^\d{1,2}$/.test(value)) return;
+
+                setCustomScale(value);
+              }}
+              onBlur={() => {
+                if (hasValidCustomScale) {
+                  setScale(customScale);
+                  return;
+                }
+
+                setCustomScale(isImageScalePreset(scale) ? "" : scale);
+              }}
+            />
+            <span className="text-sm text-muted-foreground">×</span>
+          </div>
+          {customScale.length > 0 && !hasValidCustomScale && (
+            <p className="basis-full text-xs text-destructive">
+              Enter a whole number from 1 to 16.
+            </p>
+          )}
+        </div>
+      )}
+
+      {hideInfo ? (
+        <p className="text-xs text-muted-foreground">
+          Increase image resolution by {scale}×.
+        </p>
+      ) : (
         <p className="text-xs text-muted-foreground">
           {t("SETTINGS.IMAGE_SCALE.DESCRIPTION")}
         </p>
       )}
-      {!hideInfo && parseInt(scale) >= 6 && (
-        <p className="text-base-content/80 text-xs text-red-500">
+      {!hideInfo && Number(scale) >= 6 && (
+        <p className="text-xs text-destructive">
           {t("SETTINGS.IMAGE_SCALE.ADDITIONAL_WARNING")}
         </p>
       )}
-
-      <Slider
-        min={1}
-        max={16}
-        step={1}
-        value={[Number(scale)]}
-        onValueChange={([value]) => {
-          setScale(value.toString());
-        }}
-        disabled={useCustomWidth}
-        className="mt-3 w-full"
-      />
     </div>
   );
 }
