@@ -9,6 +9,7 @@ import {
 import { cn } from "@/lib/utils";
 import type { ImageScaleSelectProps } from "@/types/image-scale";
 import { useAtomValue } from "jotai";
+import { Button } from "@/components/ui/button";
 
 export function SelectImageScale({
   scale,
@@ -46,19 +47,20 @@ export function SelectImageScale({
           </span>
         </div>
         <div className="flex items-center gap-3">
-          <button
+          <Button
             type="button"
+            variant="ghost"
+            size="xs"
             disabled={useCustomWidth}
             aria-expanded={showCustomInput}
             aria-controls="custom-image-scale"
-            className="text-xs text-muted-foreground transition-colors hover:text-foreground focus-visible:ring-3 focus-visible:ring-ring/50 focus-visible:outline-none disabled:pointer-events-none"
             onClick={() => {
               setShowCustomInput(true);
               setCustomScale(isImageScalePreset(scale) ? "" : scale);
             }}
           >
             Custom
-          </button>
+          </Button>
         </div>
       </div>
 
@@ -67,15 +69,13 @@ export function SelectImageScale({
           const isSelected = !showCustomInput && scale === preset;
 
           return (
-            <button
+            <Button
               type="button"
               key={preset}
+              variant={isSelected ? "default" : "outline"}
+              size="lg"
               disabled={useCustomWidth}
               aria-pressed={isSelected}
-              className={cn(
-                "h-11 rounded-xl bg-background/70 text-sm font-semibold transition-colors hover:bg-muted/70 focus-visible:ring-3 focus-visible:ring-ring/50 focus-visible:outline-none disabled:pointer-events-none",
-                isSelected && "bg-muted text-foreground shadow-sm",
-              )}
               onClick={() => {
                 setScale(preset);
                 setShowCustomInput(false);
@@ -83,7 +83,7 @@ export function SelectImageScale({
               }}
             >
               {preset}×
-            </button>
+            </Button>
           );
         })}
       </div>

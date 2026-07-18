@@ -244,63 +244,57 @@ function UpscaylSteps({
         )}
       </div>
 
-      {/* STEP 2 */}
-      <div className="animate-step-in group flex flex-col gap-2">
+      {/* UPSCALE SETTINGS */}
+      <div className="animate-step-in group flex flex-col gap-4">
         <div className="step-heading flex flex-row text-sm">
           <p className="w-fit rounded-lg bg-foreground/10 px-2 text-sm font-medium">
-            Step 2 - Select AI Model
+            Step 2 - Upscale Settings
           </p>
         </div>
-        <SelectModelDialog />
-      </div>
+        <div className="rounded-2xl border bg-background/40 p-3">
+          <div className="flex flex-col gap-4">
+            <SelectModelDialog />
+            {!batchMode && (
+              <FieldGroup>
+                <FieldLabel htmlFor="double-upscayl-toggle">
+                  <Field orientation="horizontal">
+                    <FieldContent
+                      data-tooltip-id="tooltip"
+                      data-tooltip-content={t("APP.DOUBLE_UPSCAYL.DESCRIPTION")}
+                    >
+                      <FieldTitle>{t("APP.DOUBLE_UPSCAYL.TITLE")}</FieldTitle>
+                      <FieldDescription className="line-clamp-2 max-w-58">
+                        {t("APP.DOUBLE_UPSCAYL.DESCRIPTION")}
+                      </FieldDescription>
+                    </FieldContent>
+                    <Switch
+                      id="double-upscayl-toggle"
+                      checked={doubleUpscayl}
+                      onCheckedChange={(isChecked) => {
+                        if (isChecked) setDoubleUpscayl(true);
+                        else setDoubleUpscayl(false);
+                      }}
+                    />
+                  </Field>
+                </FieldLabel>
+              </FieldGroup>
+            )}
+            <SelectImageScale scale={scale} setScale={setScale} hideInfo />
 
-      <div className="animate-step-in group flex flex-col gap-2">
-        {!batchMode && (
-          <FieldGroup>
-            <FieldLabel htmlFor="double-upscayl-toggle">
-              <Field orientation="horizontal">
-                <FieldContent
-                  data-tooltip-id="tooltip"
-                  data-tooltip-content={t("APP.DOUBLE_UPSCAYL.DESCRIPTION")}
-                >
-                  <FieldTitle>{t("APP.DOUBLE_UPSCAYL.TITLE")}</FieldTitle>
-                  <FieldDescription className="line-clamp-2 max-w-58">
-                    {t("APP.DOUBLE_UPSCAYL.DESCRIPTION")}
-                  </FieldDescription>
-                </FieldContent>
-                <Switch
-                  id="double-upscayl-toggle"
-                  checked={doubleUpscayl}
-                  onCheckedChange={(isChecked) => {
-                    if (isChecked) setDoubleUpscayl(true);
-                    else setDoubleUpscayl(false);
-                  }}
-                />
-              </Field>
-            </FieldLabel>
-          </FieldGroup>
-        )}
-      </div>
+            {/* SAVE IMAGE AS */}
+            <div className="flex flex-col gap-2">
+              <span className="w-fit rounded-lg bg-foreground/10 px-2 text-sm font-medium">
+                Save Image As
+              </span>
 
-      <div className="animate-step-in group flex flex-col gap-2">
-        <SelectImageScale scale={scale} setScale={setScale} hideInfo />
-      </div>
-
-      {/* IMAGE FORMAT BUTTONS */}
-      <div className="animate-step-in group flex flex-col gap-2">
-        <div className="step-heading flex flex-row text-sm">
-          <span className="w-fit rounded-lg bg-foreground/10 px-2 text-sm font-medium">
-            Step 3 - Save Image As
-          </span>
-        </div>
-        <div className="space-y-1">
-          <p className="capitalize"></p>
-          <SelectImageFormat
-            batchMode={batchMode}
-            saveImageAs={saveImageAs}
-            setExportType={setExportType}
-            hideLabel
-          />
+              <SelectImageFormat
+                batchMode={batchMode}
+                saveImageAs={saveImageAs}
+                setExportType={setExportType}
+                hideLabel
+              />
+            </div>
+          </div>
         </div>
       </div>
 
@@ -363,7 +357,42 @@ function UpscaylSteps({
         {/*   </p> */}
         {/* )} */}
         <Button
-          className="h-14 w-full bg-linear-to-r bg-[linear-gradient(120deg,#fde68a_20%,#f472b6,#a78bfa,#bae6fd)]"
+          className="upscayl-button"
+          onPointerMove={(event) => {
+            const bounds = event.currentTarget.getBoundingClientRect();
+            const horizontalPosition =
+              (event.clientX - bounds.left) / bounds.width - 0.5;
+            const verticalPosition =
+              (event.clientY - bounds.top) / bounds.height - 0.5;
+
+            event.currentTarget.style.setProperty(
+              "--glass-x",
+              `${event.clientX - bounds.left}px`,
+            );
+            event.currentTarget.style.setProperty(
+              "--glass-y",
+              `${event.clientY - bounds.top}px`,
+            );
+            event.currentTarget.style.setProperty(
+              "--tilt-x",
+              `${verticalPosition * -8}deg`,
+            );
+            event.currentTarget.style.setProperty(
+              "--tilt-y",
+              `${horizontalPosition * 10}deg`,
+            );
+            event.currentTarget.style.setProperty(
+              "--skew-x",
+              `${horizontalPosition * -1.5}deg`,
+            );
+          }}
+          onPointerLeave={(event) => {
+            event.currentTarget.style.setProperty("--glass-x", "50%");
+            event.currentTarget.style.setProperty("--glass-y", "50%");
+            event.currentTarget.style.setProperty("--tilt-x", "0deg");
+            event.currentTarget.style.setProperty("--tilt-y", "0deg");
+            event.currentTarget.style.setProperty("--skew-x", "0deg");
+          }}
           onClick={
             progress.length > 0 || !outputPath
               ? () =>
@@ -375,9 +404,12 @@ function UpscaylSteps({
               : upscaylHandler
           }
         >
-          {progress.length > 0
-            ? t("APP.SCALE_SELECTION.IN_PROGRESS_BUTTON_TITLE")
-            : t("APP.SCALE_SELECTION.START_BUTTON_TITLE")}
+          <SparklesIcon aria-hidden="true" />
+          <span>
+            {progress.length > 0
+              ? t("APP.SCALE_SELECTION.IN_PROGRESS_BUTTON_TITLE")
+              : t("APP.SCALE_SELECTION.START_BUTTON_TITLE")}
+          </span>
         </Button>
       </div>
     </div>

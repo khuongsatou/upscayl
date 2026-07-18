@@ -219,7 +219,7 @@ const Sidebar = ({
         setShow={setShowCloudModal}
         setDontShowCloudModal={setDontShowCloudModal}
       />
-      <Footer />
+      {/* <Footer /> */}
     </div>
   );
 };

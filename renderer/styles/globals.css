@@ -146,6 +146,183 @@
     @apply flex gap-2 font-semibold;
   }
 
+  .upscayl-button {
+    --glass-x: 50%;
+    --glass-y: 50%;
+    --tilt-x: 0deg;
+    --tilt-y: 0deg;
+    --skew-x: 0deg;
+
+    position: relative;
+    isolation: isolate;
+    overflow: hidden;
+    width: 100%;
+    height: 3.5rem;
+    border-radius: 9999px;
+    border-color: rgb(255 255 255 / 62%);
+    background:
+      radial-gradient(
+        ellipse 58% 130% at 52% 4%,
+        rgb(255 255 246 / 82%) 0%,
+        transparent 68%
+      ),
+      radial-gradient(
+        ellipse 42% 150% at 0% 75%,
+        rgb(255 151 151 / 95%) 0%,
+        rgb(255 181 164 / 68%) 42%,
+        transparent 74%
+      ),
+      radial-gradient(
+        ellipse 54% 140% at 13% -24%,
+        rgb(255 235 160 / 96%) 0%,
+        rgb(255 229 190 / 62%) 44%,
+        transparent 74%
+      ),
+      radial-gradient(
+        ellipse 50% 155% at 49% 122%,
+        rgb(229 197 228 / 92%) 0%,
+        rgb(241 216 229 / 58%) 46%,
+        transparent 76%
+      ),
+      radial-gradient(
+        ellipse 48% 145% at 68% -32%,
+        rgb(232 249 222 / 88%) 0%,
+        transparent 72%
+      ),
+      radial-gradient(
+        ellipse 54% 145% at 102% -8%,
+        rgb(135 217 215 / 94%) 0%,
+        rgb(180 230 224 / 58%) 46%,
+        transparent 76%
+      ),
+      radial-gradient(
+        ellipse 48% 155% at 106% 116%,
+        rgb(176 203 224 / 92%) 0%,
+        rgb(203 216 230 / 55%) 48%,
+        transparent 78%
+      ),
+      linear-gradient(
+        102deg,
+        rgb(248 220 199) 0%,
+        rgb(245 229 227) 48%,
+        rgb(205 228 228) 100%
+      );
+    color: oklch(0.2 0.02 322);
+    -webkit-backdrop-filter: blur(14px) saturate(1.2);
+    backdrop-filter: blur(14px) saturate(1.2);
+    box-shadow:
+      inset 0 1px 1px rgb(255 255 255 / 82%),
+      inset 0 -1px 1px rgb(75 105 120 / 14%),
+      inset 1px 0 0 rgb(255 255 255 / 24%),
+      inset -1px 0 0 rgb(255 255 255 / 24%),
+      0 8px 22px rgb(6 35 50 / 24%);
+    transform: perspective(700px) rotateX(var(--tilt-x)) rotateY(var(--tilt-y))
+      skewX(var(--skew-x));
+    transform-style: preserve-3d;
+    will-change: transform;
+    transition:
+      transform 800ms cubic-bezier(0.2, 0.8, 0.2, 1),
+      box-shadow 800ms ease,
+      filter 800ms ease;
+  }
+
+  .upscayl-button::before,
+  .upscayl-button::after {
+    position: absolute;
+    z-index: 0;
+    pointer-events: none;
+    content: "";
+  }
+
+  .upscayl-button::before {
+    inset: 0;
+    border-radius: inherit;
+    background: radial-gradient(
+      circle 7rem at var(--glass-x) var(--glass-y),
+      rgb(255 255 255 / 76%) 0%,
+      rgb(255 255 255 / 28%) 24%,
+      rgb(255 255 255 / 8%) 44%,
+      transparent 68%
+    );
+    opacity: 0;
+    mix-blend-mode: soft-light;
+    transition: opacity 180ms ease;
+  }
+
+  .upscayl-button::after {
+    inset: 1px;
+    border: 1px solid rgb(255 255 255 / 48%);
+    border-radius: inherit;
+    background: radial-gradient(
+      circle 3.5rem at var(--glass-x) var(--glass-y),
+      rgb(255 255 255 / 42%) 0%,
+      rgb(255 255 255 / 12%) 45%,
+      transparent 74%
+    );
+    opacity: 22%;
+    transition: opacity 180ms ease;
+  }
+
+  .upscayl-button > svg,
+  .upscayl-button > span {
+    position: relative;
+    z-index: 1;
+  }
+
+  .upscayl-button:hover {
+    transform: perspective(700px) translateY(-1px) rotateX(var(--tilt-x))
+      rotateY(var(--tilt-y)) skewX(var(--skew-x)) scale(1.008);
+    filter: saturate(1.025) brightness(1.015);
+    box-shadow:
+      inset 0 1px 1px rgb(255 255 255 / 92%),
+      inset 0 -1px 1px rgb(75 105 120 / 12%),
+      inset 1px 0 0 rgb(255 255 255 / 32%),
+      inset -1px 0 0 rgb(255 255 255 / 32%),
+      0 10px 26px rgb(6 35 50 / 28%);
+  }
+
+  .upscayl-button:hover::before,
+  .upscayl-button:focus-visible::before {
+    opacity: 82%;
+  }
+
+  .upscayl-button:hover::after,
+  .upscayl-button:focus-visible::after {
+    opacity: 68%;
+  }
+
+  .upscayl-button:active:not(:disabled) {
+    transform: perspective(700px) translateY(1px) rotateX(var(--tilt-x))
+      rotateY(var(--tilt-y)) skewX(var(--skew-x)) scale(0.985);
+    transition-duration: 90ms;
+    box-shadow:
+      inset 0 2px 5px rgb(55 77 90 / 18%),
+      inset 0 -1px 1px rgb(255 255 255 / 44%),
+      0 3px 10px rgb(6 35 50 / 20%);
+  }
+
+  .upscayl-button:disabled {
+    transform: none;
+    filter: saturate(0.55);
+    box-shadow:
+      inset 0 1px 0 rgb(255 255 255 / 50%),
+      0 4px 12px rgb(6 35 50 / 16%);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .upscayl-button,
+    .upscayl-button::before,
+    .upscayl-button::after {
+      transition-duration: 0ms;
+      animation: none;
+    }
+
+    .upscayl-button:hover,
+    .upscayl-button:active:not(:disabled) {
+      transform: none;
+    }
+  }
+
   .react-select-container {
     @apply w-40;
   }

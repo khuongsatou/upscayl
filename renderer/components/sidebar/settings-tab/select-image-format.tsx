@@ -22,7 +22,6 @@ export function SelectImageFormat({
       <Button
         variant={saveImageAs === "png" ? "default" : "outline"}
         size="sm"
-        className="rounded-lg"
         onClick={() => setExportType("png")}
       >
         {t("SETTINGS.IMAGE_FORMAT.PNG")}
@@ -32,7 +31,6 @@ export function SelectImageFormat({
       <Button
         variant={saveImageAs === "jpg" ? "default" : "outline"}
         size="sm"
-        className="rounded-lg"
         onClick={() => setExportType("jpg")}
       >
         {t("SETTINGS.IMAGE_FORMAT.JPG")}
@@ -42,7 +40,6 @@ export function SelectImageFormat({
       <Button
         variant={saveImageAs === "webp" ? "default" : "outline"}
         size="sm"
-        className="rounded-lg"
         onClick={() => setExportType("webp")}
       >
         {t("SETTINGS.IMAGE_FORMAT.WEBP")}
