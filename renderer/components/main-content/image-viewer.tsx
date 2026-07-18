@@ -46,7 +46,7 @@ const ImageViewer = ({
           ["--zoom-scale" as string]: `${(Number(zoomAmount) || 100) / 100}`,
         }}
         className={cn(
-          "slider-zoom bg-base size-full bg-linear-to-br object-contain transition-transform",
+          "slider-zoom size-full bg-background bg-linear-to-br object-contain transition-transform",
           className,
         )}
       />

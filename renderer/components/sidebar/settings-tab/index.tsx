@@ -138,7 +138,7 @@ function SettingsTab({
 
   return (
     <Dialog open={showSettings} onOpenChange={setShowSettings}>
-      <DialogContent className="overflow-hidden md:max-h-125 md:max-w-20 lg:max-h-screen lg:max-w-2xl">
+      <DialogContent className="overflow-hidden sm:max-w-2xl md:max-h-125 lg:max-h-screen lg:max-w-2xl">
         <DialogHeader className="h-8 border-b">
           <DialogTitle>{t("SETTINGS.TITLE")}</DialogTitle>
         </DialogHeader>
