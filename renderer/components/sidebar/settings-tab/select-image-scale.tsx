@@ -10,6 +10,7 @@ import { cn } from "@/lib/utils";
 import type { ImageScaleSelectProps } from "@/types/image-scale";
 import { useAtomValue } from "jotai";
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 
 export function SelectImageScale({
   scale,
@@ -97,7 +98,7 @@ export function SelectImageScale({
             Custom scale
           </label>
           <div className="flex items-center gap-1.5">
-            <input
+            <Input
               id="custom-image-scale"
               type="number"
               min="1"
@@ -108,7 +109,7 @@ export function SelectImageScale({
               disabled={useCustomWidth}
               aria-invalid={customScale.length > 0 && !hasValidCustomScale}
               placeholder="1–16"
-              className="h-8 w-18 rounded-lg border bg-background/70 px-2 text-sm transition-colors outline-none focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50 disabled:pointer-events-none"
+              className="h-8 w-18 rounded-lg bg-background/70"
               onChange={(event) => {
                 const value = event.target.value;
                 if (value !== "" && !/^\d{1,2}$/.test(value)) return;

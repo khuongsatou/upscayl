@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from "react";
+import React, { useCallback, useState } from "react";
 import { translationAtom } from "@/atoms/translations-atom";
 import { copyMetadataAtom } from "@/atoms/user-settings-atom";
 import { useAtom, useAtomValue } from "jotai";
@@ -10,6 +10,14 @@ import {
   FieldDescription,
   FieldLabel,
 } from "@/components/ui/field";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogDescription,
+  DialogFooter,
+} from "@/components/ui/dialog";
 
 type CopyMetadataToggleProps = {
   saveImageAs: string;
@@ -78,49 +86,31 @@ const CopyMetadataToggle = ({
         </Field>
       </div>
 
-      {showSuggestModal && (
-        <div
-          className="fixed inset-0 z-50 flex items-center justify-center bg-black/40"
-          onClick={() => setShowSuggestModal(false)}
-          onKeyDown={(e) => e.key === "Escape" && setShowSuggestModal(false)}
-          tabIndex={0}
-        >
-          <div
-            className="bg-base-100 w-96 rounded-lg p-6 shadow-xl"
-            onClick={(e) => e.stopPropagation()}
-          >
-            <div className="mb-2 flex items-center justify-between">
-              <h3 className="text-lg font-semibold">
-                {t("SETTINGS.COPY_METADATA.SUGGEST_JPG_TITLE")}
-              </h3>
-              <button
-                className="btn btn-sm btn-ghost"
-                onClick={() => setShowSuggestModal(false)}
-                aria-label="Close"
-              >
-                ×
-              </button>
-            </div>
-            <p className="text-base-content/80 mb-4 text-sm">
+      <Dialog open={showSuggestModal} onOpenChange={setShowSuggestModal}>
+        <DialogContent className="sm:max-w-96">
+          <DialogHeader>
+            <DialogTitle>
+              {t("SETTINGS.COPY_METADATA.SUGGEST_JPG_TITLE")}
+            </DialogTitle>
+            <DialogDescription>
               {t("SETTINGS.COPY_METADATA.SUGGEST_JPG_DESCRIPTION")}
-            </p>
-            <div className="flex justify-end gap-2">
-              <button className="btn btn-primary" onClick={handleChangeToJpg}>
-                {t("SETTINGS.COPY_METADATA.CHANGE_TO_JPG")}
-              </button>
-              <button className="btn" onClick={handleKeepFormat}>
-                {t("SETTINGS.COPY_METADATA.KEEP_CURRENT_FORMAT").replace(
-                  "{format}",
-                  saveImageAs.toUpperCase(),
-                )}
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
+            </DialogDescription>
+          </DialogHeader>
+          <DialogFooter>
+            <Button variant="outline" onClick={handleKeepFormat}>
+              {t("SETTINGS.COPY_METADATA.KEEP_CURRENT_FORMAT").replace(
+                "{format}",
+                saveImageAs.toUpperCase(),
+              )}
+            </Button>
+            <Button onClick={handleChangeToJpg}>
+              {t("SETTINGS.COPY_METADATA.CHANGE_TO_JPG")}
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 };
 
 export default CopyMetadataToggle;
-

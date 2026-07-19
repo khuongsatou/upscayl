@@ -1,39 +1,23 @@
-import SelectTheme from "./select-theme";
-import { SaveOutputFolderToggle } from "./save-output-folder-toggle";
-import { InputGpuId } from "./input-gpu-id";
-import { CustomModelsFolderSelect } from "./select-custom-models-folder";
-import { LogArea } from "./log-area";
-import { SelectImageScale } from "./select-image-scale";
-import { SelectImageFormat } from "./select-image-format";
-import { DonateButton } from "./donate-button";
-import React, { useState } from "react";
+import React from "react";
 import { useAtom, useAtomValue } from "jotai";
-import { customModelsPathAtom, scaleAtom } from "@/atoms/user-settings-atom";
-import { InputCompression } from "./input-compression";
-import OverwriteToggle from "./overwrite-toggle";
-import { UpscaylCloudModal } from "@/components/upscayl-cloud-modal";
-import { ResetSettingsButton } from "./reset-settings-button";
-import { FEATURE_FLAGS } from "@common/feature-flags";
-import TurnOffNotificationsToggle from "./turn-off-notifications-toggle";
-import { cn } from "@/lib/utils";
-import { InputCustomResolution } from "./input-custom-resolution";
-import { InputTileSize } from "./input-tile-size";
-import LanguageSwitcher from "./language-switcher";
+import { showSettingsDialogAtom } from "@/atoms/toggle-settings";
+import { settingsCategoryAtom } from "@/atoms/settings-category-atom";
 import { translationAtom } from "@/atoms/translations-atom";
 import { ImageFormat } from "@/lib/valid-formats";
-import EnableContributionToggle from "./enable-contributions-toggle";
-import AutoUpdateToggle from "./auto-update-toggle";
-import TTAModeToggle from "./tta-mode-toggle";
-import SystemInfo from "./system-info";
-import CopyMetadataToggle from "./copy-metadata-toggle";
 import {
   Dialog,
   DialogContent,
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
-import { Button } from "@/components/ui/button";
-import { showSettingsDialogAtom } from "@/atoms/toggle-settings";
+
+import SettingsSidebar from "./settings-sidebar";
+import AppearanceSection from "./sections/appearance-section";
+import AIModelsSection from "./sections/ai-models-section";
+import ImageSettingsSection from "./sections/image-settings-section";
+import SystemSection from "./sections/system-section";
+import LogsSection from "./sections/logs-section";
+import HelpSection from "./sections/help-section";
 
 interface IProps {
   batchMode: boolean;
@@ -62,211 +46,53 @@ function SettingsTab({
   setShow,
   setDontShowCloudModal,
 }: IProps) {
-  const [isCopied, setIsCopied] = useState(false);
-
-  const [customModelsPath, setCustomModelsPath] = useAtom(customModelsPathAtom);
-  const [scale, setScale] = useAtom(scaleAtom);
-  const [enableScrollbar, setEnableScrollbar] = useState(true);
-  const [timeoutId, setTimeoutId] = useState(null);
   const [showSettings, setShowSettings] = useAtom(showSettingsDialogAtom);
+  const activeCategory = useAtomValue(settingsCategoryAtom);
   const t = useAtomValue(translationAtom);
 
-  // HANDLERS
-  const setExportType = (format: ImageFormat) => {
-    setSaveImageAs(format);
-  };
-
-  const handleCompressionChange = (value) => {
-    setCompression(value);
-  };
-
-  const handleGpuIdChange = (e) => {
-    setGpuId(e.target.value);
-    localStorage.setItem("gpuId", e.target.value);
-  };
-
-  const copyOnClickHandler = () => {
-    navigator.clipboard.writeText(logData.join("\n"));
-    setIsCopied(true);
-    setTimeout(() => {
-      setIsCopied(false);
-    }, 2000);
-  };
-
-  const sendToTermbin = async (logData: string[]) => {
-    try {
-      const response = await fetch("https://termbin.com:9999/", {
-        method: "POST",
-        body: logData.join("\n"),
-      });
-
-      if (!response.ok) {
-        throw new Error("Network response was not ok");
-      }
-
-      const url = await response.text();
-      return url.trim();
-    } catch (error) {
-      console.error("Error sending to termbin:", error);
-      throw error;
+  const renderSection = () => {
+    switch (activeCategory) {
+      case "appearance":
+        return <AppearanceSection />;
+      case "ai-models":
+        return <AIModelsSection gpuId={gpuId} setGpuId={setGpuId} />;
+      case "image-settings":
+        return (
+          <ImageSettingsSection
+            batchMode={batchMode}
+            saveImageAs={saveImageAs}
+            setSaveImageAs={setSaveImageAs}
+            compression={compression}
+            setCompression={setCompression}
+          />
+        );
+      case "system":
+        return (
+          <SystemSection
+            show={show}
+            setShow={setShow}
+            setDontShowCloudModal={setDontShowCloudModal}
+          />
+        );
+      case "logs":
+        return <LogsSection logData={logData} />;
+      case "help":
+        return <HelpSection logData={logData} />;
+      default:
+        return null;
     }
   };
-
-  const upscaylVersion = navigator?.userAgent?.match(
-    /Upscayl\/([\d\.]+\d+)/,
-  )[1];
-
-  function disableScrolling() {
-    if (timeoutId !== null) {
-      clearTimeout(timeoutId);
-    }
-
-    setTimeoutId(
-      setTimeout(function () {
-        setEnableScrollbar(false);
-      }, 1000),
-    );
-  }
-
-  function enableScrolling() {
-    if (timeoutId !== null) {
-      clearTimeout(timeoutId);
-    }
-
-    setEnableScrollbar(true);
-  }
 
   return (
     <Dialog open={showSettings} onOpenChange={setShowSettings}>
-      <DialogContent className="overflow-hidden sm:max-w-2xl md:max-h-125 lg:max-h-screen lg:max-w-2xl">
-        <DialogHeader className="h-8 border-b">
+      <DialogContent className="overflow-hidden p-0 sm:max-w-3xl md:max-h-125 lg:max-h-screen lg:max-w-3xl">
+        <DialogHeader className="h-8 px-6 pt-4">
           <DialogTitle>{t("SETTINGS.TITLE")}</DialogTitle>
         </DialogHeader>
-        <div className="h-100 overflow-hidden">
-          <div
-            className={cn(
-              "animate-step-in animate z-50 flex h-full flex-col gap-5 overflow-x-hidden pr-4",
-              enableScrollbar ? "" : "hide-scrollbar",
-            )}
-            onScroll={() => {
-              if (enableScrollbar) disableScrolling();
-            }}
-            onWheel={() => {
-              enableScrolling();
-            }}
-          >
-            <div className="flex flex-col gap-2 text-sm font-medium uppercase">
-              <div className="inline-flex items-center justify-between">
-                <p>{t("SETTINGS.SUPPORT.TITLE")}</p>
-                <Button
-                  variant="outline"
-                  size="sm"
-                  className="min-w-28"
-                  asChild
-                >
-                  <a href="https://docs.upscayl.org/" target="_blank">
-                    {t("SETTINGS.SUPPORT.DOCS_BUTTON_TITLE")}
-                  </a>
-                </Button>
-              </div>
-              {FEATURE_FLAGS.APP_STORE_BUILD && (
-                <button
-                  className="btn btn-primary"
-                  onClick={async () => {
-                    const systemInfo = await window.electron.getSystemInfo();
-                    const appVersion = await window.electron.getAppVersion();
-                    const mailToUrl = `mailto:support@upscayl.org?subject=Upscayl%20Issue%3A%20%3CWRITE%20HERE%3E&body=Hi%20Nayam!%0AI'm%20having%20an%20issue%20with%20Upscayl%20${appVersion}%0A%0A%3CPLEASE%20DESCRIBE%20ISSUE%20HERE%3E%0A%0A---%0ALOGS%3A%0A${logData.join("\n")}%0A%0ADEVICE%20DETAILS%3A%20${JSON.stringify(systemInfo)}`;
-                    window.open(mailToUrl, "_blank");
-                  }}
-                >
-                  {t("SETTINGS.SUPPORT.EMAIL_BUTTON_TITLE")}
-                </button>
-              )}
-              {!FEATURE_FLAGS.APP_STORE_BUILD && <DonateButton />}
-            </div>
-            <hr />
-            <LogArea
-              copyOnClickHandler={copyOnClickHandler}
-              isCopied={isCopied}
-              logData={logData}
-            />
-
-            <hr />
-            {/* THEME SELECTOR */}
-            <SelectTheme />
-
-            <LanguageSwitcher />
-
-            {/* IMAGE FORMAT BUTTONS */}
-            <SelectImageFormat
-              batchMode={batchMode}
-              saveImageAs={saveImageAs}
-              setExportType={setExportType}
-            />
-
-            {/* COPY METADATA TOGGLE */}
-            <CopyMetadataToggle
-              saveImageAs={saveImageAs}
-              setExportType={setExportType}
-            />
-
-            {/* IMAGE SCALE */}
-            <SelectImageScale scale={scale} setScale={setScale} />
-
-            <InputCustomResolution />
-
-            <InputCompression
-              compression={compression}
-              handleCompressionChange={handleCompressionChange}
-            />
-
-            <SaveOutputFolderToggle />
-
-            <OverwriteToggle />
-            <TurnOffNotificationsToggle />
-            <AutoUpdateToggle />
-            <EnableContributionToggle />
-
-            {/* GPU ID INPUT */}
-            <InputGpuId gpuId={gpuId} handleGpuIdChange={handleGpuIdChange} />
-
-            <InputTileSize />
-
-            {/* CUSTOM MODEL */}
-            <CustomModelsFolderSelect
-              customModelsPath={customModelsPath}
-              setCustomModelsPath={setCustomModelsPath}
-            />
-
-            <TTAModeToggle />
-
-            <hr />
-
-            {/* RESET SETTINGS */}
-            <ResetSettingsButton />
-
-            <hr />
-
-            {FEATURE_FLAGS.SHOW_UPSCAYL_CLOUD_INFO && (
-              <>
-                <button
-                  className="rounded-btn bg-success shadow-success/40 mx-5 mb-5 animate-pulse p-1 text-sm text-slate-50 shadow-lg"
-                  onClick={() => {
-                    setShow(true);
-                  }}
-                >
-                  {t("INTRO")}
-                </button>
-
-                <UpscaylCloudModal
-                  show={show}
-                  setShow={setShow}
-                  setDontShowCloudModal={setDontShowCloudModal}
-                />
-              </>
-            )}
-
-            <SystemInfo />
+        <div className="flex h-100 gap-4 overflow-hidden px-6 pb-6">
+          <SettingsSidebar />
+          <div className="animate-step-in animate flex-1 overflow-x-hidden overflow-y-auto pr-1">
+            {renderSection()}
           </div>
         </div>
       </DialogContent>

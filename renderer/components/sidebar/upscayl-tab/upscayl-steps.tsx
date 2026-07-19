@@ -307,20 +307,20 @@ function UpscaylSteps({
             </span>
             {FEATURE_FLAGS.APP_STORE_BUILD && (
               <button
-                className="badge badge-outline badge-sm cursor-pointer"
+                className="cursor-pointer"
                 onClick={() =>
                   alert(t("APP.OUTPUT_PATH_SELECTION.MAC_APP_STORE_ALERT"))
                 }
               >
-                ?
+                <Badge variant="outline" className="text-xs">?</Badge>
               </button>
             )}
           </div>
           {!outputPath && FEATURE_FLAGS.APP_STORE_BUILD && (
             <div className="text-xs">
-              <span className="rounded-btn bg-base-200 text-base-content/50 px-2 font-medium uppercase">
+              <Badge variant="outline" className="uppercase">
                 {t("APP.OUTPUT_PATH_SELECTION.NOT_SELECTED")}
-              </span>
+              </Badge>
             </div>
           )}
         </div>

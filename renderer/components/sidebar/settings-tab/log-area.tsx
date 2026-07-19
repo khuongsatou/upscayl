@@ -1,7 +1,8 @@
 import { translationAtom } from "@/atoms/translations-atom";
 import { Button } from "@/components/ui/button";
+import { ScrollArea } from "@/components/ui/scroll-area";
 import { useAtomValue } from "jotai";
-import React, { useEffect } from "react";
+import React, { useEffect, useRef } from "react";
 
 type LogAreaProps = {
   copyOnClickHandler: () => void;
@@ -14,13 +15,11 @@ export function LogArea({
   isCopied,
   logData,
 }: LogAreaProps) {
-  const ref = React.useRef<HTMLElement>(null);
+  const bottomRef = useRef<HTMLParagraphElement>(null);
   const t = useAtomValue(translationAtom);
 
   useEffect(() => {
-    if (ref.current) {
-      ref.current.scrollTop = ref.current.scrollHeight;
-    }
+    bottomRef.current?.scrollIntoView({ behavior: "instant" });
   }, [logData]);
 
   return (
@@ -35,20 +34,20 @@ export function LogArea({
           )}
         </Button>
       </div>
-      <code
-        className="relative flex h-52 max-h-52 flex-col gap-3 overflow-y-auto rounded-3xl border bg-secondary p-4 text-xs break-all"
-        ref={ref}
-      >
-        {logData.length === 0 && (
-          <p className="text-base-content/70">
-            {t("SETTINGS.LOG_AREA.NO_LOGS")}
-          </p>
-        )}
+      <ScrollArea className="h-52 rounded-3xl border bg-secondary">
+        <code className="flex flex-col gap-3 p-4 text-xs break-all">
+          {logData.length === 0 && (
+            <p className="text-muted-foreground">
+              {t("SETTINGS.LOG_AREA.NO_LOGS")}
+            </p>
+          )}
 
-        {logData.map((logLine: any) => {
-          return <p className="">{logLine}</p>;
-        })}
-      </code>
+          {logData.map((logLine: any, i: number) => {
+            return <p key={i}>{logLine}</p>;
+          })}
+          <p ref={bottomRef} />
+        </code>
+      </ScrollArea>
     </div>
   );
 }
