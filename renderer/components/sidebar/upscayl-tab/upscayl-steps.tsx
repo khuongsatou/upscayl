@@ -312,7 +312,9 @@ function UpscaylSteps({
                   alert(t("APP.OUTPUT_PATH_SELECTION.MAC_APP_STORE_ALERT"))
                 }
               >
-                <Badge variant="outline" className="text-xs">?</Badge>
+                <Badge variant="outline" className="text-xs">
+                  ?
+                </Badge>
               </button>
             )}
           </div>

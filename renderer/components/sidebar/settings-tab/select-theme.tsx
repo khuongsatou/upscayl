@@ -7,9 +7,9 @@ import React, { useEffect } from "react";
 import { themeChange } from "theme-change";
 const availableThemes = [
   // { label: "Upscvayl", value: "upscayl" },
-  { label: "light", value: "light" },
-  { label: "dark", value: "dark" },
-  { label: "claude", value: "claude" },
+  { label: "Light", value: "light" },
+  { label: "Dark", value: "dark" },
+  { label: "Claude", value: "claude" },
   { label: "Solar Dusk", value: "solar-dusk" },
   { label: "Solar Dusk (dark)", value: "solar-dusk-dark" },
   // { label: "cupcake", value: "cupcake" },
