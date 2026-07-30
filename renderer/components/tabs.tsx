@@ -18,7 +18,7 @@ const Tabs = ({ selectedTab, setSelectedTab }: TabsProps) => {
           setSelectedTab(0);
         }}
       >
-        {t("TITLE")}
+        {t("Upscayl")}
       </a>
       <a
         className={`tab ${selectedTab === 1 && "tab-active"}`}
@@ -26,7 +26,7 @@ const Tabs = ({ selectedTab, setSelectedTab }: TabsProps) => {
           setSelectedTab(1);
         }}
       >
-        {t("SETTINGS.TITLE")}
+        {t`Settings`}
       </a>
     </div>
   );

@@ -37,7 +37,7 @@ const SliderView = ({
         <>
           {isMaximized && beforeSize.length > 0 ? (
             <div className="absolute top-2 left-2 z-10 min-w-28 rounded-2xl bg-black/30 px-3 py-2 text-sm backdrop-blur-md">
-              <p className="font-semibold">{t("APP.SLIDER.ORIGINAL_TITLE")}</p>
+              <p className="font-semibold">{t("Original")}</p>
               <p className="text-sm text-foreground/80">{beforeSize}</p>
             </div>
           ) : (
@@ -47,14 +47,14 @@ const SliderView = ({
               className="pointer-events-none absolute top-2 left-2 z-10 bg-black/20 font-semibold backdrop-blur-md"
               asChild
             >
-              <p>{t("APP.SLIDER.ORIGINAL_TITLE")}</p>
+              <p>{t("Original")}</p>
             </Button>
           )}
 
           <img
             /* USE REGEX TO GET THE FILENAME AND ENCODE IT INTO PROPER FORM IN ORDER TO AVOID ERRORS DUE TO SPECIAL CHARACTERS */
             src={"file:///" + sanitizedImagePath}
-            alt={t("APP.SLIDER.ORIGINAL_TITLE")}
+            alt={t("Original")}
             onMouseMove={handleMouseMove}
             style={{
               objectFit: "contain",
@@ -72,7 +72,7 @@ const SliderView = ({
             <div className="absolute top-2 right-2 z-10 flex min-w-32 items-center justify-end gap-3 rounded-2xl bg-black/30 px-3 py-2 text-end text-sm backdrop-blur-md">
               <div>
                 <p className="font-semibold">
-                  {t("APP.SLIDER.UPSCAYLED_TITLE")}
+                  {t("Upscayled")}
                 </p>
                 <p className="text-sm text-foreground/80">{afterSize}</p>
               </div>
@@ -93,13 +93,13 @@ const SliderView = ({
               className="borer-none pointer-events-none absolute top-2 right-2 z-10 bg-linear-to-r from-teal-500 to-teal-300 font-semibold text-zinc-900 backdrop-blur-md"
               asChild
             >
-              <p>{t("APP.SLIDER.UPSCAYLED_TITLE")}</p>
+              <p>{t("Upscayled")}</p>
             </Button>
           )}
           <img
             /* USE REGEX TO GET THE FILENAME AND ENCODE IT INTO PROPER FORM IN ORDER TO AVOID ERRORS DUE TO SPECIAL CHARACTERS */
             src={"file:///" + sanitizedUpscaledImagePath}
-            alt={t("APP.SLIDER.UPSCAYLED_TITLE")}
+            alt={t("Upscayled")}
             style={{
               objectFit: "contain",
               backgroundPosition: "0% 0%",

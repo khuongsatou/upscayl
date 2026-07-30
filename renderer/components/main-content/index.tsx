@@ -20,7 +20,6 @@ import { sanitizePath } from "@common/sanitize-path";
 import { ImageFormat, VALID_IMAGE_FORMATS } from "@/lib/valid-formats";
 import ProgressBar from "./progress-bar";
 import InstructionsCard from "./instructions-card";
-import useUpscaylVersion from "../hooks/use-upscayl-version";
 import MacTitlebarDragRegion from "./mac-titlebar-drag-region";
 import LensViewer from "./lens-view";
 import ImageViewer from "./image-viewer";
@@ -87,7 +86,6 @@ const MainContent = ({
   const t = useTranslation();
   const logit = useLogger();
   const { toast } = useToast();
-  const version = useUpscaylVersion();
 
   const [outputPath, setOutputPath] = useAtom(savedOutputPathAtom);
   const progress = useAtomValue(progressAtom);
@@ -186,8 +184,8 @@ const MainContent = ({
     if (!filePath) {
       logit("👎 No valid files dropped");
       toast({
-        title: t("ERRORS.INVALID_IMAGE_ERROR.TITLE"),
-        description: t("ERRORS.INVALID_IMAGE_ERROR.ADDITIONAL_DESCRIPTION"),
+        title: t("Invalid Image"),
+        description: t("Please drag and drop an image"),
       });
       return;
     }
@@ -240,9 +238,9 @@ const MainContent = ({
             } else {
               logit("🚫 Invalid file pasted");
               toast({
-                title: t("ERRORS.INVALID_IMAGE_ERROR.TITLE"),
+                title: t("Invalid Image"),
                 description: t(
-                  "ERRORS.INVALID_IMAGE_ERROR.CLIPBOARD_DESCRIPTION",
+                  "No Image file found in Clipboard to paste!",
                 ),
               });
             }
@@ -252,21 +250,21 @@ const MainContent = ({
         } else {
           logit("🚫 Invalid file pasted");
           toast({
-            title: t("ERRORS.INVALID_IMAGE_ERROR.TITLE"),
-            description: t("ERRORS.INVALID_IMAGE_ERROR.CLIPBOARD_DESCRIPTION"),
+            title: t("Invalid Image"),
+            description: t("No Image file found in Clipboard to paste!"),
           });
         }
       } else {
         logit("🚫 Invalid file pasted");
         toast({
-          title: t("ERRORS.INVALID_IMAGE_ERROR.TITLE"),
-          description: t("ERRORS.INVALID_IMAGE_ERROR.CLIPBOARD_DESCRIPTION"),
+          title: t("Invalid Image"),
+          description: t("No Image file found in Clipboard to paste!"),
         });
       }
     } else {
       toast({
-        title: t("ERRORS.NO_OUTPUT_FOLDER_ERROR.TITLE"),
-        description: t("ERRORS.NO_OUTPUT_FOLDER_ERROR.DESCRIPTION"),
+        title: t("Output Folder Required"),
+        description: t("Please select an output folder before starting"),
       });
     }
   };
@@ -280,7 +278,7 @@ const MainContent = ({
     };
     const handlePasteImageSaveError = (_: any, error: string) => {
       toast({
-        title: t("ERRORS.NO_IMAGE_ERROR.TITLE"),
+        title: t("No image selected"),
         description: error,
       });
     };
@@ -439,7 +437,7 @@ const MainContent = ({
                         size={18}
                         className="fill-yellow-500 stroke-black"
                         data-tooltip-id="tooltip"
-                        data-tooltip-content={t("SETTINGS.IMAGE_SCALE.WARNING")}
+                        data-tooltip-content={t("Anything above 5X may cause performance issues on some devices!")}
                       />
                     )}
                     <span>{`${upscaylResolution.width}x${upscaylResolution.height} (${scale}x)`}</span>
@@ -493,13 +491,13 @@ const MainContent = ({
           {/* {batchMode && upscaledBatchFolderPath.length > 0 && ( */}
           {/*   <div className="z-50 flex flex-col items-center"> */}
           {/*     <p className="text-base-content py-4 font-bold select-none"> */}
-          {/*       {t("APP.PROGRESS.BATCH.DONE_TITLE")} */}
+          {/*       {t("All done!")} */}
           {/*     </p> */}
           {/*     <button */}
           {/*       className="bg-gradient-blue btn btn-primary rounded-btn p-3 font-medium text-white/90 transition-colors" */}
           {/*       onClick={openFolderHandler} */}
           {/*     > */}
-          {/*       {t("APP.PROGRESS.BATCH.OPEN_UPSCAYLED_FOLDER_TITLE")} */}
+          {/*       {t("Open Upscayled Folder")} */}
           {/*     </button> */}
           {/*   </div> */}
           {/* )} */}
@@ -516,7 +514,7 @@ const MainContent = ({
               }
               className="size-full"
             >
-              <InstructionsCard version={version} batchMode={batchMode} />
+              <InstructionsCard batchMode={batchMode} />
             </div>
           )}
 
@@ -711,11 +709,11 @@ const MainContent = ({
               {batchMode && upscaledBatchFolderPath.length > 0 && (
                 <div className="flex w-full flex-col items-center justify-center gap-3">
                   <p className="sr-only">
-                    {t("APP.PROGRESS.BATCH.DONE_TITLE")}
+                    {t("All done!")}
                   </p>
                   <Button onClick={openFolderHandler} className="w-full">
                     <FolderOpenIcon />
-                    {t("APP.PROGRESS.BATCH.OPEN_UPSCAYLED_FOLDER_TITLE")}
+                    {t("Open Upscayled Folder")}
                   </Button>
                 </div>
               )}

@@ -10,7 +10,7 @@ const SystemInfo = () => {
 
   return (
     <div className="flex w-full flex-col gap-2">
-      <p className="text-sm font-medium">{t("SETTINGS.SYSTEM_INFO.TITLE")}</p>
+      <p className="text-sm font-medium">{t("System Info")}</p>
       <div className="flex flex-col gap-3 rounded-2xl border bg-secondary p-4 text-xs">
         {Object.keys(systemInfo || {}).map((key) => (
           <div key={key} className="flex flex-col">

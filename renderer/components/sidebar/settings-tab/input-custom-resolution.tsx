@@ -22,11 +22,11 @@ export function InputCustomResolution() {
     <Field orientation="horizontal">
       <FieldContent>
         <FieldLabel>
-          {t("SETTINGS.CUSTOM_INPUT_RESOLUTION.TITLE")} (
-          {t("SETTINGS.CUSTOM_INPUT_RESOLUTION.RESTART").toLowerCase()})
+          {t("CUSTOM OUTPUT WIDTH")} (
+          {t("REQUIRES RESTART").toLowerCase()})
         </FieldLabel>
         <FieldDescription className="max-w-11/12">
-          {t("SETTINGS.CUSTOM_INPUT_RESOLUTION.DESCRIPTION")}
+          {t("Use a custom width for the output images. The height will be adjusted automatically. Enabling this will override the scale setting.")}
         </FieldDescription>
       </FieldContent>
       <div className="inline-flex items-center gap-2">

@@ -8,10 +8,10 @@ export function DonateButton() {
 
   return (
     <div className="inline-flex justify-between gap-2 text-sm font-medium">
-      <p>{t("SETTINGS.DONATE.DESCRIPTION")}</p>
+      <p>{t("If you like what we do :)")}</p>
       <Button variant="outline" size="sm" className="min-w-28" asChild>
         <a href="https://buymeacoffee.com/fossisthefuture" target="_blank">
-          {t("SETTINGS.DONATE.BUTTON_TITLE")}
+          {t("💎 DONATE")}
         </a>
       </Button>
     </div>

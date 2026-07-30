@@ -16,11 +16,11 @@ function HelpSection({ logData }: IProps) {
     <div className="flex flex-col gap-5">
       <div className="inline-flex items-center justify-between">
         <p className="text-sm font-medium uppercase">
-          {t("SETTINGS.SUPPORT.TITLE")}
+          {t("Having issues?")}
         </p>
         <Button variant="outline" size="sm" className="min-w-28" asChild>
           <a href="https://docs.upscayl.org/" target="_blank">
-            {t("SETTINGS.SUPPORT.DOCS_BUTTON_TITLE")}
+            {t("🙏 GET HELP")}
           </a>
         </Button>
       </div>
@@ -35,7 +35,7 @@ function HelpSection({ logData }: IProps) {
             window.open(mailToUrl, "_blank");
           }}
         >
-          {t("SETTINGS.SUPPORT.EMAIL_BUTTON_TITLE")}
+          {t("📧 EMAIL DEVELOPER")}
         </button>
       )}
 

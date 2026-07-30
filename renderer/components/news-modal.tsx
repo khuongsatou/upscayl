@@ -102,7 +102,7 @@ export const NewsModal = () => {
             setNews((prev) => ({ ...prev, seen: true }));
           }}
         >
-          {t("APP.DIALOG_BOX.CLOSE")}
+          {t("Close")}
         </button>
       </form>
     </dialog>

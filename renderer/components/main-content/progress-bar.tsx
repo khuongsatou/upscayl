@@ -55,7 +55,7 @@ function ProgressBar({
 
         <p className="rounded-full px-2 pb-2 font-bold">
           {batchMode &&
-            `${t("APP.PROGRESS_BAR.BATCH_UPSCAYL_IN_PROGRESS_TITLE")} ${batchProgress}`}
+            `${t("Batch Upscayl In Progress:")} ${batchProgress}`}
         </p>
 
         <div className="flex flex-col items-center gap-1">
@@ -71,12 +71,12 @@ function ProgressBar({
           )}
 
           <p className="animate-pulse rounded-full px-2 pb-3 text-xs font-medium text-neutral-content/50">
-            {t("APP.PROGRESS_BAR.IN_PROGRESS_TITLE")}
+            {t("Doing the Upscayl magic...")}
           </p>
         </div>
 
         <button onClick={stopHandler} className="btn btn-outline">
-          {t("APP.PROGRESS_BAR.STOP_BUTTON_TITLE")}
+          {t("STOP")}
         </button>
       </div>
     </div>

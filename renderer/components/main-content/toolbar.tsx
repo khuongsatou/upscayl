@@ -128,7 +128,7 @@ export default function ToolBar({
                 <div className="flex items-start justify-between gap-4">
                   <div>
                     <p className="text-xs font-semibold tracking-[0.16em] uppercase text-muted-foreground">
-                      {t("APP.MORE_OPTIONS_DRAWER.TOTAL_UPSCAYLS")}
+                      {t("Total Upscayls")}
                     </p>
                     <p className="mt-2 text-5xl font-semibold tracking-tight">
                       {userStats.totalUpscayls.toLocaleString()}
@@ -147,7 +147,7 @@ export default function ToolBar({
                     {userStats.batchUpscayls.toLocaleString()}
                   </p>
                   <p className="mt-1 text-xs leading-snug text-muted-foreground">
-                    {t("APP.MORE_OPTIONS_DRAWER.TOTAL_BATCH_UPSCAYLS")}
+                    {t("Total Batch Upscayls")}
                   </p>
                 </div>
 
@@ -157,7 +157,7 @@ export default function ToolBar({
                     {userStats.imageUpscayls.toLocaleString()}
                   </p>
                   <p className="mt-1 text-xs leading-snug text-muted-foreground">
-                    {t("APP.MORE_OPTIONS_DRAWER.TOTAL_IMAGE_UPSCAYLS")}
+                    {t("Total Image Upscayls")}
                   </p>
                 </div>
 
@@ -170,7 +170,7 @@ export default function ToolBar({
                       {userStats.doubleUpscayls.toLocaleString()}
                     </p>
                     <p className="text-xs text-muted-foreground">
-                      {t("APP.MORE_OPTIONS_DRAWER.TOTAL_DOUBLE_UPSCAYLS")}
+                      {t("Total Double Upscayls")}
                     </p>
                   </div>
                 </div>
@@ -187,7 +187,7 @@ export default function ToolBar({
                       {formatDuration(userStats.averageUpscaylTime / 1000)}
                     </p>
                     <p className="mt-1 text-xs leading-snug text-muted-foreground">
-                      {t("APP.MORE_OPTIONS_DRAWER.AVERAGE_UPSCAYL_TIME")}
+                      {t("Average Upscayl Time")}
                     </p>
                   </div>
                   <div className="pl-4">
@@ -195,7 +195,7 @@ export default function ToolBar({
                       {formatDuration(userStats.lastUpscaylDuration / 1000)}
                     </p>
                     <p className="mt-1 text-xs leading-snug text-muted-foreground">
-                      {t("APP.MORE_OPTIONS_DRAWER.LAST_UPSCAYL_DURATION")}
+                      {t("Last Upscayl Duration")}
                     </p>
                   </div>
                 </div>
@@ -205,7 +205,7 @@ export default function ToolBar({
                 <HistoryIcon className="mt-0.5 size-4 shrink-0 text-muted-foreground" />
                 <div>
                   <p className="text-xs font-medium text-muted-foreground">
-                    {t("APP.MORE_OPTIONS_DRAWER.LAST_USED_AT")}
+                    {t("Last Used At")}
                   </p>
                   <p className="mt-1 text-sm font-medium">
                     {userStats.lastUsedAt

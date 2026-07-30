@@ -13,17 +13,17 @@ export function ResetSettingsButton({
   return (
     <Field orientation="horizontal">
       {!hideLabel && (
-        <FieldLabel>{t("SETTINGS.RESET_SETTINGS.BUTTON_TITLE")}</FieldLabel>
+        <FieldLabel>{t("RESET UPSCAYL")}</FieldLabel>
       )}
 
       <Button
         className="max-w-50"
         onClick={() => {
           localStorage.clear();
-          alert(t("SETTINGS.RESET_SETTINGS.ALERT"));
+          alert(t("Upscayl has been reset. Please restart the app."));
         }}
       >
-        {t("SETTINGS.RESET_SETTINGS.BUTTON_TITLE")}
+        {t("RESET UPSCAYL")}
       </Button>
     </Field>
   );

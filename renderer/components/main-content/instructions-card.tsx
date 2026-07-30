@@ -1,28 +1,38 @@
 import { translationAtom } from "@/atoms/translations-atom";
 import { useAtomValue } from "jotai";
-import React from "react";
+import { FolderOpenIcon, ImageIcon } from "lucide-react";
 
-function InstructionsCard({ version, batchMode }) {
+function InstructionsCard({ batchMode }: { batchMode: boolean }) {
   const t = useAtomValue(translationAtom);
 
   return (
-    <div className="rounded-btn bg-base-200 my-auto flex h-full flex-col items-center justify-center gap-4 p-4">
-      <p className="text-lg font-semibold">
+    <div className="flex h-full flex-col items-center justify-center rounded-3xl border-2 border-dashed border-foreground/15 bg-[radial-gradient(ellipse_at_center,var(--background),var(--accent))] p-6 text-center shadow-inner">
+      {batchMode ? (
+        <FolderOpenIcon
+          className="mb-4 size-16 text-muted-foreground/70"
+          strokeWidth={1.25}
+        />
+      ) : (
+        <ImageIcon
+          className="mb-4 size-16 text-muted-foreground/70"
+          strokeWidth={1.25}
+        />
+      )}
+      <p className="text-xl font-semibold">
         {batchMode
-          ? t("APP.RIGHT_PANE_INFO.SELECT_FOLDER")
-          : t("APP.RIGHT_PANE_INFO.SELECT_IMAGE")}
+          ? t("Select a Folder")
+          : t("No image loaded")}
       </p>
       {batchMode ? (
-        <p className="text-base-content/80 w-full text-center md:w-96">
-          {t("APP.RIGHT_PANE_INFO.SELECT_FOLDER_DESCRIPTION")}
+        <p className="mt-2 max-w-md text-sm text-muted-foreground">
+          {t("Make sure that the folder doesn't contain anything except PNG, JPG, JPEG & WEBP images.")}
         </p>
       ) : (
-        <div className="text-base-content/70 flex flex-col gap-1 text-center text-sm">
-          <p>{t("APP.RIGHT_PANE_INFO.SELECT_IMAGES_DESCRIPTION")}</p>
-          <p>{t("APP.RIGHT_PANE_INFO.PASTE_IMAGE_DESCRIPTION")}</p>
+        <div className="mt-2 flex flex-col gap-2 text-sm text-muted-foreground">
+          <p>{t("Upload or drag & drop an image to get started")}</p>
+          <p>{t("Supports: PNG, JPG, JPEG, WEBP")}</p>
         </div>
       )}
-      <p className="badge badge-primary text-sm">Upscayl v{version}</p>
     </div>
   );
 }

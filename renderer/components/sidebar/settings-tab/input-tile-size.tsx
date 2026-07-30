@@ -18,11 +18,11 @@ export function InputTileSize() {
     <Field orientation="horizontal">
       <FieldContent>
         <FieldLabel htmlFor="custom-tile-size">
-          {t("SETTINGS.CUSTOM_TILE_SIZE.TITLE")}
+          {t("CUSTOM TILE SIZE")}
         </FieldLabel>
 
         <FieldDescription>
-          {t("SETTINGS.CUSTOM_TILE_SIZE.DESCRIPTION")}
+          {t("Use a custom tile size for segmenting the image. This can help process images faster by reducing the number of tiles generated.")}
         </FieldDescription>
       </FieldContent>
 

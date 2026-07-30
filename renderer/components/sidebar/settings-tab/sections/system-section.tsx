@@ -36,7 +36,7 @@ function SystemSection({ show, setShow, setDontShowCloudModal }: IProps) {
             className="rounded-btn bg-success shadow-success/40 animate-pulse p-1 text-sm text-slate-50 shadow-lg"
             onClick={() => setShow(true)}
           >
-            {t("INTRO")}
+            {t("Introducing Upscayl Cloud!")}
           </button>
 
           <UpscaylCloudModal

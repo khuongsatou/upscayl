@@ -26,7 +26,7 @@ function SettingsSidebar() {
   const [activeCategory, setActiveCategory] = useAtom(settingsCategoryAtom);
   const t = useAtomValue(translationAtom);
 
-  // Swap the hardcoded labels below for t("SETTINGS.NAV....") once the
+  // Add translations for these navigation labels when they become localized.
   // corresponding keys exist in your translation files.
   const navItems: NavItem[] = [
     { id: "appearance", label: "Appearance", icon: Palette },

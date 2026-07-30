@@ -17,10 +17,10 @@ const AutoUpdateToggle = () => {
     <Field orientation="horizontal">
       <FieldContent>
         <FieldLabel htmlFor="auto-update-switch">
-          {t("SETTINGS.AUTO_UPDATE.TITLE")}
+          {t("AUTO UPDATE UPSCAYL")}
         </FieldLabel>
         <FieldDescription>
-          {t("SETTINGS.AUTO_UPDATE.DESCRIPTION")}
+          {t("If enabled, the application will check for new updates and notify you.")}
         </FieldDescription>
       </FieldContent>
 

@@ -64,14 +64,14 @@ const CopyMetadataToggle = ({
         <Field orientation="horizontal" className="w-full">
           <FieldContent>
             <FieldLabel id="copy-metadata-title">
-              {t("SETTINGS.COPY_METADATA.TITLE")}
+              {t("COPY IMAGE METADATA")}
             </FieldLabel>
             <FieldDescription id="copy-metadata-description">
-              {t("SETTINGS.COPY_METADATA.DESCRIPTION")}
+              {t("Keep original image metadata (EXIF) in the upscaled image.")}
               {copyMetadata &&
                 !["jpg", "jpeg"].includes(saveImageAs.toLowerCase()) && (
                   <p className="text-warning text-xs">
-                    {t("WARNING.METADATA_FORMAT.DESCRIPTION")}
+                    {t("On some systems, metadata may not be visible in formats other than JPG. Use specific tools to view metadata if needed.")}
                   </p>
                 )}
             </FieldDescription>
@@ -90,21 +90,21 @@ const CopyMetadataToggle = ({
         <DialogContent className="sm:max-w-96">
           <DialogHeader>
             <DialogTitle>
-              {t("SETTINGS.COPY_METADATA.SUGGEST_JPG_TITLE")}
+              {t("Recommended Format Change")}
             </DialogTitle>
             <DialogDescription>
-              {t("SETTINGS.COPY_METADATA.SUGGEST_JPG_DESCRIPTION")}
+              {t("For better metadata compatibility across different systems, we recommend using JPG format. Would you like to change?")}
             </DialogDescription>
           </DialogHeader>
           <DialogFooter>
             <Button variant="outline" onClick={handleKeepFormat}>
-              {t("SETTINGS.COPY_METADATA.KEEP_CURRENT_FORMAT").replace(
+              {t("Keep {format}").replace(
                 "{format}",
                 saveImageAs.toUpperCase(),
               )}
             </Button>
             <Button onClick={handleChangeToJpg}>
-              {t("SETTINGS.COPY_METADATA.CHANGE_TO_JPG")}
+              {t("Change to JPG")}
             </Button>
           </DialogFooter>
         </DialogContent>

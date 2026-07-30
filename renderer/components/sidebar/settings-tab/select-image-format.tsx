@@ -24,7 +24,7 @@ export function SelectImageFormat({
         size="sm"
         onClick={() => setExportType("png")}
       >
-        {t("SETTINGS.IMAGE_FORMAT.PNG")}
+        {t("PNG")}
       </Button>
 
       {/* JPG */}
@@ -33,7 +33,7 @@ export function SelectImageFormat({
         size="sm"
         onClick={() => setExportType("jpg")}
       >
-        {t("SETTINGS.IMAGE_FORMAT.JPG")}
+        {t("JPG")}
       </Button>
 
       {/* WEBP */}
@@ -42,7 +42,7 @@ export function SelectImageFormat({
         size="sm"
         onClick={() => setExportType("webp")}
       >
-        {t("SETTINGS.IMAGE_FORMAT.WEBP")}
+        {t("WEBP")}
       </Button>
     </>
   );
@@ -55,7 +55,7 @@ export function SelectImageFormat({
     <div className="inline-flex items-center justify-between gap-2">
       <div className="flex flex-row gap-1">
         <p className="text-sm font-medium">
-          {t("SETTINGS.IMAGE_FORMAT.TITLE")}
+          {t("SAVE IMAGE AS")}
         </p>
         {/* <p className="badge-primary badge text-[10px] font-medium">
           EXPERIMENTAL

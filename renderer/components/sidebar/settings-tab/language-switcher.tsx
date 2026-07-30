@@ -36,7 +36,7 @@ const LanguageSwitcher = ({ hideLabel = false }: { hideLabel?: boolean }) => {
     <div>
       <div className="flex items-center justify-between gap-2">
         {!hideLabel && (
-          <p className="text-sm font-medium">{t("SETTINGS.LANGUAGE.TITLE")}</p>
+          <p className="text-sm font-medium">{t("UPSCAYL LANGUAGE")}</p>
         )}
         <Select
           value={locale}

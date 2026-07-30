@@ -15,27 +15,27 @@ function Footer() {
           className="badge badge-neutral mb-2"
           onClick={() => setShowNewsModal(true)}
         >
-          {t("FOOTER.NEWS_TITLE")}
+          {t("UPSCAYL NEWS")}
         </button>
       )}
       <p>
-        {t("FOOTER.COPYRIGHT")} {new Date().getFullYear()} -{" "}
+        {t("Copyright ©")} {new Date().getFullYear()} -{" "}
         <a
           className="font-bold"
           href="https://github.com/upscayl/upscayl"
           target="_blank"
         >
-          {t("TITLE")}
+          {t("Upscayl")}
         </a>
       </p>
       <p>
-        {t("FOOTER.TITLE")}
+        {t("By ")}
         <a
           href="https://github.com/upscayl"
           className="font-bold"
           target="_blank"
         >
-          {t("FOOTER.LINK_TITLE")}
+          {t("The Upscayl Team")}
         </a>
       </p>
     </div>

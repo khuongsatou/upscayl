@@ -120,8 +120,8 @@ const Home = () => {
     }
 
     toast({
-      title: t("ERRORS.INVALID_IMAGE_ERROR.TITLE"),
-      description: t("ERRORS.INVALID_IMAGE_ERROR.ADDITIONAL_DESCRIPTION"),
+      title: t("Invalid Image"),
+      description: t("Please drag and drop an image"),
     });
   };
 
@@ -132,8 +132,10 @@ const Home = () => {
       logit("🔤 Extension: ", extension);
       if (!VALID_IMAGE_FORMATS.includes(extension)) {
         toast({
-          title: t("ERRORS.INVALID_IMAGE_ERROR.TITLE"),
-          description: t("ERRORS.INVALID_IMAGE_ERROR.DESCRIPTION"),
+          title: t("Invalid Image"),
+          description: t(
+            "Please select/paste an image with a valid extension like PNG, JPG, JPEG, JFIF or WEBP.",
+          ),
         });
         resetImagePaths();
       }
@@ -147,21 +149,24 @@ const Home = () => {
     const handleErrors = (data: string) => {
       if (data.includes("Invalid GPU")) {
         toast({
-          title: t("ERRORS.GPU_ERROR.TITLE"),
-          description: t("ERRORS.GPU_ERROR.DESCRIPTION", { data }),
+          title: t("GPU Error"),
+          description: t(
+            "Ran into an issue with the GPU. Please read the docs for troubleshooting! ({data})",
+            { data },
+          ),
           action: (
             <div className="flex flex-col gap-2">
               <ToastAction
-                altText={t("ERRORS.COPY_ERROR.TITLE")}
+                altText={t("Copy Error")}
                 onClick={() => {
                   navigator.clipboard.writeText(data);
                 }}
               >
-                {t("ERRORS.COPY_ERROR.TITLE")}
+                {t("Copy Error")}
               </ToastAction>
               <a href="https://docs.upscayl.org/" target="_blank">
-                <ToastAction altText={t("ERRORS.OPEN_DOCS_TITLE")}>
-                  {t("ERRORS.OPEN_DOCS_BUTTON_TITLE")}
+                <ToastAction altText={t("Open Docs")}>
+                  {t("Troubleshoot")}
                 </ToastAction>
               </a>
             </div>
@@ -171,8 +176,11 @@ const Home = () => {
       } else if (data.includes("write") || data.includes("read")) {
         if (batchMode) return;
         toast({
-          title: t("ERRORS.READ_WRITE_ERROR.TITLE"),
-          description: t("ERRORS.READ_WRITE_ERROR.DESCRIPTION", { data }),
+          title: t("Read/Write Error"),
+          description: t(
+            "Make sure that the path is correct and you have proper read/write permissions \n({data})",
+            { data },
+          ),
           action: (
             <div className="flex flex-col gap-2">
               <ToastAction
@@ -181,11 +189,11 @@ const Home = () => {
                   navigator.clipboard.writeText(data);
                 }}
               >
-                {t("ERRORS.COPY_ERROR.TITLE")}
+                {t("Copy Error")}
               </ToastAction>
               <a href="https://docs.upscayl.org/" target="_blank">
-                <ToastAction altText={t("ERRORS.OPEN_DOCS_TITLE")}>
-                  {t("ERRORS.OPEN_DOCS_BUTTON_TITLE")}
+                <ToastAction altText={t("Open Docs")}>
+                  {t("Troubleshoot")}
                 </ToastAction>
               </a>
             </div>
@@ -194,14 +202,19 @@ const Home = () => {
         resetImagePaths();
       } else if (data.includes("tile size")) {
         toast({
-          title: t("ERRORS.TILE_SIZE_ERROR.TITLE"),
-          description: t("ERRORS.TILE_SIZE_ERROR.DESCRIPTION", { data }),
+          title: t("Tile Size Error"),
+          description: t(
+            "The tile size is wrong. Please change the tile size in the settings or set to 0 ({data})",
+            { data },
+          ),
         });
         resetImagePaths();
       } else if (data.includes("uncaughtException")) {
         toast({
-          title: t("ERRORS.EXCEPTION_ERROR.TITLE"),
-          description: t("ERRORS.EXCEPTION_ERROR.DESCRIPTION"),
+          title: t("Exception Error"),
+          description: t(
+            "Upscayl encountered an error. Possibly, the upscayl binary failed to execute the commands properly. Try checking the logs to see if you get any information. You can post an issue on Upscayl's GitHub repository for more help.",
+          ),
         });
         resetImagePaths();
       }
@@ -214,27 +227,27 @@ const Home = () => {
     window.electron.on(
       ELECTRON_COMMANDS.SCALING_AND_CONVERTING,
       (_, data: string) => {
-        setProgress(t("APP.PROGRESS.PROCESSING_TITLE"));
+        setProgress(t("Processing the image..."));
       },
     );
     // UPSCAYL WARNING
     window.electron.on(ELECTRON_COMMANDS.UPSCAYL_WARNING, (_, data: string) => {
       toast({
-        title: t("WARNING.GENERIC_WARNING.TITLE"),
+        title: t("Warning"),
         description: data,
       });
     });
     // METADATA ERROR
     window.electron.on(ELECTRON_COMMANDS.METADATA_ERROR, (_, data: string) => {
       toast({
-        title: t("ERRORS.METADATA_ERROR.TITLE"),
+        title: t("Metadata Copy Error"),
         description: data,
       });
     });
     // UPSCAYL ERROR
     window.electron.on(ELECTRON_COMMANDS.UPSCAYL_ERROR, (_, data: string) => {
       toast({
-        title: t("ERRORS.GENERIC_ERROR.TITLE"),
+        title: t("Error"),
         description: data,
       });
       resetImagePaths();
@@ -246,9 +259,9 @@ const Home = () => {
         if (data.length > 0 && data.length < 10) {
           setProgress(data);
         } else if (data.includes("converting")) {
-          setProgress(t("APP.PROGRESS.SCALING_CONVERTING_TITLE"));
+          setProgress(t("Scaling and converting image..."));
         } else if (data.includes("Successful")) {
-          setProgress(t("APP.PROGRESS.SUCCESS_TITLE"));
+          setProgress(t("Upscayl Successful!"));
         }
         handleErrors(data);
         logit(`🚧 UPSCAYL_PROGRESS: `, data);
@@ -259,7 +272,7 @@ const Home = () => {
       ELECTRON_COMMANDS.FOLDER_UPSCAYL_PROGRESS,
       (_, data: string) => {
         if (data.includes("Successful")) {
-          setProgress(t("APP.PROGRESS.SUCCESS_TITLE"));
+          setProgress(t("Upscayl Successful!"));
         }
         if (data.length > 0 && data.length < 10) {
           setProgress(data);

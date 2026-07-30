@@ -90,12 +90,12 @@ const MoreOptionsDrawer = ({
         >
           <div className="flex flex-col gap-5">
             <button className="btn btn-primary" onClick={resetImagePaths}>
-              {t("APP.MORE_OPTIONS_DRAWER.RESET_BUTTON_TITLE")}
+              {t("Reset Image")}
             </button>
 
             <div className="flex flex-row items-center gap-2">
               <p className="text-sm font-medium">
-                {t("APP.MORE_OPTIONS_DRAWER.LENS_VIEW_TITLE")}
+                {t("Lens View")}
               </p>
               <input
                 type="checkbox"
@@ -106,14 +106,14 @@ const MoreOptionsDrawer = ({
                 }}
               />
               <p className="text-sm font-medium">
-                {t("APP.MORE_OPTIONS_DRAWER.SLIDER_VIEW_TITLE")}
+                {t("Slider View")}
               </p>
             </div>
 
             {viewType !== "lens" && (
               <div className="flex flex-col gap-2">
                 <p className="text-sm font-medium">
-                  {t("APP.MORE_OPTIONS_DRAWER.ZOOM_AMOUNT_TITLE")} ({zoomAmount}
+                  {t("Zoom Amount")} ({zoomAmount}
                   %)
                 </p>
                 <input
@@ -140,7 +140,7 @@ const MoreOptionsDrawer = ({
             <div className="stats stats-vertical overflow-y-auto">
               <div className="stat">
                 <div className="stat-title">
-                  {t("APP.MORE_OPTIONS_DRAWER.TOTAL_UPSCAYLS")}
+                  {t("Total Upscayls")}
                 </div>
                 <div className="stat-value text-base-content text-2xl">
                   {userStats.totalUpscayls}
@@ -149,7 +149,7 @@ const MoreOptionsDrawer = ({
 
               <div className="stat">
                 <div className="stat-title">
-                  {t("APP.MORE_OPTIONS_DRAWER.TOTAL_BATCH_UPSCAYLS")}
+                  {t("Total Batch Upscayls")}
                 </div>
                 <div className="stat-value text-base-content text-2xl">
                   {userStats.batchUpscayls}
@@ -158,7 +158,7 @@ const MoreOptionsDrawer = ({
 
               <div className="stat">
                 <div className="stat-title">
-                  {t("APP.MORE_OPTIONS_DRAWER.TOTAL_IMAGE_UPSCAYLS")}
+                  {t("Total Image Upscayls")}
                 </div>
                 <div className="stat-value text-base-content text-2xl">
                   {userStats.imageUpscayls}
@@ -167,7 +167,7 @@ const MoreOptionsDrawer = ({
 
               <div className="stat">
                 <div className="stat-title">
-                  {t("APP.MORE_OPTIONS_DRAWER.TOTAL_DOUBLE_UPSCAYLS")}
+                  {t("Total Double Upscayls")}
                 </div>
                 <div className="stat-value text-base-content text-2xl">
                   {userStats.doubleUpscayls}
@@ -176,7 +176,7 @@ const MoreOptionsDrawer = ({
 
               <div className="stat">
                 <div className="stat-title">
-                  {t("APP.MORE_OPTIONS_DRAWER.AVERAGE_UPSCAYL_TIME")}
+                  {t("Average Upscayl Time")}
                 </div>
                 <div className="stat-value text-base-content text-2xl">
                   {formatDuration(userStats.averageUpscaylTime / 1000)}
@@ -185,7 +185,7 @@ const MoreOptionsDrawer = ({
 
               <div className="stat">
                 <div className="stat-title">
-                  {t("APP.MORE_OPTIONS_DRAWER.LAST_UPSCAYL_DURATION")}
+                  {t("Last Upscayl Duration")}
                 </div>
                 <div className="stat-value text-base-content text-2xl">
                   {formatDuration(userStats.lastUpscaylDuration / 1000)}
@@ -194,7 +194,7 @@ const MoreOptionsDrawer = ({
 
               <div className="stat">
                 <div className="stat-title">
-                  {t("APP.MORE_OPTIONS_DRAWER.LAST_USED_AT")}
+                  {t("Last Used At")}
                 </div>
                 <div className="stat-value text-base-content text-2xl">
                   {new Date(userStats.lastUsedAt).toLocaleString()}

@@ -133,7 +133,7 @@ const SelectTheme = ({ hideLabel }: { hideLabel?: boolean }) => {
     <div className="flex w-full flex-col gap-3">
       {!hideLabel && (
         <div>
-          <p className="text-sm font-medium">{t("SETTINGS.THEME.TITLE")}</p>
+          <p className="text-sm font-medium">{t("UPSCAYL THEME")}</p>
         </div>
       )}
 

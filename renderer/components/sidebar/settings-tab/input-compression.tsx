@@ -23,13 +23,13 @@ export function InputCompression({
     <Field orientation="horizontal">
       <FieldContent className="flex gap-1 text-sm font-medium uppercase">
         <FieldLabel htmlFor="image-compression-slider">
-          {t("SETTINGS.IMAGE_COMPRESSION.TITLE", {
+          {t("Image Compression", {
             compression: compression.toString(),
           })}
         </FieldLabel>
         {compression > 0 && (
           <FieldDescription className="max-w-11/12 capitalize">
-            {t("SETTINGS.IMAGE_COMPRESSION.DESCRIPTION")}
+            {t("PNG compression is lossless, so it might not reduce the file size significantly and higher compression values might affect the performance. JPG and WebP compression is lossy.")}
           </FieldDescription>
         )}
       </FieldContent>

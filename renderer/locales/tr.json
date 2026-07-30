@@ -1,313 +1,180 @@
 {
-  "TITLE": "Upscayl",
-  "INTRO": "Upscayl Cloud ile tanışın!",
-  "HEADER": {
-    "GITHUB_BUTTON_TITLE": "Bize GitHub'da yıldız verin! 🌟",
-    "DESCRIPTION": "AI Görsel İyileştirici"
-  },
-  "FOOTER": {
-    "NEWS_TITLE": "UPSCAYL HABERLERİ",
-    "COPYRIGHT": "Telif Hakkı ©",
-    "TITLE": "Geliştiren: ",
-    "LINK_TITLE": "The Upscayl Ekibi"
-  },
-  "SETTINGS": {
-    "TITLE": "Ayarlar",
-    "CHANGE_LANGUAGE": { "TITLE": "Dili Değiştirin" },
-    "IMAGE_COMPRESSION": {
-      "TITLE": "Görsel Sıkıştırma",
-      "DESCRIPTION": "PNG sıkıştırması kayıpsızdır, bu nedenle dosya boyutunu önemli ölçüde küçültmeyebilir ve daha yüksek sıkıştırma değerleri performansı etkileyebilir. JPG ve WebP sıkıştırması ise kayıplıdır."
-    },
-    "CUSTOM_MODELS": {
-      "TITLE": "ÖZEL MODELLER EKLE",
-      "BUTTON_FOLDER": "Klasör Seçin",
-      "DESCRIPTION": "Kendi modellerini zahmetsizce ekleyebilirsin. Detaylar için:",
-      "LINK_TITLE": "Özel Model Deposu"
-    },
-    "CUSTOM_INPUT_RESOLUTION": {
-      "TITLE": "ÖZEL ÇIKIŞ GENİŞLİĞİ",
-      "RESTART": "YENİDEN BAŞLATMA GEREKLİ",
-      "DESCRIPTION": "Çıktı görseller için özel bir genişlik kullan. Yükseklik kendiliğinden ayarlanacak. Bunu etkinleştirmek ölçeklendirme ayarlarını geçersiz kılacak.."
-    },
-    "DONATE": {
-      "DESCRIPTION": "Yaptıklarımızı beğendiyseniz :)",
-      "BUTTON_TITLE": "💎 BAĞIŞ YAPIN"
-    },
-    "GPU_ID_INPUT": {
-      "TITLE": "GPU ID",
-      "DESCRIPTION": "Daha fazla bilgi için lütfen Upscayl Dökümantasyonunu okuyun.",
-      "ADDITIONAL_DESCRIPTION": "Windows'da daha iyi sonuçlar için performnas modunu etkinleştirin."
-    },
-    "IMAGE_FORMAT": {
-      "TITLE": "RESMİ ŞU OLARAK KAYDET:",
-      "PNG": "PNG",
-      "JPG": "JPG",
-      "WEBP": "WEBP"
-    },
-    "COPY_METADATA": {
-      "TITLE": "GÖRSEL META VERİLERİNİ KOPYALA",
-      "DESCRIPTION": "İyileştirilmiş görselde orijinal görsel meta verilerini (EXIF) koru.",
-      "SUGGEST_JPG_TITLE": "Önerilen Format Değişikliği",
-      "SUGGEST_JPG_DESCRIPTION": "Farklı sistemler arasında daha iyi meta veri uyumluluğu için JPG formatını kullanmanızı öneriyoruz. Değiştirmek ister misiniz?",
-      "CHANGE_TO_JPG": "JPG'ye Değiştir",
-      "KEEP_CURRENT_FORMAT": "{format} Olarak Kalsın"
-    },
-    "IMAGE_SCALE": {
-      "TITLE": "Görsel Ölçeği",
-      "DESCRIPTION": "4X'ten büyük herhangi bir ayar (16X Çifte Upscayl dışında) yalnızca görüntüyü yeniden boyutlandırır ve AI ile iyileştirme yapmaz.",
-      "WARNING": "5X üzerinde herhangi bir ayar bazı aygıtlarda performans sorunlarına neden olabilir!",
-      "ADDITIONAL_WARNING": "Bu bazı cihazlarda performans sorunlarına neden olabilir!"
-    },
-    "LOG_AREA": {
-      "ON_COPY": "KOPYALANDI ✅",
-      "BUTTON_TITLE": "KOPYA KAYITLARI 📋",
-      "NO_LOGS": "Gösterecek kayıt yok."
-    },
-    "OVERWRITE_TOGGLE": {
-      "TITLE": "ÖNCEKİ GELİŞTİRME AYARLARININ ÜZERİNE YAZ",
-      "DESCRIPTION": "Etkinleştirilirdiği takdirde, Upscayl görüntüyü doğrudan yüklemek yerine tekrardan işleyecektir."
-    },
-    "RESET_SETTINGS": {
-      "BUTTON_TITLE": "UPSCAYL'I SIFIRLA",
-      "ALERT": "Upscayl sıfırlandı. Lütfen uygulamayı yeniden başlatın."
-    },
-    "SAVE_OUTPUT_FOLDER": {
-      "TITLE": "ÇIKTI KLASÖRÜNÜ KAYDET",
-      "DESCRIPTION": "Etkinleştirildiği takdirde, Upscayl oturumlar arası çıktı klasörünü hatırlayacaktır."
-    },
-    "AUTO_UPDATE": {
-      "TITLE": "UPSCAYL'I OTOMATİK GÜNCELLE",
-      "DESCRIPTION": "Etkinleştirildiği takdirde, uygulama yeni güncellemeleri kendiliğinden kontrol edecek ve sizi de bilgilendirecektir."
-    },
-    "ENABLE_CONTRIBUTION": {
-      "TITLE": "UPSCAYL'I GELİŞTİRMEYE YARDIMCI OL",
-      "DESCRIPTION": "Etkinleştirildiği takdirde; Upscayl, uygulama arayüzünü ve özelliklerini geliştirmek için anonim kullanım verileri toplayacaktır."
-    },
-    "THEME": {
-      "TITLE": "UPSCAYL'IN TEMASI"
-    },
-    "LANGUAGE": {
-      "TITLE": "UPSCAYL'IN DİLİ"
-    },
-    "CUSTOM_TILE_SIZE": {
-      "TITLE": "ÖZEL KARO BOYUTU",
-      "DESCRIPTION": "Resmi parçalara ayırmak için özel bir karo boyutu kullanın. Bu, oluşturulan karo sayısını azaltarak görselleri daha hızlı işlemeye yardımcı olabilir."
-    },
-    "TURN_OFF_NOTIFICATIONS": {
-      "TITLE": "BİLDİRİMLERİ KAPAT",
-      "DESCRIPTION": "Etkinleştirildiği takdirde, Upscayl başarı veya başarısızlık durumunda herhangi bir sistem bildirimi göndermeyecektir."
-    },
-    "SUPPORT": {
-      "TITLE": "Sorun mu var?",
-      "DOCS_BUTTON_TITLE": "🙏 DESTEK ALIN",
-      "EMAIL_BUTTON_TITLE": "📧 GELİŞTİRİCİYE BİR E-POSTA"
-    },
-    "TTA_MODE": {
-      "TITLE": "TTA Modu",
-      "DESCRIPTION": "Test Zamanı Artırmasını (TTA) etkinleştirerek, örnek vermek gerekirse çizikler gibi bozulmaları kaldırarak daha iyi sonuçlar elde edebilirsiniz, LAKİN bu işlem süresini 8 kat uzatacaktır!"
-    },
-    "SYSTEM_INFO": {
-      "TITLE": "Sistem Bilgisi"
-    }
-  },
-  "APP": {
-    "TITLE": "Upscayl",
-    "BATCH_MODE": {
-      "TITLE": "Topyekün Upscayl",
-      "DESCRIPTION": "Bununla birlikte tek seferde bir bütün klasörü Upscayl edebilirsiniz."
-    },
-    "FILE_SELECTION": {
-      "TITLE": "1. Adım",
-      "BATCH_MODE_TYPE": "Klasör seç",
-      "SINGLE_MODE_TYPE": "Görsel seç"
-    },
-    "MODEL_SELECTION": {
-      "TITLE": "2. Adım",
-      "DESCRIPTION": "AI Model Seçimi",
-      "IMPORTED_CUSTOM_MODELS": "İçe aktarılmış özel modeller",
-      "BEFORE": "Öncesi",
-      "AFTER": "Sonrası",
-      "ZOOM": "Yakınlaştır",
-      "MODELS": {
-        "upscayl-standard-4x": {
-          "NAME": "Upscayl Standard",
-          "DESCRIPTION": "Çoğu görsel için ideal."
-        },
-        "upscayl-lite-4x": {
-          "NAME": "Upscayl Lite",
-          "DESCRIPTION": "Çoğu görsel için ideal. Minimal kalite kaybıyla, yüksek hızda ölçeklendirme."
-        },
-        "remacri-4x": {
-          "NAME": "Remacri (Ticari Değildir)",
-          "DESCRIPTION": "Doğal görüntüler için idealdir. Keskinlik ve detay ekler. Ticari kullanım için değildir."
-        },
-        "ultramix-balanced-4x": {
-          "NAME": "Ultramix (Ticari Değildir)",
-          "DESCRIPTION": "Keskinlik ve detay dengesiyle doğal görseller için idealdir."
-        },
-        "ultrasharp-4x": {
-          "NAME": "Ultrasharp (Ticari Değildir)",
-          "DESCRIPTION": "Keskinlik odaklı doğal görseller için idealdir."
-        },
-        "digital-art-4x": {
-          "NAME": "Dijital Sanat",
-          "DESCRIPTION": "Dijital sanat ve illüstrasyonlar için idealdir."
-        },
-        "high-fidelity-4x": {
-          "NAME": "Yüksek Doğruluk",
-          "DESCRIPTION": "Her türden görsel için idealdir, gerçekçi detaylara ve pürüzsüz dokulara odaklanır."
-        }
-      }
-    },
-    "DOUBLE_UPSCAYL": {
-      "TITLE": "Çifte Upscayl",
-      "DESCRIPTION": "Bu seçeneği etkinleştirerek, bir görüntü üzerinde Upscayl'ı iki kez çalıştırabilirsiniz. Lakin, bu işlem süresinde önemli bir uzamaya ve 4X'ten büyük ölçeklerde performans sorunlarına yol açabilir."
-    },
-    "OUTPUT_PATH_SELECTION": {
-      "TITLE": "3. Adım",
-      "MAC_APP_STORE_ALERT": "MacOS App Store güvenlik kısıtlamaları nedeniyle, Upscayl her başlatıldığında bir çıktı klasörü seçmenizi isteyecektir.\n\nBunu engellemek için, Upscayl'ın 'Ayarlar' sekmesinde varsayılan bir çıktı klasörü kalıcı olarak kaydedebilirsiniz.",
-      "NOT_SELECTED": "Seçilmemiş",
-      "DEFAULT_IMG_PATH": "Çıktı resim, girdi resmin dizinine",
-      "DEFAULT_FOLDER_PATH": "Çıktı klasör, girdi klasörün dizine",
-      "BUTTON_TITLE": "Çıktı klasörünü seç"
-    },
-    "SCALE_SELECTION": {
-      "TITLE": "4. Adım",
-      "FROM_TITLE": "",
-      "TO_TITLE": "'dan ->",
-      "NO_OUTPUT_FOLDER_ALERT": "Lütfen önce bir çıktı klasörü seçin.",
-      "START_BUTTON_TITLE": "Upscayl'la 🚀",
-      "IN_PROGRESS_BUTTON_TITLE": "Upscayl'lanıyor ⏳"
-    },
-    "MORE_OPTIONS_DRAWER": {
-      "RESET_BUTTON_TITLE": "Resmi Sıfırla",
-      "LENS_VIEW_TITLE": "Lensli Büyüteç",
-      "SLIDER_VIEW_TITLE": "Kaydırmalı Büyüteç",
-      "ZOOM_AMOUNT_TITLE": "Yakınlaştırma Miktarı",
-      "TOTAL_UPSCAYLS": "Toplam Upscayllar",
-      "TOTAL_BATCH_UPSCAYLS": "Toplam Topyekün Upscayllar",
-      "TOTAL_IMAGE_UPSCAYLS": "Toplam Görsel Upscaylları",
-      "TOTAL_DOUBLE_UPSCAYLS": "Toplam Çifte Upscayllar",
-      "AVERAGE_UPSCAYL_TIME": "Ortalama Upscayl Süresi",
-      "LAST_UPSCAYL_DURATION": "Son Upscayl Süresi",
-      "LAST_USED_AT": "En son şu tarihte kullanıldı"
-    },
-    "PROGRESS_BAR": {
-      "BATCH_UPSCAYL_IN_PROGRESS_TITLE": "Topyekün Upscayl ediliyor...",
-      "IN_PROGRESS_TITLE": "Upscayl sihrini konuşturuyor...",
-      "STOP_BUTTON_TITLE": "DURDUR"
-    },
-    "RESET_BUTTON_TITLE": "Sıfırla",
-    "RIGHT_PANE_INFO": {
-      "SELECT_FOLDER": "Klasör Seçin",
-      "SELECT_IMAGE": "Görsel Seçin",
-      "SELECT_FOLDER_DESCRIPTION": "Lütfen klasörün PNG, JPG, JPEG ve WEBP uzantılı görseller haricinde birşey içermediğinden emin olun.",
-      "SELECT_IMAGES_DESCRIPTION": "Lütfen PNG, JPG, JPEG yahut WEBP uzantılı bir görsel seçin ya da sürükleyip buraya bırakın.",
-      "PASTE_IMAGE_DESCRIPTION": "Ctrl+V yahut ⌘+V tuşlarına basarak bir görsel yapıştırın."
-    },
-    "PROGRESS": {
-      "PROCESSING_TITLE": "Görsel işleniyor...",
-      "SCALING_CONVERTING_TITLE": "Görsel ölçeklendirilip dönüştürülüyor...",
-      "WAIT_TITLE": "Bekleyin...",
-      "SUCCESS_TITLE": "Upscayl Başarılı!",
-      "BATCH": {
-        "SELECTED_FOLDER_TITLE": "Seçili klasör:",
-        "DONE_TITLE": "Hepsi tamamlandı!",
-        "OPEN_UPSCAYLED_FOLDER_TITLE": "Upscayllenmiş klasörü açın"
-      }
-    },
-    "SLIDER": {
-      "ORIGINAL_TITLE": "Orjinali",
-      "UPSCAYLED_TITLE": "Upscayllanmışı"
-    },
-    "DIALOG_BOX": {
-      "CLOSE": "Kapat"
-    }
-  },
-  "ERRORS": {
-    "GPU_ERROR": {
-      "TITLE": "GPU Hatası",
-      "DESCRIPTION": "GPU'da bir hata meydana geldi. Sorun giderme için dökümantasyonu okuyun! ({data})"
-    },
-    "COPY_ERROR": {
-      "TITLE": "Kopyalama Hatası",
-      "DESCRIPTION": ""
-    },
-    "READ_WRITE_ERROR": {
-      "TITLE": "Okuma/Yazma Hatası",
-      "DESCRIPTION": "Dizinin doğru olduğundan veya yeterli okuma/yazma izinlerinizin bulunduğundan emin olun. \n({data})"
-    },
-    "TILE_SIZE_ERROR": {
-      "TITLE": "Hata",
-      "DESCRIPTION": "Karo boyutu yanlış. Lütfen ayarlarda karo boyutunu değiştirin veya 0 olarak ayarlayın. ({data})"
-    },
-    "EXCEPTION_ERROR": {
-      "TITLE": "İstinai Hata",
-      "DESCRIPTION": "Upscayl bir hata ile karşılaştı. Muhtemelen, upscayl ikili dosyası komutları düzgün şekilde çalıştırmayı başaramadı. Bilgi almak için log dosyalarını kontrol etmeyi deneyin. Daha fazla yardım için Upscayl'ın GitHub deposunda bir sorun bildirisi oluşturabilirsiniz."
-    },
-    "GENERIC_ERROR": {
-      "TITLE": "Hata"
-    },
-    "NO_OUTPUT_FOLDER_ERROR": {
-      "TITLE": "Çıktı klasörü seç",
-      "DESCRIPTION": "Lütfen önce bir çıktı klasörü seçin."
-    },
-    "INVALID_IMAGE_ERROR": {
-      "TITLE": "Geçersiz görsel",
-      "DESCRIPTION": "Lütfen PNG, JPG, JPEG, JFIF veya WEBP gibi geçerli uzantıya sahip bir görsel seçin veya yapıştırın,",
-      "ADDITIONAL_DESCRIPTION": "Lütfen bir görseli sürükleyip bırakın.",
-      "CLIPBOARD_DESCRIPTION": "Panoda yapıştıracak görsel bulunamadı!"
-    },
-    "NO_IMAGE_ERROR": {
-      "TITLE": "Görsel seçilmedi",
-      "DESCRIPTION": "Lütfen iyileştirilecek bir görsel seçin."
-    },
-    "METADATA_ERROR": {
-      "TITLE": "Meta Veri Kopyalama Hatası",
-      "DESCRIPTION": "Orijinal görüntüden oluşturulan görüntüye meta veriler kopyalanamadı. ({data})"
-    },
-    "OPEN_DOCS_TITLE": "Dökümantasyonu açın",
-    "OPEN_DOCS_BUTTON_TITLE": "Sorun giderme"
-  },
-  "WARNING": {
-    "GENERIC_WARNING": {
-      "TITLE": "Uyarı"
-    },
-    "METADATA_FORMAT": {
-      "TITLE": "Meta Veri Uyarısı",
-      "DESCRIPTION": "Bazı sistemlerde, JPG dışındaki formatlarda meta veriler görüntülenemeyebilir. Gerekirse meta verileri görüntülemek için özel araçlar kullanın."
-    }
-  },    
-  "UPSCAYL_CLOUD": {
-    "COMING_SOON": "Yakında sizlerle!",
-    "CATCHY_PHRASE_1": "Artık hatalar, donanım uyuşmazlıkları, kalite tavizleri ya da uzun yükleme süreleri yok!",
-    "CATCHY_PHRASE_2": "🌐 Upscayl her yerde, her zaman , her cihazda\n☁️ Ekran kartına ya da donanıma gerek yok.\n👩 Yüz güzelleştirici\n🦋 Seçilebilecek 10 model ve fazlası\n🏎 Upscayl Desktop'tan 5 kat daha hızlı\n🎞 Video İyileştirici\n💰 Ticari Kullanım\n😴 Siz uyurken Upscayl",
-    "ALREADY_REGISTERED_ALERT": "Teşekkürler {name}! Görünüşe göre e-postanı zaten kaydetmişiz :D Eğer bu bir hata ise, tekrar deneyin.",
-    "ADD_SUCCESS": "Bekleme listesine katıldığın için teşekkürler! Upscayl Cloud senin için hazır olduğunda mutlaka ulaşacağız!",
-    "INCORRECT_FIELDS_ALERT": "Lütfen tüm alanları tam doldurun.",
-    "JOIN_WAITLIST": "Bekleme listesine yazıl",
-    "DONT_SHOW_AGAIN": "BİR DAHA GÖSTERME"
-  },
-  "ONBOARDING_DIALOG": {
-    "NEXT_BUTTON_TITLE": "Sonraki",
-    "BACK_BUTTON_TITLE": "Önceki",
-    "GET_STARTED_BUTTON_TITLE": "Başlayın",
-    "SETTINGS_NOTE": "Tüm bu ayarları istersen sonra değiştirebilirsin.",
-    "STEP_1": {
-      "TITLE": "Upscayl'e hoş geldiniz! 🎉",
-      "DESCRIPTION": "Hadi sizi bir kaç adımda hazır edelim."
-    },
-    "STEP_2": {
-      "TITLE": "Tercihlerinizi belirtin 🎨",
-      "DESCRIPTION": "Ön ayarlarınızı yapılandırın."
-    },
-    "STEP_3": {
-      "TITLE": "Upscayl'ı nasıl kullanacağım? 🚀",
-      "DESCRIPTION": "Bu kısa videoyu izleyerek en yeni özellikleri öğrenin"
-    },
-    "STEP_4": {
-      "TITLE": "Hazır ve nazırsınız! 🎉",
-      "DESCRIPTION": "Upscayl ile görsellerinizi iyileştirmeye hazırsınız!"
-    }
-  }
+  "Upscayl": "Upscayl",
+  "Introducing Upscayl Cloud!": "Upscayl Cloud ile tanışın!",
+  "Star us on GitHub 😁": "Bize GitHub'da yıldız verin! 🌟",
+  "AI Image Upscaler": "AI Görsel İyileştirici",
+  "UPSCAYL NEWS": "UPSCAYL HABERLERİ",
+  "Copyright ©": "Telif Hakkı ©",
+  "By ": "Geliştiren: ",
+  "The Upscayl Team": "The Upscayl Ekibi",
+  "Settings": "Ayarlar",
+  "Change Language": "Dili Değiştirin",
+  "Image Compression": "Görsel Sıkıştırma",
+  "PNG compression is lossless, so it might not reduce the file size significantly and higher compression values might affect the performance. JPG and WebP compression is lossy.": "PNG sıkıştırması kayıpsızdır, bu nedenle dosya boyutunu önemli ölçüde küçültmeyebilir ve daha yüksek sıkıştırma değerleri performansı etkileyebilir. JPG ve WebP sıkıştırması ise kayıplıdır.",
+  "ADD CUSTOM MODELS": "ÖZEL MODELLER EKLE",
+  "Select Folder": "Klasör Seçin",
+  "You can add your own models easily. For more details:": "Kendi modellerini zahmetsizce ekleyebilirsin. Detaylar için:",
+  "Custom Models Repository": "Özel Model Deposu",
+  "CUSTOM OUTPUT WIDTH": "ÖZEL ÇIKIŞ GENİŞLİĞİ",
+  "REQUIRES RESTART": "YENİDEN BAŞLATMA GEREKLİ",
+  "Use a custom width for the output images. The height will be adjusted automatically. Enabling this will override the scale setting.": "Çıktı görseller için özel bir genişlik kullan. Yükseklik kendiliğinden ayarlanacak. Bunu etkinleştirmek ölçeklendirme ayarlarını geçersiz kılacak..",
+  "If you like what we do :)": "Yaptıklarımızı beğendiyseniz :)",
+  "💎 DONATE": "💎 BAĞIŞ YAPIN",
+  "GPU ID": "GPU ID",
+  "Please read the Upscayl Documentation for more information.": "Daha fazla bilgi için lütfen Upscayl Dökümantasyonunu okuyun.",
+  "Enable performance mode on Windows for better results.": "Windows'da daha iyi sonuçlar için performnas modunu etkinleştirin.",
+  "SAVE IMAGE AS": "RESMİ ŞU OLARAK KAYDET:",
+  "PNG": "PNG",
+  "JPG": "JPG",
+  "WEBP": "WEBP",
+  "COPY IMAGE METADATA": "GÖRSEL META VERİLERİNİ KOPYALA",
+  "Keep original image metadata (EXIF) in the upscaled image.": "İyileştirilmiş görselde orijinal görsel meta verilerini (EXIF) koru.",
+  "Recommended Format Change": "Önerilen Format Değişikliği",
+  "For better metadata compatibility across different systems, we recommend using JPG format. Would you like to change?": "Farklı sistemler arasında daha iyi meta veri uyumluluğu için JPG formatını kullanmanızı öneriyoruz. Değiştirmek ister misiniz?",
+  "Change to JPG": "JPG'ye Değiştir",
+  "Keep {format}": "{format} Olarak Kalsın",
+  "Image Scale": "Görsel Ölçeği",
+  "Anything above 4X (except 16X Double Upscayl) only resizes the image and does not use AI upscaling.": "4X'ten büyük herhangi bir ayar (16X Çifte Upscayl dışında) yalnızca görüntüyü yeniden boyutlandırır ve AI ile iyileştirme yapmaz.",
+  "Anything above 5X may cause performance issues on some devices!": "5X üzerinde herhangi bir ayar bazı aygıtlarda performans sorunlarına neden olabilir!",
+  "This may cause performance issues on some devices!": "Bu bazı cihazlarda performans sorunlarına neden olabilir!",
+  "COPIED ✅": "KOPYALANDI ✅",
+  "COPY LOGS 📋": "KOPYA KAYITLARI 📋",
+  "No logs to show": "Gösterecek kayıt yok.",
+  "OVERWRITE PREVIOUS UPSCALE": "ÖNCEKİ GELİŞTİRME AYARLARININ ÜZERİNE YAZ",
+  "If enabled, Upscayl will process the image again instead of loading it directly.": "Etkinleştirilirdiği takdirde, Upscayl görüntüyü doğrudan yüklemek yerine tekrardan işleyecektir.",
+  "RESET UPSCAYL": "UPSCAYL'I SIFIRLA",
+  "Upscayl has been reset. Please restart the app.": "Upscayl sıfırlandı. Lütfen uygulamayı yeniden başlatın.",
+  "SAVE OUTPUT FOLDER": "ÇIKTI KLASÖRÜNÜ KAYDET",
+  "If enabled, the output folder will be remembered between sessions.": "Etkinleştirildiği takdirde, Upscayl oturumlar arası çıktı klasörünü hatırlayacaktır.",
+  "AUTO UPDATE UPSCAYL": "UPSCAYL'I OTOMATİK GÜNCELLE",
+  "If enabled, the application will check for new updates and notify you.": "Etkinleştirildiği takdirde, uygulama yeni güncellemeleri kendiliğinden kontrol edecek ve sizi de bilgilendirecektir.",
+  "HELP IMPROVE UPSCAYL": "UPSCAYL'I GELİŞTİRMEYE YARDIMCI OL",
+  "If enabled, Upscayl will collect anonymous usage data to improve the application interface and features.": "Etkinleştirildiği takdirde; Upscayl, uygulama arayüzünü ve özelliklerini geliştirmek için anonim kullanım verileri toplayacaktır.",
+  "UPSCAYL THEME": "UPSCAYL'IN TEMASI",
+  "UPSCAYL LANGUAGE": "UPSCAYL'IN DİLİ",
+  "CUSTOM TILE SIZE": "ÖZEL KARO BOYUTU",
+  "Use a custom tile size for segmenting the image. This can help process images faster by reducing the number of tiles generated.": "Resmi parçalara ayırmak için özel bir karo boyutu kullanın. Bu, oluşturulan karo sayısını azaltarak görselleri daha hızlı işlemeye yardımcı olabilir.",
+  "TURN OFF NOTIFICATIONS": "BİLDİRİMLERİ KAPAT",
+  "If enabled, Upscayl will not send any system notifications on success or failure.": "Etkinleştirildiği takdirde, Upscayl başarı veya başarısızlık durumunda herhangi bir sistem bildirimi göndermeyecektir.",
+  "Having issues?": "Sorun mu var?",
+  "🙏 GET HELP": "🙏 DESTEK ALIN",
+  "📧 EMAIL DEVELOPER": "📧 GELİŞTİRİCİYE BİR E-POSTA",
+  "TTA Mode": "TTA Modu",
+  "Enable Test Time Augmentation for better results, such as removing artifacts BUT this will increase the processing time by 8x!": "Test Zamanı Artırmasını (TTA) etkinleştirerek, örnek vermek gerekirse çizikler gibi bozulmaları kaldırarak daha iyi sonuçlar elde edebilirsiniz, LAKİN bu işlem süresini 8 kat uzatacaktır!",
+  "System Info": "Sistem Bilgisi",
+  "Batch Upscayl": "Topyekün Upscayl",
+  "This will let you Upscayl all files in a folder at once": "Bununla birlikte tek seferde bir bütün klasörü Upscayl edebilirsiniz.",
+  "Upload Image": "1. Adım",
+  "Choose Folder": "Klasör seç",
+  "Select Image": "Görsel seç",
+  "Step 2": "2. Adım",
+  "Select AI Model": "AI Model Seçimi",
+  "Imported Custom Models": "İçe aktarılmış özel modeller",
+  "Before": "Öncesi",
+  "After": "Sonrası",
+  "Zoom": "Yakınlaştır",
+  "Upscayl Standard": "Upscayl Standard",
+  "Suitable for most images.": "Çoğu görsel için ideal.",
+  "Upscayl Lite": "Upscayl Lite",
+  "Suitable for most images. High-speed upscaling with minimal quality loss.": "Çoğu görsel için ideal. Minimal kalite kaybıyla, yüksek hızda ölçeklendirme.",
+  "Remacri (Non-Commercial)": "Remacri (Ticari Değildir)",
+  "For natural images. Added sharpness and detail. No commercial use.": "Doğal görüntüler için idealdir. Keskinlik ve detay ekler. Ticari kullanım için değildir.",
+  "Ultramix (Non-Commercial)": "Ultramix (Ticari Değildir)",
+  "For natural images with a balance of sharpness and detail.": "Keskinlik ve detay dengesiyle doğal görseller için idealdir.",
+  "Ultrasharp (Non-Commercial)": "Ultrasharp (Ticari Değildir)",
+  "For natural images with a focus on sharpness.": "Keskinlik odaklı doğal görseller için idealdir.",
+  "Digital Art": "Dijital Sanat",
+  "For digital art and illustrations.": "Dijital sanat ve illüstrasyonlar için idealdir.",
+  "High Fidelity": "Yüksek Doğruluk",
+  "For all kinds of images with a focus on realistic details and smooth textures.": "Her türden görsel için idealdir, gerçekçi detaylara ve pürüzsüz dokulara odaklanır.",
+  "Double Upscayl": "Çifte Upscayl",
+  "Enable this option to run upscayl twice on an image. Note that this may cause a significant increase in processing time and possibly performance issues for scales greater than 4X.": "Bu seçeneği etkinleştirerek, bir görüntü üzerinde Upscayl'ı iki kez çalıştırabilirsiniz. Lakin, bu işlem süresinde önemli bir uzamaya ve 4X'ten büyük ölçeklerde performans sorunlarına yol açabilir.",
+  "Step 3": "3. Adım",
+  "Due to MacOS App Store security restrictions, Upscayl requires you to select an output folder everytime you start it.\n\nTo avoid this, you can permanently save a default output folder in the Upscayl 'Settings' tab.": "MacOS App Store güvenlik kısıtlamaları nedeniyle, Upscayl her başlatıldığında bir çıktı klasörü seçmenizi isteyecektir.\n\nBunu engellemek için, Upscayl'ın 'Ayarlar' sekmesinde varsayılan bir çıktı klasörü kalıcı olarak kaydedebilirsiniz.",
+  "Not Selected": "Seçilmemiş",
+  "Defaults to Image's path": "Çıktı resim, girdi resmin dizinine",
+  "Defaults to  Folder's path": "Çıktı klasör, girdi klasörün dizine",
+  "Set Output Folder": "Çıktı klasörünü seç",
+  "Step 4": "4. Adım",
+  "Upscayl from ": "",
+  " to ": "'dan ->",
+  "Please select an output folder first": "Lütfen önce bir çıktı klasörü seçin.",
+  "Upscayl 🚀": "Upscayl'la 🚀",
+  "Upscayling ⏳": "Upscayl'lanıyor ⏳",
+  "Reset Image": "Resmi Sıfırla",
+  "Lens View": "Lensli Büyüteç",
+  "Slider View": "Kaydırmalı Büyüteç",
+  "Zoom Amount": "Yakınlaştırma Miktarı",
+  "Total Upscayls": "Toplam Upscayllar",
+  "Total Batch Upscayls": "Toplam Topyekün Upscayllar",
+  "Total Image Upscayls": "Toplam Görsel Upscaylları",
+  "Total Double Upscayls": "Toplam Çifte Upscayllar",
+  "Average Upscayl Time": "Ortalama Upscayl Süresi",
+  "Last Upscayl Duration": "Son Upscayl Süresi",
+  "Last Used At": "En son şu tarihte kullanıldı",
+  "Batch Upscayl In Progress:": "Topyekün Upscayl ediliyor...",
+  "Doing the Upscayl magic...": "Upscayl sihrini konuşturuyor...",
+  "STOP": "DURDUR",
+  "Reset": "Sıfırla",
+  "Select a Folder": "Klasör Seçin",
+  "No image loaded": "Görsel Seçin",
+  "Make sure that the folder doesn't contain anything except PNG, JPG, JPEG & WEBP images.": "Lütfen klasörün PNG, JPG, JPEG ve WEBP uzantılı görseller haricinde birşey içermediğinden emin olun.",
+  "Upload or drag & drop an image to get started": "Lütfen PNG, JPG, JPEG yahut WEBP uzantılı bir görsel seçin ya da sürükleyip buraya bırakın.",
+  "Supports: PNG, JPG, JPEG, WEBP": "Ctrl+V yahut ⌘+V tuşlarına basarak bir görsel yapıştırın.",
+  "Processing the image...": "Görsel işleniyor...",
+  "Scaling and converting image...": "Görsel ölçeklendirilip dönüştürülüyor...",
+  "Hold on...": "Bekleyin...",
+  "Upscayl Successful!": "Upscayl Başarılı!",
+  "Selected folder:": "Seçili klasör:",
+  "All done!": "Hepsi tamamlandı!",
+  "Open Upscayled Folder": "Upscayllenmiş klasörü açın",
+  "Original": "Orjinali",
+  "Upscayled": "Upscayllanmışı",
+  "Close": "Kapat",
+  "GPU Error": "GPU Hatası",
+  "Ran into an issue with the GPU. Please read the docs for troubleshooting! ({data})": "GPU'da bir hata meydana geldi. Sorun giderme için dökümantasyonu okuyun! ({data})",
+  "Copy Error": "Kopyalama Hatası",
+  "": "",
+  "Read/Write Error": "Okuma/Yazma Hatası",
+  "Make sure that the path is correct and you have proper read/write permissions \n({data})": "Dizinin doğru olduğundan veya yeterli okuma/yazma izinlerinizin bulunduğundan emin olun. \n({data})",
+  "Tile Size Error": "Hata",
+  "The tile size is wrong. Please change the tile size in the settings or set to 0 ({data})": "Karo boyutu yanlış. Lütfen ayarlarda karo boyutunu değiştirin veya 0 olarak ayarlayın. ({data})",
+  "Exception Error": "İstinai Hata",
+  "Upscayl encountered an error. Possibly, the upscayl binary failed to execute the commands properly. Try checking the logs to see if you get any information. You can post an issue on Upscayl's GitHub repository for more help.": "Upscayl bir hata ile karşılaştı. Muhtemelen, upscayl ikili dosyası komutları düzgün şekilde çalıştırmayı başaramadı. Bilgi almak için log dosyalarını kontrol etmeyi deneyin. Daha fazla yardım için Upscayl'ın GitHub deposunda bir sorun bildirisi oluşturabilirsiniz.",
+  "Error": "Hata",
+  "Output Folder Required": "Çıktı klasörü seç",
+  "Please select an output folder before starting": "Lütfen önce bir çıktı klasörü seçin.",
+  "Invalid Image": "Geçersiz görsel",
+  "Please select/paste an image with a valid extension like PNG, JPG, JPEG, JFIF or WEBP.": "Lütfen PNG, JPG, JPEG, JFIF veya WEBP gibi geçerli uzantıya sahip bir görsel seçin veya yapıştırın,",
+  "Please drag and drop an image": "Lütfen bir görseli sürükleyip bırakın.",
+  "No Image file found in Clipboard to paste!": "Panoda yapıştıracak görsel bulunamadı!",
+  "No image selected": "Görsel seçilmedi",
+  "Please select an image to upscale": "Lütfen iyileştirilecek bir görsel seçin.",
+  "Metadata Copy Error": "Meta Veri Kopyalama Hatası",
+  "Could not copy metadata from the original image to the generated image. ({data})": "Orijinal görüntüden oluşturulan görüntüye meta veriler kopyalanamadı. ({data})",
+  "Open Docs": "Dökümantasyonu açın",
+  "Troubleshoot": "Sorun giderme",
+  "Warning": "Uyarı",
+  "Metadata Warning": "Meta Veri Uyarısı",
+  "On some systems, metadata may not be visible in formats other than JPG. Use specific tools to view metadata if needed.": "Bazı sistemlerde, JPG dışındaki formatlarda meta veriler görüntülenemeyebilir. Gerekirse meta verileri görüntülemek için özel araçlar kullanın.",
+  "Coming soon!": "Yakında sizlerle!",
+  "No more errors, hardware issues, quality compromises or long loading times!": "Artık hatalar, donanım uyuşmazlıkları, kalite tavizleri ya da uzun yükleme süreleri yok!",
+  "🌐 Upscayl anywhere, anytime, any device\n☁️ No Graphics Card or hardware required\n👩 Face Enhancement\n🦋 10+ models to choose from\n🏎 5x faster than Upscayl Desktop\n🎞 Video Upscaling\n💰 Commercial Usage\n😴 Upscayl while you sleep": "🌐 Upscayl her yerde, her zaman , her cihazda\n☁️ Ekran kartına ya da donanıma gerek yok.\n👩 Yüz güzelleştirici\n🦋 Seçilebilecek 10 model ve fazlası\n🏎 Upscayl Desktop'tan 5 kat daha hızlı\n🎞 Video İyileştirici\n💰 Ticari Kullanım\n😴 Siz uyurken Upscayl",
+  "Thank you {name}! It seems that your email has already been registered :D If that's not the case, please try again.": "Teşekkürler {name}! Görünüşe göre e-postanı zaten kaydetmişiz :D Eğer bu bir hata ise, tekrar deneyin.",
+  "Thank you for joining the waitlist! We will notify you when Upscayl Cloud is ready for you.": "Bekleme listesine katıldığın için teşekkürler! Upscayl Cloud senin için hazır olduğunda mutlaka ulaşacağız!",
+  "Please fill in all the fields correctly.": "Lütfen tüm alanları tam doldurun.",
+  "Join the waitlist": "Bekleme listesine yazıl",
+  "DON'T SHOW AGAIN": "BİR DAHA GÖSTERME",
+  "Next": "Sonraki",
+  "Back": "Önceki",
+  "Get Started": "Başlayın",
+  "You can always change these settings later.": "Tüm bu ayarları istersen sonra değiştirebilirsin.",
+  "Welcome to Upscayl 🎉": "Upscayl'e hoş geldiniz! 🎉",
+  "Let's get you started with a few quick steps.": "Hadi sizi bir kaç adımda hazır edelim.",
+  "Choose Your Preferences 🎨": "Tercihlerinizi belirtin 🎨",
+  "Configure your initial settings.": "Ön ayarlarınızı yapılandırın.",
+  "How do I use Upscayl? 🚀": "Upscayl'ı nasıl kullanacağım? 🚀",
+  "Watch this short video to learn about the new features.": "Bu kısa videoyu izleyerek en yeni özellikleri öğrenin",
+  "You're All Set! 🎉": "Hazır ve nazırsınız! 🎉",
+  "You're ready to start upscaling images with Upscayl!": "Upscayl ile görsellerinizi iyileştirmeye hazırsınız!"
 }

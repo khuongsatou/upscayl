@@ -17,10 +17,10 @@ const OverwriteToggle = () => {
     <Field orientation="horizontal">
       <FieldContent>
         <FieldLabel htmlFor="overwrite-previous-upscale-switch">
-          {t("SETTINGS.OVERWRITE_TOGGLE.TITLE")}
+          {t("OVERWRITE PREVIOUS UPSCALE")}
         </FieldLabel>
         <FieldDescription>
-          {t("SETTINGS.OVERWRITE_TOGGLE.DESCRIPTION")}
+          {t("If enabled, Upscayl will process the image again instead of loading it directly.")}
         </FieldDescription>
       </FieldContent>
       <Switch

@@ -1,315 +1,180 @@
 {
-  "TITLE": "ابسكيل",
-  "INTRO": "مقدمة لسحابة ابسكيل",
-  "HEADER": {
-    "GITHUB_BUTTON_TITLE": "اعطني نجمة على github",
-    "DESCRIPTION": "ذكاء اصطناعي لزيادة دقة الصور"
-  },
-  "FOOTER": {
-    "NEWS_TITLE": "اخبار ابسكيل",
-    "COPYRIGHT": "حقوق النشر ©",
-    "TITLE": "بواسطة ",
-    "LINK_TITLE": "فريق ابسكيل"
-  },
-  "SETTINGS": {
-    "TITLE": "الاعدادات",
-    "CHANGE_LANGUAGE": { "TITLE": "تغيير اللغة" },
-    "IMAGE_COMPRESSION": {
-      "TITLE": "اختزال الصورة",
-      "DESCRIPTION": "صيغة png , ربما لن تؤثر على حجم الملف بشكل كبير و عملية الضغط القوية قد يؤثر على الاداء, JPG و WEBP صيغ تفقد جودتها"
-    },
-    "CUSTOM_MODELS": {
-      "TITLE": "أضف نموذجًا مخصصًا",
-      "BUTTON_FOLDER": "اختر مجلد",
-      "DESCRIPTION": "يمكنك اضافة نماذجك بسهولة, للمزيد من المعلومات:",
-      "LINK_TITLE": "مستودع لنموذج مخصص"
-    },
-    "CUSTOM_INPUT_RESOLUTION": {
-      "TITLE": "عرض مخصص للإخراج",
-      "RESTART": "طلب اعادة تشغيل",
-      "DESCRIPTION": "استخدام عرض مخصص للصورة, سيتم تعديل الطول بشكل تلقائي, تفعيل هذا الخيار سيبدل التحجيم الموضوع في الاعدادات"
-    },
-    "DONATE": {
-      "DESCRIPTION": "اذا كنت تحب ما نفعل :)",
-      "BUTTON_TITLE": "💎 تبرع"
-    },
-    "GPU_ID_INPUT": {
-      "TITLE": "فهرس وحدة معالجة الرسوم",
-      "DESCRIPTION": "لمعلومات اكثر اقرأ وثائقنا",
-      "ADDITIONAL_DESCRIPTION": "فعل وضعية الاداء على الويندوز لتحصل على نتائج افضل"
-    },
-    "IMAGE_FORMAT": {
-      "TITLE": "حفظ الصورة ك",
-      "PNG": "PNG",
-      "JPG": "JPG",
-      "WEBP": "WEBP"
-    },
-    "COPY_METADATA": {
-      "TITLE": "نسخ بيانات وصفية للصورة",
-      "DESCRIPTION": "احتفظ ببيانات الصورة الوصفية الأصلية (EXIF) في الصورة المحسنة.",
-      "SUGGEST_JPG_TITLE": "تغيير التنسيق المقترح",
-      "SUGGEST_JPG_DESCRIPTION": "للحصول على توافق أفضل للبيانات الوصفية بين الأنظمة المختلفة، نوصي باستخدام تنسيق JPG. هل تريد التغيير؟",
-      "CHANGE_TO_JPG": "تغيير إلى JPG",
-      "KEEP_CURRENT_FORMAT": "الاحتفاظ بـ {format}"
-    },
-    "IMAGE_SCALE": {
-      "TITLE": "تحجيم الصورة",
-      "DESCRIPTION": "اي حجم اكبر من 4 (ما عدا التحجيم المزدوج 16 ) سيتم تغيير حجم الصورة بدون استعمال الذكاء الاصطناعي",
-      "WARNING": "اي شيء اكثر من 5 سوف يسبب مشاكل في اداء الجهاز",
-      "ADDITIONAL_WARNING": "قد يسبب مشاكل اداء في بعض الاجهزة"
-    },
-    "LOG_AREA": {
-      "ON_COPY": "تم النسخ ✅",
-      "BUTTON_TITLE": "نسخ السجلات 📋",
-      "NO_LOGS": "لا يوجد سجلات للعرض"
-    },
-    "OVERWRITE_TOGGLE": {
-      "TITLE": "تبديل التحجيم الدقة السابق",
-      "DESCRIPTION": "ابسكيل سيعالج الصور مرة اخرى بدل من تحميلها مباشرا, اذا فعلت هذا"
-    },
-    "RESET_SETTINGS": {
-      "BUTTON_TITLE": "اعادة ضبط ابسكيل",
-      "ALERT": "لقد تم اعادة ضبط ابسكيل , يرجى اعادة تشغيل البرنامج"
-    },
-    "SAVE_OUTPUT_FOLDER": {
-      "TITLE": "مجلد حفظ النتائج",
-      "DESCRIPTION": "سيتم تذكر هذا المجلد في كل مرة , اذا فعلت هذا الخيار"
-    },
-    "AUTO_UPDATE": {
-      "TITLE": "تحديث تلقائي لابسكيل",
-      "DESCRIPTION": "سيتمم التحقق بشكل تلقائي للتحديثات , اذا فعلت هذا الخيار"
-    },
-    "ENABLE_CONTRIBUTION": {
-      "TITLE": "ساعدنا لتحسين ابسكيل",
-      "DESCRIPTION": "اذا فعلت هذا الخير يستم تجميع معلومات بشكل صامت لغرض تحسين الجودة"
-    },
-    "THEME": {
-      "TITLE": "مظهر ابسكيل"
-    },
-    "LANGUAGE": {
-      "TITLE": "لغة ابسكيل"
-    },
-    "CUSTOM_TILE_SIZE": {
-      "TITLE": "حجم مناطق مخصص",
-      "DESCRIPTION": "هذا الخيار سيساعد في تقليل المناطق المراد معالجتها, يزيد سرعة المعالجة"
-    },
-    "TURN_OFF_NOTIFICATIONS": {
-      "TITLE": "اطفئ الاشعارات",
-      "DESCRIPTION": "لن يتم ارسال اشعارات لإتمام العملية او فشلها , عند تشغيل هذا الخيار"
-    },
-    "SUPPORT": {
-      "TITLE": "هل لديك اي مشكلة ؟",
-      "DOCS_BUTTON_TITLE": "🙏 احصل على مساعدة",
-      "EMAIL_BUTTON_TITLE": "📧 بريد الكتروني للمطور"
-    },
-    "TTA_MODE": {
-      "TITLE": "TTA وضعية",
-      "DESCRIPTION": "يساهم في اعطاء نتائج افضل و ازالة التشوهات ولكن! سيزيد وقت المعالجة ب8 اضعاف"
-    },
-    "SYSTEM_INFO": {
-      "TITLE": "معلومات النظام"
-    }
-  },
-  "APP": {
-    "TITLE": "ابسكيل",
-    "BATCH_MODE": {
-      "TITLE": "ابسكيل متعدد",
-      "DESCRIPTION": "يمكنك هذا الخيار ان تقوم بعملية تحجيم لعدد من الصور في وقت واحد"
-    },
-    "FILE_SELECTION": {
-      "TITLE": "الخطوة الأولة",
-      "BATCH_MODE_TYPE": "اختر مجلدا",
-      "SINGLE_MODE_TYPE": "اختر صورة"
-    },
-    "MODEL_SELECTION": {
-      "TITLE": "الخطوة الثانية",
-      "DESCRIPTION": "اختر نموذج الذكاء",
-      "IMPORTED_CUSTOM_MODELS": "استرد نموذج مخصص",
-      "BEFORE": "قبل",
-      "AFTER": "بعد",
-      "ZOOM": "تكبير",
-      "MODELS": {
-        "upscayl-standard-4x": {
-          "NAME": "ابسكيل الاعتيادي",
-          "DESCRIPTION": "يفضل لأغلب الصور"
-        },
-        "upscayl-lite-4x": {
-          "NAME": "ابسكيل المخفف",
-          "DESCRIPTION": "مناسب لاغلب الصور لاكن اسرع مع بعض خسائر في الجودة"
-        },
-        "remacri-4x": {
-          "NAME": "Remacri (Non-Commercial)",
-          "DESCRIPTION": "للصور الطبيعة اضافة حدة "
-        },
-        "ultramix-balanced-4x": {
-          "NAME": "Ultramix (Non-Commercial)",
-          "DESCRIPTION": "للصور الطبيعية مع توازن في التفاصيل و الحدة"
-        },
-        "ultrasharp-4x": {
-          "NAME": "Ultrasharp (Non-Commercial)",
-          "DESCRIPTION": "للصور الطبيعية مع تركيز على الحدة"
-        },
-        "digital-art-4x": {
-          "NAME": "الرسم الرقمي",
-          "DESCRIPTION": "مناسب للرسم الرقمي"
-        },
-        "high-fidelity-4x": {
-          "NAME": "دقة عالية",
-          "DESCRIPTION": "لكل انواع الصور مع التركيز على واقعية التفاصيل و نعومة الاكساء"
-        }
-      }
-    },
-    "DOUBLE_UPSCAYL": {
-      "TITLE": "تحجيم مزدوج",
-      "DESCRIPTION": "تفعيل هذا الخيار سيقوم بمضاعفة التحجيم , لكن سيسبب ضعف في الاداء بالأخص مع تحجيم 4 اضعاف"
-    },
-    "OUTPUT_PATH_SELECTION": {
-      "TITLE": "الخطوة الثالثة",
-      "MAC_APP_STORE_ALERT": " نظرا لنظام حماية apple ابسكيل يتطلب ان تحدد موقع الخزن في كل مرة\n\nلتخطي هذا يمكنك تحديده من الاعدادات",
-      "NOT_SELECTED": "غير محدد",
-      "DEFAULT_IMG_PATH": "حفظ في مكان الصورة المحددة",
-      "DEFAULT_FOLDER_PATH": "حفظ في نفس مكان المجلد",
-      "BUTTON_TITLE": "ضع موقع الاخراج"
-    },
-    "SCALE_SELECTION": {
-      "TITLE": "خطوة رابعة",
-      "FROM_TITLE": "حجم من ",
-      "TO_TITLE": " الى ",
-      "NO_OUTPUT_FOLDER_ALERT": "اختر مجلد الاخراج اولا",
-      "START_BUTTON_TITLE": "ابسكيل 🚀",
-      "IN_PROGRESS_BUTTON_TITLE": "تحجيم ⏳"
-    },
-    "MORE_OPTIONS_DRAWER": {
-      "RESET_BUTTON_TITLE": "اعادة ضبط الصورة",
-      "LENS_VIEW_TITLE": "وضع المكبرة",
-      "SLIDER_VIEW_TITLE": "وضع الشطر",
-      "ZOOM_AMOUNT_TITLE": "قوة التكبير",
-      "TOTAL_UPSCAYLS": "مجموع التحجيم",
-      "TOTAL_BATCH_UPSCAYLS": "مجموع الصور المتعددة المحجمة",
-      "TOTAL_IMAGE_UPSCAYLS": "مجموع الصور المحجمة",
-      "TOTAL_DOUBLE_UPSCAYLS": "مجموع التحجيم المزدوج",
-      "AVERAGE_UPSCAYL_TIME": "الوقت المتوسط للتحجيم",
-      "LAST_UPSCAYL_DURATION": "مدة اخر تحجيم",
-      "LAST_USED_AT": "اخر استخدام عند"
-    },
-    "PROGRESS_BAR": {
-      "BATCH_UPSCAYL_IN_PROGRESS_TITLE": "التحجيم المزدوج قيد العمل:",
-      "IN_PROGRESS_TITLE": "القيام ببعض السحر المحجم...",
-      "STOP_BUTTON_TITLE": "أيقاف"
-    },
-    "RESET_BUTTON_TITLE": "اعادة ضبط",
-    "RIGHT_PANE_INFO": {
-      "SELECT_FOLDER": "اختر مجلد",
-      "SELECT_IMAGE": "اختر صورة",
-      "SELECT_FOLDER_DESCRIPTION": "تأكد ان المجلد لا يحوي اي شيء ما عدى PNG, JPG, JPEG & WEBP images.",
-      "SELECT_IMAGES_DESCRIPTION": "اختر صورة او قم بسحب و الاسقاط",
-      "PASTE_IMAGE_DESCRIPTION": "اضغط Ctrl+V او ⌘+V للصق الصورة من المحفظة"
-    },
-    "PROGRESS": {
-      "PROCESSING_TITLE": "جار معالجة الصورة...",
-      "SCALING_CONVERTING_TITLE": "تحجيم و تحويل الصورة...",
-      "WAIT_TITLE": "انتظر...",
-      "SUCCESS_TITLE": "تم العملية!",
-      "BATCH": {
-        "SELECTED_FOLDER_TITLE": "اختر مجلد:",
-        "DONE_TITLE": "تم!",
-        "OPEN_UPSCAYLED_FOLDER_TITLE": "افتح مجلد ابسكيل"
-      }
-    },
-    "SLIDER": {
-      "ORIGINAL_TITLE": "اصلي",
-      "UPSCAYLED_TITLE": "مُحَجم"
-    },
-    "DIALOG_BOX": {
-      "CLOSE": "أغلاق"
-    }
-  },
-  "ERRORS": {
-    "GPU_ERROR": {
-      "TITLE": "خطأ في وحدة معالجة الرسوم",
-      "DESCRIPTION": "حصل مشكلة في وحدة معالجة الرسوم اقراء التالي ({data})"
-    },
-    "COPY_ERROR": {
-      "TITLE": "خطأ في النسخ",
-      "DESCRIPTION": ""
-    },
-    "READ_WRITE_ERROR": {
-      "TITLE": "خطأ في القراءة و الكتابة",
-      "DESCRIPTION": "تأكد من ان المسار صحيح و أذونات القراءة و الكتابة معطاة \n({data})"
-    },
-    "TILE_SIZE_ERROR": {
-      "TITLE": "خطأ",
-      "DESCRIPTION": "حجم المنطقة خطأ غيره من الاعدادات او ضعه صفراً ({data})"
-    },
-    "EXCEPTION_ERROR": {
-      "TITLE": "خطأ استثتائي",
-      "DESCRIPTION": "ابسيكيل يواجه مشكلة, ابسكيل فشل في تنفيذ اوامر ثنائية بشكل صحيح, حاول قرائه السجلات قد تحصل على معلومات لحل المشكلة, توجه الى github خاصتنا اذا لم تستطع حلها"
-    },
-    "GENERIC_ERROR": {
-      "TITLE": "خطأ"
-    },
-    "NO_OUTPUT_FOLDER_ERROR": {
-      "TITLE": "ضع مجلد الاخراج",
-      "DESCRIPTION": "يرجا اختيار مجلد اخراج"
-    },
-    "INVALID_IMAGE_ERROR": {
-      "TITLE": "صورة غير صالحة",
-      "DESCRIPTION": "يرجى اختيار صورة بهذه التنسيقات PNG, JPG, JPEG, JFIF or WEBP.",
-      "ADDITIONAL_DESCRIPTION": "اسحب و اسقط الصورة",
-      "CLIPBOARD_DESCRIPTION": "لا يوجد صورة في المحفظة للصقها"
-    },
-    "NO_IMAGE_ERROR": {
-      "TITLE": "ما من صورة محددة",
-      "DESCRIPTION": "اختر صورة لتحجيمها من فضلك"
-    },
-    "METADATA_ERROR": {
-      "TITLE": "خطأ في نسخ البيانات الوصفية",
-      "DESCRIPTION": "تعذر نسخ البيانات الوصفية من الصورة الأصلية إلى الصورة المُنشأة. ({data})"
-    },
-    "OPEN_DOCS_TITLE": "افتح التوثيقات",
-    "OPEN_DOCS_BUTTON_TITLE": "استكشاف خطأ"
-  },
-  "WARNING": {
-    "GENERIC_WARNING": {
-      "TITLE": "تحذير"
-    },
-    "METADATA_FORMAT": {
-      "TITLE": "تحذير البيانات الوصفية",
-      "DESCRIPTION": "في بعض الأنظمة، قد لا تكون البيانات الوصفية مرئية في التنسيقات غير JPG. استخدم أدوات خاصة لعرض البيانات الوصفية إذا لزم الأمر."
-    }
-  },
-  "UPSCAYL_CLOUD": {
-    "COMING_SOON": "قادم قريبا!",
-    "CATCHY_PHRASE_1": "لا مزيد من خطأ, مشاكل هاردوير, ولا مزيد من الانتظار لوقت طويل",
-    "CATCHY_PHRASE_2": "🌐 استعمل ابسكيل في اي مكان وزمان\n☁️ لا تحتاج الى وحدة معالجة رسومd\n👩 تحسين جودة الوجوه\n🦋 اكثر من 10 نماذج\n🏎 اسرع بـ5 مرات على تطبيق ابسكيل\n🎞 تحجيم الفيديوهات\n💰 للاستخدام التجاري\n😴 حُجًم خلال نومك",
-    "ALREADY_REGISTERED_ALERT": "شكرا لك {name}! يبدو ان بريدك مسجل بالفعل :D اذا كان مشكلة في هذا تواصل معنا",
-    "ADD_SUCCESS": "شكرا لانضمامك في قائمة الانتظار! سنرسل لك اشعارا حين توفر التخزين السحابية",
-    "INCORRECT_FIELDS_ALERT": "يرجا ملى جميع الحقول بشكل صحيح",
-    "JOIN_WAITLIST": "انظم لقائمة الانتظار",
-    "DONT_SHOW_AGAIN": "لا تعرض هذا مجددا"
-  },
-  "ONBOARDING_DIALOG": {
-    "NEXT_BUTTON_TITLE": "التالي",
-    "BACK_BUTTON_TITLE": "رجوع",
-    "GET_STARTED_BUTTON_TITLE": "أبداء",
-    "SETTINGS_NOTE": "يمكنك تغيير هذه الاعدادات في اي وقت",
-    "STEP_1": {
-      "TITLE": "مرحبا بك في ابسكيل🎉",
-      "DESCRIPTION": "لنبدأ بخطوات بسيطة"
-    },
-    "STEP_2": {
-      "TITLE": "اختر تخصيصاتك 🎨",
-      "DESCRIPTION": "اضبط اعداداتك."
-    },
-    "STEP_3": {
-      "TITLE": "كيف استعمل ابسكيل ؟ 🚀",
-      "DESCRIPTION": "شاهد هذا الفديو القصير لتتعلم بعض الميزات."
-    },
-    "STEP_4": {
-      "TITLE": "انت جاهز! 🎉",
-      "DESCRIPTION": "انت مستعد لاستخدام ابسكيل!"
-    }
-  }
+  "Upscayl": "ابسكيل",
+  "Introducing Upscayl Cloud!": "مقدمة لسحابة ابسكيل",
+  "Star us on GitHub 😁": "اعطني نجمة على github",
+  "AI Image Upscaler": "ذكاء اصطناعي لزيادة دقة الصور",
+  "UPSCAYL NEWS": "اخبار ابسكيل",
+  "Copyright ©": "حقوق النشر ©",
+  "By ": "بواسطة ",
+  "The Upscayl Team": "فريق ابسكيل",
+  "Settings": "الاعدادات",
+  "Change Language": "تغيير اللغة",
+  "Image Compression": "اختزال الصورة",
+  "PNG compression is lossless, so it might not reduce the file size significantly and higher compression values might affect the performance. JPG and WebP compression is lossy.": "صيغة png , ربما لن تؤثر على حجم الملف بشكل كبير و عملية الضغط القوية قد يؤثر على الاداء, JPG و WEBP صيغ تفقد جودتها",
+  "ADD CUSTOM MODELS": "أضف نموذجًا مخصصًا",
+  "Select Folder": "اختر مجلد",
+  "You can add your own models easily. For more details:": "يمكنك اضافة نماذجك بسهولة, للمزيد من المعلومات:",
+  "Custom Models Repository": "مستودع لنموذج مخصص",
+  "CUSTOM OUTPUT WIDTH": "عرض مخصص للإخراج",
+  "REQUIRES RESTART": "طلب اعادة تشغيل",
+  "Use a custom width for the output images. The height will be adjusted automatically. Enabling this will override the scale setting.": "استخدام عرض مخصص للصورة, سيتم تعديل الطول بشكل تلقائي, تفعيل هذا الخيار سيبدل التحجيم الموضوع في الاعدادات",
+  "If you like what we do :)": "اذا كنت تحب ما نفعل :)",
+  "💎 DONATE": "💎 تبرع",
+  "GPU ID": "فهرس وحدة معالجة الرسوم",
+  "Please read the Upscayl Documentation for more information.": "لمعلومات اكثر اقرأ وثائقنا",
+  "Enable performance mode on Windows for better results.": "فعل وضعية الاداء على الويندوز لتحصل على نتائج افضل",
+  "SAVE IMAGE AS": "حفظ الصورة ك",
+  "PNG": "PNG",
+  "JPG": "JPG",
+  "WEBP": "WEBP",
+  "COPY IMAGE METADATA": "نسخ بيانات وصفية للصورة",
+  "Keep original image metadata (EXIF) in the upscaled image.": "احتفظ ببيانات الصورة الوصفية الأصلية (EXIF) في الصورة المحسنة.",
+  "Recommended Format Change": "تغيير التنسيق المقترح",
+  "For better metadata compatibility across different systems, we recommend using JPG format. Would you like to change?": "للحصول على توافق أفضل للبيانات الوصفية بين الأنظمة المختلفة، نوصي باستخدام تنسيق JPG. هل تريد التغيير؟",
+  "Change to JPG": "تغيير إلى JPG",
+  "Keep {format}": "الاحتفاظ بـ {format}",
+  "Image Scale": "تحجيم الصورة",
+  "Anything above 4X (except 16X Double Upscayl) only resizes the image and does not use AI upscaling.": "اي حجم اكبر من 4 (ما عدا التحجيم المزدوج 16 ) سيتم تغيير حجم الصورة بدون استعمال الذكاء الاصطناعي",
+  "Anything above 5X may cause performance issues on some devices!": "اي شيء اكثر من 5 سوف يسبب مشاكل في اداء الجهاز",
+  "This may cause performance issues on some devices!": "قد يسبب مشاكل اداء في بعض الاجهزة",
+  "COPIED ✅": "تم النسخ ✅",
+  "COPY LOGS 📋": "نسخ السجلات 📋",
+  "No logs to show": "لا يوجد سجلات للعرض",
+  "OVERWRITE PREVIOUS UPSCALE": "تبديل التحجيم الدقة السابق",
+  "If enabled, Upscayl will process the image again instead of loading it directly.": "ابسكيل سيعالج الصور مرة اخرى بدل من تحميلها مباشرا, اذا فعلت هذا",
+  "RESET UPSCAYL": "اعادة ضبط ابسكيل",
+  "Upscayl has been reset. Please restart the app.": "لقد تم اعادة ضبط ابسكيل , يرجى اعادة تشغيل البرنامج",
+  "SAVE OUTPUT FOLDER": "مجلد حفظ النتائج",
+  "If enabled, the output folder will be remembered between sessions.": "سيتم تذكر هذا المجلد في كل مرة , اذا فعلت هذا الخيار",
+  "AUTO UPDATE UPSCAYL": "تحديث تلقائي لابسكيل",
+  "If enabled, the application will check for new updates and notify you.": "سيتمم التحقق بشكل تلقائي للتحديثات , اذا فعلت هذا الخيار",
+  "HELP IMPROVE UPSCAYL": "ساعدنا لتحسين ابسكيل",
+  "If enabled, Upscayl will collect anonymous usage data to improve the application interface and features.": "اذا فعلت هذا الخير يستم تجميع معلومات بشكل صامت لغرض تحسين الجودة",
+  "UPSCAYL THEME": "مظهر ابسكيل",
+  "UPSCAYL LANGUAGE": "لغة ابسكيل",
+  "CUSTOM TILE SIZE": "حجم مناطق مخصص",
+  "Use a custom tile size for segmenting the image. This can help process images faster by reducing the number of tiles generated.": "هذا الخيار سيساعد في تقليل المناطق المراد معالجتها, يزيد سرعة المعالجة",
+  "TURN OFF NOTIFICATIONS": "اطفئ الاشعارات",
+  "If enabled, Upscayl will not send any system notifications on success or failure.": "لن يتم ارسال اشعارات لإتمام العملية او فشلها , عند تشغيل هذا الخيار",
+  "Having issues?": "هل لديك اي مشكلة ؟",
+  "🙏 GET HELP": "🙏 احصل على مساعدة",
+  "📧 EMAIL DEVELOPER": "📧 بريد الكتروني للمطور",
+  "TTA Mode": "TTA وضعية",
+  "Enable Test Time Augmentation for better results, such as removing artifacts BUT this will increase the processing time by 8x!": "يساهم في اعطاء نتائج افضل و ازالة التشوهات ولكن! سيزيد وقت المعالجة ب8 اضعاف",
+  "System Info": "معلومات النظام",
+  "Batch Upscayl": "ابسكيل متعدد",
+  "This will let you Upscayl all files in a folder at once": "يمكنك هذا الخيار ان تقوم بعملية تحجيم لعدد من الصور في وقت واحد",
+  "Upload Image": "الخطوة الأولة",
+  "Choose Folder": "اختر مجلدا",
+  "Select Image": "اختر صورة",
+  "Step 2": "الخطوة الثانية",
+  "Select AI Model": "اختر نموذج الذكاء",
+  "Imported Custom Models": "استرد نموذج مخصص",
+  "Before": "قبل",
+  "After": "بعد",
+  "Zoom": "تكبير",
+  "Upscayl Standard": "ابسكيل الاعتيادي",
+  "Suitable for most images.": "يفضل لأغلب الصور",
+  "Upscayl Lite": "ابسكيل المخفف",
+  "Suitable for most images. High-speed upscaling with minimal quality loss.": "مناسب لاغلب الصور لاكن اسرع مع بعض خسائر في الجودة",
+  "Remacri (Non-Commercial)": "Remacri (Non-Commercial)",
+  "For natural images. Added sharpness and detail. No commercial use.": "للصور الطبيعة اضافة حدة ",
+  "Ultramix (Non-Commercial)": "Ultramix (Non-Commercial)",
+  "For natural images with a balance of sharpness and detail.": "للصور الطبيعية مع توازن في التفاصيل و الحدة",
+  "Ultrasharp (Non-Commercial)": "Ultrasharp (Non-Commercial)",
+  "For natural images with a focus on sharpness.": "للصور الطبيعية مع تركيز على الحدة",
+  "Digital Art": "الرسم الرقمي",
+  "For digital art and illustrations.": "مناسب للرسم الرقمي",
+  "High Fidelity": "دقة عالية",
+  "For all kinds of images with a focus on realistic details and smooth textures.": "لكل انواع الصور مع التركيز على واقعية التفاصيل و نعومة الاكساء",
+  "Double Upscayl": "تحجيم مزدوج",
+  "Enable this option to run upscayl twice on an image. Note that this may cause a significant increase in processing time and possibly performance issues for scales greater than 4X.": "تفعيل هذا الخيار سيقوم بمضاعفة التحجيم , لكن سيسبب ضعف في الاداء بالأخص مع تحجيم 4 اضعاف",
+  "Step 3": "الخطوة الثالثة",
+  "Due to MacOS App Store security restrictions, Upscayl requires you to select an output folder everytime you start it.\n\nTo avoid this, you can permanently save a default output folder in the Upscayl 'Settings' tab.": " نظرا لنظام حماية apple ابسكيل يتطلب ان تحدد موقع الخزن في كل مرة\n\nلتخطي هذا يمكنك تحديده من الاعدادات",
+  "Not Selected": "غير محدد",
+  "Defaults to Image's path": "حفظ في مكان الصورة المحددة",
+  "Defaults to  Folder's path": "حفظ في نفس مكان المجلد",
+  "Set Output Folder": "ضع موقع الاخراج",
+  "Step 4": "خطوة رابعة",
+  "Upscayl from ": "حجم من ",
+  " to ": " الى ",
+  "Please select an output folder first": "اختر مجلد الاخراج اولا",
+  "Upscayl 🚀": "ابسكيل 🚀",
+  "Upscayling ⏳": "تحجيم ⏳",
+  "Reset Image": "اعادة ضبط الصورة",
+  "Lens View": "وضع المكبرة",
+  "Slider View": "وضع الشطر",
+  "Zoom Amount": "قوة التكبير",
+  "Total Upscayls": "مجموع التحجيم",
+  "Total Batch Upscayls": "مجموع الصور المتعددة المحجمة",
+  "Total Image Upscayls": "مجموع الصور المحجمة",
+  "Total Double Upscayls": "مجموع التحجيم المزدوج",
+  "Average Upscayl Time": "الوقت المتوسط للتحجيم",
+  "Last Upscayl Duration": "مدة اخر تحجيم",
+  "Last Used At": "اخر استخدام عند",
+  "Batch Upscayl In Progress:": "التحجيم المزدوج قيد العمل:",
+  "Doing the Upscayl magic...": "القيام ببعض السحر المحجم...",
+  "STOP": "أيقاف",
+  "Reset": "اعادة ضبط",
+  "Select a Folder": "اختر مجلد",
+  "No image loaded": "اختر صورة",
+  "Make sure that the folder doesn't contain anything except PNG, JPG, JPEG & WEBP images.": "تأكد ان المجلد لا يحوي اي شيء ما عدى PNG, JPG, JPEG & WEBP images.",
+  "Upload or drag & drop an image to get started": "اختر صورة او قم بسحب و الاسقاط",
+  "Supports: PNG, JPG, JPEG, WEBP": "اضغط Ctrl+V او ⌘+V للصق الصورة من المحفظة",
+  "Processing the image...": "جار معالجة الصورة...",
+  "Scaling and converting image...": "تحجيم و تحويل الصورة...",
+  "Hold on...": "انتظر...",
+  "Upscayl Successful!": "تم العملية!",
+  "Selected folder:": "اختر مجلد:",
+  "All done!": "تم!",
+  "Open Upscayled Folder": "افتح مجلد ابسكيل",
+  "Original": "اصلي",
+  "Upscayled": "مُحَجم",
+  "Close": "أغلاق",
+  "GPU Error": "خطأ في وحدة معالجة الرسوم",
+  "Ran into an issue with the GPU. Please read the docs for troubleshooting! ({data})": "حصل مشكلة في وحدة معالجة الرسوم اقراء التالي ({data})",
+  "Copy Error": "خطأ في النسخ",
+  "": "",
+  "Read/Write Error": "خطأ في القراءة و الكتابة",
+  "Make sure that the path is correct and you have proper read/write permissions \n({data})": "تأكد من ان المسار صحيح و أذونات القراءة و الكتابة معطاة \n({data})",
+  "Tile Size Error": "خطأ",
+  "The tile size is wrong. Please change the tile size in the settings or set to 0 ({data})": "حجم المنطقة خطأ غيره من الاعدادات او ضعه صفراً ({data})",
+  "Exception Error": "خطأ استثتائي",
+  "Upscayl encountered an error. Possibly, the upscayl binary failed to execute the commands properly. Try checking the logs to see if you get any information. You can post an issue on Upscayl's GitHub repository for more help.": "ابسيكيل يواجه مشكلة, ابسكيل فشل في تنفيذ اوامر ثنائية بشكل صحيح, حاول قرائه السجلات قد تحصل على معلومات لحل المشكلة, توجه الى github خاصتنا اذا لم تستطع حلها",
+  "Error": "خطأ",
+  "Output Folder Required": "ضع مجلد الاخراج",
+  "Please select an output folder before starting": "يرجا اختيار مجلد اخراج",
+  "Invalid Image": "صورة غير صالحة",
+  "Please select/paste an image with a valid extension like PNG, JPG, JPEG, JFIF or WEBP.": "يرجى اختيار صورة بهذه التنسيقات PNG, JPG, JPEG, JFIF or WEBP.",
+  "Please drag and drop an image": "اسحب و اسقط الصورة",
+  "No Image file found in Clipboard to paste!": "لا يوجد صورة في المحفظة للصقها",
+  "No image selected": "ما من صورة محددة",
+  "Please select an image to upscale": "اختر صورة لتحجيمها من فضلك",
+  "Metadata Copy Error": "خطأ في نسخ البيانات الوصفية",
+  "Could not copy metadata from the original image to the generated image. ({data})": "تعذر نسخ البيانات الوصفية من الصورة الأصلية إلى الصورة المُنشأة. ({data})",
+  "Open Docs": "افتح التوثيقات",
+  "Troubleshoot": "استكشاف خطأ",
+  "Warning": "تحذير",
+  "Metadata Warning": "تحذير البيانات الوصفية",
+  "On some systems, metadata may not be visible in formats other than JPG. Use specific tools to view metadata if needed.": "في بعض الأنظمة، قد لا تكون البيانات الوصفية مرئية في التنسيقات غير JPG. استخدم أدوات خاصة لعرض البيانات الوصفية إذا لزم الأمر.",
+  "Coming soon!": "قادم قريبا!",
+  "No more errors, hardware issues, quality compromises or long loading times!": "لا مزيد من خطأ, مشاكل هاردوير, ولا مزيد من الانتظار لوقت طويل",
+  "🌐 Upscayl anywhere, anytime, any device\n☁️ No Graphics Card or hardware required\n👩 Face Enhancement\n🦋 10+ models to choose from\n🏎 5x faster than Upscayl Desktop\n🎞 Video Upscaling\n💰 Commercial Usage\n😴 Upscayl while you sleep": "🌐 استعمل ابسكيل في اي مكان وزمان\n☁️ لا تحتاج الى وحدة معالجة رسومd\n👩 تحسين جودة الوجوه\n🦋 اكثر من 10 نماذج\n🏎 اسرع بـ5 مرات على تطبيق ابسكيل\n🎞 تحجيم الفيديوهات\n💰 للاستخدام التجاري\n😴 حُجًم خلال نومك",
+  "Thank you {name}! It seems that your email has already been registered :D If that's not the case, please try again.": "شكرا لك {name}! يبدو ان بريدك مسجل بالفعل :D اذا كان مشكلة في هذا تواصل معنا",
+  "Thank you for joining the waitlist! We will notify you when Upscayl Cloud is ready for you.": "شكرا لانضمامك في قائمة الانتظار! سنرسل لك اشعارا حين توفر التخزين السحابية",
+  "Please fill in all the fields correctly.": "يرجا ملى جميع الحقول بشكل صحيح",
+  "Join the waitlist": "انظم لقائمة الانتظار",
+  "DON'T SHOW AGAIN": "لا تعرض هذا مجددا",
+  "Next": "التالي",
+  "Back": "رجوع",
+  "Get Started": "أبداء",
+  "You can always change these settings later.": "يمكنك تغيير هذه الاعدادات في اي وقت",
+  "Welcome to Upscayl 🎉": "مرحبا بك في ابسكيل🎉",
+  "Let's get you started with a few quick steps.": "لنبدأ بخطوات بسيطة",
+  "Choose Your Preferences 🎨": "اختر تخصيصاتك 🎨",
+  "Configure your initial settings.": "اضبط اعداداتك.",
+  "How do I use Upscayl? 🚀": "كيف استعمل ابسكيل ؟ 🚀",
+  "Watch this short video to learn about the new features.": "شاهد هذا الفديو القصير لتتعلم بعض الميزات.",
+  "You're All Set! 🎉": "انت جاهز! 🎉",
+  "You're ready to start upscaling images with Upscayl!": "انت مستعد لاستخدام ابسكيل!"
 }
-
-

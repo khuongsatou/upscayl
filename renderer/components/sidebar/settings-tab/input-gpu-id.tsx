@@ -21,12 +21,12 @@ export function InputGpuId({ gpuId, handleGpuIdChange }: GpuIdInputProps) {
     <Field orientation="horizontal">
       <FieldContent>
         <FieldLabel htmlFor="gpu-id-input">
-          {t("SETTINGS.GPU_ID_INPUT.TITLE")}
+          {t("GPU ID")}
         </FieldLabel>
 
         <FieldDescription className="space-x-1">
-          <span>{t("SETTINGS.GPU_ID_INPUT.DESCRIPTION")}</span>
-          <span>{t("SETTINGS.GPU_ID_INPUT.ADDITIONAL_DESCRIPTION")}</span>
+          <span>{t("Please read the Upscayl Documentation for more information.")}</span>
+          <span>{t("Enable performance mode on Windows for better results.")}</span>
         </FieldDescription>
       </FieldContent>
 

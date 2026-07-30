@@ -19,10 +19,10 @@ const TurnOffNotificationsToggle = () => {
     <Field orientation="horizontal">
       <FieldContent>
         <FieldLabel htmlFor="turn-off-notifications-switch">
-          {t("SETTINGS.TURN_OFF_NOTIFICATIONS.TITLE")}
+          {t("TURN OFF NOTIFICATIONS")}
         </FieldLabel>
         <FieldDescription>
-          {t("SETTINGS.TURN_OFF_NOTIFICATIONS.DESCRIPTION")}
+          {t("If enabled, Upscayl will not send any system notifications on success or failure.")}
         </FieldDescription>
       </FieldContent>
 

@@ -19,10 +19,10 @@ const EnableContributionToggle = () => {
     <Field orientation="horizontal">
       <FieldContent>
         <FieldLabel htmlFor="enable-contribution-switch">
-          {t("SETTINGS.ENABLE_CONTRIBUTION.TITLE")}
+          {t("HELP IMPROVE UPSCAYL")}
         </FieldLabel>
         <FieldDescription>
-          {t("SETTINGS.ENABLE_CONTRIBUTION.DESCRIPTION")}
+          {t("If enabled, Upscayl will collect anonymous usage data to improve the application interface and features.")}
         </FieldDescription>
       </FieldContent>
 

@@ -39,7 +39,7 @@ export function SelectImageScale({
       <div className="flex items-center justify-between gap-2">
         <div className="step-heading flex flex-row text-sm">
           <span className="w-fit rounded-lg bg-foreground/10 px-2 text-sm font-medium">
-            {t("SETTINGS.IMAGE_SCALE.TITLE")}
+            {t("Image Scale")}
             {!hideInfo && useCustomWidth && " DISABLED"} -
             <span className="text-sm font-medium text-muted-foreground">
               {" "}
@@ -141,12 +141,12 @@ export function SelectImageScale({
         </p>
       ) : (
         <p className="text-xs text-muted-foreground">
-          {t("SETTINGS.IMAGE_SCALE.DESCRIPTION")}
+          {t("Anything above 4X (except 16X Double Upscayl) only resizes the image and does not use AI upscaling.")}
         </p>
       )}
       {!hideInfo && Number(scale) >= 6 && (
         <p className="text-xs text-destructive">
-          {t("SETTINGS.IMAGE_SCALE.ADDITIONAL_WARNING")}
+          {t("This may cause performance issues on some devices!")}
         </p>
       )}
     </div>

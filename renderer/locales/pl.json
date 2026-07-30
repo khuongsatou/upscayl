@@ -1,313 +1,180 @@
 {
-  "TITLE": "Upscayl",
-  "INTRO": "Przedstawiamy Chmurę Upscayl!",
-  "HEADER": {
-    "GITHUB_BUTTON_TITLE": "Daj nam gwiazdke na GitHub 😁",
-    "DESCRIPTION": "Skalowanie obrazów za pomocą AI"
-  },
-  "FOOTER": {
-    "NEWS_TITLE": "WIADOMOŚCI UPSCAYL",
-    "COPYRIGHT": "Copyright ©",
-    "TITLE": "Stworzona przez ",
-    "LINK_TITLE": "The Upscayl Team"
-  },
-  "SETTINGS": {
-    "TITLE": "Ustawienia",
-    "CHANGE_LANGUAGE": { "TITLE": "Zmień Język" },
-    "IMAGE_COMPRESSION": {
-      "TITLE": "Kompresja obrazu",
-      "DESCRIPTION": "Kompresja PNG jest bezstratna, więc rozmiar pliku może nie zostać znacząco zmniejszony, a wyższe wartości kompresji mogą mieć wpływ na wydajność. Kompresja JPG i WebP powoduje straty."
-    },
-    "CUSTOM_MODELS": {
-      "TITLE": "DODAJ NIESTANDARDOWE MODELE",
-      "BUTTON_FOLDER": "Wybierz Folder",
-      "DESCRIPTION": "Możesz dodać łatwo niestandardowe modele. Więcej szczegółów:",
-      "LINK_TITLE": "Repozytorium modeli niestandardowych"
-    },
-    "CUSTOM_INPUT_RESOLUTION": {
-      "TITLE": "NIESTANDARDOWA SZEROKOŚĆ WYJŚCIA",
-      "RESTART": "WYMAGA PONOWNEGO URUCHOMIENIA",
-      "DESCRIPTION": "Użyj niestandardowej szerokości dla obrazów wyjściowych. Wysokość zostanie dostosowana automatycznie. Włączenie tej opcji spowoduje zastąpienie ustawienia skali."
-    },
-    "DONATE": {
-      "DESCRIPTION": "Jeżeli lubisz to, co robimy :)",
-      "BUTTON_TITLE": "💎 WESPRZYJ"
-    },
-    "GPU_ID_INPUT": {
-      "TITLE": "GPU ID",
-      "DESCRIPTION": "Przeczytaj dokumentację Upscayl, aby uzyskać więcej informacji.",
-      "ADDITIONAL_DESCRIPTION": "Włącz tryb wydajności w systemie Windows, aby uzyskać lepsze wyniki."
-    },
-    "IMAGE_FORMAT": {
-      "TITLE": "ZAPISZ OBRAZ JAKO",
-      "PNG": "PNG",
-      "JPG": "JPG",
-      "WEBP": "WEBP"
-    },
-    "COPY_METADATA": {
-      "TITLE": "SKOPIUJ METADANE OBRAZU",
-      "DESCRIPTION": "Zachowaj oryginalne metadane obrazu (EXIF) na powiększonym obrazie.",
-      "SUGGEST_JPG_TITLE": "Zalecana zmiana formatu",
-      "SUGGEST_JPG_DESCRIPTION": "Dla lepszej zgodności metadanych w różnych systemach zalecamy użycie formatu JPG. Czy chcesz zmienić format?",
-      "CHANGE_TO_JPG": "Zmień na JPG",
-      "KEEP_CURRENT_FORMAT": "Zachowaj {format}"
-    },
-    "IMAGE_SCALE": {
-      "TITLE": "Skala obrazu",
-      "DESCRIPTION": "Wszystko powyżej 4X (oprócz 16X Podwójny Upscayl) zmienia tylko rozmiar obrazu i nie korzysta ze skalowania AI.",
-      "WARNING": "Wszystko powyżej 5X może spowodować problem z wydajnością na niektórych urządzeniach!",
-      "ADDITIONAL_WARNING": "To może spowodować problemy z wydajnością na niektórych urządzeniach!"
-    },
-    "LOG_AREA": {
-      "ON_COPY": "SKOPIOWANO ✅",
-      "BUTTON_TITLE": "SKOPIUJ LOGI 📋",
-      "NO_LOGS": "Brak logów do pokazania"
-    },
-    "OVERWRITE_TOGGLE": {
-      "TITLE": "NADPISZ POPRZEDNIE SKALOWANIE",
-      "DESCRIPTION": "Jeżeli włączone, Upscayl przetworzy obraz ponownie zamiast ładować go bezpośrednio."
-    },
-    "RESET_SETTINGS": {
-      "BUTTON_TITLE": "ZRESETUJ UPSCAYL",
-      "ALERT": "Upscayl został zresetowany. Uruchom ponownie aplikację."
-    },
-    "SAVE_OUTPUT_FOLDER": {
-      "TITLE": "ZAPISZ WYJŚCIOWY FOLDER",
-      "DESCRIPTION": "Jeżeli włączone, wyjściowy folder zostanie zapamiętany pomiędzy sesjami."
-    },
-    "AUTO_UPDATE": {
-      "TITLE": "AUTOMATYCZNA AKTUALIZACJA UPSCAYL",
-      "DESCRIPTION": "Jeżeli włączone, aplikacja sprawdzi, czy są nowe aktualizacje i Cię powiadomi."
-    },
-    "ENABLE_CONTRIBUTION": {
-      "TITLE": "POMÓŻ ULEPSZYĆ UPSCAYL",
-      "DESCRIPTION": "Jeżeli włączone, Upscayl będzie zbierał anonimowe dane dotyczące użytkowania w celu ulepszenia interfejsu i funkcji aplikacji."
-    },
-    "THEME": {
-      "TITLE": "MOTYW UPSCAYL"
-    },
-    "LANGUAGE": {
-      "TITLE": "JĘZYK UPSCAYL"
-    },
-    "CUSTOM_TILE_SIZE": {
-      "TITLE": "NIESTANDARDOWY ROZMIAR KAFELKI",
-      "DESCRIPTION": "Użyj niestandardowego rozmiaru kafelków do segmentacji obrazu. Może to przyspieszyć przetwarzanie obrazów poprzez zmniejszenie liczby generowanych kafelków."
-    },
-    "TURN_OFF_NOTIFICATIONS": {
-      "TITLE": "WYŁĄCZ POWIADOMIENIA",
-      "DESCRIPTION": "Jeżeli włączone, Upscayl nie będzie wysyłał żadnych powiadomień systemowych o powodzeniu lub niepowodzeniu."
-    },
-    "SUPPORT": {
-      "TITLE": "Masz problemy?",
-      "DOCS_BUTTON_TITLE": "🙏 UZYSKAJ POMOC",
-      "EMAIL_BUTTON_TITLE": "📧 E-mail do dewelopera"
-    },
-    "TTA_MODE": {
-      "TITLE": "Tryb TTA",
-      "DESCRIPTION": "Włącz tryb Test-Time Augmentation (TTA), aby uzyskać lepsze wyniki (np. usuwanie artefaktów), ale zwiększy to czas przetwarzania nawet 8×!"
-    },
-    "SYSTEM_INFO": {
-      "TITLE": "Informacje o Systemie"
-    }
-  },
-  "APP": {
-    "TITLE": "Upscayl",
-    "BATCH_MODE": {
-      "TITLE": "Plik Upscayl",
-      "DESCRIPTION": "To ci pozwoli na Upscayl wszystkich plików w folderze na raz"
-    },
-    "FILE_SELECTION": {
-      "TITLE": "Krok 1",
-      "BATCH_MODE_TYPE": "Wybierz Folder",
-      "SINGLE_MODE_TYPE": "Wybierz Obraz"
-    },
-    "MODEL_SELECTION": {
-      "TITLE": "Krok 2",
-      "DESCRIPTION": "Wybierz Model AI",
-      "IMPORTED_CUSTOM_MODELS": "Importowane modele niestandardowe",
-      "BEFORE": "Przed",
-      "AFTER": "Po",
-      "ZOOM": "Powiększ",
-      "MODELS": {
-        "upscayl-standard-4x": {
-          "NAME": "Upscayl Standard",
-          "DESCRIPTION": "Nadaje się do większości obrazów."
-        },
-        "upscayl-lite-4x": {
-          "NAME": "Upscayl Lite",
-          "DESCRIPTION": "Nadaje się do większości obrazów. Szybkie skalowanie z minimalną utratą jakości."
-        },
-        "remacri-4x": {
-          "NAME": "Remacri (Niekomercyjne)",
-          "DESCRIPTION": "Dla naturalnych obrazów. Dodano ostrość i szczegółowość. Zakaz użytku komercyjnego."
-        },
-        "ultramix-balanced-4x": {
-          "NAME": "Ultramix (Niekomercyjne)",
-          "DESCRIPTION": "Do naturalnych obrazów z równowagą ostrości i szczegółów."
-        },
-        "ultrasharp-4x": {
-          "NAME": "Ultrasharp (Niekomercyjne)",
-          "DESCRIPTION": "Dla uzyskania naturalnych obrazów, w których priorytetem jest ostrość."
-        },
-        "digital-art-4x": {
-          "NAME": "Digital Art",
-          "DESCRIPTION": "Do sztuki cyfrowej i ilustracji."
-        },
-        "high-fidelity-4x": {
-          "NAME": "High Fidelity",
-          "DESCRIPTION": "Do wszelkiego rodzaju obrazów, w których kładziony jest nacisk na realistyczne detale i gładkie tekstury."
-        }
-      }
-    },
-    "DOUBLE_UPSCAYL": {
-      "TITLE": "Podwójny Upscayl",
-      "DESCRIPTION": "Włącz tę opcję, aby uruchomić upscayl dwukrotnie na obrazie. Należy pamiętać, że może to spowodować znaczne wydłużenie czasu przetwarzania i ewentualne problemy z wydajnością w przypadku skal większych niż 4X."
-    },
-    "OUTPUT_PATH_SELECTION": {
-      "TITLE": "Krok 3",
-      "MAC_APP_STORE_ALERT": "Ze względu na ograniczenia bezpieczeństwa sklepu App Store w systemie macOS, Upscayl wymaga wybrania folderu wyjściowego przy każdym uruchomieniu.\n\nAby tego uniknąć, możesz trwale zapisać domyślny folder wyjściowy w zakładce „Ustawienia” programu Upscayl.",
-      "NOT_SELECTED": "Nie Wybrano",
-      "DEFAULT_IMG_PATH": "Domyślna ścieżka obrazu",
-      "DEFAULT_FOLDER_PATH": "Domyślna ścieżka folderu",
-      "BUTTON_TITLE": "Wybierz Folder Wyjściowy"
-    },
-    "SCALE_SELECTION": {
-      "TITLE": "Krok 4",
-      "FROM_TITLE": "Upscayl z ",
-      "TO_TITLE": " do ",
-      "NO_OUTPUT_FOLDER_ALERT": "Wybierz najpierw folder wyjściowy",
-      "START_BUTTON_TITLE": "Upscayluj 🚀",
-      "IN_PROGRESS_BUTTON_TITLE": "Upscayluje ⏳"
-    },
-    "MORE_OPTIONS_DRAWER": {
-      "RESET_BUTTON_TITLE": "Zresetuj Obraz",
-      "LENS_VIEW_TITLE": "Widok obiektywu",
-      "SLIDER_VIEW_TITLE": "Widok suwaka",
-      "ZOOM_AMOUNT_TITLE": "Wartość powiększenia",
-      "TOTAL_UPSCAYLS": "Łącznie Upscaylowano",
-      "TOTAL_BATCH_UPSCAYLS": "Łącznie Plików Upscaylowano",
-      "TOTAL_IMAGE_UPSCAYLS": "Łącznie Obrazów Upscaylowano",
-      "TOTAL_DOUBLE_UPSCAYLS": "Łącznie Podwójnych Upscaylowano",
-      "AVERAGE_UPSCAYL_TIME": "Średni czas Upscaylowania",
-      "LAST_UPSCAYL_DURATION": "Ostatni czas trwania Upscayl",
-      "LAST_USED_AT": "Ostatnio Używany W"
-    },
-    "PROGRESS_BAR": {
-      "BATCH_UPSCAYL_IN_PROGRESS_TITLE": "Plikowy Upscayl W Toku:",
-      "IN_PROGRESS_TITLE": "Robię magię Upscaylowania...",
-      "STOP_BUTTON_TITLE": "ZATRZYMAJ"
-    },
-    "RESET_BUTTON_TITLE": "Reset",
-    "RIGHT_PANE_INFO": {
-      "SELECT_FOLDER": "Wybierz Folder",
-      "SELECT_IMAGE": "Wybierz Obraz",
-      "SELECT_FOLDER_DESCRIPTION": "Upewnij się, że folder nie zawiera niczego poza obrazami PNG, JPG, JPEG i WEBP.",
-      "SELECT_IMAGES_DESCRIPTION": "Wybierz lub przeciągnij i upuść obraz PNG, JPG, JPEG lub WEBP.",
-      "PASTE_IMAGE_DESCRIPTION": "Wciśnij Ctrl+V lub ⌘+V aby wkleić obraz ze Schowka"
-    },
-    "PROGRESS": {
-      "PROCESSING_TITLE": "Przetwarzanie obrazu...",
-      "SCALING_CONVERTING_TITLE": "Skalowanie i konwertowanie obrazu...",
-      "WAIT_TITLE": "Poczekaj...",
-      "SUCCESS_TITLE": "Pomyślnie Zupscaylowano!",
-      "BATCH": {
-        "SELECTED_FOLDER_TITLE": "Wybierz folder:",
-        "DONE_TITLE": "Gotowe!",
-        "OPEN_UPSCAYLED_FOLDER_TITLE": "Otwórz Zupscaylowany Folder"
-      }
-    },
-    "SLIDER": {
-      "ORIGINAL_TITLE": "Oryginał",
-      "UPSCAYLED_TITLE": "Upscaylowane"
-    },
-    "DIALOG_BOX": {
-      "CLOSE": "Zamknij"
-    }
-  },
-  "ERRORS": {
-    "GPU_ERROR": {
-      "TITLE": "Błąd GPU",
-      "DESCRIPTION": "Wystąpił problem z GPU. Przeczytaj dokumentację, aby dowiedzieć się, jak rozwiązać problem! ({data})"
-    },
-    "COPY_ERROR": {
-      "TITLE": "Błąd Kopiowania",
-      "DESCRIPTION": "Wystąpił błąd podczas kopiowania do schowka. Spróbuj ponownie."
-    },
-    "READ_WRITE_ERROR": {
-      "TITLE": "Błąd odczytu/zapisu",
-      "DESCRIPTION": "Upewnij się, że ścieżka jest poprawna i że masz odpowiednie uprawnienia do odczytu/zapisu \n({data})"
-    },
-    "TILE_SIZE_ERROR": {
-      "TITLE": "Błąd",
-      "DESCRIPTION": "Rozmiar kafelka jest nieprawidłowy. Zmień rozmiar kafelka w ustawieniach lub ustaw na 0. ({data})"
-    },
-    "EXCEPTION_ERROR": {
-      "TITLE": "Błąd wyjątku",
-      "DESCRIPTION": "Upscayl napotkał błąd. Możliwe, że plik binarny Upscayl nie wykonał poprawnie poleceń. Sprawdź logi, aby znaleźć dodatkowe informacje. Możesz zgłosić problem w repozytorium Upscayl na GitHubie, aby uzyskać więcej pomocy."
-    },
-    "GENERIC_ERROR": {
-      "TITLE": "Błąd"
-    },
-    "NO_OUTPUT_FOLDER_ERROR": {
-      "TITLE": "Ustaw Folder Wyjściowy",
-      "DESCRIPTION": "Najpierw wybierz folder wyjściowy"
-    },
-    "INVALID_IMAGE_ERROR": {
-      "TITLE": "Nieprawidłowy Obraz",
-      "DESCRIPTION": "Proszę wybrać/wkleić obraz z prawidłowym rozszerzeniem, takim jak PNG, JPG, JPEG, JFIF lub WEBP.",
-      "ADDITIONAL_DESCRIPTION": "Przeciągnij i upuść obraz",
-      "CLIPBOARD_DESCRIPTION": "Nie znaleziono pliku obrazu w schowku do wklejenia!"
-    },
-    "NO_IMAGE_ERROR": {
-      "TITLE": "Nie wybrano obrazu",
-      "DESCRIPTION": "Wybierz obraz do skalowania"
-    },
-    "METADATA_ERROR": {
-      "TITLE": "Błąd kopiowania metadanych",
-      "DESCRIPTION": "Nie można skopiować metadanych z obrazu oryginalnego do obrazu wygenerowanego. ({data})"
-    },
-    "OPEN_DOCS_TITLE": "Otwórz Dokumentację",
-    "OPEN_DOCS_BUTTON_TITLE": "Rozwiązywanie problemów"
-  },
-  "WARNING": {
-    "GENERIC_WARNING": {
-      "TITLE": "Uwaga"
-    },
-    "METADATA_FORMAT": {
-      "TITLE": "Ostrzeżenie dotyczące metadanych",
-      "DESCRIPTION": "W niektórych systemach metadane mogą nie być widoczne w formatach innych niż JPG. W razie potrzeby skorzystaj z odpowiednich narzędzi do przeglądania metadanych."
-    }
-  },
-  "UPSCAYL_CLOUD": {
-    "COMING_SOON": "Wkrótce!",
-    "CATCHY_PHRASE_1": "Koniec z błędami, problemami ze sprzętem, kompromisami w zakresie jakości i długim czasem ładowania!",
-    "CATCHY_PHRASE_2": "🌐 Upscayl wszędzie, kiedykolwiek, dowolne urządzenie\n☁️ Nie jest wymagana żadna karta graficzna ani sprzęt\n👩 Uwydatnianie twarzy\n🦋 10+ modeli do wyboru\n🏎 5x szybszy niż pulpitowa wersja Upscayl\n🎞 Skalowanie wideo\n💰 Wykorzystanie komercyjne\n😴 Upscayl kiedy śpisz",
-    "ALREADY_REGISTERED_ALERT": "Dziękujemy {name}! Wygląda na to, że Twój adres email został już zarejestrowany :D Jeśli tak nie jest, spróbuj ponownie.",
-    "ADD_SUCCESS": "Dziękujemy za dołączenie do listy oczekujących! Powiadomimy Cię, gdy Upscayl Cloud będzie dla Ciebie gotowy.",
-    "INCORRECT_FIELDS_ALERT": "Proszę wypełnić wszystkie pola poprawnie.",
-    "JOIN_WAITLIST": "Dołącz do listy oczekujących",
-    "DONT_SHOW_AGAIN": "NIE POKAZUJ PONOWNIE"
-  },
-  "ONBOARDING_DIALOG": {
-    "NEXT_BUTTON_TITLE": "Następny",
-    "BACK_BUTTON_TITLE": "Poprzedni",
-    "GET_STARTED_BUTTON_TITLE": "Rozpocznij",
-    "SETTINGS_NOTE": "Możesz zawsze zmienić te ustawienia później.",
-    "STEP_1": {
-      "TITLE": "Witaj w Upscayl 🎉",
-      "DESCRIPTION": "Zacznijmy od kilku szybkich kroków."
-    },
-    "STEP_2": {
-      "TITLE": "Wybierz swoje preferencje 🎨",
-      "DESCRIPTION": "Skonfiguruj ustawienia początkowe."
-    },
-    "STEP_3": {
-      "TITLE": "Jak używać Upscayl? 🚀",
-      "DESCRIPTION": "Obejrzyj ten krótki film, aby dowiedzieć się więcej o nowych funkcjach."
-    },
-    "STEP_4": {
-      "TITLE": "Wszystko gotowe! 🎉",
-      "DESCRIPTION": "Możesz zacząć skalować obrazy za pomocą Upscayl!"
-    }
-  }
+  "Upscayl": "Upscayl",
+  "Introducing Upscayl Cloud!": "Przedstawiamy Chmurę Upscayl!",
+  "Star us on GitHub 😁": "Daj nam gwiazdke na GitHub 😁",
+  "AI Image Upscaler": "Skalowanie obrazów za pomocą AI",
+  "UPSCAYL NEWS": "WIADOMOŚCI UPSCAYL",
+  "Copyright ©": "Copyright ©",
+  "By ": "Stworzona przez ",
+  "The Upscayl Team": "The Upscayl Team",
+  "Settings": "Ustawienia",
+  "Change Language": "Zmień Język",
+  "Image Compression": "Kompresja obrazu",
+  "PNG compression is lossless, so it might not reduce the file size significantly and higher compression values might affect the performance. JPG and WebP compression is lossy.": "Kompresja PNG jest bezstratna, więc rozmiar pliku może nie zostać znacząco zmniejszony, a wyższe wartości kompresji mogą mieć wpływ na wydajność. Kompresja JPG i WebP powoduje straty.",
+  "ADD CUSTOM MODELS": "DODAJ NIESTANDARDOWE MODELE",
+  "Select Folder": "Wybierz Folder",
+  "You can add your own models easily. For more details:": "Możesz dodać łatwo niestandardowe modele. Więcej szczegółów:",
+  "Custom Models Repository": "Repozytorium modeli niestandardowych",
+  "CUSTOM OUTPUT WIDTH": "NIESTANDARDOWA SZEROKOŚĆ WYJŚCIA",
+  "REQUIRES RESTART": "WYMAGA PONOWNEGO URUCHOMIENIA",
+  "Use a custom width for the output images. The height will be adjusted automatically. Enabling this will override the scale setting.": "Użyj niestandardowej szerokości dla obrazów wyjściowych. Wysokość zostanie dostosowana automatycznie. Włączenie tej opcji spowoduje zastąpienie ustawienia skali.",
+  "If you like what we do :)": "Jeżeli lubisz to, co robimy :)",
+  "💎 DONATE": "💎 WESPRZYJ",
+  "GPU ID": "GPU ID",
+  "Please read the Upscayl Documentation for more information.": "Przeczytaj dokumentację Upscayl, aby uzyskać więcej informacji.",
+  "Enable performance mode on Windows for better results.": "Włącz tryb wydajności w systemie Windows, aby uzyskać lepsze wyniki.",
+  "SAVE IMAGE AS": "ZAPISZ OBRAZ JAKO",
+  "PNG": "PNG",
+  "JPG": "JPG",
+  "WEBP": "WEBP",
+  "COPY IMAGE METADATA": "SKOPIUJ METADANE OBRAZU",
+  "Keep original image metadata (EXIF) in the upscaled image.": "Zachowaj oryginalne metadane obrazu (EXIF) na powiększonym obrazie.",
+  "Recommended Format Change": "Zalecana zmiana formatu",
+  "For better metadata compatibility across different systems, we recommend using JPG format. Would you like to change?": "Dla lepszej zgodności metadanych w różnych systemach zalecamy użycie formatu JPG. Czy chcesz zmienić format?",
+  "Change to JPG": "Zmień na JPG",
+  "Keep {format}": "Zachowaj {format}",
+  "Image Scale": "Skala obrazu",
+  "Anything above 4X (except 16X Double Upscayl) only resizes the image and does not use AI upscaling.": "Wszystko powyżej 4X (oprócz 16X Podwójny Upscayl) zmienia tylko rozmiar obrazu i nie korzysta ze skalowania AI.",
+  "Anything above 5X may cause performance issues on some devices!": "Wszystko powyżej 5X może spowodować problem z wydajnością na niektórych urządzeniach!",
+  "This may cause performance issues on some devices!": "To może spowodować problemy z wydajnością na niektórych urządzeniach!",
+  "COPIED ✅": "SKOPIOWANO ✅",
+  "COPY LOGS 📋": "SKOPIUJ LOGI 📋",
+  "No logs to show": "Brak logów do pokazania",
+  "OVERWRITE PREVIOUS UPSCALE": "NADPISZ POPRZEDNIE SKALOWANIE",
+  "If enabled, Upscayl will process the image again instead of loading it directly.": "Jeżeli włączone, Upscayl przetworzy obraz ponownie zamiast ładować go bezpośrednio.",
+  "RESET UPSCAYL": "ZRESETUJ UPSCAYL",
+  "Upscayl has been reset. Please restart the app.": "Upscayl został zresetowany. Uruchom ponownie aplikację.",
+  "SAVE OUTPUT FOLDER": "ZAPISZ WYJŚCIOWY FOLDER",
+  "If enabled, the output folder will be remembered between sessions.": "Jeżeli włączone, wyjściowy folder zostanie zapamiętany pomiędzy sesjami.",
+  "AUTO UPDATE UPSCAYL": "AUTOMATYCZNA AKTUALIZACJA UPSCAYL",
+  "If enabled, the application will check for new updates and notify you.": "Jeżeli włączone, aplikacja sprawdzi, czy są nowe aktualizacje i Cię powiadomi.",
+  "HELP IMPROVE UPSCAYL": "POMÓŻ ULEPSZYĆ UPSCAYL",
+  "If enabled, Upscayl will collect anonymous usage data to improve the application interface and features.": "Jeżeli włączone, Upscayl będzie zbierał anonimowe dane dotyczące użytkowania w celu ulepszenia interfejsu i funkcji aplikacji.",
+  "UPSCAYL THEME": "MOTYW UPSCAYL",
+  "UPSCAYL LANGUAGE": "JĘZYK UPSCAYL",
+  "CUSTOM TILE SIZE": "NIESTANDARDOWY ROZMIAR KAFELKI",
+  "Use a custom tile size for segmenting the image. This can help process images faster by reducing the number of tiles generated.": "Użyj niestandardowego rozmiaru kafelków do segmentacji obrazu. Może to przyspieszyć przetwarzanie obrazów poprzez zmniejszenie liczby generowanych kafelków.",
+  "TURN OFF NOTIFICATIONS": "WYŁĄCZ POWIADOMIENIA",
+  "If enabled, Upscayl will not send any system notifications on success or failure.": "Jeżeli włączone, Upscayl nie będzie wysyłał żadnych powiadomień systemowych o powodzeniu lub niepowodzeniu.",
+  "Having issues?": "Masz problemy?",
+  "🙏 GET HELP": "🙏 UZYSKAJ POMOC",
+  "📧 EMAIL DEVELOPER": "📧 E-mail do dewelopera",
+  "TTA Mode": "Tryb TTA",
+  "Enable Test Time Augmentation for better results, such as removing artifacts BUT this will increase the processing time by 8x!": "Włącz tryb Test-Time Augmentation (TTA), aby uzyskać lepsze wyniki (np. usuwanie artefaktów), ale zwiększy to czas przetwarzania nawet 8×!",
+  "System Info": "Informacje o Systemie",
+  "Batch Upscayl": "Plik Upscayl",
+  "This will let you Upscayl all files in a folder at once": "To ci pozwoli na Upscayl wszystkich plików w folderze na raz",
+  "Upload Image": "Krok 1",
+  "Choose Folder": "Wybierz Folder",
+  "Select Image": "Wybierz Obraz",
+  "Step 2": "Krok 2",
+  "Select AI Model": "Wybierz Model AI",
+  "Imported Custom Models": "Importowane modele niestandardowe",
+  "Before": "Przed",
+  "After": "Po",
+  "Zoom": "Powiększ",
+  "Upscayl Standard": "Upscayl Standard",
+  "Suitable for most images.": "Nadaje się do większości obrazów.",
+  "Upscayl Lite": "Upscayl Lite",
+  "Suitable for most images. High-speed upscaling with minimal quality loss.": "Nadaje się do większości obrazów. Szybkie skalowanie z minimalną utratą jakości.",
+  "Remacri (Non-Commercial)": "Remacri (Niekomercyjne)",
+  "For natural images. Added sharpness and detail. No commercial use.": "Dla naturalnych obrazów. Dodano ostrość i szczegółowość. Zakaz użytku komercyjnego.",
+  "Ultramix (Non-Commercial)": "Ultramix (Niekomercyjne)",
+  "For natural images with a balance of sharpness and detail.": "Do naturalnych obrazów z równowagą ostrości i szczegółów.",
+  "Ultrasharp (Non-Commercial)": "Ultrasharp (Niekomercyjne)",
+  "For natural images with a focus on sharpness.": "Dla uzyskania naturalnych obrazów, w których priorytetem jest ostrość.",
+  "Digital Art": "Digital Art",
+  "For digital art and illustrations.": "Do sztuki cyfrowej i ilustracji.",
+  "High Fidelity": "High Fidelity",
+  "For all kinds of images with a focus on realistic details and smooth textures.": "Do wszelkiego rodzaju obrazów, w których kładziony jest nacisk na realistyczne detale i gładkie tekstury.",
+  "Double Upscayl": "Podwójny Upscayl",
+  "Enable this option to run upscayl twice on an image. Note that this may cause a significant increase in processing time and possibly performance issues for scales greater than 4X.": "Włącz tę opcję, aby uruchomić upscayl dwukrotnie na obrazie. Należy pamiętać, że może to spowodować znaczne wydłużenie czasu przetwarzania i ewentualne problemy z wydajnością w przypadku skal większych niż 4X.",
+  "Step 3": "Krok 3",
+  "Due to MacOS App Store security restrictions, Upscayl requires you to select an output folder everytime you start it.\n\nTo avoid this, you can permanently save a default output folder in the Upscayl 'Settings' tab.": "Ze względu na ograniczenia bezpieczeństwa sklepu App Store w systemie macOS, Upscayl wymaga wybrania folderu wyjściowego przy każdym uruchomieniu.\n\nAby tego uniknąć, możesz trwale zapisać domyślny folder wyjściowy w zakładce „Ustawienia” programu Upscayl.",
+  "Not Selected": "Nie Wybrano",
+  "Defaults to Image's path": "Domyślna ścieżka obrazu",
+  "Defaults to  Folder's path": "Domyślna ścieżka folderu",
+  "Set Output Folder": "Wybierz Folder Wyjściowy",
+  "Step 4": "Krok 4",
+  "Upscayl from ": "Upscayl z ",
+  " to ": " do ",
+  "Please select an output folder first": "Wybierz najpierw folder wyjściowy",
+  "Upscayl 🚀": "Upscayluj 🚀",
+  "Upscayling ⏳": "Upscayluje ⏳",
+  "Reset Image": "Zresetuj Obraz",
+  "Lens View": "Widok obiektywu",
+  "Slider View": "Widok suwaka",
+  "Zoom Amount": "Wartość powiększenia",
+  "Total Upscayls": "Łącznie Upscaylowano",
+  "Total Batch Upscayls": "Łącznie Plików Upscaylowano",
+  "Total Image Upscayls": "Łącznie Obrazów Upscaylowano",
+  "Total Double Upscayls": "Łącznie Podwójnych Upscaylowano",
+  "Average Upscayl Time": "Średni czas Upscaylowania",
+  "Last Upscayl Duration": "Ostatni czas trwania Upscayl",
+  "Last Used At": "Ostatnio Używany W",
+  "Batch Upscayl In Progress:": "Plikowy Upscayl W Toku:",
+  "Doing the Upscayl magic...": "Robię magię Upscaylowania...",
+  "STOP": "ZATRZYMAJ",
+  "Reset": "Reset",
+  "Select a Folder": "Wybierz Folder",
+  "No image loaded": "Wybierz Obraz",
+  "Make sure that the folder doesn't contain anything except PNG, JPG, JPEG & WEBP images.": "Upewnij się, że folder nie zawiera niczego poza obrazami PNG, JPG, JPEG i WEBP.",
+  "Upload or drag & drop an image to get started": "Wybierz lub przeciągnij i upuść obraz PNG, JPG, JPEG lub WEBP.",
+  "Supports: PNG, JPG, JPEG, WEBP": "Wciśnij Ctrl+V lub ⌘+V aby wkleić obraz ze Schowka",
+  "Processing the image...": "Przetwarzanie obrazu...",
+  "Scaling and converting image...": "Skalowanie i konwertowanie obrazu...",
+  "Hold on...": "Poczekaj...",
+  "Upscayl Successful!": "Pomyślnie Zupscaylowano!",
+  "Selected folder:": "Wybierz folder:",
+  "All done!": "Gotowe!",
+  "Open Upscayled Folder": "Otwórz Zupscaylowany Folder",
+  "Original": "Oryginał",
+  "Upscayled": "Upscaylowane",
+  "Close": "Zamknij",
+  "GPU Error": "Błąd GPU",
+  "Ran into an issue with the GPU. Please read the docs for troubleshooting! ({data})": "Wystąpił problem z GPU. Przeczytaj dokumentację, aby dowiedzieć się, jak rozwiązać problem! ({data})",
+  "Copy Error": "Błąd Kopiowania",
+  "": "Wystąpił błąd podczas kopiowania do schowka. Spróbuj ponownie.",
+  "Read/Write Error": "Błąd odczytu/zapisu",
+  "Make sure that the path is correct and you have proper read/write permissions \n({data})": "Upewnij się, że ścieżka jest poprawna i że masz odpowiednie uprawnienia do odczytu/zapisu \n({data})",
+  "Tile Size Error": "Błąd",
+  "The tile size is wrong. Please change the tile size in the settings or set to 0 ({data})": "Rozmiar kafelka jest nieprawidłowy. Zmień rozmiar kafelka w ustawieniach lub ustaw na 0. ({data})",
+  "Exception Error": "Błąd wyjątku",
+  "Upscayl encountered an error. Possibly, the upscayl binary failed to execute the commands properly. Try checking the logs to see if you get any information. You can post an issue on Upscayl's GitHub repository for more help.": "Upscayl napotkał błąd. Możliwe, że plik binarny Upscayl nie wykonał poprawnie poleceń. Sprawdź logi, aby znaleźć dodatkowe informacje. Możesz zgłosić problem w repozytorium Upscayl na GitHubie, aby uzyskać więcej pomocy.",
+  "Error": "Błąd",
+  "Output Folder Required": "Ustaw Folder Wyjściowy",
+  "Please select an output folder before starting": "Najpierw wybierz folder wyjściowy",
+  "Invalid Image": "Nieprawidłowy Obraz",
+  "Please select/paste an image with a valid extension like PNG, JPG, JPEG, JFIF or WEBP.": "Proszę wybrać/wkleić obraz z prawidłowym rozszerzeniem, takim jak PNG, JPG, JPEG, JFIF lub WEBP.",
+  "Please drag and drop an image": "Przeciągnij i upuść obraz",
+  "No Image file found in Clipboard to paste!": "Nie znaleziono pliku obrazu w schowku do wklejenia!",
+  "No image selected": "Nie wybrano obrazu",
+  "Please select an image to upscale": "Wybierz obraz do skalowania",
+  "Metadata Copy Error": "Błąd kopiowania metadanych",
+  "Could not copy metadata from the original image to the generated image. ({data})": "Nie można skopiować metadanych z obrazu oryginalnego do obrazu wygenerowanego. ({data})",
+  "Open Docs": "Otwórz Dokumentację",
+  "Troubleshoot": "Rozwiązywanie problemów",
+  "Warning": "Uwaga",
+  "Metadata Warning": "Ostrzeżenie dotyczące metadanych",
+  "On some systems, metadata may not be visible in formats other than JPG. Use specific tools to view metadata if needed.": "W niektórych systemach metadane mogą nie być widoczne w formatach innych niż JPG. W razie potrzeby skorzystaj z odpowiednich narzędzi do przeglądania metadanych.",
+  "Coming soon!": "Wkrótce!",
+  "No more errors, hardware issues, quality compromises or long loading times!": "Koniec z błędami, problemami ze sprzętem, kompromisami w zakresie jakości i długim czasem ładowania!",
+  "🌐 Upscayl anywhere, anytime, any device\n☁️ No Graphics Card or hardware required\n👩 Face Enhancement\n🦋 10+ models to choose from\n🏎 5x faster than Upscayl Desktop\n🎞 Video Upscaling\n💰 Commercial Usage\n😴 Upscayl while you sleep": "🌐 Upscayl wszędzie, kiedykolwiek, dowolne urządzenie\n☁️ Nie jest wymagana żadna karta graficzna ani sprzęt\n👩 Uwydatnianie twarzy\n🦋 10+ modeli do wyboru\n🏎 5x szybszy niż pulpitowa wersja Upscayl\n🎞 Skalowanie wideo\n💰 Wykorzystanie komercyjne\n😴 Upscayl kiedy śpisz",
+  "Thank you {name}! It seems that your email has already been registered :D If that's not the case, please try again.": "Dziękujemy {name}! Wygląda na to, że Twój adres email został już zarejestrowany :D Jeśli tak nie jest, spróbuj ponownie.",
+  "Thank you for joining the waitlist! We will notify you when Upscayl Cloud is ready for you.": "Dziękujemy za dołączenie do listy oczekujących! Powiadomimy Cię, gdy Upscayl Cloud będzie dla Ciebie gotowy.",
+  "Please fill in all the fields correctly.": "Proszę wypełnić wszystkie pola poprawnie.",
+  "Join the waitlist": "Dołącz do listy oczekujących",
+  "DON'T SHOW AGAIN": "NIE POKAZUJ PONOWNIE",
+  "Next": "Następny",
+  "Back": "Poprzedni",
+  "Get Started": "Rozpocznij",
+  "You can always change these settings later.": "Możesz zawsze zmienić te ustawienia później.",
+  "Welcome to Upscayl 🎉": "Witaj w Upscayl 🎉",
+  "Let's get you started with a few quick steps.": "Zacznijmy od kilku szybkich kroków.",
+  "Choose Your Preferences 🎨": "Wybierz swoje preferencje 🎨",
+  "Configure your initial settings.": "Skonfiguruj ustawienia początkowe.",
+  "How do I use Upscayl? 🚀": "Jak używać Upscayl? 🚀",
+  "Watch this short video to learn about the new features.": "Obejrzyj ten krótki film, aby dowiedzieć się więcej o nowych funkcjach.",
+  "You're All Set! 🎉": "Wszystko gotowe! 🎉",
+  "You're ready to start upscaling images with Upscayl!": "Możesz zacząć skalować obrazy za pomocą Upscayl!"
 }

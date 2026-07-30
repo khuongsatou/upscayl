@@ -95,7 +95,7 @@ const Sidebar = ({
     setUpscaledImagePath("");
     setUpscaledBatchFolderPath("");
     if (imagePath !== "" || batchFolderPath !== "") {
-      setProgress(t("APP.PROGRESS.WAIT_TITLE"));
+      setProgress(t("Hold on..."));
       // Double Upscayl
       if (doubleUpscayl) {
         window.electron.send<DoubleUpscaylPayload>(
@@ -180,8 +180,8 @@ const Sidebar = ({
       }
     } else {
       toast({
-        title: t("ERRORS.NO_IMAGE_ERROR.TITLE"),
-        description: t("ERRORS.NO_IMAGE_ERROR.DESCRIPTION"),
+        title: t("No image selected"),
+        description: t("Please select an image to upscale"),
       });
       logit("🚫 No valid image selected");
     }

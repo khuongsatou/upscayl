@@ -45,7 +45,7 @@ const ModelDetailsPanel = ({
                 >
                   <Maximize2 className="size-4" />
                   <span className="sr-only">
-                    {t("APP.MODEL_SELECTION.ZOOM")}
+                    {t("Zoom")}
                   </span>
                 </Button>
               )}
@@ -57,10 +57,10 @@ const ModelDetailsPanel = ({
               <ModelImageComparison
                 beforeSrc={previewPaths.before}
                 afterSrc={previewPaths.after}
-                beforeAlt={`${modelName} ${t("APP.MODEL_SELECTION.BEFORE")}`}
-                afterAlt={`${modelName} ${t("APP.MODEL_SELECTION.AFTER")}`}
-                beforeLabel={t("APP.MODEL_SELECTION.BEFORE")}
-                afterLabel={t("APP.MODEL_SELECTION.AFTER")}
+                beforeAlt={`${modelName} ${t("Before")}`}
+                afterAlt={`${modelName} ${t("After")}`}
+                beforeLabel={t("Before")}
+                afterLabel={t("After")}
                 isBeforeUnavailable={isBeforePreviewUnavailable}
                 isAfterUnavailable={isAfterPreviewUnavailable}
                 className="aspect-[16/9] min-h-0 rounded-[1.2rem] bg-card ring-1 ring-border/80"

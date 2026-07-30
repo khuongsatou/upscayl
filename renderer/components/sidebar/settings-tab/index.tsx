@@ -87,7 +87,7 @@ function SettingsTab({
     <Dialog open={showSettings} onOpenChange={setShowSettings}>
       <DialogContent className="overflow-hidden p-0 sm:max-w-3xl md:max-h-125 lg:max-h-screen lg:max-w-3xl">
         <DialogHeader className="h-8 px-6 pt-4">
-          <DialogTitle>{t("SETTINGS.TITLE")}</DialogTitle>
+          <DialogTitle>{t("Settings")}</DialogTitle>
         </DialogHeader>
         <div className="flex h-100 gap-4 overflow-hidden px-6 pb-6">
           <SettingsSidebar />

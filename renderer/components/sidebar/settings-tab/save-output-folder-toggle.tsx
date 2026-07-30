@@ -23,10 +23,10 @@ export function SaveOutputFolderToggle() {
     <Field orientation="horizontal">
       <FieldContent>
         <FieldLabel htmlFor="save-outputfolder-toggle">
-          {t("SETTINGS.SAVE_OUTPUT_FOLDER.TITLE")}
+          {t("SAVE OUTPUT FOLDER")}
         </FieldLabel>
         <FieldDescription>
-          <span>{t("SETTINGS.SAVE_OUTPUT_FOLDER.DESCRIPTION")}</span>
+          <span>{t("If enabled, the output folder will be remembered between sessions.")}</span>
           <span>{outputPath}</span>
         </FieldDescription>
       </FieldContent>

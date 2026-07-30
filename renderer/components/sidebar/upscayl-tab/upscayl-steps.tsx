@@ -170,7 +170,7 @@ function UpscaylSteps({
       <div className="animate-step-in flex flex-col gap-2">
         <div className="step-heading flex flex-row text-sm">
           <span className="w-fit rounded-lg bg-foreground/10 px-2 text-sm font-medium">
-            Step 1 - {t("APP.FILE_SELECTION.SINGLE_MODE_TYPE")}
+            Step 1 - {t("Select Image")}
           </span>
         </div>
         <DropdownMenu>
@@ -209,11 +209,11 @@ function UpscaylSteps({
           <DropdownMenuContent align="center" className="w-56">
             <DropdownMenuItem onSelect={() => void selectImageHandler()}>
               <UploadIcon />
-              {t("APP.FILE_SELECTION.TITLE")}
+              {t("Upload Image")}
             </DropdownMenuItem>
             <DropdownMenuItem onSelect={() => void selectFolderHandler()}>
               <FolderIcon />
-              {t("APP.FILE_SELECTION.BATCH_MODE_TYPE")}
+              {t("Choose Folder")}
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
@@ -260,11 +260,11 @@ function UpscaylSteps({
                   <Field orientation="horizontal">
                     <FieldContent
                       data-tooltip-id="tooltip"
-                      data-tooltip-content={t("APP.DOUBLE_UPSCAYL.DESCRIPTION")}
+                      data-tooltip-content={t("Enable this option to run upscayl twice on an image. Note that this may cause a significant increase in processing time and possibly performance issues for scales greater than 4X.")}
                     >
-                      <FieldTitle>{t("APP.DOUBLE_UPSCAYL.TITLE")}</FieldTitle>
+                      <FieldTitle>{t("Double Upscayl")}</FieldTitle>
                       <FieldDescription className="line-clamp-2 max-w-58">
-                        {t("APP.DOUBLE_UPSCAYL.DESCRIPTION")}
+                        {t("Enable this option to run upscayl twice on an image. Note that this may cause a significant increase in processing time and possibly performance issues for scales greater than 4X.")}
                       </FieldDescription>
                     </FieldContent>
                     <Switch
@@ -303,13 +303,13 @@ function UpscaylSteps({
         <div className="flex flex-col pb-2">
           <div className="step-heading flex items-center gap-2">
             <span className="flex items-center justify-center self-start rounded-lg bg-foreground/10 px-2 text-sm font-medium">
-              {t("APP.OUTPUT_PATH_SELECTION.TITLE")}
+              {t("Step 3")}
             </span>
             {FEATURE_FLAGS.APP_STORE_BUILD && (
               <button
                 className="cursor-pointer"
                 onClick={() =>
-                  alert(t("APP.OUTPUT_PATH_SELECTION.MAC_APP_STORE_ALERT"))
+                  alert(t("Due to MacOS App Store security restrictions, Upscayl requires you to select an output folder everytime you start it.\n\nTo avoid this, you can permanently save a default output folder in the Upscayl 'Settings' tab."))
                 }
               >
                 <Badge variant="outline" className="text-xs">?</Badge>
@@ -319,7 +319,7 @@ function UpscaylSteps({
           {!outputPath && FEATURE_FLAGS.APP_STORE_BUILD && (
             <div className="text-xs">
               <Badge variant="outline" className="uppercase">
-                {t("APP.OUTPUT_PATH_SELECTION.NOT_SELECTED")}
+                {t("Not Selected")}
               </Badge>
             </div>
           )}
@@ -327,8 +327,8 @@ function UpscaylSteps({
         {!batchMode && !FEATURE_FLAGS.APP_STORE_BUILD && (
           <p className="mb-2 text-sm">
             {!batchMode
-              ? t("APP.OUTPUT_PATH_SELECTION.DEFAULT_IMG_PATH")
-              : t("APP.OUTPUT_PATH_SELECTION.DEFAULT_FOLDER_PATH")}
+              ? t("Defaults to Image's path")
+              : t("Defaults to  Folder's path")}
           </p>
         )}
         <Button
@@ -338,19 +338,19 @@ function UpscaylSteps({
           data-tooltip-id="tooltip"
           onClick={outputHandler}
         >
-          {t("APP.OUTPUT_PATH_SELECTION.BUTTON_TITLE")}
+          {t("Set Output Folder")}
         </Button>
       </div>
       {/* STEP 4 */}
       <div className="animate-step-in flex h-full items-end">
-        <p className="step-heading sr-only">{t("APP.SCALE_SELECTION.TITLE")}</p>
+        <p className="step-heading sr-only">{t("Step 4")}</p>
         {/* {dimensions.width && dimensions.height && ( */}
         {/*   <p className="mb-2 text-sm"> */}
-        {/*     {t("APP.SCALE_SELECTION.FROM_TITLE")} */}
+        {/*     {t("Upscayl from ")} */}
         {/*     <span className="font-bold"> */}
         {/*       {dimensions.width}x{dimensions.height} */}
         {/*     </span> */}
-        {/*     {t("APP.SCALE_SELECTION.TO_TITLE")} */}
+        {/*     {t(" to ")} */}
         {/*     <span className="font-bold"> */}
         {/*       {upscaylResolution.width}x{upscaylResolution.height} */}
         {/*     </span> */}
@@ -398,7 +398,7 @@ function UpscaylSteps({
               ? () =>
                   toast({
                     description: t(
-                      "APP.SCALE_SELECTION.NO_OUTPUT_FOLDER_ALERT",
+                      "Please select an output folder first",
                     ),
                   })
               : upscaylHandler
@@ -407,8 +407,8 @@ function UpscaylSteps({
           <SparklesIcon aria-hidden="true" />
           <span>
             {progress.length > 0
-              ? t("APP.SCALE_SELECTION.IN_PROGRESS_BUTTON_TITLE")
-              : t("APP.SCALE_SELECTION.START_BUTTON_TITLE")}
+              ? t("Upscayling ⏳")
+              : t("Upscayl 🚀")}
           </span>
         </Button>
       </div>

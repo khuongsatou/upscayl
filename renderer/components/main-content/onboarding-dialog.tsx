@@ -37,37 +37,37 @@ export function OnboardingDialog() {
   const onboardingSteps: OnboardingStep[] = useMemo(
     () => [
       {
-        title: t("ONBOARDING_DIALOG.STEP_1.TITLE"),
-        description: t("ONBOARDING_DIALOG.STEP_1.DESCRIPTION"),
+        title: t("Welcome to Upscayl 🎉"),
+        description: t("Let's get you started with a few quick steps."),
         type: "info",
         configurationOptions: [
           {
             type: "component",
-            label: t("SETTINGS.LANGUAGE.TITLE"),
+            label: t("UPSCAYL LANGUAGE"),
             component: <LanguageSwitcher hideLabel={true} />,
             key: "theme",
           },
         ],
       },
       {
-        title: t("ONBOARDING_DIALOG.STEP_2.TITLE"),
-        description: t("ONBOARDING_DIALOG.STEP_2.DESCRIPTION"),
+        title: t("Choose Your Preferences 🎨"),
+        description: t("Configure your initial settings."),
         type: "settings",
         configurationOptions: [
           {
             type: "switch",
-            label: t("SETTINGS.AUTO_UPDATE.TITLE"),
+            label: t("AUTO UPDATE UPSCAYL"),
             key: "autoUpdate",
           },
           {
             type: "switch",
-            label: t("SETTINGS.ENABLE_CONTRIBUTION.TITLE"),
-            description: t("SETTINGS.ENABLE_CONTRIBUTION.DESCRIPTION"),
+            label: t("HELP IMPROVE UPSCAYL"),
+            description: t("If enabled, Upscayl will collect anonymous usage data to improve the application interface and features."),
             key: "improveUpscayl",
           },
           {
             type: "component",
-            label: t("SETTINGS.THEME.TITLE"),
+            label: t("UPSCAYL THEME"),
             component: <SelectTheme hideLabel={true} />,
             key: "theme",
           },
@@ -75,8 +75,8 @@ export function OnboardingDialog() {
       },
       {
         type: "info",
-        title: t("ONBOARDING_DIALOG.STEP_3.TITLE"),
-        description: t("ONBOARDING_DIALOG.STEP_3.DESCRIPTION"),
+        title: t("How do I use Upscayl? 🚀"),
+        description: t("Watch this short video to learn about the new features."),
         configurationOptions: [
           {
             key: "video",
@@ -87,8 +87,8 @@ export function OnboardingDialog() {
         ],
       },
       {
-        title: t("ONBOARDING_DIALOG.STEP_4.TITLE"),
-        description: t("ONBOARDING_DIALOG.STEP_4.DESCRIPTION"),
+        title: t("You're All Set! 🎉"),
+        description: t("You're ready to start upscaling images with Upscayl!"),
         type: "info",
       },
     ],
@@ -160,7 +160,7 @@ export function OnboardingDialog() {
                   data-tooltip-id="tooltip"
                   data-tooltip-content={
                     option.key === "improveUpscayl"
-                      ? t("SETTINGS.ENABLE_CONTRIBUTION.DESCRIPTION")
+                      ? t("If enabled, Upscayl will collect anonymous usage data to improve the application interface and features.")
                       : null
                   }
                 >
@@ -219,7 +219,7 @@ export function OnboardingDialog() {
               ))}
               {currentStepData.type === "settings" && (
                 <p className="text-base-content/70 text-sm">
-                  {t("ONBOARDING_DIALOG.SETTINGS_NOTE")}
+                  {t("You can always change these settings later.")}
                 </p>
               )}
             </div>
@@ -231,13 +231,13 @@ export function OnboardingDialog() {
                 onClick={() => setCurrentStep((prev) => prev - 1)}
                 className="btn btn-primary w-40"
               >
-                {t("ONBOARDING_DIALOG.BACK_BUTTON_TITLE")}
+                {t("Back")}
               </button>
             )}
             <button onClick={handleNext} className="btn btn-secondary w-40">
               {isLastStep
-                ? t("ONBOARDING_DIALOG.GET_STARTED_BUTTON_TITLE")
-                : t("ONBOARDING_DIALOG.NEXT_BUTTON_TITLE")}
+                ? t("Get Started")
+                : t("Next")}
             </button>
           </div>
         </div>

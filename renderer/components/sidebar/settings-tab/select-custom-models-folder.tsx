@@ -24,17 +24,17 @@ export function CustomModelsFolderSelect({
   return (
     <Field orientation="horizontal">
       <FieldContent>
-        <FieldLabel>{t("SETTINGS.CUSTOM_MODELS.TITLE")}</FieldLabel>
+        <FieldLabel>{t("ADD CUSTOM MODELS")}</FieldLabel>
 
         <FieldDescription>
-          {t("SETTINGS.CUSTOM_MODELS.DESCRIPTION")}{" "}
+          {t("You can add your own models easily. For more details:")}{" "}
           <a
             href="https://github.com/upscayl/custom-models/blob/main/README.md"
             target="_blank"
             rel="noopener noreferrer"
             className="underline"
           >
-            {t("SETTINGS.CUSTOM_MODELS.LINK_TITLE")}
+            {t("Custom Models Repository")}
           </a>
           <p className="text-sm text-muted-foreground">{customModelsPath}</p>
         </FieldDescription>
@@ -57,7 +57,7 @@ export function CustomModelsFolderSelect({
           }
         }}
       >
-        {t("SETTINGS.CUSTOM_MODELS.BUTTON_FOLDER")}
+        {t("Select Folder")}
       </Button>
     </Field>
   );

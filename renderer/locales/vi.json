@@ -1,313 +1,180 @@
 {
-  "TITLE": "Upscayl",
-  "INTRO": "Giới thiệu Upscayl Cloud!",
-  "HEADER": {
-    "GITHUB_BUTTON_TITLE": "Star chúng tôi trên GitHub 😁",
-    "DESCRIPTION": "Tăng cường hình ảnh AI"
-  },
-  "FOOTER": {
-    "NEWS_TITLE": "TIN TỨC UPSCAYL",
-    "COPYRIGHT": "Bản quyền ©",
-    "TITLE": "Bởi ",
-    "LINK_TITLE": "Đội ngũ Upscayl"
-  },
-  "SETTINGS": {
-    "TITLE": "Cài đặt",
-    "CHANGE_LANGUAGE": { "TITLE": "Thay đổi ngôn ngữ" },
-    "IMAGE_COMPRESSION": {
-      "TITLE": "Nén hình ảnh",
-      "DESCRIPTION": "Nén PNG là không mất mát, vì vậy có thể không giảm kích thước tệp một cách đáng kể và các giá trị nén cao hơn có thể ảnh hưởng đến hiệu suất. Nén JPG và WebP là có mất mát."
-    },
-    "CUSTOM_MODELS": {
-      "TITLE": "THÊM MÔ HÌNH TÙY CHỈNH",
-      "BUTTON_FOLDER": "Chọn thư mục",
-      "DESCRIPTION": "Bạn có thể thêm mô hình của riêng mình một cách dễ dàng. Để biết thêm chi tiết:",
-      "LINK_TITLE": "Kho lưu trữ Mô hình Tùy chỉnh"
-    },
-    "CUSTOM_INPUT_RESOLUTION": {
-      "TITLE": "CHIỀU RỘNG ĐẦU RA TÙY CHỈNH",
-      "RESTART": "YÊU CẦU KHỞI ĐỘNG LẠI",
-      "DESCRIPTION": "Sử dụng chiều rộng tùy chỉnh cho các hình ảnh đầu ra. Chiều cao sẽ tự động được điều chỉnh. Việc kích hoạt tùy chọn này sẽ ghi đè cài đặt tỷ lệ."
-    },
-    "DONATE": {
-      "DESCRIPTION": "Nếu bạn thích những gì chúng tôi làm :)",
-      "BUTTON_TITLE": "💎 ĐÓNG GÓP"
-    },
-    "GPU_ID_INPUT": {
-      "TITLE": "ID GPU",
-      "DESCRIPTION": "Vui lòng đọc Tài liệu Upscayl để biết thêm thông tin.",
-      "ADDITIONAL_DESCRIPTION": "Kích hoạt chế độ hiệu suất trên Windows để có kết quả tốt hơn."
-    },
-    "IMAGE_FORMAT": {
-      "TITLE": "LƯU HÌNH ẢNH DƯỚI DẠNG",
-      "PNG": "PNG",
-      "JPG": "JPG",
-      "WEBP": "WEBP"
-    },
-    "COPY_METADATA": {
-      "TITLE": "SAO CHÉP METADATA ẢNH",
-      "DESCRIPTION": "Giữ metadata gốc của ảnh (EXIF) trong ảnh đã được nâng cao.",
-      "SUGGEST_JPG_TITLE": "Đề Xuất Thay Đổi Định Dạng", 
-      "SUGGEST_JPG_DESCRIPTION": "Để có khả năng tương thích metadata tốt hơn trên các hệ thống khác nhau, chúng tôi khuyên bạn nên sử dụng định dạng JPG. Bạn có muốn thay đổi không?",
-      "CHANGE_TO_JPG": "Chuyển sang JPG",
-      "KEEP_CURRENT_FORMAT": "Giữ {format}"
-    },
-    "IMAGE_SCALE": {
-      "TITLE": "Tỷ lệ Hình ảnh",
-      "DESCRIPTION": "Bất kỳ tỷ lệ nào trên 4X (ngoại trừ 16X Double Upscayl) chỉ thay đổi kích thước hình ảnh mà không sử dụng tăng cường AI.",
-      "WARNING": "Bất kỳ tỷ lệ nào trên 5X có thể gây ra vấn đề về hiệu suất trên một số thiết bị!",
-      "ADDITIONAL_WARNING": "Điều này có thể gây ra vấn đề về hiệu suất trên một số thiết bị!"
-    },
-    "LOG_AREA": {
-      "ON_COPY": "ĐÃ SAO CHÉP ✅",
-      "BUTTON_TITLE": "SAO CHÉP NHẬT KÝ 📋",
-      "NO_LOGS": "Không có nhật ký để hiển thị"
-    },
-    "OVERWRITE_TOGGLE": {
-      "TITLE": "GHI ĐÈ UPSCALE TRƯỚC ĐÓ",
-      "DESCRIPTION": "Nếu được kích hoạt, Upscayl sẽ xử lý lại hình ảnh thay vì tải nó trực tiếp."
-    },
-    "RESET_SETTINGS": {
-      "BUTTON_TITLE": "ĐẶT LẠI UPSCAYL",
-      "ALERT": "Upscayl đã được đặt lại. Vui lòng khởi động lại ứng dụng."
-    },
-    "SAVE_OUTPUT_FOLDER": {
-      "TITLE": "LƯU THƯ MỤC ĐẦU RA",
-      "DESCRIPTION": "Nếu được kích hoạt, thư mục đầu ra sẽ được ghi nhớ giữa các phiên làm việc."
-    },
-    "AUTO_UPDATE": {
-      "TITLE": "CẬP NHẬT TỰ ĐỘNG UPSCAYL",
-      "DESCRIPTION": "Nếu được kích hoạt, ứng dụng sẽ kiểm tra các bản cập nhật mới và thông báo cho bạn."
-    },
-    "ENABLE_CONTRIBUTION": {
-      "TITLE": "GIÚP CẢI THIỆN UPSCAYL",
-      "DESCRIPTION": "Nếu được kích hoạt, Upscayl sẽ thu thập dữ liệu sử dụng ẩn danh để cải thiện giao diện và các tính năng của ứng dụng."
-    },
-    "THEME": {
-      "TITLE": "CHỦ ĐỀ UPSCAYL"
-    },
-    "LANGUAGE": {
-      "TITLE": "NGÔN NGỮ UPSCAYL"
-    },
-    "CUSTOM_TILE_SIZE": {
-      "TITLE": "KÍCH THƯỚC GẠCH TÙY CHỈNH",
-      "DESCRIPTION": "Sử dụng kích thước gạch tùy chỉnh để phân đoạn hình ảnh. Điều này có thể giúp xử lý hình ảnh nhanh hơn bằng cách giảm số lượng gạch được tạo ra."
-    },
-    "TURN_OFF_NOTIFICATIONS": {
-      "TITLE": "TẮT THÔNG BÁO",
-      "DESCRIPTION": "Nếu được kích hoạt, Upscayl sẽ không gửi bất kỳ thông báo hệ thống nào về sự thành công hoặc thất bại."
-    },
-    "SUPPORT": {
-      "TITLE": "Có gặp vấn đề?",
-      "DOCS_BUTTON_TITLE": "🙏 NHẬN HỖ TRỢ",
-      "EMAIL_BUTTON_TITLE": "📧 GỬI EMAIL CHO NHÀ PHÁT TRIỂN"
-    },
-    "TTA_MODE": {
-      "TITLE": "Chế độ TTA",
-      "DESCRIPTION": "Kích hoạt Tăng cường Thời gian Kiểm tra để có kết quả tốt hơn, chẳng hạn như loại bỏ các hiện tượng, NHƯNG điều này sẽ làm tăng thời gian xử lý lên gấp 8 lần!"
-    },
-    "SYSTEM_INFO": {
-      "TITLE": "Thông tin Hệ thống"
-    }
-  },
-  "APP": {
-    "TITLE": "Upscayl",
-    "BATCH_MODE": {
-      "TITLE": "Batch Upscayl",
-      "DESCRIPTION": "Điều này sẽ cho phép bạn Upscayl tất cả các tệp trong một thư mục cùng một lúc"
-    },
-    "FILE_SELECTION": {
-      "TITLE": "Bước 1",
-      "BATCH_MODE_TYPE": "Chọn Thư mục",
-      "SINGLE_MODE_TYPE": "Chọn Hình ảnh"
-    },
-    "MODEL_SELECTION": {
-      "TITLE": "Bước 2",
-      "DESCRIPTION": "Chọn Mô hình AI",
-      "IMPORTED_CUSTOM_MODELS": "Mô hình Tùy chỉnh Nhập khẩu",
-      "BEFORE": "Trước",
-      "AFTER": "Sau",
-      "ZOOM": "Phóng to",
-      "MODELS": {
-        "upscayl-standard-4x": {
-          "NAME": "Upscayl Standard",
-          "DESCRIPTION": "Phù hợp với hầu hết các hình ảnh."
-        },
-        "upscayl-lite-4x": {
-          "NAME": "Upscayl Lite",
-          "DESCRIPTION": "Phù hợp với hầu hết các hình ảnh. Tăng cường tốc độ cao với tổn thất chất lượng tối thiểu."
-        },
-        "remacri-4x": {
-          "NAME": "Remacri (Không thương mại)",
-          "DESCRIPTION": "Dành cho hình ảnh tự nhiên. Tăng thêm độ sắc nét và chi tiết. Không sử dụng cho mục đích thương mại."
-        },
-        "ultramix-balanced-4x": {
-          "NAME": "Ultramix (Không thương mại)",
-          "DESCRIPTION": "Dành cho hình ảnh tự nhiên với sự cân bằng giữa độ sắc nét và chi tiết."
-        },
-        "ultrasharp-4x": {
-          "NAME": "Ultrasharp (Không thương mại)",
-          "DESCRIPTION": "Dành cho hình ảnh tự nhiên tập trung vào độ sắc nét."
-        },
-        "digital-art-4x": {
-          "NAME": "Nghệ thuật Kỹ thuật số",
-          "DESCRIPTION": "Dành cho nghệ thuật kỹ thuật số và minh họa."
-        },
-        "high-fidelity-4x": {
-          "NAME": "Độ trung thực cao",
-          "DESCRIPTION": "Dành cho tất cả các loại hình ảnh với sự tập trung vào chi tiết thực tế và kết cấu mượt mà."
-        }
-      }
-    },
-    "DOUBLE_UPSCAYL": {
-      "TITLE": "Double Upscayl",
-      "DESCRIPTION": "Kích hoạt tùy chọn này để chạy Upscayl hai lần trên một hình ảnh. Lưu ý rằng điều này có thể làm tăng đáng kể thời gian xử lý và có thể gây ra vấn đề hiệu suất cho các tỷ lệ lớn hơn 4X."
-    },
-    "OUTPUT_PATH_SELECTION": {
-      "TITLE": "Bước 3",
-      "MAC_APP_STORE_ALERT": "Do các hạn chế bảo mật của MacOS App Store, Upscayl yêu cầu bạn chọn một thư mục đầu ra mỗi lần bạn khởi động nó.\n\nĐể tránh điều này, bạn có thể lưu một thư mục đầu ra mặc định một cách vĩnh viễn trong tab 'Cài đặt' của Upscayl.",
-      "NOT_SELECTED": "Chưa chọn",
-      "DEFAULT_IMG_PATH": "Mặc định là Đường dẫn của Hình ảnh",
-      "DEFAULT_FOLDER_PATH": "Mặc định là Đường dẫn của Thư mục",
-      "BUTTON_TITLE": "Đặt Thư mục Đầu Ra"
-    },
-    "SCALE_SELECTION": {
-      "TITLE": "Bước 4",
-      "FROM_TITLE": "Upscayl từ ",
-      "TO_TITLE": " đến ",
-      "NO_OUTPUT_FOLDER_ALERT": "Vui lòng chọn một thư mục đầu ra trước",
-      "START_BUTTON_TITLE": "Upscayl 🚀",
-      "IN_PROGRESS_BUTTON_TITLE": "Đang tiến hành Upscayl ⏳"
-    },
-    "MORE_OPTIONS_DRAWER": {
-      "RESET_BUTTON_TITLE": "Đặt Lại Hình Ảnh",
-      "LENS_VIEW_TITLE": "Chế độ Ống kính",
-      "SLIDER_VIEW_TITLE": "Chế độ Trượt",
-      "ZOOM_AMOUNT_TITLE": "Số lượng Phóng to",
-      "TOTAL_UPSCAYLS": "Tổng số Upscayls",
-      "TOTAL_BATCH_UPSCAYLS": "Tổng số Batch Upscayls",
-      "TOTAL_IMAGE_UPSCAYLS": "Tổng số Upscayls Hình Ảnh",
-      "TOTAL_DOUBLE_UPSCAYLS": "Tổng số Double Upscayls",
-      "AVERAGE_UPSCAYL_TIME": "Thời gian Upscayl Trung Bình",
-      "LAST_UPSCAYL_DURATION": "Thời gian Upscayl Cuối Cùng",
-      "LAST_USED_AT": "Lần Cuối Sử Dụng Tại"
-    },
-    "PROGRESS_BAR": {
-      "BATCH_UPSCAYL_IN_PROGRESS_TITLE": "Batch Upscayl Đang Tiến Hành:",
-      "IN_PROGRESS_TITLE": "Đang thực hiện phép màu Upscayl...",
-      "STOP_BUTTON_TITLE": "DỪNG"
-    },
-    "RESET_BUTTON_TITLE": "Đặt Lại",
-    "RIGHT_PANE_INFO": {
-      "SELECT_FOLDER": "Chọn một Thư mục",
-      "SELECT_IMAGE": "Chọn một Hình ảnh",
-      "SELECT_FOLDER_DESCRIPTION": "Đảm bảo rằng thư mục không chứa gì ngoài các hình ảnh PNG, JPG, JPEG & WEBP.",
-      "SELECT_IMAGES_DESCRIPTION": "Chọn hoặc kéo và thả một hình ảnh PNG, JPG, JPEG hoặc WEBP.",
-      "PASTE_IMAGE_DESCRIPTION": "Nhấn Ctrl+V hoặc ⌘+V để Dán hình ảnh từ Clipboard"
-    },
-    "PROGRESS": {
-      "PROCESSING_TITLE": "Đang xử lý hình ảnh...",
-      "SCALING_CONVERTING_TITLE": "Đang thay đổi kích thước và chuyển đổi hình ảnh...",
-      "WAIT_TITLE": "Chờ một chút...",
-      "SUCCESS_TITLE": "Upscayl Thành Công!",
-      "BATCH": {
-        "SELECTED_FOLDER_TITLE": "Thư mục đã chọn:",
-        "DONE_TITLE": "Tất cả đã xong!",
-        "OPEN_UPSCAYLED_FOLDER_TITLE": "Mở Thư mục Upscayled"
-      }
-    },
-    "SLIDER": {
-      "ORIGINAL_TITLE": "Gốc",
-      "UPSCAYLED_TITLE": "Đã Upscayl"
-    },
-    "DIALOG_BOX": {
-      "CLOSE": "Đóng"
-    }
-  },
-  "ERRORS": {
-    "GPU_ERROR": {
-      "TITLE": "Lỗi GPU",
-      "DESCRIPTION": "Gặp vấn đề với GPU. Vui lòng đọc tài liệu để khắc phục sự cố! ({data})"
-    },
-    "COPY_ERROR": {
-      "TITLE": "Lỗi Sao Chép",
-      "DESCRIPTION": ""
-    },
-    "READ_WRITE_ERROR": {
-      "TITLE": "Lỗi Đọc/Ghi",
-      "DESCRIPTION": "Đảm bảo rằng đường dẫn là chính xác và bạn có quyền đọc/ghi thích hợp \n({data})"
-    },
-    "TILE_SIZE_ERROR": {
-      "TITLE": "Lỗi",
-      "DESCRIPTION": "Kích thước gạch không đúng. Vui lòng thay đổi kích thước gạch trong cài đặt hoặc đặt là 0 ({data})"
-    },
-    "EXCEPTION_ERROR": {
-      "TITLE": "Lỗi Ngoại lệ",
-      "DESCRIPTION": "Upscayl gặp lỗi. Có thể, nhị phân Upscayl không thực hiện các lệnh đúng cách. Hãy kiểm tra nhật ký để xem bạn có thông tin gì không. Bạn có thể đăng vấn đề trên kho lưu trữ GitHub của Upscayl để được giúp đỡ thêm."
-    },
-    "GENERIC_ERROR": {
-      "TITLE": "Lỗi"
-    },
-    "NO_OUTPUT_FOLDER_ERROR": {
-      "TITLE": "Đặt Thư mục Đầu Ra",
-      "DESCRIPTION": "Vui lòng chọn một thư mục đầu ra trước"
-    },
-    "INVALID_IMAGE_ERROR": {
-      "TITLE": "Hình ảnh Không hợp lệ",
-      "DESCRIPTION": "Vui lòng chọn/dán một hình ảnh với định dạng hợp lệ như PNG, JPG, JPEG, JFIF hoặc WEBP.",
-      "ADDITIONAL_DESCRIPTION": "Vui lòng kéo và thả một hình ảnh",
-      "CLIPBOARD_DESCRIPTION": "Không tìm thấy tệp hình ảnh nào trong Clipboard để dán!"
-    },
-    "NO_IMAGE_ERROR": {
-      "TITLE": "Không có hình ảnh nào được chọn",
-      "DESCRIPTION": "Vui lòng chọn một hình ảnh để tăng cường"
-    },
-    "METADATA_ERROR": {
-      "TITLE": "Lỗi Sao Chép Metadata", 
-      "DESCRIPTION": "Không thể sao chép metadata từ ảnh gốc sang ảnh đã tạo. ({data})"
-    },
-    "OPEN_DOCS_TITLE": "Mở Tài liệu",
-    "OPEN_DOCS_BUTTON_TITLE": "Khắc phục sự cố"
-  },
-  "WARNING": {
-    "GENERIC_WARNING": {
-      "TITLE": "Cảnh báo"
-    },
-    "METADATA_FORMAT": {
-      "TITLE": "Cảnh báo về Metadata",
-      "DESCRIPTION": "Trên một số hệ thống, metadata có thể không hiển thị trong các định dạng khác ngoài JPG. Sử dụng các công cụ chuyên dụng để xem metadata nếu cần."
-    }
-  },    
-  "UPSCAYL_CLOUD": {
-    "COMING_SOON": "Sẽ ra mắt sớm!",
-    "CATCHY_PHRASE_1": "Không còn lỗi, vấn đề phần cứng, thỏa hiệp chất lượng hoặc thời gian tải lâu!",
-    "CATCHY_PHRASE_2": "🌐 Upscayl bất cứ nơi nào, bất cứ lúc nào, trên bất cứ thiết bị nào\n☁️ Không cần Card Đồ họa hoặc phần mềm phần cứng\n👩 Tăng cường Khuôn mặt\n🦋 Hơn 10 mô hình để lựa chọn\n🏎 Nhanh hơn 5 lần so với Upscayl Desktop\n🎞 Tăng cường Video\n💰 Sử dụng Thương mại\n😴 Upscayl trong khi bạn ngủ",
-    "ALREADY_REGISTERED_ALERT": "Cảm ơn bạn {name}! Có vẻ như email của bạn đã được đăng ký rồi :D Nếu không phải vậy, vui lòng thử lại.",
-    "ADD_SUCCESS": "Cảm ơn bạn đã tham gia danh sách chờ! Chúng tôi sẽ thông báo khi Upscayl Cloud sẵn sàng cho bạn.",
-    "INCORRECT_FIELDS_ALERT": "Vui lòng điền đúng các trường thông tin.",
-    "JOIN_WAITLIST": "Tham gia danh sách chờ",
-    "DONT_SHOW_AGAIN": "KHÔNG HIỂN THỊ LẠI"
-  },
-  "ONBOARDING_DIALOG": {
-    "NEXT_BUTTON_TITLE": "Tiếp theo",
-    "BACK_BUTTON_TITLE": "Quay lại",
-    "GET_STARTED_BUTTON_TITLE": "Bắt đầu",
-    "SETTINGS_NOTE": "Bạn luôn có thể thay đổi các cài đặt này sau.",
-    "STEP_1": {
-      "TITLE": "Chào mừng đến với Upscayl 🎉",
-      "DESCRIPTION": "Hãy để chúng tôi giúp bạn bắt đầu với một vài bước nhanh chóng."
-    },
-    "STEP_2": {
-      "TITLE": "Chọn sở thích của bạn 🎨",
-      "DESCRIPTION": "Cấu hình cài đặt ban đầu của bạn."
-    },
-    "STEP_3": {
-      "TITLE": "Làm thế nào để sử dụng Upscayl? 🚀",
-      "DESCRIPTION": "Xem video ngắn này để tìm hiểu về các tính năng mới."
-    },
-    "STEP_4": {
-      "TITLE": "Bạn đã sẵn sàng! 🎉",
-      "DESCRIPTION": "Bạn đã sẵn sàng để bắt đầu tăng cường hình ảnh với Upscayl!"
-    }
-  }
+  "Upscayl": "Upscayl",
+  "Introducing Upscayl Cloud!": "Giới thiệu Upscayl Cloud!",
+  "Star us on GitHub 😁": "Star chúng tôi trên GitHub 😁",
+  "AI Image Upscaler": "Tăng cường hình ảnh AI",
+  "UPSCAYL NEWS": "TIN TỨC UPSCAYL",
+  "Copyright ©": "Bản quyền ©",
+  "By ": "Bởi ",
+  "The Upscayl Team": "Đội ngũ Upscayl",
+  "Settings": "Cài đặt",
+  "Change Language": "Thay đổi ngôn ngữ",
+  "Image Compression": "Nén hình ảnh",
+  "PNG compression is lossless, so it might not reduce the file size significantly and higher compression values might affect the performance. JPG and WebP compression is lossy.": "Nén PNG là không mất mát, vì vậy có thể không giảm kích thước tệp một cách đáng kể và các giá trị nén cao hơn có thể ảnh hưởng đến hiệu suất. Nén JPG và WebP là có mất mát.",
+  "ADD CUSTOM MODELS": "THÊM MÔ HÌNH TÙY CHỈNH",
+  "Select Folder": "Chọn thư mục",
+  "You can add your own models easily. For more details:": "Bạn có thể thêm mô hình của riêng mình một cách dễ dàng. Để biết thêm chi tiết:",
+  "Custom Models Repository": "Kho lưu trữ Mô hình Tùy chỉnh",
+  "CUSTOM OUTPUT WIDTH": "CHIỀU RỘNG ĐẦU RA TÙY CHỈNH",
+  "REQUIRES RESTART": "YÊU CẦU KHỞI ĐỘNG LẠI",
+  "Use a custom width for the output images. The height will be adjusted automatically. Enabling this will override the scale setting.": "Sử dụng chiều rộng tùy chỉnh cho các hình ảnh đầu ra. Chiều cao sẽ tự động được điều chỉnh. Việc kích hoạt tùy chọn này sẽ ghi đè cài đặt tỷ lệ.",
+  "If you like what we do :)": "Nếu bạn thích những gì chúng tôi làm :)",
+  "💎 DONATE": "💎 ĐÓNG GÓP",
+  "GPU ID": "ID GPU",
+  "Please read the Upscayl Documentation for more information.": "Vui lòng đọc Tài liệu Upscayl để biết thêm thông tin.",
+  "Enable performance mode on Windows for better results.": "Kích hoạt chế độ hiệu suất trên Windows để có kết quả tốt hơn.",
+  "SAVE IMAGE AS": "LƯU HÌNH ẢNH DƯỚI DẠNG",
+  "PNG": "PNG",
+  "JPG": "JPG",
+  "WEBP": "WEBP",
+  "COPY IMAGE METADATA": "SAO CHÉP METADATA ẢNH",
+  "Keep original image metadata (EXIF) in the upscaled image.": "Giữ metadata gốc của ảnh (EXIF) trong ảnh đã được nâng cao.",
+  "Recommended Format Change": "Đề Xuất Thay Đổi Định Dạng",
+  "For better metadata compatibility across different systems, we recommend using JPG format. Would you like to change?": "Để có khả năng tương thích metadata tốt hơn trên các hệ thống khác nhau, chúng tôi khuyên bạn nên sử dụng định dạng JPG. Bạn có muốn thay đổi không?",
+  "Change to JPG": "Chuyển sang JPG",
+  "Keep {format}": "Giữ {format}",
+  "Image Scale": "Tỷ lệ Hình ảnh",
+  "Anything above 4X (except 16X Double Upscayl) only resizes the image and does not use AI upscaling.": "Bất kỳ tỷ lệ nào trên 4X (ngoại trừ 16X Double Upscayl) chỉ thay đổi kích thước hình ảnh mà không sử dụng tăng cường AI.",
+  "Anything above 5X may cause performance issues on some devices!": "Bất kỳ tỷ lệ nào trên 5X có thể gây ra vấn đề về hiệu suất trên một số thiết bị!",
+  "This may cause performance issues on some devices!": "Điều này có thể gây ra vấn đề về hiệu suất trên một số thiết bị!",
+  "COPIED ✅": "ĐÃ SAO CHÉP ✅",
+  "COPY LOGS 📋": "SAO CHÉP NHẬT KÝ 📋",
+  "No logs to show": "Không có nhật ký để hiển thị",
+  "OVERWRITE PREVIOUS UPSCALE": "GHI ĐÈ UPSCALE TRƯỚC ĐÓ",
+  "If enabled, Upscayl will process the image again instead of loading it directly.": "Nếu được kích hoạt, Upscayl sẽ xử lý lại hình ảnh thay vì tải nó trực tiếp.",
+  "RESET UPSCAYL": "ĐẶT LẠI UPSCAYL",
+  "Upscayl has been reset. Please restart the app.": "Upscayl đã được đặt lại. Vui lòng khởi động lại ứng dụng.",
+  "SAVE OUTPUT FOLDER": "LƯU THƯ MỤC ĐẦU RA",
+  "If enabled, the output folder will be remembered between sessions.": "Nếu được kích hoạt, thư mục đầu ra sẽ được ghi nhớ giữa các phiên làm việc.",
+  "AUTO UPDATE UPSCAYL": "CẬP NHẬT TỰ ĐỘNG UPSCAYL",
+  "If enabled, the application will check for new updates and notify you.": "Nếu được kích hoạt, ứng dụng sẽ kiểm tra các bản cập nhật mới và thông báo cho bạn.",
+  "HELP IMPROVE UPSCAYL": "GIÚP CẢI THIỆN UPSCAYL",
+  "If enabled, Upscayl will collect anonymous usage data to improve the application interface and features.": "Nếu được kích hoạt, Upscayl sẽ thu thập dữ liệu sử dụng ẩn danh để cải thiện giao diện và các tính năng của ứng dụng.",
+  "UPSCAYL THEME": "CHỦ ĐỀ UPSCAYL",
+  "UPSCAYL LANGUAGE": "NGÔN NGỮ UPSCAYL",
+  "CUSTOM TILE SIZE": "KÍCH THƯỚC GẠCH TÙY CHỈNH",
+  "Use a custom tile size for segmenting the image. This can help process images faster by reducing the number of tiles generated.": "Sử dụng kích thước gạch tùy chỉnh để phân đoạn hình ảnh. Điều này có thể giúp xử lý hình ảnh nhanh hơn bằng cách giảm số lượng gạch được tạo ra.",
+  "TURN OFF NOTIFICATIONS": "TẮT THÔNG BÁO",
+  "If enabled, Upscayl will not send any system notifications on success or failure.": "Nếu được kích hoạt, Upscayl sẽ không gửi bất kỳ thông báo hệ thống nào về sự thành công hoặc thất bại.",
+  "Having issues?": "Có gặp vấn đề?",
+  "🙏 GET HELP": "🙏 NHẬN HỖ TRỢ",
+  "📧 EMAIL DEVELOPER": "📧 GỬI EMAIL CHO NHÀ PHÁT TRIỂN",
+  "TTA Mode": "Chế độ TTA",
+  "Enable Test Time Augmentation for better results, such as removing artifacts BUT this will increase the processing time by 8x!": "Kích hoạt Tăng cường Thời gian Kiểm tra để có kết quả tốt hơn, chẳng hạn như loại bỏ các hiện tượng, NHƯNG điều này sẽ làm tăng thời gian xử lý lên gấp 8 lần!",
+  "System Info": "Thông tin Hệ thống",
+  "Batch Upscayl": "Batch Upscayl",
+  "This will let you Upscayl all files in a folder at once": "Điều này sẽ cho phép bạn Upscayl tất cả các tệp trong một thư mục cùng một lúc",
+  "Upload Image": "Bước 1",
+  "Choose Folder": "Chọn Thư mục",
+  "Select Image": "Chọn Hình ảnh",
+  "Step 2": "Bước 2",
+  "Select AI Model": "Chọn Mô hình AI",
+  "Imported Custom Models": "Mô hình Tùy chỉnh Nhập khẩu",
+  "Before": "Trước",
+  "After": "Sau",
+  "Zoom": "Phóng to",
+  "Upscayl Standard": "Upscayl Standard",
+  "Suitable for most images.": "Phù hợp với hầu hết các hình ảnh.",
+  "Upscayl Lite": "Upscayl Lite",
+  "Suitable for most images. High-speed upscaling with minimal quality loss.": "Phù hợp với hầu hết các hình ảnh. Tăng cường tốc độ cao với tổn thất chất lượng tối thiểu.",
+  "Remacri (Non-Commercial)": "Remacri (Không thương mại)",
+  "For natural images. Added sharpness and detail. No commercial use.": "Dành cho hình ảnh tự nhiên. Tăng thêm độ sắc nét và chi tiết. Không sử dụng cho mục đích thương mại.",
+  "Ultramix (Non-Commercial)": "Ultramix (Không thương mại)",
+  "For natural images with a balance of sharpness and detail.": "Dành cho hình ảnh tự nhiên với sự cân bằng giữa độ sắc nét và chi tiết.",
+  "Ultrasharp (Non-Commercial)": "Ultrasharp (Không thương mại)",
+  "For natural images with a focus on sharpness.": "Dành cho hình ảnh tự nhiên tập trung vào độ sắc nét.",
+  "Digital Art": "Nghệ thuật Kỹ thuật số",
+  "For digital art and illustrations.": "Dành cho nghệ thuật kỹ thuật số và minh họa.",
+  "High Fidelity": "Độ trung thực cao",
+  "For all kinds of images with a focus on realistic details and smooth textures.": "Dành cho tất cả các loại hình ảnh với sự tập trung vào chi tiết thực tế và kết cấu mượt mà.",
+  "Double Upscayl": "Double Upscayl",
+  "Enable this option to run upscayl twice on an image. Note that this may cause a significant increase in processing time and possibly performance issues for scales greater than 4X.": "Kích hoạt tùy chọn này để chạy Upscayl hai lần trên một hình ảnh. Lưu ý rằng điều này có thể làm tăng đáng kể thời gian xử lý và có thể gây ra vấn đề hiệu suất cho các tỷ lệ lớn hơn 4X.",
+  "Step 3": "Bước 3",
+  "Due to MacOS App Store security restrictions, Upscayl requires you to select an output folder everytime you start it.\n\nTo avoid this, you can permanently save a default output folder in the Upscayl 'Settings' tab.": "Do các hạn chế bảo mật của MacOS App Store, Upscayl yêu cầu bạn chọn một thư mục đầu ra mỗi lần bạn khởi động nó.\n\nĐể tránh điều này, bạn có thể lưu một thư mục đầu ra mặc định một cách vĩnh viễn trong tab 'Cài đặt' của Upscayl.",
+  "Not Selected": "Chưa chọn",
+  "Defaults to Image's path": "Mặc định là Đường dẫn của Hình ảnh",
+  "Defaults to  Folder's path": "Mặc định là Đường dẫn của Thư mục",
+  "Set Output Folder": "Đặt Thư mục Đầu Ra",
+  "Step 4": "Bước 4",
+  "Upscayl from ": "Upscayl từ ",
+  " to ": " đến ",
+  "Please select an output folder first": "Vui lòng chọn một thư mục đầu ra trước",
+  "Upscayl 🚀": "Upscayl 🚀",
+  "Upscayling ⏳": "Đang tiến hành Upscayl ⏳",
+  "Reset Image": "Đặt Lại Hình Ảnh",
+  "Lens View": "Chế độ Ống kính",
+  "Slider View": "Chế độ Trượt",
+  "Zoom Amount": "Số lượng Phóng to",
+  "Total Upscayls": "Tổng số Upscayls",
+  "Total Batch Upscayls": "Tổng số Batch Upscayls",
+  "Total Image Upscayls": "Tổng số Upscayls Hình Ảnh",
+  "Total Double Upscayls": "Tổng số Double Upscayls",
+  "Average Upscayl Time": "Thời gian Upscayl Trung Bình",
+  "Last Upscayl Duration": "Thời gian Upscayl Cuối Cùng",
+  "Last Used At": "Lần Cuối Sử Dụng Tại",
+  "Batch Upscayl In Progress:": "Batch Upscayl Đang Tiến Hành:",
+  "Doing the Upscayl magic...": "Đang thực hiện phép màu Upscayl...",
+  "STOP": "DỪNG",
+  "Reset": "Đặt Lại",
+  "Select a Folder": "Chọn một Thư mục",
+  "No image loaded": "Chọn một Hình ảnh",
+  "Make sure that the folder doesn't contain anything except PNG, JPG, JPEG & WEBP images.": "Đảm bảo rằng thư mục không chứa gì ngoài các hình ảnh PNG, JPG, JPEG & WEBP.",
+  "Upload or drag & drop an image to get started": "Chọn hoặc kéo và thả một hình ảnh PNG, JPG, JPEG hoặc WEBP.",
+  "Supports: PNG, JPG, JPEG, WEBP": "Nhấn Ctrl+V hoặc ⌘+V để Dán hình ảnh từ Clipboard",
+  "Processing the image...": "Đang xử lý hình ảnh...",
+  "Scaling and converting image...": "Đang thay đổi kích thước và chuyển đổi hình ảnh...",
+  "Hold on...": "Chờ một chút...",
+  "Upscayl Successful!": "Upscayl Thành Công!",
+  "Selected folder:": "Thư mục đã chọn:",
+  "All done!": "Tất cả đã xong!",
+  "Open Upscayled Folder": "Mở Thư mục Upscayled",
+  "Original": "Gốc",
+  "Upscayled": "Đã Upscayl",
+  "Close": "Đóng",
+  "GPU Error": "Lỗi GPU",
+  "Ran into an issue with the GPU. Please read the docs for troubleshooting! ({data})": "Gặp vấn đề với GPU. Vui lòng đọc tài liệu để khắc phục sự cố! ({data})",
+  "Copy Error": "Lỗi Sao Chép",
+  "": "",
+  "Read/Write Error": "Lỗi Đọc/Ghi",
+  "Make sure that the path is correct and you have proper read/write permissions \n({data})": "Đảm bảo rằng đường dẫn là chính xác và bạn có quyền đọc/ghi thích hợp \n({data})",
+  "Tile Size Error": "Lỗi",
+  "The tile size is wrong. Please change the tile size in the settings or set to 0 ({data})": "Kích thước gạch không đúng. Vui lòng thay đổi kích thước gạch trong cài đặt hoặc đặt là 0 ({data})",
+  "Exception Error": "Lỗi Ngoại lệ",
+  "Upscayl encountered an error. Possibly, the upscayl binary failed to execute the commands properly. Try checking the logs to see if you get any information. You can post an issue on Upscayl's GitHub repository for more help.": "Upscayl gặp lỗi. Có thể, nhị phân Upscayl không thực hiện các lệnh đúng cách. Hãy kiểm tra nhật ký để xem bạn có thông tin gì không. Bạn có thể đăng vấn đề trên kho lưu trữ GitHub của Upscayl để được giúp đỡ thêm.",
+  "Error": "Lỗi",
+  "Output Folder Required": "Đặt Thư mục Đầu Ra",
+  "Please select an output folder before starting": "Vui lòng chọn một thư mục đầu ra trước",
+  "Invalid Image": "Hình ảnh Không hợp lệ",
+  "Please select/paste an image with a valid extension like PNG, JPG, JPEG, JFIF or WEBP.": "Vui lòng chọn/dán một hình ảnh với định dạng hợp lệ như PNG, JPG, JPEG, JFIF hoặc WEBP.",
+  "Please drag and drop an image": "Vui lòng kéo và thả một hình ảnh",
+  "No Image file found in Clipboard to paste!": "Không tìm thấy tệp hình ảnh nào trong Clipboard để dán!",
+  "No image selected": "Không có hình ảnh nào được chọn",
+  "Please select an image to upscale": "Vui lòng chọn một hình ảnh để tăng cường",
+  "Metadata Copy Error": "Lỗi Sao Chép Metadata",
+  "Could not copy metadata from the original image to the generated image. ({data})": "Không thể sao chép metadata từ ảnh gốc sang ảnh đã tạo. ({data})",
+  "Open Docs": "Mở Tài liệu",
+  "Troubleshoot": "Khắc phục sự cố",
+  "Warning": "Cảnh báo",
+  "Metadata Warning": "Cảnh báo về Metadata",
+  "On some systems, metadata may not be visible in formats other than JPG. Use specific tools to view metadata if needed.": "Trên một số hệ thống, metadata có thể không hiển thị trong các định dạng khác ngoài JPG. Sử dụng các công cụ chuyên dụng để xem metadata nếu cần.",
+  "Coming soon!": "Sẽ ra mắt sớm!",
+  "No more errors, hardware issues, quality compromises or long loading times!": "Không còn lỗi, vấn đề phần cứng, thỏa hiệp chất lượng hoặc thời gian tải lâu!",
+  "🌐 Upscayl anywhere, anytime, any device\n☁️ No Graphics Card or hardware required\n👩 Face Enhancement\n🦋 10+ models to choose from\n🏎 5x faster than Upscayl Desktop\n🎞 Video Upscaling\n💰 Commercial Usage\n😴 Upscayl while you sleep": "🌐 Upscayl bất cứ nơi nào, bất cứ lúc nào, trên bất cứ thiết bị nào\n☁️ Không cần Card Đồ họa hoặc phần mềm phần cứng\n👩 Tăng cường Khuôn mặt\n🦋 Hơn 10 mô hình để lựa chọn\n🏎 Nhanh hơn 5 lần so với Upscayl Desktop\n🎞 Tăng cường Video\n💰 Sử dụng Thương mại\n😴 Upscayl trong khi bạn ngủ",
+  "Thank you {name}! It seems that your email has already been registered :D If that's not the case, please try again.": "Cảm ơn bạn {name}! Có vẻ như email của bạn đã được đăng ký rồi :D Nếu không phải vậy, vui lòng thử lại.",
+  "Thank you for joining the waitlist! We will notify you when Upscayl Cloud is ready for you.": "Cảm ơn bạn đã tham gia danh sách chờ! Chúng tôi sẽ thông báo khi Upscayl Cloud sẵn sàng cho bạn.",
+  "Please fill in all the fields correctly.": "Vui lòng điền đúng các trường thông tin.",
+  "Join the waitlist": "Tham gia danh sách chờ",
+  "DON'T SHOW AGAIN": "KHÔNG HIỂN THỊ LẠI",
+  "Next": "Tiếp theo",
+  "Back": "Quay lại",
+  "Get Started": "Bắt đầu",
+  "You can always change these settings later.": "Bạn luôn có thể thay đổi các cài đặt này sau.",
+  "Welcome to Upscayl 🎉": "Chào mừng đến với Upscayl 🎉",
+  "Let's get you started with a few quick steps.": "Hãy để chúng tôi giúp bạn bắt đầu với một vài bước nhanh chóng.",
+  "Choose Your Preferences 🎨": "Chọn sở thích của bạn 🎨",
+  "Configure your initial settings.": "Cấu hình cài đặt ban đầu của bạn.",
+  "How do I use Upscayl? 🚀": "Làm thế nào để sử dụng Upscayl? 🚀",
+  "Watch this short video to learn about the new features.": "Xem video ngắn này để tìm hiểu về các tính năng mới.",
+  "You're All Set! 🎉": "Bạn đã sẵn sàng! 🎉",
+  "You're ready to start upscaling images with Upscayl!": "Bạn đã sẵn sàng để bắt đầu tăng cường hình ảnh với Upscayl!"
 }

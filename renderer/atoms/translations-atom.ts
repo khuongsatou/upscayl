@@ -18,11 +18,29 @@ import hu from "../locales/hu.json";
 import pl from "../locales/pl.json";
 import { atomWithStorage } from "jotai/utils";
 
-// Define the shape of the translations
-type Translations = typeof en;
-type Locales = "ar" | "en" | "tr" | "ru" | "uk" | "ja" | "zh" | "es" | "fr" | "de" | "vi" | "pt" | "ptBR" | "id" | "caVAL" | "hu" | "pl";
+type LanguageCode =
+  | "ar"
+  | "en"
+  | "tr"
+  | "ru"
+  | "uk"
+  | "ja"
+  | "zh"
+  | "es"
+  | "fr"
+  | "de"
+  | "vi"
+  | "pt"
+  | "ptBR"
+  | "id"
+  | "caVAL"
+  | "hu"
+  | "pl";
 
-const translations: Record<Locales, Translations> = {
+type LanguageFile = Record<string, string>;
+
+// Each file is a simple map: "English text" -> "translated text".
+const translationsByLanguage: Record<LanguageCode, LanguageFile> = {
   ar,
   en,
   tr,
@@ -42,50 +60,52 @@ const translations: Record<Locales, Translations> = {
   pl,
 };
 
-// Create a type for nested key paths
-type NestedKeyOf<Object> = Object extends object
-  ? {
-      [Key in keyof Object]: Key extends string | number
-        ? Key | `${Key}.${NestedKeyOf<Object[Key]>}`
-        : never;
-    }[keyof Object]
-  : never;
+// Values are used for text with placeholders, for example {name}.
+export type TranslationValues = Record<string, unknown>;
 
-// Utility function to access nested translation keys
-const getNestedTranslation = (
-  obj: Translations,
-  key: NestedKeyOf<Translations>,
-): string => {
-  // Split the key into an array of nested parts
-  const keyParts = key.split(".");
-
-  // Traverse the object using the key parts
-  const result = keyParts.reduce((currentObj, part) => {
-    // If currentObj is falsy or doesn't have the property, return undefined
-    return currentObj && currentObj[part];
-  }, obj);
-
-  // Return the found translation or the original key if not found
-  return result || key;
+// These two signatures allow both t("Select Image") and t`Select Image`.
+type Translator = {
+  (englishText: string, values?: TranslationValues): string;
+  (template: TemplateStringsArray): string;
 };
 
-// Atom to store the current locale
-export const localeAtom = atomWithStorage<Locales>("language", "en");
+// Replace placeholders after the sentence has been translated.
+const replacePlaceholders = (text: string, values: TranslationValues): string =>
+  Object.entries(values).reduce(
+    (result, [name, value]) => result.replaceAll(`{${name}}`, String(value)),
+    text,
+  );
 
-// Atom to get the translation function based on the current locale
+// Return a function that translates readable English text for one language.
+const createTranslator = (languageFile: LanguageFile): Translator => {
+  function translate(englishText: string, values?: TranslationValues): string;
+  function translate(template: TemplateStringsArray): string;
+  function translate(
+    englishTextOrTemplate: string | TemplateStringsArray,
+    values: TranslationValues = {},
+  ): string {
+    if (typeof englishTextOrTemplate === "string") {
+      const translatedText =
+        languageFile[englishTextOrTemplate] ?? englishTextOrTemplate;
+
+      // Show the original English sentence when a translation is missing.
+      return replacePlaceholders(translatedText, values);
+    }
+
+    // Tagged templates are intended for simple, static sentences.
+    const englishText = englishTextOrTemplate[0];
+    return languageFile[englishText] ?? englishText;
+  }
+
+  return translate;
+};
+
+// Remember the selected language between app launches.
+export const localeAtom = atomWithStorage<LanguageCode>("language", "en");
+
 export const translationAtom = atom((get) => {
-  const locale = get(localeAtom);
+  const language = get(localeAtom);
 
-  return (
-    key: NestedKeyOf<Translations>,
-    params: Record<string, string> = {},
-  ): string => {
-    const template = getNestedTranslation(translations[locale], key);
-
-    // Replace placeholders with parameters, e.g., {name} => John
-    return Object.keys(params).reduce(
-      (str, paramKey) => str.replace(`{${paramKey}}`, params[paramKey]),
-      template,
-    );
-  };
+  // When the language changes, Jotai creates a translator for that language.
+  return createTranslator(translationsByLanguage[language]);
 });

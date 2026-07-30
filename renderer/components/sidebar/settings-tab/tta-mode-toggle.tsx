@@ -17,10 +17,10 @@ const TTAModeToggle = () => {
     <Field orientation="horizontal">
       <FieldContent>
         <FieldLabel htmlFor="tta-mode-switch">
-          {t("SETTINGS.TTA_MODE.TITLE")}
+          {t("TTA Mode")}
         </FieldLabel>
         <FieldDescription>
-          {t("SETTINGS.TTA_MODE.DESCRIPTION")}
+          {t("Enable Test Time Augmentation for better results, such as removing artifacts BUT this will increase the processing time by 8x!")}
         </FieldDescription>
       </FieldContent>
 
