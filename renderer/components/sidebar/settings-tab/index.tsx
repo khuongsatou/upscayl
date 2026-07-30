@@ -18,6 +18,7 @@ import ImageSettingsSection from "./sections/image-settings-section";
 import SystemSection from "./sections/system-section";
 import LogsSection from "./sections/logs-section";
 import HelpSection from "./sections/help-section";
+import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 
 interface IProps {
   batchMode: boolean;
@@ -89,11 +90,12 @@ function SettingsTab({
         <DialogHeader className="h-8 px-6 pt-4">
           <DialogTitle>{t("Settings")}</DialogTitle>
         </DialogHeader>
-        <div className="flex h-100 gap-4 overflow-hidden px-6 pb-6">
+        <div className="flex h-100 gap-4 overflow-hidden pr-2 pb-6 pl-4">
           <SettingsSidebar />
-          <div className="animate-step-in animate flex-1 overflow-x-hidden overflow-y-auto pr-1">
-            {renderSection()}
-          </div>
+          <ScrollArea className="w-full overflow-x-hidden">
+            <div className="pr-4">{renderSection()}</div>
+            <ScrollBar orientation="vertical" />
+          </ScrollArea>
         </div>
       </DialogContent>
     </Dialog>

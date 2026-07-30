@@ -18,10 +18,6 @@ const Sidenav = () => {
     onClick?: () => void;
   }[] = [
     {
-      name: "Home",
-      Icon: HomeIcon,
-    },
-    {
       name: "Upscayl",
       Icon: ImageUpscaleIcon,
     },
@@ -34,7 +30,7 @@ const Sidenav = () => {
   return (
     <div
       className={cn(
-        "rounded-box w-20 p-2",
+        "rounded-box w-18 p-2",
         window.electron.platform === "mac" && "mt-0",
       )}
     >
@@ -43,9 +39,9 @@ const Sidenav = () => {
         {navItems.map((item) => (
           <Button
             key={item.name}
+            variant="outline"
             size="lg"
-            className="flex h-20 w-20 max-w-32 flex-col"
-            variant="secondary"
+            className="flex size-18 max-w-32 flex-col rounded-xl"
             onClick={item.onClick}
           >
             <item.Icon className="size-5" />

@@ -2,12 +2,21 @@ import { translationAtom } from "@/atoms/translations-atom";
 import { Button } from "@/components/ui/button";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { useAtomValue } from "jotai";
+import { ClipboardIcon, CopyCheckIcon, CopyIcon } from "lucide-react";
 import React, { useEffect, useRef } from "react";
 
 type LogAreaProps = {
   copyOnClickHandler: () => void;
   isCopied: boolean;
   logData: string[];
+};
+
+// TODO: Temporary function, remove later
+const removeEmojies = (text: string) => {
+  return text.replace(
+    /[\p{Extended_Pictographic}\p{Emoji_Presentation}\uFE0F\u200D]/gu,
+    "",
+  );
 };
 
 export function LogArea({
@@ -26,20 +35,24 @@ export function LogArea({
     <div className="relative flex flex-col gap-2">
       <div className="flex items-center justify-between gap-2">
         <p className="text-sm font-medium">LOGS</p>
-        <Button size="xs" onClick={copyOnClickHandler}>
+        <Button variant="outline" size="xs" onClick={copyOnClickHandler}>
           {isCopied ? (
-            <span>{t("COPIED ✅")}</span>
+            <>
+              <CopyCheckIcon />
+              <span>{t`COPIED`}</span>
+            </>
           ) : (
-            <span>{t("COPY LOGS 📋")}</span>
+            <>
+              <CopyIcon />
+              <span>{t`COPY LOGS`}</span>
+            </>
           )}
         </Button>
       </div>
-      <ScrollArea className="h-52 rounded-3xl border bg-secondary">
+      <ScrollArea className="h-86 rounded-sm border bg-card">
         <code className="flex flex-col gap-3 p-4 text-xs break-all">
           {logData.length === 0 && (
-            <p className="text-muted-foreground">
-              {t("No logs to show")}
-            </p>
+            <p className="text-muted-foreground">{t("No logs to show")}</p>
           )}
 
           {logData.map((logLine: any, i: number) => {

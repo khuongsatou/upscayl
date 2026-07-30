@@ -312,7 +312,9 @@ function UpscaylSteps({
                   alert(t("Due to MacOS App Store security restrictions, Upscayl requires you to select an output folder everytime you start it.\n\nTo avoid this, you can permanently save a default output folder in the Upscayl 'Settings' tab."))
                 }
               >
-                <Badge variant="outline" className="text-xs">?</Badge>
+                <Badge variant="outline" className="text-xs">
+                  ?
+                </Badge>
               </button>
             )}
           </div>
