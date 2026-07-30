@@ -67,6 +67,7 @@
   "Upload Image": "Étape 1",
   "Choose Folder": "Sélectionner un dossier",
   "Select Image": "Sélectionner une image",
+  "Step 1": "Étape 1",
   "Step 2": "Étape 2",
   "Select AI Model": "Sélectionner le modèle AI",
   "Imported Custom Models": "Modèles personnalisés importés",
@@ -176,5 +177,9 @@
   "How do I use Upscayl? 🚀": "Comment utiliser Upscayl ? 🚀",
   "Watch this short video to learn about the new features.": "Regardez cette courte vidéo pour découvrir les nouvelles fonctionnalités.",
   "You're All Set! 🎉": "Vous êtes prêt ! 🎉",
-  "You're ready to start upscaling images with Upscayl!": "Vous êtes prêt à commencer à améliorer des images avec Upscayl !"
+  "You're ready to start upscaling images with Upscayl!": "Vous êtes prêt à commencer à améliorer des images avec Upscayl !",
+  "Drag & drop an image or folder": "Glissez-déposez une image ou un dossier",
+  "or click to browse": "ou cliquez pour parcourir",
+  "Custom": "Personnalisé",
+  "Increase image resolution by {scale}×.": "Augmentez la résolution de l’image de {scale}×."
 }

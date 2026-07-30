@@ -1,4 +1,5 @@
 import { XIcon } from "lucide-react";
+import { MODELS } from "@common/models-list";
 import useTranslation from "@/components/hooks/use-translation";
 import { Button } from "@/components/ui/button";
 import {
@@ -34,7 +35,7 @@ const ModelPreviewDialog = ({
           <div className="flex items-start justify-between gap-4">
             <div className="space-y-1">
               <DialogTitle className="text-lg font-semibold tracking-tight">
-                {t(`APP.MODEL_SELECTION.MODELS.${modelId}.NAME`)}
+                {t(MODELS[modelId].name)}
               </DialogTitle>
               <DialogDescription>
                 Compare the bundled before and after preview

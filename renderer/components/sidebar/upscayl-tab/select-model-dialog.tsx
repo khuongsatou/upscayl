@@ -80,17 +80,17 @@ const SelectModelDialog = () => {
     !isBeforePreviewUnavailable &&
     !isAfterPreviewUnavailable;
   const selectedModelName = selectedBuiltInModelId
-    ? t(`APP.MODEL_SELECTION.MODELS.${selectedBuiltInModelId}.NAME`)
+    ? t(MODELS[selectedBuiltInModelId].name)
     : draftModelId;
   const selectedModelDescription = selectedBuiltInModelId
-    ? t(`APP.MODEL_SELECTION.MODELS.${selectedBuiltInModelId}.DESCRIPTION`)
+    ? t(MODELS[selectedBuiltInModelId].description)
     : "Imported custom model";
   const normalizedSearchQuery = searchQuery.trim().toLowerCase();
   const visibleModels: ModelOption[] = [
     ...(Object.keys(MODELS) as ModelId[]).map((modelId) => ({
       id: modelId,
-      name: t(`APP.MODEL_SELECTION.MODELS.${modelId}.NAME`),
-      description: t(`APP.MODEL_SELECTION.MODELS.${modelId}.DESCRIPTION`),
+      name: t(MODELS[modelId].name),
+      description: t(MODELS[modelId].description),
       kind: "built-in" as const,
       afterPreviewSrc: getModelPreviewPaths(modelId).after,
     })),
@@ -114,21 +114,19 @@ const SelectModelDialog = () => {
     <div className="flex flex-col gap-4">
       <Button
         variant="outline"
-        className="h-auto min-h-12 justify-start rounded-xl bg-card px-3 py-2.5 text-left shadow-sm hover:border-foreground/20 hover:bg-muted/50"
+        className="h-auto min-h-12 min-w-0 justify-start rounded-xl bg-card px-3 py-2.5 text-left whitespace-normal shadow-sm hover:border-foreground/20 hover:bg-muted/50"
         size="lg"
         onClick={() => setModelDialogOpen(true)}
       >
-        <span className="flex min-w-0 flex-col gap-0.5">
-          <span className="truncate font-semibold">
+        <span className="flex min-w-0 flex-1 flex-col gap-0.5 whitespace-normal">
+          <span className="font-semibold break-words">
             {currentBuiltInModelId
-              ? t(`APP.MODEL_SELECTION.MODELS.${currentBuiltInModelId}.NAME`)
+              ? t(MODELS[currentBuiltInModelId].name)
               : selectedModelId}
           </span>
           {currentBuiltInModelId && (
-            <span className="truncate text-xs font-normal text-muted-foreground">
-              {t(
-                `APP.MODEL_SELECTION.MODELS.${currentBuiltInModelId}.DESCRIPTION`,
-              )}
+            <span className="text-xs leading-snug font-normal break-words text-muted-foreground">
+              {t(MODELS[currentBuiltInModelId].description)}
             </span>
           )}
         </span>
@@ -144,7 +142,7 @@ const SelectModelDialog = () => {
             <div className="flex items-start justify-between gap-4">
               <div className="space-y-2">
                 <DialogTitle className="text-3xl font-semibold tracking-tight">
-                  Select AI model
+                  {t("Select AI Model")}
                 </DialogTitle>
                 <DialogDescription className="text-sm">
                   Choose the best model for your image

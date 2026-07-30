@@ -60,7 +60,7 @@ export function SelectImageScale({
               setCustomScale(isImageScalePreset(scale) ? "" : scale);
             }}
           >
-            Custom
+            {t("Custom")}
           </Button>
         </div>
       </div>
@@ -137,11 +137,13 @@ export function SelectImageScale({
 
       {hideInfo ? (
         <p className="text-xs text-muted-foreground">
-          Increase image resolution by {scale}×.
+          {t("Increase image resolution by {scale}×.", { scale })}
         </p>
       ) : (
         <p className="text-xs text-muted-foreground">
-          {t("Anything above 4X (except 16X Double Upscayl) only resizes the image and does not use AI upscaling.")}
+          {t(
+            "Anything above 4X (except 16X Double Upscayl) only resizes the image and does not use AI upscaling.",
+          )}
         </p>
       )}
       {!hideInfo && Number(scale) >= 6 && (

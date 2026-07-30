@@ -39,12 +39,12 @@ export function LogArea({
           {isCopied ? (
             <>
               <CopyCheckIcon />
-              <span>{t`COPIED`}</span>
+              <span>{t("COPIED ✅")}</span>
             </>
           ) : (
             <>
               <CopyIcon />
-              <span>{t`COPY LOGS`}</span>
+              <span>{t("COPY LOGS 📋")}</span>
             </>
           )}
         </Button>

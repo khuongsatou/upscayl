@@ -67,6 +67,7 @@
   "Upload Image": "Langkah 1",
   "Choose Folder": "Pilih Folder",
   "Select Image": "Pilih Imej",
+  "Step 1": "Langkah 1",
   "Step 2": "Langkah 2",
   "Select AI Model": "Pilih Model AI",
   "Imported Custom Models": "Model Khas yang Diimport",
@@ -176,5 +177,9 @@
   "How do I use Upscayl? 🚀": "Bagaimana saya menggunakan Upscayl? 🚀",
   "Watch this short video to learn about the new features.": "Tonton video pendek ini untuk mengetahui tentang ciri-ciri baharu.",
   "You're All Set! 🎉": "Anda Sudah Bersedia! 🎉",
-  "You're ready to start upscaling images with Upscayl!": "Anda sudah bersedia untuk mula meningkatkan saiz imej dengan Upscayl!"
+  "You're ready to start upscaling images with Upscayl!": "Anda sudah bersedia untuk mula meningkatkan saiz imej dengan Upscayl!",
+  "Drag & drop an image or folder": "Seret dan lepas imej atau folder",
+  "or click to browse": "atau klik untuk semak imbas",
+  "Custom": "Tersuai",
+  "Increase image resolution by {scale}×.": "Tingkatkan resolusi imej sebanyak {scale}×."
 }

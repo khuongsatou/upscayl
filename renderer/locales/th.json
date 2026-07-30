@@ -67,6 +67,7 @@
   "Upload Image": "ขั้นตอนที่ 1",
   "Choose Folder": "เลือกโฟลเดอร์",
   "Select Image": "เลือกรูป",
+  "Step 1": "ขั้นตอนที่ 1",
   "Step 2": "ขั้นตอนที่ 2",
   "Select AI Model": "เลือกโมเดล AI",
   "Imported Custom Models": "โมเดลที่กำหนดเองถูกนำเข้าแล้ว",
@@ -176,5 +177,9 @@
   "How do I use Upscayl? 🚀": "ฉันจะใช้ Upscayl อย่างไร? 🚀",
   "Watch this short video to learn about the new features.": "รับชมวิดีโอสั้นนี้เพื่อเรียนรู้เกี่ยวกับคุณลักษณะใหม่",
   "You're All Set! 🎉": "คุณพร้อมแล้ว! 🎉",
-  "You're ready to start upscaling images with Upscayl!": "คุณพร้อมที่จะเริ่มการขยายรูปด้วย Upscayl แล้ว!"
+  "You're ready to start upscaling images with Upscayl!": "คุณพร้อมที่จะเริ่มการขยายรูปด้วย Upscayl แล้ว!",
+  "Drag & drop an image or folder": "ลากและวางรูปภาพหรือโฟลเดอร์",
+  "or click to browse": "หรือคลิกเพื่อเรียกดู",
+  "Custom": "กำหนดเอง",
+  "Increase image resolution by {scale}×.": "เพิ่มความละเอียดของภาพ {scale}×"
 }

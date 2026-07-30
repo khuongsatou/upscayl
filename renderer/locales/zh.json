@@ -67,6 +67,7 @@
   "Upload Image": "第一步",
   "Choose Folder": "选择文件夹",
   "Select Image": "选择图片",
+  "Step 1": "第一步",
   "Step 2": "第二步",
   "Select AI Model": "选择 AI 模型",
   "Imported Custom Models": "导入的自定义模型",
@@ -176,5 +177,9 @@
   "How do I use Upscayl? 🚀": "如何使用 Upscayl？ 🚀",
   "Watch this short video to learn about the new features.": "观看这个简短的视频，了解新功能。",
   "You're All Set! 🎉": "一切准备就绪！ 🎉",
-  "You're ready to start upscaling images with Upscayl!": "你已经准备好使用 Upscayl 来升级图片了！"
+  "You're ready to start upscaling images with Upscayl!": "你已经准备好使用 Upscayl 来升级图片了！",
+  "Drag & drop an image or folder": "拖放图片或文件夹",
+  "or click to browse": "或点击浏览",
+  "Custom": "自定义",
+  "Increase image resolution by {scale}×.": "将图像分辨率提高 {scale}×。"
 }

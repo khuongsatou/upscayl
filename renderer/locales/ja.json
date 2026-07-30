@@ -67,6 +67,7 @@
   "Upload Image": "ステップ 1",
   "Choose Folder": "フォルダを選択",
   "Select Image": "画像を選択",
+  "Step 1": "ステップ 1",
   "Step 2": "ステップ 2",
   "Select AI Model": "AIモデルを選択",
   "Imported Custom Models": "インポートされたカスタムモデル",
@@ -176,5 +177,9 @@
   "How do I use Upscayl? 🚀": "Upscaylの使い方 🚀",
   "Watch this short video to learn about the new features.": "新機能について学ぶための短いビデオをご覧ください。",
   "You're All Set! 🎉": "準備完了！ 🎉",
-  "You're ready to start upscaling images with Upscayl!": "Upscaylで画像のアップスケールを始める準備ができました！"
+  "You're ready to start upscaling images with Upscayl!": "Upscaylで画像のアップスケールを始める準備ができました！",
+  "Drag & drop an image or folder": "画像またはフォルダーをドラッグ＆ドロップ",
+  "or click to browse": "またはクリックして参照",
+  "Custom": "カスタム",
+  "Increase image resolution by {scale}×.": "画像の解像度を {scale}× に上げます。"
 }

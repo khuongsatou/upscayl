@@ -67,6 +67,7 @@
   "Upload Image": "Шаг 1",
   "Choose Folder": "Выбрать папку",
   "Select Image": "Выбрать изображение",
+  "Step 1": "Шаг 1",
   "Step 2": "Шаг 2",
   "Select AI Model": "Выберите модель ИИ",
   "Imported Custom Models": "Импортированные пользовательские модели",
@@ -176,5 +177,9 @@
   "How do I use Upscayl? 🚀": "Как использовать Upscayl? 🚀",
   "Watch this short video to learn about the new features.": "Посмотрите это короткое видео, чтобы узнать о новых функциях.",
   "You're All Set! 🎉": "Все готово! 🎉",
-  "You're ready to start upscaling images with Upscayl!": "Теперь вы готовы начать увеличивать изображения с помощью Upscayl!"
+  "You're ready to start upscaling images with Upscayl!": "Теперь вы готовы начать увеличивать изображения с помощью Upscayl!",
+  "Drag & drop an image or folder": "Перетащите изображение или папку",
+  "or click to browse": "или нажмите для выбора",
+  "Custom": "Пользовательский",
+  "Increase image resolution by {scale}×.": "Увеличить разрешение изображения в {scale}×."
 }

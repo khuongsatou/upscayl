@@ -67,6 +67,7 @@
   "Upload Image": "Upload Image",
   "Choose Folder": "Choose Folder",
   "Select Image": "Select Image",
+  "Step 1": "Step 1",
   "Step 2": "Step 2",
   "Select AI Model": "Select AI Model",
   "Imported Custom Models": "Imported Custom Models",
@@ -176,5 +177,9 @@
   "How do I use Upscayl? 🚀": "How do I use Upscayl? 🚀",
   "Watch this short video to learn about the new features.": "Watch this short video to learn about the new features.",
   "You're All Set! 🎉": "You're All Set! 🎉",
-  "You're ready to start upscaling images with Upscayl!": "You're ready to start upscaling images with Upscayl!"
+  "You're ready to start upscaling images with Upscayl!": "You're ready to start upscaling images with Upscayl!",
+  "Drag & drop an image or folder": "Drag & drop an image or folder",
+  "or click to browse": "or click to browse",
+  "Custom": "Custom",
+  "Increase image resolution by {scale}×.": "Increase image resolution by {scale}×."
 }

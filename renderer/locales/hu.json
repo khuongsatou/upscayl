@@ -67,6 +67,7 @@
   "Upload Image": "1. Lépés",
   "Choose Folder": "Mappa kiválasztása",
   "Select Image": "Kép kiválasztása",
+  "Step 1": "1. Lépés",
   "Step 2": "2. Lépés",
   "Select AI Model": "AI modell kiválasztása",
   "Imported Custom Models": "Importált egyedi modellek",
@@ -176,5 +177,9 @@
   "How do I use Upscayl? 🚀": "Hogyan használd az Upscayl-t? 🚀",
   "Watch this short video to learn about the new features.": "Nézd meg ezt a rövid videót az új funkcióinkról.",
   "You're All Set! 🎉": "Minden készen áll! 🎉",
-  "You're ready to start upscaling images with Upscayl!": "Készen állsz, hogy képeket javíts az Upscayl segítségével!"
+  "You're ready to start upscaling images with Upscayl!": "Készen állsz, hogy képeket javíts az Upscayl segítségével!",
+  "Drag & drop an image or folder": "Húzzon ide egy képet vagy mappát",
+  "or click to browse": "vagy kattintson a tallózáshoz",
+  "Custom": "Egyéni",
+  "Increase image resolution by {scale}×.": "Kép felbontásának növelése {scale}× értékkel."
 }

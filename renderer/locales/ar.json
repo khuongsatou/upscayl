@@ -67,6 +67,7 @@
   "Upload Image": "الخطوة الأولة",
   "Choose Folder": "اختر مجلدا",
   "Select Image": "اختر صورة",
+  "Step 1": "الخطوة الأولى",
   "Step 2": "الخطوة الثانية",
   "Select AI Model": "اختر نموذج الذكاء",
   "Imported Custom Models": "استرد نموذج مخصص",
@@ -176,5 +177,9 @@
   "How do I use Upscayl? 🚀": "كيف استعمل ابسكيل ؟ 🚀",
   "Watch this short video to learn about the new features.": "شاهد هذا الفديو القصير لتتعلم بعض الميزات.",
   "You're All Set! 🎉": "انت جاهز! 🎉",
-  "You're ready to start upscaling images with Upscayl!": "انت مستعد لاستخدام ابسكيل!"
+  "You're ready to start upscaling images with Upscayl!": "انت مستعد لاستخدام ابسكيل!",
+  "Drag & drop an image or folder": "اسحب وأفلت صورة أو مجلدًا",
+  "or click to browse": "أو انقر للتصفح",
+  "Custom": "مخصص",
+  "Increase image resolution by {scale}×.": "زيادة دقة الصورة بمقدار {scale}×."
 }

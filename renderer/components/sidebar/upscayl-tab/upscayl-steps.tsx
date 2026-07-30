@@ -169,8 +169,8 @@ function UpscaylSteps({
       {/* STEP 1 */}
       <div className="animate-step-in flex flex-col gap-2">
         <div className="step-heading flex flex-row text-sm">
-          <span className="w-fit rounded-lg bg-foreground/10 px-2 text-sm font-medium">
-            Step 1 - {t("Select Image")}
+          <span className="max-w-full rounded-lg bg-foreground/10 px-2 text-sm leading-snug font-medium break-words">
+            {t("Step 1")} - {t("Select Image")}
           </span>
         </div>
         <DropdownMenu>
@@ -196,10 +196,10 @@ function UpscaylSteps({
             >
               <CloudUpload className="size-10" strokeWidth={1.5} />
               <span className="text-sm font-medium">
-                Drag & drop an image or folder
+                {t("Drag & drop an image or folder")}
               </span>
               <span className="-mt-1 text-sm text-muted-foreground">
-                or click to browse
+                {t("or click to browse")}
               </span>
               <span className="mt-2 text-xs text-muted-foreground">
                 PNG, JPG, JPEG, WEBP
@@ -247,8 +247,8 @@ function UpscaylSteps({
       {/* UPSCALE SETTINGS */}
       <div className="animate-step-in group flex flex-col gap-4">
         <div className="step-heading flex flex-row text-sm">
-          <p className="w-fit rounded-lg bg-foreground/10 px-2 text-sm font-medium">
-            Step 2 - Upscale Settings
+          <p className="max-w-full rounded-lg bg-foreground/10 px-2 text-sm leading-snug font-medium break-words">
+            {t("Step 2")} - {t("Select AI Model")}
           </p>
         </div>
         <div className="rounded-2xl border bg-background/40 p-3">
@@ -260,11 +260,15 @@ function UpscaylSteps({
                   <Field orientation="horizontal">
                     <FieldContent
                       data-tooltip-id="tooltip"
-                      data-tooltip-content={t("Enable this option to run upscayl twice on an image. Note that this may cause a significant increase in processing time and possibly performance issues for scales greater than 4X.")}
+                      data-tooltip-content={t(
+                        "Enable this option to run upscayl twice on an image. Note that this may cause a significant increase in processing time and possibly performance issues for scales greater than 4X.",
+                      )}
                     >
                       <FieldTitle>{t("Double Upscayl")}</FieldTitle>
-                      <FieldDescription className="line-clamp-2 max-w-58">
-                        {t("Enable this option to run upscayl twice on an image. Note that this may cause a significant increase in processing time and possibly performance issues for scales greater than 4X.")}
+                      <FieldDescription className="max-w-full leading-relaxed break-words whitespace-normal">
+                        {t(
+                          "Enable this option to run upscayl twice on an image. Note that this may cause a significant increase in processing time and possibly performance issues for scales greater than 4X.",
+                        )}
                       </FieldDescription>
                     </FieldContent>
                     <Switch
@@ -284,7 +288,7 @@ function UpscaylSteps({
             {/* SAVE IMAGE AS */}
             <div className="flex flex-col gap-2">
               <span className="w-fit rounded-lg bg-foreground/10 px-2 text-sm font-medium">
-                Save Image As
+                {t("SAVE IMAGE AS")}
               </span>
 
               <SelectImageFormat
@@ -309,7 +313,11 @@ function UpscaylSteps({
               <button
                 className="cursor-pointer"
                 onClick={() =>
-                  alert(t("Due to MacOS App Store security restrictions, Upscayl requires you to select an output folder everytime you start it.\n\nTo avoid this, you can permanently save a default output folder in the Upscayl 'Settings' tab."))
+                  alert(
+                    t(
+                      "Due to MacOS App Store security restrictions, Upscayl requires you to select an output folder everytime you start it.\n\nTo avoid this, you can permanently save a default output folder in the Upscayl 'Settings' tab.",
+                    ),
+                  )
                 }
               >
                 <Badge variant="outline" className="text-xs">
@@ -399,18 +407,14 @@ function UpscaylSteps({
             progress.length > 0 || !outputPath
               ? () =>
                   toast({
-                    description: t(
-                      "Please select an output folder first",
-                    ),
+                    description: t("Please select an output folder first"),
                   })
               : upscaylHandler
           }
         >
           <SparklesIcon aria-hidden="true" />
           <span>
-            {progress.length > 0
-              ? t("Upscayling ⏳")
-              : t("Upscayl 🚀")}
+            {progress.length > 0 ? t("Upscayling ⏳") : t("Upscayl 🚀")}
           </span>
         </Button>
       </div>

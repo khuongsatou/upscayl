@@ -67,6 +67,7 @@
   "Upload Image": "1. Adım",
   "Choose Folder": "Klasör seç",
   "Select Image": "Görsel seç",
+  "Step 1": "1. Adım",
   "Step 2": "2. Adım",
   "Select AI Model": "AI Model Seçimi",
   "Imported Custom Models": "İçe aktarılmış özel modeller",
@@ -176,5 +177,9 @@
   "How do I use Upscayl? 🚀": "Upscayl'ı nasıl kullanacağım? 🚀",
   "Watch this short video to learn about the new features.": "Bu kısa videoyu izleyerek en yeni özellikleri öğrenin",
   "You're All Set! 🎉": "Hazır ve nazırsınız! 🎉",
-  "You're ready to start upscaling images with Upscayl!": "Upscayl ile görsellerinizi iyileştirmeye hazırsınız!"
+  "You're ready to start upscaling images with Upscayl!": "Upscayl ile görsellerinizi iyileştirmeye hazırsınız!",
+  "Drag & drop an image or folder": "Bir görüntüyü veya klasörü sürükleyip bırakın",
+  "or click to browse": "veya göz atmak için tıklayın",
+  "Custom": "Özel",
+  "Increase image resolution by {scale}×.": "Görüntü çözünürlüğünü {scale}× artırın."
 }

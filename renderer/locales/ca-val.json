@@ -67,6 +67,7 @@
   "Upload Image": "Pas 1",
   "Choose Folder": "Selecciona carpeta",
   "Select Image": "Selecciona imatge",
+  "Step 1": "Pas 1",
   "Step 2": "Pas 2",
   "Select AI Model": "Selecciona model de IA",
   "Imported Custom Models": "Models personalitzats importats",
@@ -176,5 +177,9 @@
   "How do I use Upscayl? 🚀": "Com use Upscayl? 🚀",
   "Watch this short video to learn about the new features.": "Mireu este vídeo breu per a aprendre sobre les noves característiques.",
   "You're All Set! 🎉": "Tot llest! 🎉",
-  "You're ready to start upscaling images with Upscayl!": "Esteu llestos per a començar a augmentar imatges amb Upscayl!"
+  "You're ready to start upscaling images with Upscayl!": "Esteu llestos per a començar a augmentar imatges amb Upscayl!",
+  "Drag & drop an image or folder": "Arrossega i deixa anar una imatge o carpeta",
+  "or click to browse": "o fes clic per explorar",
+  "Custom": "Personalitzat",
+  "Increase image resolution by {scale}×.": "Augmenta la resolució de la imatge en {scale}×."
 }
