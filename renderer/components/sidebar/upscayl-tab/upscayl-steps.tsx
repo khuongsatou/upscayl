@@ -46,6 +46,11 @@ import {
 import { cn } from "@/lib/utils";
 import { sanitizePath } from "@common/sanitize-path";
 import getFilenameFromPath from "@common/get-file-name";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 
 interface IProps {
   selectImageHandler: () => Promise<void>;
@@ -169,7 +174,7 @@ function UpscaylSteps({
       {/* STEP 1 */}
       <div className="animate-step-in flex flex-col gap-2">
         <div className="step-heading flex flex-row text-sm">
-          <span className="max-w-full rounded-lg bg-foreground/10 px-2 text-sm leading-snug font-medium break-words">
+          <span className="max-w-full rounded-lg bg-foreground/10 px-2 text-sm leading-snug font-medium">
             {t("Step 1")} - {t("Select Image")}
           </span>
         </div>
@@ -257,20 +262,24 @@ function UpscaylSteps({
             {!batchMode && (
               <FieldGroup>
                 <FieldLabel htmlFor="double-upscayl-toggle">
-                  <Field orientation="horizontal">
-                    <FieldContent
-                      data-tooltip-id="tooltip"
-                      data-tooltip-content={t(
-                        "Enable this option to run upscayl twice on an image. Note that this may cause a significant increase in processing time and possibly performance issues for scales greater than 4X.",
-                      )}
-                    >
-                      <FieldTitle>{t("Double Upscayl")}</FieldTitle>
-                      <FieldDescription className="max-w-full leading-relaxed break-words whitespace-normal">
+                  <Field orientation="horizontal" className="items-start">
+                    <Tooltip>
+                      <TooltipTrigger asChild>
+                        <FieldContent>
+                          <FieldTitle>{t("Double Upscayl")}</FieldTitle>
+                          <FieldDescription className="line-clamp-2 max-w-full leading-relaxed whitespace-normal">
+                            {t(
+                              "Enable this option to run upscayl twice on an image. Note that this may cause a significant increase in processing time and possibly performance issues for scales greater than 4X.",
+                            )}
+                          </FieldDescription>
+                        </FieldContent>
+                      </TooltipTrigger>
+                      <TooltipContent>
                         {t(
                           "Enable this option to run upscayl twice on an image. Note that this may cause a significant increase in processing time and possibly performance issues for scales greater than 4X.",
                         )}
-                      </FieldDescription>
-                    </FieldContent>
+                      </TooltipContent>
+                    </Tooltip>
                     <Switch
                       id="double-upscayl-toggle"
                       checked={doubleUpscayl}

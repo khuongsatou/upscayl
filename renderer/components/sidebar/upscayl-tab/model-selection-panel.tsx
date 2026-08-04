@@ -25,22 +25,22 @@ const ModelSelectionPanel = ({
   onModelSelect,
 }: ModelSelectionPanelProps) => {
   return (
-    <div className="flex min-h-0 flex-col rounded-[1.35rem] bg-card/80 p-4 sm:p-5">
+    <div className="flex min-h-0 flex-col rounded-[1.35rem] bg-secondary/50 p-4 sm:p-5">
       <div className="flex flex-col gap-3 border-b pb-3 sm:flex-row">
-        <div className="relative flex-1">
+        <div className="relative w-full flex-1 sm:max-w-2/4 lg:max-w-full">
           <SearchIcon className="pointer-events-none absolute top-1/2 left-4 size-4 -translate-y-1/2 text-muted-foreground" />
           <Input
             value={searchQuery}
             onChange={(event) => onSearchQueryChange(event.target.value)}
             placeholder="Search models..."
-            className="h-11 rounded-full bg-background/70 pr-4 pl-10"
+            className="h-9 rounded-full bg-background/70 pr-4 pl-10"
           />
         </div>
         <Select
           value={modelFilter}
           onValueChange={(value) => onModelFilterChange(value as ModelFilter)}
         >
-          <SelectTrigger className="h-11 w-full rounded-full bg-background/70 sm:w-[12rem]">
+          <SelectTrigger className="ml-auto h-11 w-full rounded-full bg-background/70 sm:w-[12rem]">
             <SelectValue />
           </SelectTrigger>
           <SelectContent>
@@ -73,7 +73,7 @@ const ModelSelectionPanel = ({
                   onClick={() => onModelSelect(model.id)}
                   aria-pressed={isSelected}
                   className={cn(
-                    "flex w-full items-center gap-3 rounded-[1.35rem] bg-background/70 p-4 text-left transition-all hover:bg-muted/40 focus-visible:ring-3 focus-visible:ring-ring/50 focus-visible:outline-none",
+                    "flex w-full items-center gap-3 rounded-2xl bg-background/70 p-2 py-1.5 pr-4 text-left transition-all hover:bg-muted/40 focus-visible:ring-3 focus-visible:ring-ring/50 focus-visible:outline-none",
                     isSelected && "bg-muted/55 ring-1 ring-foreground/12",
                   )}
                 >
@@ -87,12 +87,12 @@ const ModelSelectionPanel = ({
                     />
                   )}
                   <div className="min-w-0 flex-1">
-                    <div className="flex items-start justify-between gap-3">
+                    <div className="flex items-center justify-between gap-3">
                       <div className="min-w-0">
                         <p className="truncate text-base font-semibold tracking-tight">
                           {model.name}
                         </p>
-                        <p className="mt-1 line-clamp-2 text-sm leading-relaxed text-muted-foreground">
+                        <p className="mt-1 line-clamp-1 text-sm leading-relaxed text-muted-foreground">
                           {model.description}
                         </p>
                       </div>

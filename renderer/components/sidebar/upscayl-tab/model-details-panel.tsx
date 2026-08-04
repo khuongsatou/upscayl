@@ -4,6 +4,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import type { ModelDetailsPanelProps } from "@/types/model-selection";
 import ModelImageComparison from "./model-image-comparison";
+import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 
 const ModelDetailsPanel = ({
   modelId,
@@ -20,7 +21,7 @@ const ModelDetailsPanel = ({
   const isBuiltInModel = modelId !== null && previewPaths !== null;
 
   return (
-    <div className="min-h-0 overflow-y-auto rounded-[1.35rem] bg-card/80 p-4 sm:p-5">
+    <ScrollArea className="min-h-0 overflow-y-auto rounded-[1.35rem] bg-secondary/50 p-2">
       <div className="flex min-h-full flex-col gap-4 pb-1">
         <div className="rounded-[1.35rem] bg-background/70 p-4">
           <div className="mb-4 flex items-start justify-between gap-3">
@@ -44,9 +45,7 @@ const ModelDetailsPanel = ({
                   onClick={() => onZoom(modelId)}
                 >
                   <Maximize2 className="size-4" />
-                  <span className="sr-only">
-                    {t("Zoom")}
-                  </span>
+                  <span className="sr-only">{t("Zoom")}</span>
                 </Button>
               )}
               <Badge className="rounded-full">Selected</Badge>
@@ -128,7 +127,8 @@ const ModelDetailsPanel = ({
           </p>
         </div>
       </div>
-    </div>
+      <ScrollBar orientation="vertical" />
+    </ScrollArea>
   );
 };
 

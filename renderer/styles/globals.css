@@ -339,6 +339,16 @@
   -webkit-app-region: drag;
 }
 
+* ::-webkit-scrollbar {
+  @apply fixed h-1 w-1.5;
+}
+* ::-webkit-scrollbar-track {
+  @apply mx-1 rounded-md bg-transparent;
+}
+* ::-webkit-scrollbar-thumb {
+  @apply cursor-pointer rounded-md bg-border;
+}
+
 /* 
 .checkerboard {
   background-color: rgba(255, 255, 255);

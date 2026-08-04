@@ -119,13 +119,13 @@ const SelectModelDialog = () => {
         onClick={() => setModelDialogOpen(true)}
       >
         <span className="flex min-w-0 flex-1 flex-col gap-0.5 whitespace-normal">
-          <span className="font-semibold break-words">
+          <span className="font-semibold wrap-break-word">
             {currentBuiltInModelId
               ? t(MODELS[currentBuiltInModelId].name)
               : selectedModelId}
           </span>
           {currentBuiltInModelId && (
-            <span className="text-xs leading-snug font-normal break-words text-muted-foreground">
+            <span className="text-xs leading-snug font-normal wrap-break-word text-muted-foreground">
               {t(MODELS[currentBuiltInModelId].description)}
             </span>
           )}
@@ -136,12 +136,12 @@ const SelectModelDialog = () => {
       <Dialog open={open} onOpenChange={setModelDialogOpen}>
         <DialogContent
           showCloseButton={false}
-          className="h-[44rem] max-h-[calc(100dvh-2rem)] grid-rows-[auto_minmax(0,1fr)_auto] gap-0 overflow-hidden border bg-popover p-0 shadow-xl sm:max-w-5xl"
+          className="h-[44rem] max-h-[calc(100dvh-2rem)] w-[96%] grid-rows-[auto_minmax(0,1fr)_auto] gap-0 overflow-hidden border bg-popover p-0 shadow-xl sm:max-w-5xl"
         >
           <DialogHeader className="border-b bg-muted/30 px-5 py-5 sm:px-6">
             <div className="flex items-start justify-between gap-4">
               <div className="space-y-2">
-                <DialogTitle className="text-3xl font-semibold tracking-tight">
+                <DialogTitle className="text-xl font-semibold tracking-tight">
                   {t("Select AI Model")}
                 </DialogTitle>
                 <DialogDescription className="text-sm">
@@ -161,7 +161,7 @@ const SelectModelDialog = () => {
             </div>
           </DialogHeader>
           <div className="min-h-0 flex-1 p-4 sm:p-5">
-            <div className="grid h-full min-h-0 gap-5 rounded-[1.5rem] bg-muted/15 p-2 sm:p-3 lg:grid-cols-[minmax(0,1.05fr)_minmax(20rem,0.95fr)]">
+            <div className="grid h-full min-h-0 gap-5 rounded-[1.5rem] lg:grid-cols-[minmax(0,1.05fr)_minmax(20rem,0.95fr)] lg:border lg:border-border/10 lg:bg-secondary/30 lg:p-2">
               <ModelSelectionPanel
                 searchQuery={searchQuery}
                 modelFilter={modelFilter}
