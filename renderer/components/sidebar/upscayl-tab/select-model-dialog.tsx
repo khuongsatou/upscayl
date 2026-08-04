@@ -113,7 +113,7 @@ const SelectModelDialog = () => {
   return (
     <div className="flex flex-col gap-4">
       <Button
-        variant="outline"
+        variant="secondary"
         className="h-auto min-h-12 min-w-0 justify-start rounded-xl bg-card px-3 py-2.5 text-left whitespace-normal shadow-sm hover:border-foreground/20 hover:bg-muted/50"
         size="lg"
         onClick={() => setModelDialogOpen(true)}

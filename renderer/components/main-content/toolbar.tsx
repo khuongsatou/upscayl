@@ -26,6 +26,7 @@ import {
 } from "../ui/drawer";
 import { translationAtom } from "@/atoms/translations-atom";
 import React from "react";
+import CountUp from "../ui/count-up";
 
 const formatDuration = (seconds: number): string => {
   if (seconds < 60) return `${seconds.toFixed(1)}s`;
@@ -115,7 +116,7 @@ export default function ToolBar({
               <InfoIcon />
             </Button>
           </DrawerTrigger>
-          <DrawerContent className="mx-auto w-full max-w-xl">
+          <DrawerContent className="mx-auto w-full max-w-xl p-2">
             <DrawerHeader>
               <DrawerTitle className="text-start">Stats</DrawerTitle>
             </DrawerHeader>
@@ -127,7 +128,15 @@ export default function ToolBar({
                       {t("Total Upscayls")}
                     </p>
                     <p className="mt-2 text-5xl font-semibold tracking-tight">
-                      {userStats.totalUpscayls.toLocaleString()}
+                      <CountUp
+                        from={0}
+                        to={userStats.totalUpscayls}
+                        separator=","
+                        direction="up"
+                        duration={1}
+                        className="count-up-text"
+                        delay={0}
+                      />
                     </p>
                   </div>
                   <div className="rounded-2xl bg-muted p-3 text-muted-foreground">
@@ -140,7 +149,15 @@ export default function ToolBar({
                 <div className="rounded-2xl border bg-card p-4 shadow-sm">
                   <ImagesIcon className="size-4 text-primary" />
                   <p className="mt-5 text-2xl font-semibold tracking-tight">
-                    {userStats.batchUpscayls.toLocaleString()}
+                    <CountUp
+                      from={0}
+                      to={userStats.batchUpscayls}
+                      separator=","
+                      direction="up"
+                      duration={1}
+                      className="count-up-text"
+                      delay={0}
+                    />
                   </p>
                   <p className="mt-1 text-xs leading-snug text-muted-foreground">
                     {t("Total Batch Upscayls")}
@@ -150,7 +167,15 @@ export default function ToolBar({
                 <div className="rounded-2xl border bg-card p-4 shadow-sm">
                   <ImageIcon className="size-4 text-primary" />
                   <p className="mt-5 text-2xl font-semibold tracking-tight">
-                    {userStats.imageUpscayls.toLocaleString()}
+                    <CountUp
+                      from={0}
+                      to={userStats.imageUpscayls}
+                      separator=","
+                      direction="up"
+                      duration={1}
+                      className="count-up-text"
+                      delay={0}
+                    />
                   </p>
                   <p className="mt-1 text-xs leading-snug text-muted-foreground">
                     {t("Total Image Upscayls")}
@@ -163,7 +188,15 @@ export default function ToolBar({
                   </div>
                   <div>
                     <p className="text-2xl font-semibold tracking-tight">
-                      {userStats.doubleUpscayls.toLocaleString()}
+                      <CountUp
+                        from={0}
+                        to={userStats.doubleUpscayls}
+                        separator=","
+                        direction="up"
+                        duration={1}
+                        className="count-up-text"
+                        delay={0}
+                      />
                     </p>
                     <p className="text-xs text-muted-foreground">
                       {t("Total Double Upscayls")}

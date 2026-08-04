@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useId, useState } from "react";
 import { translationAtom } from "@/atoms/translations-atom";
 import { useCustomWidthAtom } from "@/atoms/user-settings-atom";
 import {
@@ -6,11 +6,13 @@ import {
   isImageScalePreset,
   isValidImageScale,
 } from "@/lib/image-scale";
+import { motion } from "motion/react";
 import { cn } from "@/lib/utils";
 import type { ImageScaleSelectProps } from "@/types/image-scale";
 import { useAtomValue } from "jotai";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { XIcon } from "lucide-react";
 
 export function SelectImageScale({
   scale,
@@ -26,6 +28,7 @@ export function SelectImageScale({
     isImageScalePreset(scale) ? "" : scale,
   );
   const hasValidCustomScale = isValidImageScale(customScale);
+  const componentId = useId();
 
   useEffect(() => {
     const isCustomScale = !isImageScalePreset(scale);
@@ -65,25 +68,50 @@ export function SelectImageScale({
         </div>
       </div>
 
-      <div className="grid grid-cols-5 gap-2">
+      <div className="grid max-w-sm grid-cols-5 rounded-2xl border border-border/60 bg-background p-0.5">
         {IMAGE_SCALE_PRESETS.map((preset) => {
           const isSelected = !showCustomInput && scale === preset;
+          const isLargeScale = ["8", "16"].includes(scale);
 
           return (
             <Button
               type="button"
+              variant="ghost"
               key={preset}
-              variant={isSelected ? "default" : "outline"}
-              size="lg"
               disabled={useCustomWidth}
               aria-pressed={isSelected}
+              className="relative rounded-xl hover:bg-background"
               onClick={() => {
                 setScale(preset);
                 setShowCustomInput(false);
                 setCustomScale("");
               }}
             >
-              {preset}×
+              {isSelected && (
+                <motion.span
+                  layoutId={componentId}
+                  className={cn(
+                    "absolute inset-0 size-full rounded-xl bg-primary",
+                    { "bg-destructive": isLargeScale },
+                  )}
+                  transition={{
+                    type: "spring",
+                    stiffness: 700,
+                    damping: 40,
+                    mass: 0.4,
+                  }}
+                ></motion.span>
+              )}
+              <span
+                className={cn(
+                  "relative z-10 inline-flex items-end font-bold",
+                  { "text-destructive-foreground": isLargeScale && isSelected },
+                  isSelected && "text-primary-foreground",
+                )}
+              >
+                {preset}
+                <XIcon className="mb-[2.5px] size-3" />
+              </span>
             </Button>
           );
         })}

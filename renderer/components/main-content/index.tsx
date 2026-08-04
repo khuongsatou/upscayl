@@ -679,7 +679,8 @@ const MainContent = ({
                         }
                       }}
                       className={cn(
-                        "group relative aspect-square overflow-hidden rounded-xl border bg-secondary p-1 transition-all duration-200 ease-out",
+                        "group relative aspect-square overflow-hidden rounded-xl border-2 bg-secondary p-1 transition-all duration-200 ease-out",
+                        selectedBatchImage === batch.image && "border-white",
                         batch.disabled
                           ? "cursor-not-allowed opacity-40 grayscale"
                           : "cursor-pointer",
