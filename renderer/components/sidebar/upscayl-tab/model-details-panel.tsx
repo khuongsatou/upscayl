@@ -21,9 +21,9 @@ const ModelDetailsPanel = ({
   const isBuiltInModel = modelId !== null && previewPaths !== null;
 
   return (
-    <ScrollArea className="min-h-0 overflow-y-auto rounded-[1.35rem] bg-secondary/50 p-2">
+    <ScrollArea className="min-h-0 overflow-y-auto rounded-[1.35rem] bg-background/70 p-2">
       <div className="flex min-h-full flex-col gap-4 pb-1">
-        <div className="rounded-[1.35rem] bg-background/70 p-4">
+        <div className="rounded-[1.35rem] bg-secondary p-4">
           <div className="mb-4 flex items-start justify-between gap-3">
             <div className="min-w-0">
               <p className="truncate text-lg font-semibold tracking-tight">
@@ -121,7 +121,7 @@ const ModelDetailsPanel = ({
             </div>
           )}
         </div>
-        <div className="rounded-[1.35rem] bg-background/70 p-4">
+        <div className="rounded-[1.35rem] bg-secondary p-4">
           <p className="text-sm leading-relaxed text-muted-foreground">
             {modelDescription}
           </p>
