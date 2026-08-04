@@ -28,7 +28,7 @@ import {
   DoubleUpscaylPayload,
   ImageUpscaylPayload,
 } from "@common/types/types";
-import { useToast } from "@/components/ui/use-toast";
+import { toast } from "sonner";
 import UpscaylSteps from "./upscayl-tab/upscayl-steps";
 import SettingsTab from "./settings-tab";
 import Footer from "../footer";
@@ -60,7 +60,6 @@ const Sidebar = ({
 }) => {
   const t = useTranslation();
   const logit = useLogger();
-  const { toast } = useToast();
 
   // LOCAL STATES
   // TODO: Add electron handler for os
@@ -179,8 +178,7 @@ const Sidebar = ({
         logit("🏁 UPSCAYL");
       }
     } else {
-      toast({
-        title: t("No image selected"),
+      toast(t("No image selected"), {
         description: t("Please select an image to upscale"),
       });
       logit("🚫 No valid image selected");

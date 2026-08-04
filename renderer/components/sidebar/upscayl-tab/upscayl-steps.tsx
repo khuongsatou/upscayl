@@ -13,7 +13,7 @@ import {
 } from "../../../atoms/user-settings-atom";
 import { FEATURE_FLAGS } from "@common/feature-flags";
 import { ELECTRON_COMMANDS } from "@common/electron-commands";
-import { useToast } from "@/components/ui/use-toast";
+import { toast } from "sonner";
 import { translationAtom } from "@/atoms/translations-atom";
 import { SelectImageScale } from "../settings-tab/select-image-scale";
 import SelectModelDialog from "./select-model-dialog";
@@ -93,7 +93,6 @@ function UpscaylSteps({
   const useCustomWidth = useAtomValue(useCustomWidthAtom);
 
   const logit = useLogger();
-  const { toast } = useToast();
   const t = useAtomValue(translationAtom);
 
   // HANDLERS
@@ -414,10 +413,7 @@ function UpscaylSteps({
           }}
           onClick={
             progress.length > 0 || !outputPath
-              ? () =>
-                  toast({
-                    description: t("Please select an output folder first"),
-                  })
+              ? () => toast(t("Please select an output folder first"))
               : upscaylHandler
           }
         >

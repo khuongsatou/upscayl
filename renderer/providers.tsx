@@ -1,10 +1,10 @@
 import { Provider } from "jotai";
 import "react-tooltip/dist/react-tooltip.css";
-import { Toaster } from "@/components/ui/toaster";
 import { Tooltip } from "react-tooltip";
 import PostHogProviderWrapper from "@/components/posthog-provider-wrapper";
 import { TooltipProvider } from "./components/ui/tooltip";
 import ThemeProvider from "./components/theme/theme-provider";
+import { Toaster } from "./components/ui/sonner";
 
 const Providers = ({ children }: { children: React.ReactNode }) => {
   return (
@@ -13,7 +13,7 @@ const Providers = ({ children }: { children: React.ReactNode }) => {
         <PostHogProviderWrapper>
           <TooltipProvider>
             {children}
-            <Toaster />
+            <Toaster position="top-right" />
             <Tooltip
               className="z-999 max-w-sm bg-secondary! wrap-break-word"
               id="tooltip"

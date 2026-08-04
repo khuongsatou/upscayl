@@ -11,7 +11,7 @@ import {
   userStatsAtom,
 } from "./atoms/user-settings-atom";
 import useLogger from "./components/hooks/use-logger";
-import { useToast } from "@/components/ui/use-toast";
+import { toast } from "sonner";
 import { ToastAction } from "@/components/ui/toast";
 import UpscaylSVGLogo from "@/components/icons/upscayl-logo-svg";
 import { translationAtom } from "@/atoms/translations-atom";
@@ -31,7 +31,6 @@ import MainContent from "./components/main-content";
 const Home = () => {
   const t = useAtomValue(translationAtom);
   const logit = useLogger();
-  const { toast } = useToast();
   const { systemInfo } = useSystemInfo();
   const version = useUpscaylVersion();
 
@@ -119,8 +118,7 @@ const Home = () => {
       return;
     }
 
-    toast({
-      title: t("Invalid Image"),
+    toast(t("Invalid Image"), {
       description: t("Please drag and drop an image"),
     });
   };
@@ -131,8 +129,7 @@ const Home = () => {
       const extension = path.split(".").pop().toLowerCase() as ImageFormat;
       logit("🔤 Extension: ", extension);
       if (!VALID_IMAGE_FORMATS.includes(extension)) {
-        toast({
-          title: t("Invalid Image"),
+        toast(t("Invalid Image"), {
           description: t(
             "Please select/paste an image with a valid extension like PNG, JPG, JPEG, JFIF or WEBP.",
           ),
@@ -148,8 +145,7 @@ const Home = () => {
   useEffect(() => {
     const handleErrors = (data: string) => {
       if (data.includes("Invalid GPU")) {
-        toast({
-          title: t("GPU Error"),
+        toast(t("GPU Error"), {
           description: t(
             "Ran into an issue with the GPU. Please read the docs for troubleshooting! ({data})",
             { data },
@@ -175,8 +171,7 @@ const Home = () => {
         resetImagePaths();
       } else if (data.includes("write") || data.includes("read")) {
         if (batchMode) return;
-        toast({
-          title: t("Read/Write Error"),
+        toast(t("Read/Write Error"), {
           description: t(
             "Make sure that the path is correct and you have proper read/write permissions \n({data})",
             { data },
@@ -201,8 +196,7 @@ const Home = () => {
         });
         resetImagePaths();
       } else if (data.includes("tile size")) {
-        toast({
-          title: t("Tile Size Error"),
+        toast(t("Tile Size Error"), {
           description: t(
             "The tile size is wrong. Please change the tile size in the settings or set to 0 ({data})",
             { data },
@@ -210,8 +204,7 @@ const Home = () => {
         });
         resetImagePaths();
       } else if (data.includes("uncaughtException")) {
-        toast({
-          title: t("Exception Error"),
+        toast(t("Exception Error"), {
           description: t(
             "Upscayl encountered an error. Possibly, the upscayl binary failed to execute the commands properly. Try checking the logs to see if you get any information. You can post an issue on Upscayl's GitHub repository for more help.",
           ),
@@ -232,24 +225,15 @@ const Home = () => {
     );
     // UPSCAYL WARNING
     window.electron.on(ELECTRON_COMMANDS.UPSCAYL_WARNING, (_, data: string) => {
-      toast({
-        title: t("Warning"),
-        description: data,
-      });
+      toast(t("Warning"), { description: data });
     });
     // METADATA ERROR
     window.electron.on(ELECTRON_COMMANDS.METADATA_ERROR, (_, data: string) => {
-      toast({
-        title: t("Metadata Copy Error"),
-        description: data,
-      });
+      toast(t("Metadata Copy Error"), { description: data });
     });
     // UPSCAYL ERROR
     window.electron.on(ELECTRON_COMMANDS.UPSCAYL_ERROR, (_, data: string) => {
-      toast({
-        title: t("Error"),
-        description: data,
-      });
+      toast(t("Error"), { description: data });
       resetImagePaths();
     });
     // UPSCAYL PROGRESS

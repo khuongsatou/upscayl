@@ -15,7 +15,7 @@ import {
   useCustomWidthAtom,
   doubleUpscaylAtom,
 } from "../../atoms/user-settings-atom";
-import { useToast } from "@/components/ui/use-toast";
+import { toast } from "sonner";
 import { sanitizePath } from "@common/sanitize-path";
 import { ImageFormat, VALID_IMAGE_FORMATS } from "@/lib/valid-formats";
 import ProgressBar from "./progress-bar";
@@ -85,7 +85,6 @@ const MainContent = ({
   const componentId = useId();
   const t = useTranslation();
   const logit = useLogger();
-  const { toast } = useToast();
 
   const [outputPath, setOutputPath] = useAtom(savedOutputPathAtom);
   const progress = useAtomValue(progressAtom);
@@ -183,8 +182,7 @@ const MainContent = ({
 
     if (!filePath) {
       logit("👎 No valid files dropped");
-      toast({
-        title: t("Invalid Image"),
+      toast(t("Invalid Image"), {
         description: t("Please drag and drop an image"),
       });
       return;
@@ -237,8 +235,7 @@ const MainContent = ({
               );
             } else {
               logit("🚫 Invalid file pasted");
-              toast({
-                title: t("Invalid Image"),
+              toast(t("Invalid Image"), {
                 description: t("No Image file found in Clipboard to paste!"),
               });
             }
@@ -247,21 +244,18 @@ const MainContent = ({
           reader.readAsArrayBuffer(fileObject);
         } else {
           logit("🚫 Invalid file pasted");
-          toast({
-            title: t("Invalid Image"),
+          toast(t("Invalid Image"), {
             description: t("No Image file found in Clipboard to paste!"),
           });
         }
       } else {
         logit("🚫 Invalid file pasted");
-        toast({
-          title: t("Invalid Image"),
+        toast(t("Invalid Image"), {
           description: t("No Image file found in Clipboard to paste!"),
         });
       }
     } else {
-      toast({
-        title: t("Output Folder Required"),
+      toast(t("Output Folder Required"), {
         description: t("Please select an output folder before starting"),
       });
     }
@@ -275,8 +269,7 @@ const MainContent = ({
       validateImagePath(imageFilePath);
     };
     const handlePasteImageSaveError = (_: any, error: string) => {
-      toast({
-        title: t("No image selected"),
+      toast(t("No image selected"), {
         description: error,
       });
     };
