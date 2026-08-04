@@ -239,9 +239,7 @@ const MainContent = ({
               logit("🚫 Invalid file pasted");
               toast({
                 title: t("Invalid Image"),
-                description: t(
-                  "No Image file found in Clipboard to paste!",
-                ),
+                description: t("No Image file found in Clipboard to paste!"),
               });
             }
             window.electron.send(ELECTRON_COMMANDS.PASTE_IMAGE, file);
@@ -418,7 +416,7 @@ const MainContent = ({
       {/*   resetImagePaths={resetImagePaths} */}
       {/* /> */}
       <div className="flex size-full gap-2 overflow-hidden">
-        <div className="flex h-full w-full flex-col gap-2 overflow-hidden rounded-4xl border bg-accent p-2">
+        <div className="flex h-full w-full flex-col gap-2 overflow-hidden rounded-4xl border bg-secondary p-2">
           {(selectedBatchImage.length > 0 || imagePath.length > 0) && (
             <div className="inline-flex items-center gap-2">
               <div className="space-y-1.5 px-1.5 text-sm">
@@ -437,7 +435,9 @@ const MainContent = ({
                         size={18}
                         className="fill-yellow-500 stroke-black"
                         data-tooltip-id="tooltip"
-                        data-tooltip-content={t("Anything above 5X may cause performance issues on some devices!")}
+                        data-tooltip-content={t(
+                          "Anything above 5X may cause performance issues on some devices!",
+                        )}
                       />
                     )}
                     <span>{`${upscaylResolution.width}x${upscaylResolution.height} (${scale}x)`}</span>
@@ -638,7 +638,7 @@ const MainContent = ({
             )}
             <div
               className={cn(
-                "absolute top-0 right-0 z-20 flex h-full w-48 shrink-0 flex-col gap-3 rounded-4xl border bg-accent p-3 transition-transform xl:relative",
+                "absolute top-0 right-0 z-20 flex h-full w-48 shrink-0 flex-col gap-3 rounded-4xl border bg-secondary p-3 transition-transform xl:relative",
                 isBatchSidebarOpen
                   ? "translate-x-0"
                   : "translate-x-[110%] xl:translate-x-0",
@@ -708,9 +708,7 @@ const MainContent = ({
               </div>
               {batchMode && upscaledBatchFolderPath.length > 0 && (
                 <div className="flex w-full flex-col items-center justify-center gap-3">
-                  <p className="sr-only">
-                    {t("All done!")}
-                  </p>
+                  <p className="sr-only">{t("All done!")}</p>
                   <Button onClick={openFolderHandler} className="w-full">
                     <FolderOpenIcon />
                     {t("Open Upscayled Folder")}

@@ -65,7 +65,7 @@ export default function ToolBar({
 
   return (
     <div className="absolute right-0 bottom-0 left-0 z-20 flex items-center pb-8">
-      <div className="mx-auto inline-flex items-center gap-2 rounded-4xl bg-black/30 p-2 backdrop-blur-sm">
+      <div className="mx-auto inline-flex items-center gap-2 rounded-4xl bg-background p-2 backdrop-blur-sm">
         <Button
           disabled={!hasUpscayledImage}
           variant={viewType === "lens" ? "default" : "secondary"}
@@ -77,9 +77,7 @@ export default function ToolBar({
         <Separator orientation="vertical" className="h-6 w-px shrink-0" />
         <Button
           disabled={
-            !hasImage ||
-            viewType === "lens" ||
-            parseInt(zoomAmount) === 100
+            !hasImage || viewType === "lens" || parseInt(zoomAmount) === 100
           }
           variant="outline"
           size="icon"
@@ -91,9 +89,7 @@ export default function ToolBar({
         </Button>
         <Button
           disabled={
-            !hasImage ||
-            viewType === "lens" ||
-            parseInt(zoomAmount) === 1000
+            !hasImage || viewType === "lens" || parseInt(zoomAmount) === 1000
           }
           variant="outline"
           size="icon"
@@ -127,7 +123,7 @@ export default function ToolBar({
               <div className="rounded-3xl border bg-card p-5 shadow-sm">
                 <div className="flex items-start justify-between gap-4">
                   <div>
-                    <p className="text-xs font-semibold tracking-[0.16em] uppercase text-muted-foreground">
+                    <p className="text-xs font-semibold tracking-[0.16em] text-muted-foreground uppercase">
                       {t("Total Upscayls")}
                     </p>
                     <p className="mt-2 text-5xl font-semibold tracking-tight">
