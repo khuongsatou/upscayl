@@ -1,25 +1,35 @@
 import { cn } from "@/lib/utils";
-import {
-  HomeIcon,
-  ImageUpscaleIcon,
-  LucideIcon,
-  SettingsIcon,
-} from "lucide-react";
+import { HomeIcon, ImageOffIcon, LucideIcon, SettingsIcon } from "lucide-react";
 import { Button } from "./ui/button";
 import { useSetAtom } from "jotai";
 import { showSettingsDialogAtom } from "@/atoms/toggle-settings";
 
-const Sidenav = () => {
+export type AppTab = "home" | "remove-background";
+
+const Sidenav = ({
+  activeTab,
+  onTabChange,
+}: {
+  activeTab: AppTab;
+  onTabChange: (tab: AppTab) => void;
+}) => {
   const setShowSettings = useSetAtom(showSettingsDialogAtom);
 
   const navItems: {
     name: string;
     Icon: LucideIcon;
     onClick?: () => void;
+    tab?: AppTab;
   }[] = [
     {
-      name: "Upscayl",
-      Icon: ImageUpscaleIcon,
+      name: "Home",
+      Icon: HomeIcon,
+      tab: "home" as const,
+    },
+    {
+      name: "Remove BG",
+      Icon: ImageOffIcon,
+      tab: "remove-background" as const,
     },
     {
       name: "Settings",
@@ -39,10 +49,19 @@ const Sidenav = () => {
         {navItems.map((item) => (
           <Button
             key={item.name}
-            variant="outline"
+            variant={
+              item.tab && item.tab === activeTab ? "secondary" : "outline"
+            }
             size="lg"
-            className="flex size-18 max-w-32 flex-col rounded-xl"
-            onClick={item.onClick}
+            className={cn(
+              "flex size-18 max-w-32 flex-col rounded-xl text-xs",
+              item.tab && item.tab === activeTab && "ring-2 ring-primary/20",
+            )}
+            onClick={() => {
+              item.onClick?.();
+              if (item.tab) onTabChange(item.tab);
+            }}
+            aria-current={item.tab === activeTab ? "page" : undefined}
           >
             <item.Icon className="size-5" />
             {item.name}

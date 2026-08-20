@@ -22,6 +22,10 @@ import path from "path";
 import getImagePaths from "./commands/get-image-paths";
 import getDroppedPathType from "./commands/get-dropped-path-type";
 import getFileSize from "./commands/get-file-size";
+import removeBackground, {
+  exportRemoveBackground,
+  stopRemoveBackground,
+} from "./commands/remove-background";
 
 // INITIALIZATION
 log.initialize({ preload: true });
@@ -102,6 +106,15 @@ ipcMain.on(ELECTRON_COMMANDS.FOLDER_UPSCAYL, batchUpscayl);
 ipcMain.on(ELECTRON_COMMANDS.DOUBLE_UPSCAYL, doubleUpscayl);
 
 ipcMain.on(ELECTRON_COMMANDS.PASTE_IMAGE, pasteImage);
+
+ipcMain.on(ELECTRON_COMMANDS.REMOVE_BACKGROUND, removeBackground);
+
+ipcMain.on(ELECTRON_COMMANDS.REMOVE_BACKGROUND_STOP, stopRemoveBackground);
+
+ipcMain.handle(
+  ELECTRON_COMMANDS.EXPORT_REMOVE_BACKGROUND,
+  exportRemoveBackground,
+);
 
 ipcMain.on(ELECTRON_COMMANDS.GET_IMAGE_PATHS, getImagePaths);
 

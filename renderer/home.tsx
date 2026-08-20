@@ -22,11 +22,13 @@ import { initCustomModels } from "@/components/hooks/use-custom-models";
 import { OnboardingDialog } from "@/components/main-content/onboarding-dialog";
 import useSystemInfo from "@/components/hooks/use-system-info";
 import Sidenav from "./components/sidenav";
+import type { AppTab } from "./components/sidenav";
 import { cn } from "./lib/utils";
 import Sidebar from "./components/sidebar";
 import Header from "./components/header";
 import useUpscaylVersion from "./components/hooks/use-upscayl-version";
 import MainContent from "./components/main-content";
+import RemoveBackground from "./components/remove-background";
 
 const Home = () => {
   const t = useAtomValue(translationAtom);
@@ -37,6 +39,7 @@ const Home = () => {
   initCustomModels();
 
   const [isLoading, setIsLoading] = useState(true);
+  const [activeTab, setActiveTab] = useState<AppTab>("home");
   const [imagePath, setImagePath] = useState("");
   const [upscaledImagePath, setUpscaledImagePath] = useState("");
   const [dimensions, setDimensions] = useState({
@@ -382,39 +385,54 @@ const Home = () => {
         <Header version={version} />
       </div>
       <div className="flex size-full min-h-0 flex-row">
-        <Sidenav />
+        <Sidenav activeTab={activeTab} onTabChange={setActiveTab} />
 
-        <div className="flex size-full gap-2 p-2">
-          <Sidebar
-            imagePath={imagePath}
-            dimensions={dimensions}
-            setUpscaledImagePath={setUpscaledImagePath}
-            batchFolderPath={batchFolderPath}
-            setUpscaledBatchFolderPath={setUpscaledBatchFolderPath}
-            selectImageHandler={selectImageHandler}
-            selectFolderHandler={selectFolderHandler}
-            importDroppedPath={importDroppedPath}
-          />
+        <div className="size-full min-h-0 p-2">
+          <div
+            className={cn(
+              "flex size-full gap-2",
+              activeTab !== "home" && "hidden",
+            )}
+          >
+            <Sidebar
+              imagePath={imagePath}
+              dimensions={dimensions}
+              setUpscaledImagePath={setUpscaledImagePath}
+              batchFolderPath={batchFolderPath}
+              setUpscaledBatchFolderPath={setUpscaledBatchFolderPath}
+              selectImageHandler={selectImageHandler}
+              selectFolderHandler={selectFolderHandler}
+              importDroppedPath={importDroppedPath}
+            />
 
-          <MainContent
-            imagePath={imagePath}
-            resetImagePaths={resetImagePaths}
-            upscaledBatchFolderPath={upscaledBatchFolderPath}
-            setUpscaledBatchFolderPath={setUpscaledBatchFolderPath}
-            setImagePath={setImagePath}
-            validateImagePath={validateImagePath}
-            selectFolderHandler={selectFolderHandler}
-            selectImageHandler={selectImageHandler}
-            importDroppedPath={importDroppedPath}
-            batchFolderPath={batchFolderPath}
-            setBatchFolderPath={setBatchFolderPath}
-            upscaledImagePath={upscaledImagePath}
-            doubleUpscaylCounter={doubleUpscaylCounter}
-            setDimensions={setDimensions}
-            dimensions={dimensions}
-          />
+            <MainContent
+              imagePath={imagePath}
+              resetImagePaths={resetImagePaths}
+              upscaledBatchFolderPath={upscaledBatchFolderPath}
+              setUpscaledBatchFolderPath={setUpscaledBatchFolderPath}
+              setImagePath={setImagePath}
+              validateImagePath={validateImagePath}
+              selectFolderHandler={selectFolderHandler}
+              selectImageHandler={selectImageHandler}
+              importDroppedPath={importDroppedPath}
+              batchFolderPath={batchFolderPath}
+              setBatchFolderPath={setBatchFolderPath}
+              upscaledImagePath={upscaledImagePath}
+              doubleUpscaylCounter={doubleUpscaylCounter}
+              setDimensions={setDimensions}
+              dimensions={dimensions}
+            />
+          </div>
+          <div
+            className={cn(
+              "size-full",
+              activeTab !== "remove-background" && "hidden",
+            )}
+          >
+            <RemoveBackground />
+          </div>
         </div>
-        <OnboardingDialog />
+        {activeTab === "home" && <OnboardingDialog />}
       </div>
     </div>
   );

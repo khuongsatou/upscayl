@@ -34,6 +34,12 @@ const ELECTRON_COMMANDS = {
   PASTE_IMAGE: "Paste Image from clipboard",
   PASTE_IMAGE_SAVE_SUCCESS: "Clipboard Image saved successfully",
   PASTE_IMAGE_SAVE_ERROR: "Clipboard Image save failed",
+  REMOVE_BACKGROUND: "Remove background from image",
+  REMOVE_BACKGROUND_PROGRESS: "Remove background progress",
+  REMOVE_BACKGROUND_DONE: "Remove background done",
+  REMOVE_BACKGROUND_ERROR: "Remove background error",
+  REMOVE_BACKGROUND_STOP: "Stop background removal",
+  EXPORT_REMOVE_BACKGROUND: "Export background removal",
 } as const;
 
 export { ELECTRON_COMMANDS };

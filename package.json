@@ -97,6 +97,13 @@
         ]
       },
       {
+        "from": "resources/withoutbg",
+        "to": "withoutbg",
+        "filter": [
+          "**/*"
+        ]
+      },
+      {
         "from": "resources/icons/128x128.png",
         "to": "resources/128x128.png"
       },

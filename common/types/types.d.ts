@@ -51,3 +51,26 @@ export type BatchUpscaylPayload = {
   ttaMode: boolean;
   copyMetadata: boolean;
 };
+
+export type RemoveBackgroundPayload = {
+  inputPath: string;
+};
+
+export type RemoveBackgroundProgress = {
+  stage: "decode" | "inference" | "encode";
+};
+
+export type RemoveBackgroundDone = {
+  outputPath: string;
+  width: number;
+  height: number;
+};
+
+export type RemoveBackgroundError = {
+  message: string;
+};
+
+export type ExportRemoveBackgroundPayload = {
+  sourcePath: string;
+  defaultName: string;
+};

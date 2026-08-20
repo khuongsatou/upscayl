@@ -86,6 +86,17 @@
     @apply flex gap-2 font-semibold;
   }
 
+  .transparency-grid {
+    background-color: var(--muted);
+    background-image:
+      linear-gradient(45deg, color-mix(in oklch, var(--foreground) 8%, transparent) 25%, transparent 25%),
+      linear-gradient(-45deg, color-mix(in oklch, var(--foreground) 8%, transparent) 25%, transparent 25%),
+      linear-gradient(45deg, transparent 75%, color-mix(in oklch, var(--foreground) 8%, transparent) 75%),
+      linear-gradient(-45deg, transparent 75%, color-mix(in oklch, var(--foreground) 8%, transparent) 75%);
+    background-position: 0 0, 0 10px, 10px -10px, -10px 0;
+    background-size: 20px 20px;
+  }
+
   .upscayl-button {
     --glass-x: 50%;
     --glass-y: 50%;
