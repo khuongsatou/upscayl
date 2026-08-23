@@ -26,3 +26,16 @@
 - Visible layout and strings were preserved.
 - Browser path now supports image preview via `blob:` URLs.
 - Actual web upscaling needs a compatible backend endpoint.
+
+## 2026-08-24 Web Progress Reporting
+
+| Field | Value |
+|---|---|
+| UI Score | Unchanged |
+| Function Score | Pass |
+| Verdict | Approved |
+
+## Findings
+
+- Existing progress overlay now receives live 0-100 values without layout or string changes.
+- Progress remains monotonic for single, double and batch jobs.

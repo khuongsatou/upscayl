@@ -70,3 +70,16 @@
 - Chi co Vulkan CPU `llvmpipe`, khong phu hop workload anh lon hoac nhieu nguoi dung.
 - Endpoint public chua co authentication/rate limit theo danh tinh.
 - Production dependency audit van con advisory high/critical va can duoc xu ly trong dot hardening rieng.
+
+## 2026-08-24 Web Progress Reporting
+
+| Field | Value |
+|---|---|
+| PM Verdict | Done |
+| Scope | Live 0-100 progress for web upscale jobs |
+
+## Summary
+
+- Public web UI now shows progress during model loading and native image processing.
+- Single, double, batch and abort paths passed VPS smoke tests.
+- Release `20260824-progress2` is active; previous releases remain available for rollback.

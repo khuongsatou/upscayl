@@ -107,3 +107,19 @@
 - VPS khong co GPU vat ly; Vulkan chay bang CPU `llvmpipe`, nen anh lon va double/batch se cham.
 - `npm audit --omit=dev` con 25 advisory (4 moderate, 19 high, 2 critical), phan lon qua dependency Firebase/Electron; can task nang cap dependency rieng.
 - Public upscale endpoint chua co authentication; concurrency duoc gioi han mot job nhung van co nguy co bi lam dung tai nguyen.
+
+## 2026-08-24 Web Progress QA
+
+| Check | Result |
+|---|---|
+| `npm run tsc` | Pass |
+| Production web build with `/upscale` base path | Pass locally and on VPS |
+| Single progress | Pass, observed 0, 2, 4, 6, 8, 11, 13, 15, 17, 25, 50, 100 |
+| Single output | Pass, 128x128 PNG -> 512x512 PNG |
+| Double progress | Pass, monotonic 0-100 across two passes |
+| Double output | Pass, 32x32 PNG -> 512x512 PNG |
+| Batch progress | Pass, monotonic 0-100 across two images |
+| Batch output | Pass, zip contains both expected PNG files |
+| Abort during model load | Pass, stopped at 6 percent with error state and no child process left |
+| Browser smoke test | Pass, public route renders and has no console warning/error |
+| VPS service | Active, zero unexpected restarts |

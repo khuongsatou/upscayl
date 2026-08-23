@@ -34,6 +34,13 @@ type ParsedForm = {
   files: formidable.Files<string>;
 };
 
+type JobProgressStatus = "running" | "done" | "error";
+type JobProgress = {
+  progress: number;
+  status: JobProgressStatus;
+  updatedAt: number;
+};
+
 const MAX_FILE_SIZE = 1024 * 1024 * 200;
 const MAX_TOTAL_FILE_SIZE = 1024 * 1024 * 600;
 const MIN_SCALE = 1;
@@ -42,8 +49,29 @@ const MAX_CUSTOM_WIDTH = 8192;
 const MAX_TILE_SIZE = 4096;
 const MAX_BATCH_FILES = 100;
 const MAX_CONCURRENT_JOBS = 1;
+const JOB_PROGRESS_TTL_MS = 2 * 60 * 1000;
+const JOB_ID_PATTERN = /^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
 const VALID_INPUT_EXTENSIONS = new Set([".png", ".jpg", ".jpeg", ".webp"]);
 let activeUpscaleJobs = 0;
+const jobProgress = new Map<string, JobProgress>();
+
+const setJobProgress = (
+  jobId: string,
+  progress: number,
+  status: JobProgressStatus = "running",
+) => {
+  const normalizedProgress = Math.min(100, Math.max(0, progress));
+  const previousProgress = jobProgress.get(jobId)?.progress ?? 0;
+  jobProgress.set(jobId, {
+    progress: Math.max(previousProgress, normalizedProgress),
+    status,
+    updatedAt: Date.now(),
+  });
+};
+
+const scheduleJobProgressCleanup = (jobId: string) => {
+  setTimeout(() => jobProgress.delete(jobId), JOB_PROGRESS_TTL_MS).unref();
+};
 
 const getServerPlatform = () => {
   if (process.platform === "darwin") return "mac";
@@ -161,7 +189,11 @@ const parseForm = (req: NextApiRequest, uploadDir: string) =>
     });
   });
 
-const runUpscayl = (args: string[], signal?: AbortSignal) =>
+const runUpscayl = (
+  args: string[],
+  signal?: AbortSignal,
+  onProgress?: (progress: number) => void,
+) =>
   new Promise<void>((resolveRun, rejectRun) => {
     const binaryPath = getUpscaylBinaryPath();
     const child = spawn(binaryPath, args.filter(Boolean), {
@@ -170,8 +202,17 @@ const runUpscayl = (args: string[], signal?: AbortSignal) =>
     });
     let output = "";
     let settled = false;
+    let modelLoadingProgress = 0;
+
+    // The native binary is silent while loading the model, then reports tile progress.
+    const modelLoadingTimer = setInterval(() => {
+      modelLoadingProgress = Math.min(20, modelLoadingProgress + 1);
+      onProgress?.(modelLoadingProgress);
+    }, 250);
+    modelLoadingTimer.unref();
 
     const cleanup = () => {
+      clearInterval(modelLoadingTimer);
       signal?.removeEventListener("abort", abortHandler);
     };
 
@@ -193,12 +234,18 @@ const runUpscayl = (args: string[], signal?: AbortSignal) =>
     }
     signal?.addEventListener("abort", abortHandler);
 
-    child.stdout.on("data", (data) => {
-      output += data.toString();
-    });
-    child.stderr.on("data", (data) => {
-      output += data.toString();
-    });
+    const handleOutput = (data: Buffer) => {
+      const text = data.toString();
+      output += text;
+      const percentages = text.match(/\d+(?:\.\d+)?%/g) ?? [];
+      if (percentages.length > 0) clearInterval(modelLoadingTimer);
+      percentages.forEach((percentage) => {
+        onProgress?.(Number(percentage.replace("%", "")));
+      });
+    };
+
+    child.stdout.on("data", handleOutput);
+    child.stderr.on("data", handleOutput);
     child.on("error", (error) => finish(() => rejectRun(error)));
     child.on("close", (code) => {
       if (code === 0) {
@@ -330,18 +377,45 @@ const sendZipResponse = async (
 };
 
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
+  const jobId = firstValue(req.query.jobId);
+
+  if (req.method === "GET") {
+    res.setHeader("Cache-Control", "no-store");
+    if (!jobId || !JOB_ID_PATTERN.test(jobId)) {
+      res.status(400).json({ error: "A valid upscale job ID is required." });
+      return;
+    }
+
+    const currentProgress = jobProgress.get(jobId);
+    if (!currentProgress) {
+      res.status(404).json({ error: "Upscale job progress is not available." });
+      return;
+    }
+
+    res.status(200).json(currentProgress);
+    return;
+  }
+
   if (req.method !== "POST") {
-    res.setHeader("Allow", "POST");
+    res.setHeader("Allow", "GET, POST");
     res.status(405).send("Method not allowed.");
     return;
   }
 
+  if (!jobId || !JOB_ID_PATTERN.test(jobId)) {
+    res.status(400).send("A valid upscale job ID is required.");
+    return;
+  }
+
   if (activeUpscaleJobs >= MAX_CONCURRENT_JOBS) {
+    setJobProgress(jobId, 0, "error");
+    scheduleJobProgressCleanup(jobId);
     res.status(429).send("The upscale server is busy. Please try again shortly.");
     return;
   }
 
   activeUpscaleJobs += 1;
+  setJobProgress(jobId, 0);
   let jobDir = "";
   const abortController = new AbortController();
   let finished = false;
@@ -395,6 +469,13 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
           payload: payload as ImageUpscaylPayload | DoubleUpscaylPayload,
         }),
         abortController.signal,
+        (progress) =>
+          setJobProgress(
+            jobId,
+            command === ELECTRON_COMMANDS.DOUBLE_UPSCAYL
+              ? progress / 2
+              : progress,
+          ),
       );
 
       if (command === ELECTRON_COMMANDS.DOUBLE_UPSCAYL) {
@@ -405,9 +486,11 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
             payload: payload as DoubleUpscaylPayload,
           }),
           abortController.signal,
+          (progress) => setJobProgress(jobId, 50 + progress / 2),
         );
       }
 
+      setJobProgress(jobId, 100, "done");
       await sendFileResponse(res, outputFile, jobDir, payload.saveImageAs);
       return;
     }
@@ -419,6 +502,9 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
     }
     images.forEach(validateImageUpload);
 
+    let completedImages = 0;
+    let previousImageProgress = 0;
+
     await runUpscayl(
       buildUpscaylArgs({
         inputPath: uploadDir,
@@ -426,9 +512,21 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
         payload: payload as BatchUpscaylPayload,
       }),
       abortController.signal,
+      (progress) => {
+        if (progress < previousImageProgress && previousImageProgress >= 100) {
+          completedImages += 1;
+        }
+        previousImageProgress = progress;
+        setJobProgress(
+          jobId,
+          ((completedImages + progress / 100) / images.length) * 100,
+        );
+      },
     );
+    setJobProgress(jobId, 100, "done");
     await sendZipResponse(res, outputDir, jobDir);
   } catch (error) {
+    setJobProgress(jobId, jobProgress.get(jobId)?.progress ?? 0, "error");
     if (jobDir) {
       await fs.rm(jobDir, { recursive: true, force: true }).catch(() => undefined);
     }
@@ -437,6 +535,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
     }
   } finally {
     activeUpscaleJobs -= 1;
+    scheduleJobProgressCleanup(jobId);
   }
 };
 

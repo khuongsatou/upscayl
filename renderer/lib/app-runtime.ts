@@ -12,6 +12,11 @@ type UpscaylPayload =
   | DoubleUpscaylPayload
   | BatchUpscaylPayload;
 
+type WebProgressResponse = {
+  progress: number;
+  status: "running" | "done" | "error";
+};
+
 const WEB_FOLDER_PREFIX = "web-folder://";
 export const WEB_OUTPUT_PATH = "web-output://download";
 const DEFAULT_WEB_API_ENDPOINT = "/api/upscayl";
@@ -171,10 +176,55 @@ class WebRuntime {
     this.listeners.get(command)?.forEach((listener) => listener({}, data));
   }
 
+  private getProgressCommand(command: string) {
+    if (command === ELECTRON_COMMANDS.DOUBLE_UPSCAYL) {
+      return ELECTRON_COMMANDS.DOUBLE_UPSCAYL_PROGRESS;
+    }
+    if (command === ELECTRON_COMMANDS.FOLDER_UPSCAYL) {
+      return ELECTRON_COMMANDS.FOLDER_UPSCAYL_PROGRESS;
+    }
+    return ELECTRON_COMMANDS.UPSCAYL_PROGRESS;
+  }
+
+  private async pollWebProgress(
+    jobEndpoint: string,
+    progressCommand: string,
+    signal: AbortSignal,
+  ) {
+    let lastProgress = -1;
+
+    while (!signal.aborted) {
+      try {
+        const response = await fetch(jobEndpoint, {
+          method: "GET",
+          cache: "no-store",
+          signal,
+        });
+
+        if (response.ok) {
+          const data = (await response.json()) as WebProgressResponse;
+          const progress = Math.min(100, Math.max(0, data.progress));
+          if (progress !== lastProgress) {
+            this.emit(progressCommand, `${progress.toFixed(2)}%`);
+            lastProgress = progress;
+          }
+          if (data.status !== "running") return;
+        }
+      } catch (error) {
+        if ((error as Error).name === "AbortError") return;
+      }
+
+      await new Promise((resolve) => setTimeout(resolve, 200));
+    }
+  }
+
   private async runWebUpscayl(command: string, payload: UpscaylPayload) {
     const endpoint =
       process.env.NEXT_PUBLIC_UPSCAYL_WEB_API_URL ?? DEFAULT_WEB_API_ENDPOINT;
     const formData = new FormData();
+    const jobId = crypto.randomUUID();
+    const jobEndpoint = `${endpoint}${endpoint.includes("?") ? "&" : "?"}jobId=${encodeURIComponent(jobId)}`;
+    const progressCommand = this.getProgressCommand(command);
 
     formData.append("command", command);
     formData.append("payload", JSON.stringify(payload));
@@ -196,14 +246,20 @@ class WebRuntime {
       files.forEach((file) => formData.append("images", file, file.name));
     }
 
-    this.abortController = new AbortController();
-    this.emit(ELECTRON_COMMANDS.UPSCAYL_PROGRESS, "0.00%");
+    const abortController = new AbortController();
+    this.abortController = abortController;
+    this.emit(progressCommand, "0.00%");
+    const progressPromise = this.pollWebProgress(
+      jobEndpoint,
+      progressCommand,
+      abortController.signal,
+    );
 
     try {
-      const response = await fetch(endpoint, {
+      const response = await fetch(jobEndpoint, {
         method: "POST",
         body: formData,
-        signal: this.abortController.signal,
+        signal: abortController.signal,
       });
 
       if (!response.ok) {
@@ -233,6 +289,7 @@ class WebRuntime {
         return;
       }
 
+      this.emit(progressCommand, "100.00%");
       const outputUrl = URL.createObjectURL(await response.blob());
       this.emit(
         command === ELECTRON_COMMANDS.FOLDER_UPSCAYL
@@ -250,7 +307,11 @@ class WebRuntime {
           "Web upscale failed. Configure NEXT_PUBLIC_UPSCAYL_WEB_API_URL or provide /api/upscayl.",
       );
     } finally {
-      this.abortController = null;
+      abortController.abort();
+      await progressPromise;
+      if (this.abortController === abortController) {
+        this.abortController = null;
+      }
     }
   }
 

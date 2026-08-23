@@ -39,3 +39,12 @@
 | Status | Done |
 | Task | Deploy web runtime len VPS va route tai `/upscale` |
 | Expected Output | HTTPS route hoat dong, web service duoc quan ly on dinh, va smoke test UI/API dat yeu cau |
+
+## 2026-08-24 Web Progress Reporting
+
+| Field | Value |
+|---|---|
+| Owner | Upscale Pipeline Specialist |
+| Status | Done |
+| Task | Hien thi tien do web upscale lien tuc tu 0 den 100 phan tram |
+| Expected Output | UI hien co nhan progress that tu VPS cho single, double va batch, khong thay doi layout |

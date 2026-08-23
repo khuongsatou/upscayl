@@ -40,3 +40,11 @@
 - Them cau hinh Nginx route `/upscale` va `/upscale/*`, giu nguyen backend hien co tai cong `17311`.
 - Cai Vulkan Mesa tren VPS; backend dung `llvmpipe` CPU vi may khong co GPU vat ly.
 - Release duoc dat tai `/opt/mtips5s-upscale/releases/20260824-web`, symlink `current` ho tro rollback.
+
+## 2026-08-24 Web Progress Reporting
+
+- Browser tao UUID cho moi job va poll `GET /api/upscayl?jobId=...` trong khi POST dang xu ly.
+- Backend parse phan tram that tu stdout/stderr cua `upscayl-bin` va giu state progress ngan han trong bo nho.
+- Giai doan binary im lang khi nap model duoc bieu dien bang progress 0-20; sau do chuyen sang tile progress native.
+- Double va batch progress duoc quy doi thanh mot dai don dieu 0-100 cho toan job.
+- Progress poll va POST dung chung abort signal, nen Stop van huy child process va khong de job treo.
