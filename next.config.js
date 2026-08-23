@@ -3,7 +3,7 @@
  **/
 
 const nextConfig = {
-  output: "export",
+  output: process.env.UPSCAYL_TARGET === "web" ? undefined : "export",
   images: {
     unoptimized: true,
   },

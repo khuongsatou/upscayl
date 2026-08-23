@@ -4,6 +4,7 @@ import { useAtomValue } from "jotai";
 import { translationAtom } from "@/atoms/translations-atom";
 import { ELECTRON_COMMANDS } from "@common/electron-commands";
 import useLogger from "../hooks/use-logger";
+import { appRuntime } from "@/lib/app-runtime";
 
 function ProgressBar({
   progress,
@@ -29,7 +30,7 @@ function ProgressBar({
   }, [progress]);
 
   const stopHandler = () => {
-    window.electron.send(ELECTRON_COMMANDS.STOP);
+    appRuntime.send(ELECTRON_COMMANDS.STOP);
     logit("🛑 Stopping Upscayl");
   };
 

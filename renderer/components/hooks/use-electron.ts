@@ -1,5 +1,6 @@
 import { useEffect } from "react";
 import { ELECTRON_COMMANDS } from "@common/electron-commands";
+import { appRuntime } from "@/lib/app-runtime";
 
 const useElectron = ({
   command,
@@ -9,9 +10,9 @@ const useElectron = ({
   func: (...args: any[]) => void;
 }) => {
   useEffect(() => {
-    window.electron.on(command, func);
+    appRuntime.on(command, func);
     return () => {
-      window.electron.off(command, func);
+      appRuntime.off(command, func);
     };
   }, []);
 };

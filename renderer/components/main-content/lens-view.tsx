@@ -1,4 +1,5 @@
 import React, { useMemo, useRef, useState } from "react";
+import { toImageSrc } from "@/lib/image-src";
 
 const LensViewer = ({
   sanitizedImagePath,
@@ -91,11 +92,11 @@ const LensViewer = ({
   };
 
   const originalImage = useMemo(
-    () => "file:///" + sanitizedImagePath,
+    () => toImageSrc(sanitizedImagePath),
     [sanitizedImagePath],
   );
   const upscaledImage = useMemo(
-    () => "file:///" + sanitizedUpscaledImagePath,
+    () => toImageSrc(sanitizedUpscaledImagePath),
     [sanitizedUpscaledImagePath],
   );
 

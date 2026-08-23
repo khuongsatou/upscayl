@@ -2,6 +2,7 @@ import React from "react";
 import { ELECTRON_COMMANDS } from "@common/electron-commands";
 import { useAtomValue } from "jotai";
 import { translationAtom } from "@/atoms/translations-atom";
+import { appRuntime } from "@/lib/app-runtime";
 
 type CustomModelsFolderSelectProps = {
   customModelsPath: string;
@@ -31,13 +32,13 @@ export function CustomModelsFolderSelect({
       <button
         className="btn btn-primary"
         onClick={async () => {
-          const customModelPath = await window.electron.invoke(
+          const customModelPath = await appRuntime.invoke(
             ELECTRON_COMMANDS.SELECT_CUSTOM_MODEL_FOLDER,
           );
 
           if (customModelPath !== null) {
             setCustomModelsPath(customModelPath);
-            window.electron.send(
+            appRuntime.send(
               ELECTRON_COMMANDS.GET_MODELS_LIST,
               customModelPath,
             );

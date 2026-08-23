@@ -51,6 +51,7 @@ main/*.js
 main/utils/*.js
 
 .env
+.env.vps
 *.provisionprofile
 flags.ts
 *.p12

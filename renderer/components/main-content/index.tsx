@@ -12,7 +12,6 @@ import {
   rememberOutputFolderAtom,
 } from "../../atoms/user-settings-atom";
 import { useToast } from "@/components/ui/use-toast";
-import { sanitizePath } from "@common/sanitize-path";
 import getDirectoryFromPath from "@common/get-directory-from-path";
 import { FEATURE_FLAGS } from "@common/feature-flags";
 import { ImageFormat, VALID_IMAGE_FORMATS } from "@/lib/valid-formats";
@@ -25,6 +24,13 @@ import LensViewer from "./lens-view";
 import ImageViewer from "./image-viewer";
 import useTranslation from "../hooks/use-translation";
 import SliderView from "./slider-view";
+import {
+  appRuntime,
+  getRuntimeFileName,
+  isElectronRuntime,
+  registerBrowserFile,
+} from "@/lib/app-runtime";
+import { toViewerPath } from "@/lib/image-src";
 
 type MainContentProps = {
   imagePath: string;
@@ -73,7 +79,7 @@ const MainContent = ({
   const [zoomAmount, setZoomAmount] = useState("100");
 
   const sanitizedUpscaledImagePath = useMemo(
-    () => sanitizePath(upscaledImagePath),
+    () => toViewerPath(upscaledImagePath),
     [upscaledImagePath],
   );
 
@@ -110,14 +116,14 @@ const MainContent = ({
   const openFolderHandler = (e) => {
     const logit = useLogger();
     logit("📂 OPEN_FOLDER: ", upscaledBatchFolderPath);
-    window.electron.send(
+    appRuntime.send(
       ELECTRON_COMMANDS.OPEN_FOLDER,
       upscaledBatchFolderPath,
     );
   };
 
   const sanitizedImagePath = useMemo(
-    () => sanitizePath(imagePath),
+    () => toViewerPath(imagePath),
     [imagePath],
   );
 
@@ -136,12 +142,16 @@ const MainContent = ({
       return;
     }
     const type = e.dataTransfer.items[0].type;
-    const filePath = e.dataTransfer.files[0].path;
-    const extension = e.dataTransfer.files[0].name.split(".").at(-1);
+    const droppedFile = e.dataTransfer.files[0];
+    const filePath = droppedFile.path || registerBrowserFile(droppedFile);
+    const extension = getRuntimeFileName(filePath)
+      .split(".")
+      .at(-1)
+      ?.toLowerCase() as ImageFormat;
     logit("⤵️ Dropped file: ", JSON.stringify({ type, filePath, extension }));
     if (
       !type.includes("image") ||
-      !VALID_IMAGE_FORMATS.includes(extension.toLowerCase())
+      !VALID_IMAGE_FORMATS.includes(extension)
     ) {
       logit("🚫 Invalid file dropped");
       toast({
@@ -151,11 +161,13 @@ const MainContent = ({
     } else {
       logit("🖼 Setting image path: ", filePath);
       setImagePath(filePath);
-      const dirname = getDirectoryFromPath(filePath);
-      logit("🗂 Setting output path: ", dirname);
-      if (!FEATURE_FLAGS.APP_STORE_BUILD) {
-        if (!rememberOutputFolder) {
-          setOutputPath(dirname);
+      if (isElectronRuntime()) {
+        const dirname = getDirectoryFromPath(filePath);
+        logit("🗂 Setting output path: ", dirname);
+        if (!FEATURE_FLAGS.APP_STORE_BUILD) {
+          if (!rememberOutputFolder) {
+            setOutputPath(dirname);
+          }
         }
       }
       validateImagePath(filePath);
@@ -213,7 +225,7 @@ const MainContent = ({
                 ),
               });
             }
-            window.electron.send(ELECTRON_COMMANDS.PASTE_IMAGE, file);
+            appRuntime.send(ELECTRON_COMMANDS.PASTE_IMAGE, file);
           };
           reader.readAsArrayBuffer(fileObject);
         } else {
@@ -252,11 +264,11 @@ const MainContent = ({
       });
     };
     window.addEventListener("paste", handlePasteEvent);
-    window.electron.on(
+    appRuntime.on(
       ELECTRON_COMMANDS.PASTE_IMAGE_SAVE_SUCCESS,
       handlePasteImageSaveSuccess,
     );
-    window.electron.on(
+    appRuntime.on(
       ELECTRON_COMMANDS.PASTE_IMAGE_SAVE_ERROR,
       handlePasteImageSaveError,
     );

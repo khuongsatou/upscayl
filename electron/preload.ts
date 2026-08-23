@@ -12,6 +12,8 @@ contextBridge.exposeInMainWorld("electron", {
     ipcRenderer.on(command, (event, args) => {
       func(event, args);
     }),
+  off: (command: string, func: (...args: any) => any) =>
+    ipcRenderer.off(command, func),
   invoke: (command: string, payload: any) =>
     ipcRenderer.invoke(command, payload),
   platform: getPlatform(),

@@ -23,6 +23,12 @@ import { ImageFormat, VALID_IMAGE_FORMATS } from "@/lib/valid-formats";
 import { initCustomModels } from "@/components/hooks/use-custom-models";
 import { OnboardingDialog } from "@/components/main-content/onboarding-dialog";
 import useSystemInfo from "@/components/hooks/use-system-info";
+import {
+  appRuntime,
+  getRuntimeFileName,
+  isElectronRuntime,
+  WEB_OUTPUT_PATH,
+} from "@/lib/app-runtime";
 
 const Home = () => {
   const t = useAtomValue(translationAtom);
@@ -51,28 +57,32 @@ const Home = () => {
 
   const selectImageHandler = async () => {
     resetImagePaths();
-    const path = await window.electron.invoke(ELECTRON_COMMANDS.SELECT_FILE);
+    const path = await appRuntime.invoke(ELECTRON_COMMANDS.SELECT_FILE);
     if (path === null) return;
     logit("🖼 Selected Image Path: ", path);
     setImagePath(path);
-    const dirname = getDirectoryFromPath(path);
-    logit("📁 Selected Image Directory: ", dirname);
-    if (!FEATURE_FLAGS.APP_STORE_BUILD) {
-      if (!rememberOutputFolder) {
-        setOutputPath(dirname);
+    if (isElectronRuntime()) {
+      const dirname = getDirectoryFromPath(path);
+      logit("📁 Selected Image Directory: ", dirname);
+      if (!FEATURE_FLAGS.APP_STORE_BUILD) {
+        if (!rememberOutputFolder) {
+          setOutputPath(dirname);
+        }
       }
+    } else if (!rememberOutputFolder) {
+      setOutputPath(WEB_OUTPUT_PATH);
     }
     validateImagePath(path);
   };
 
   const selectFolderHandler = async () => {
     resetImagePaths();
-    const path = await window.electron.invoke(ELECTRON_COMMANDS.SELECT_FOLDER);
+    const path = await appRuntime.invoke(ELECTRON_COMMANDS.SELECT_FOLDER);
     if (path !== null) {
       logit("🖼 Selected Folder Path: ", path);
       setBatchFolderPath(path);
       if (!rememberOutputFolder) {
-        setOutputPath(path);
+        setOutputPath(isElectronRuntime() ? path : WEB_OUTPUT_PATH);
       }
     } else {
       logit("🚫 Folder selection cancelled");
@@ -86,7 +96,10 @@ const Home = () => {
   const validateImagePath = (path: string) => {
     if (path.length > 0) {
       logit("🖼 imagePath: ", path);
-      const extension = path.split(".").pop().toLowerCase() as ImageFormat;
+      const extension = getRuntimeFileName(path)
+        .split(".")
+        .pop()
+        .toLowerCase() as ImageFormat;
       logit("🔤 Extension: ", extension);
       if (!VALID_IMAGE_FORMATS.includes(extension)) {
         toast({
@@ -165,32 +178,32 @@ const Home = () => {
       }
     };
     // LOG
-    window.electron.on(ELECTRON_COMMANDS.LOG, (_, data: string) => {
+    appRuntime.on(ELECTRON_COMMANDS.LOG, (_, data: string) => {
       logit(`🎒 BACKEND REPORTED: `, data);
     });
     // SCALING AND CONVERTING
-    window.electron.on(
+    appRuntime.on(
       ELECTRON_COMMANDS.SCALING_AND_CONVERTING,
       (_, data: string) => {
         setProgress(t("APP.PROGRESS.PROCESSING_TITLE"));
       },
     );
     // UPSCAYL WARNING
-    window.electron.on(ELECTRON_COMMANDS.UPSCAYL_WARNING, (_, data: string) => {
+    appRuntime.on(ELECTRON_COMMANDS.UPSCAYL_WARNING, (_, data: string) => {
       toast({
         title: t("WARNING.GENERIC_WARNING.TITLE"),
         description: data,
       });
     });
     // METADATA ERROR
-    window.electron.on(ELECTRON_COMMANDS.METADATA_ERROR, (_, data: string) => {
+    appRuntime.on(ELECTRON_COMMANDS.METADATA_ERROR, (_, data: string) => {
       toast({
         title: t("ERRORS.METADATA_ERROR.TITLE"),
         description: data,
       });
     });
     // UPSCAYL ERROR
-    window.electron.on(ELECTRON_COMMANDS.UPSCAYL_ERROR, (_, data: string) => {
+    appRuntime.on(ELECTRON_COMMANDS.UPSCAYL_ERROR, (_, data: string) => {
       toast({
         title: t("ERRORS.GENERIC_ERROR.TITLE"),
         description: data,
@@ -198,7 +211,7 @@ const Home = () => {
       resetImagePaths();
     });
     // UPSCAYL PROGRESS
-    window.electron.on(
+    appRuntime.on(
       ELECTRON_COMMANDS.UPSCAYL_PROGRESS,
       (_, data: string) => {
         if (data.length > 0 && data.length < 10) {
@@ -213,7 +226,7 @@ const Home = () => {
       },
     );
     // FOLDER UPSCAYL PROGRESS
-    window.electron.on(
+    appRuntime.on(
       ELECTRON_COMMANDS.FOLDER_UPSCAYL_PROGRESS,
       (_, data: string) => {
         if (data.includes("Successful")) {
@@ -227,7 +240,7 @@ const Home = () => {
       },
     );
     // DOUBLE UPSCAYL PROGRESS
-    window.electron.on(
+    appRuntime.on(
       ELECTRON_COMMANDS.DOUBLE_UPSCAYL_PROGRESS,
       (_, data: string) => {
         if (data.length > 0 && data.length < 10) {
@@ -241,7 +254,7 @@ const Home = () => {
       },
     );
     // UPSCAYL DONE
-    window.electron.on(ELECTRON_COMMANDS.UPSCAYL_DONE, (_, data: string) => {
+    appRuntime.on(ELECTRON_COMMANDS.UPSCAYL_DONE, (_, data: string) => {
       setProgress("");
       setUpscaledImagePath(data);
       setUserStats((prev) => ({
@@ -256,7 +269,7 @@ const Home = () => {
       logit(`💯 UPSCAYL_DONE: `, data);
     });
     // FOLDER UPSCAYL DONE
-    window.electron.on(
+    appRuntime.on(
       ELECTRON_COMMANDS.FOLDER_UPSCAYL_DONE,
       (_, data: string) => {
         setProgress("");
@@ -273,7 +286,7 @@ const Home = () => {
       },
     );
     // DOUBLE UPSCAYL DONE
-    window.electron.on(
+    appRuntime.on(
       ELECTRON_COMMANDS.DOUBLE_UPSCAYL_DONE,
       (_, data: string) => {
         setProgress("");
@@ -291,7 +304,7 @@ const Home = () => {
       },
     );
     // CUSTOM FOLDER LISTENER
-    window.electron.on(
+    appRuntime.on(
       ELECTRON_COMMANDS.CUSTOM_MODEL_FILES_LIST,
       (_, data: string[]) => {
         logit(`📜 CUSTOM_MODEL_FILES_LIST: `, data);

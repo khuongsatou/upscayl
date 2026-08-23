@@ -42,6 +42,7 @@ import useUpscaylVersion from "../hooks/use-upscayl-version";
 import useTranslation from "../hooks/use-translation";
 import UpscaylLogo from "./upscayl-logo";
 import SidebarToggleButton from "./sidebar-button";
+import { appRuntime } from "@/lib/app-runtime";
 
 const Sidebar = ({
   setUpscaledImagePath,
@@ -104,7 +105,7 @@ const Sidebar = ({
       setProgress(t("APP.PROGRESS.WAIT_TITLE"));
       // Double Upscayl
       if (doubleUpscayl) {
-        window.electron.send<DoubleUpscaylPayload>(
+        appRuntime.send<DoubleUpscaylPayload>(
           ELECTRON_COMMANDS.DOUBLE_UPSCAYL,
           {
             imagePath,
@@ -133,7 +134,7 @@ const Sidebar = ({
       } else if (batchMode) {
         // Batch Upscayl
         setDoubleUpscayl(false);
-        window.electron.send<BatchUpscaylPayload>(
+        appRuntime.send<BatchUpscaylPayload>(
           ELECTRON_COMMANDS.FOLDER_UPSCAYL,
           {
             batchFolderPath,
@@ -160,7 +161,7 @@ const Sidebar = ({
         logit("🏁 FOLDER_UPSCAYL");
       } else {
         // Single Image Upscayl
-        window.electron.send<ImageUpscaylPayload>(ELECTRON_COMMANDS.UPSCAYL, {
+        appRuntime.send<ImageUpscaylPayload>(ELECTRON_COMMANDS.UPSCAYL, {
           imagePath,
           outputPath,
           model: selectedModelId,
@@ -213,7 +214,7 @@ const Sidebar = ({
           <ChevronLeftIcon />
         </button>
 
-        {window.electron.platform === "mac" && (
+        {appRuntime.platform === "mac" && (
           <div className="mac-titlebar pt-8"></div>
         )}
 

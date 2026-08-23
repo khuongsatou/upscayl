@@ -1,6 +1,7 @@
 import { translationAtom } from "@/atoms/translations-atom";
 import { useAtomValue } from "jotai";
 import React from "react";
+import { appRuntime } from "@/lib/app-runtime";
 
 type GpuIdInputProps = {
   gpuId: string;
@@ -16,7 +17,7 @@ export function InputGpuId({ gpuId, handleGpuIdChange }) {
       <p className="text-xs text-base-content/80">
         {t("SETTINGS.GPU_ID_INPUT.DESCRIPTION")}
       </p>
-      {window.electron.platform === "win" && (
+      {appRuntime.platform === "win" && (
         <p className="text-xs text-base-content/80">
           {t("SETTINGS.GPU_ID_INPUT.ADDITIONAL_DESCRIPTION")}
         </p>

@@ -26,6 +26,7 @@ import AutoUpdateToggle from "./auto-update-toggle";
 import TTAModeToggle from "./tta-mode-toggle";
 import SystemInfo from "./system-info";
 import CopyMetadataToggle from "./copy-metadata-toggle";
+import { appRuntime } from "@/lib/app-runtime";
 
 interface IProps {
   batchMode: boolean;
@@ -103,10 +104,6 @@ function SettingsTab({
     }
   };
 
-  const upscaylVersion = navigator?.userAgent?.match(
-    /Upscayl\/([\d\.]+\d+)/,
-  )[1];
-
   function disableScrolling() {
     if (timeoutId !== null) {
       clearTimeout(timeoutId);
@@ -153,8 +150,8 @@ function SettingsTab({
           <button
             className="btn btn-primary"
             onClick={async () => {
-              const systemInfo = await window.electron.getSystemInfo();
-              const appVersion = await window.electron.getAppVersion();
+              const systemInfo = await appRuntime.getSystemInfo();
+              const appVersion = await appRuntime.getAppVersion();
               const mailToUrl = `mailto:support@upscayl.org?subject=Upscayl%20Issue%3A%20%3CWRITE%20HERE%3E&body=Hi%20Nayam!%0AI'm%20having%20an%20issue%20with%20Upscayl%20${appVersion}%0A%0A%3CPLEASE%20DESCRIBE%20ISSUE%20HERE%3E%0A%0A---%0ALOGS%3A%0A${logData.join("\n")}%0A%0ADEVICE%20DETAILS%3A%20${JSON.stringify(systemInfo)}`;
               window.open(mailToUrl, "_blank");
             }}

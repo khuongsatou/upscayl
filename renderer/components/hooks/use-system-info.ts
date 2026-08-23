@@ -1,13 +1,14 @@
 import { useEffect, useState } from "react";
+import { appRuntime } from "@/lib/app-runtime";
 
 const useSystemInfo = () => {
   const [systemInfo, setSystemInfo] = useState<Awaited<
-    ReturnType<typeof window.electron.getSystemInfo>
+    ReturnType<typeof appRuntime.getSystemInfo>
   > | null>(null);
 
   useEffect(() => {
     const getSystemInfo = async () => {
-      const systemInfo = await window.electron.getSystemInfo();
+      const systemInfo = await appRuntime.getSystemInfo();
       setSystemInfo(systemInfo);
     };
     getSystemInfo();

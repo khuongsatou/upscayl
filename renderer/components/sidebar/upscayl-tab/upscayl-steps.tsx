@@ -18,6 +18,7 @@ import { translationAtom } from "@/atoms/translations-atom";
 import { SelectImageScale } from "../settings-tab/select-image-scale";
 import SelectModelDialog from "./select-model-dialog";
 import { ImageFormat } from "@/lib/valid-formats";
+import { appRuntime, isElectronRuntime, WEB_OUTPUT_PATH } from "@/lib/app-runtime";
 
 interface IProps {
   selectImageHandler: () => Promise<void>;
@@ -59,7 +60,13 @@ function UpscaylSteps({
   const t = useAtomValue(translationAtom);
 
   const outputHandler = async () => {
-    const path = await window.electron.invoke(ELECTRON_COMMANDS.SELECT_FOLDER);
+    if (!isElectronRuntime()) {
+      logit("🗂 Setting Web Output Path: ", WEB_OUTPUT_PATH);
+      setOutputPath(WEB_OUTPUT_PATH);
+      return;
+    }
+
+    const path = await appRuntime.invoke(ELECTRON_COMMANDS.SELECT_FOLDER);
     if (path !== null) {
       logit("🗂 Setting Output Path: ", path);
       setOutputPath(path);

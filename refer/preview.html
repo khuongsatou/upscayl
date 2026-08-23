@@ -1,0 +1,340 @@
+<!doctype html>
+<html lang="vi">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Preview phân tích dự án Upscayl</title>
+  <style>
+    :root {
+      --bg: #f7f4ed;
+      --panel: #ffffff;
+      --ink: #202124;
+      --muted: #62615d;
+      --line: #ddd7ca;
+      --brand: #1f7a6d;
+      --accent: #b84f3c;
+      --soft: #e6f2ef;
+      --code: #17202a;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      color: var(--ink);
+      background: var(--bg);
+      line-height: 1.6;
+    }
+    header {
+      min-height: 58vh;
+      padding: 56px 7vw 28px;
+      display: grid;
+      align-items: end;
+      background:
+        linear-gradient(rgba(12, 35, 32, 0.70), rgba(12, 35, 32, 0.78)),
+        url("https://images.unsplash.com/photo-1618005198919-d3d4b5a92ead?auto=format&fit=crop&w=1800&q=80");
+      background-size: cover;
+      background-position: center;
+      color: white;
+    }
+    header h1 {
+      margin: 0;
+      max-width: 960px;
+      font-size: clamp(2.4rem, 6vw, 5.3rem);
+      line-height: 1.02;
+      letter-spacing: 0;
+    }
+    header p {
+      max-width: 820px;
+      margin: 20px 0 0;
+      font-size: 1.1rem;
+      color: rgba(255,255,255,.88);
+    }
+    nav {
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      display: flex;
+      gap: 8px;
+      overflow-x: auto;
+      padding: 10px 7vw;
+      background: rgba(247,244,237,.96);
+      border-bottom: 1px solid var(--line);
+      backdrop-filter: blur(10px);
+    }
+    nav a {
+      flex: 0 0 auto;
+      color: var(--ink);
+      text-decoration: none;
+      border: 1px solid var(--line);
+      background: var(--panel);
+      padding: 8px 12px;
+      border-radius: 6px;
+      font-size: .9rem;
+      font-weight: 650;
+    }
+    main { padding: 36px 7vw 72px; }
+    section {
+      max-width: 1160px;
+      margin: 0 auto 28px;
+      padding: 28px;
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      box-shadow: 0 10px 30px rgba(30, 24, 15, .05);
+    }
+    h2 {
+      margin: 0 0 14px;
+      color: var(--brand);
+      font-size: clamp(1.45rem, 3vw, 2rem);
+      letter-spacing: 0;
+    }
+    h3 {
+      margin: 24px 0 8px;
+      font-size: 1.1rem;
+      letter-spacing: 0;
+    }
+    p { margin: 8px 0 14px; }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 14px;
+    }
+    .metric {
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 16px;
+      background: #fbfaf7;
+    }
+    .metric strong {
+      display: block;
+      color: var(--accent);
+      font-size: 1.6rem;
+      line-height: 1;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 14px 0 22px;
+      overflow: hidden;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+    }
+    th, td {
+      padding: 11px 12px;
+      border-bottom: 1px solid var(--line);
+      text-align: left;
+      vertical-align: top;
+    }
+    th {
+      background: var(--soft);
+      color: #153e39;
+      font-size: .88rem;
+      text-transform: uppercase;
+    }
+    tr:last-child td { border-bottom: 0; }
+    code {
+      background: #efe9dc;
+      border: 1px solid #e0d6c4;
+      border-radius: 4px;
+      padding: 1px 5px;
+      color: var(--code);
+    }
+    pre {
+      overflow: auto;
+      padding: 16px;
+      background: #16211f;
+      color: #eef7f3;
+      border-radius: 8px;
+    }
+    pre code {
+      background: transparent;
+      border: 0;
+      color: inherit;
+      padding: 0;
+    }
+    .flow {
+      display: grid;
+      gap: 10px;
+      margin: 18px 0;
+    }
+    .flow div {
+      padding: 12px 14px;
+      border-left: 5px solid var(--brand);
+      background: #f3faf8;
+      border-radius: 4px;
+      font-weight: 650;
+    }
+    .note {
+      border-left: 5px solid var(--accent);
+      padding: 12px 14px;
+      background: #fff4ef;
+      border-radius: 4px;
+    }
+    footer {
+      padding: 28px 7vw 48px;
+      color: var(--muted);
+      text-align: center;
+    }
+    @media (max-width: 720px) {
+      header { min-height: 66vh; padding: 38px 20px 24px; }
+      nav { padding: 10px 20px; }
+      main { padding: 24px 20px 52px; }
+      section { padding: 20px; }
+      table { display: block; overflow-x: auto; white-space: nowrap; }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div>
+      <h1>Upscayl Desktop Pipeline Analysis</h1>
+      <p>Bản preview tiếng Việt có dấu về kiến trúc, flow, pipeline, command prompt, đầu vào, đầu ra, chức năng, điểm hay và rủi ro của dự án trong workspace này.</p>
+    </div>
+  </header>
+
+  <nav aria-label="Mục lục">
+    <a href="#tong-quan">Tổng quan</a>
+    <a href="#flow">Flow</a>
+    <a href="#pipeline">Pipeline</a>
+    <a href="#chuc-nang">Chức năng</a>
+    <a href="#payload">Input/Output</a>
+    <a href="#prompt">Prompt</a>
+    <a href="#api">Cloud API</a>
+    <a href="#diem-hay">Điểm hay</a>
+  </nav>
+
+  <main>
+    <section id="tong-quan">
+      <h2>01. Tổng quan dự án</h2>
+      <p>Upscayl là ứng dụng Electron + Next.js/React + TypeScript để nâng cấp ảnh bằng AI. App desktop chạy pipeline cục bộ qua binary <code>upscayl-bin</code> và các model NCNN <code>.bin</code>/<code>.param</code>.</p>
+      <div class="grid">
+        <div class="metric"><strong>3</strong>Pipeline chính: ảnh đơn, batch folder, double upscale.</div>
+        <div class="metric"><strong>7</strong>Model mặc định trong <code>common/models-list.ts</code>.</div>
+        <div class="metric"><strong>5</strong>Endpoint cloud chính trong OpenAPI.</div>
+        <div class="metric"><strong>IPC</strong>Renderer không chạy model trực tiếp, mọi job đi qua Electron main.</div>
+      </div>
+    </section>
+
+    <section id="flow">
+      <h2>02. Flow chính</h2>
+      <div class="flow">
+        <div>Người dùng chọn ảnh/thư mục, model, scale, output và tùy chọn nâng cao.</div>
+        <div>Renderer gom state Jotai thành payload và gửi qua <code>window.electron.send</code>.</div>
+        <div>Electron main nhận IPC, chuẩn hóa path, chọn model path và build command arguments.</div>
+        <div><code>spawnUpscayl</code> chạy <code>upscayl-bin</code> bằng Real-ESRGAN/NCNN Vulkan.</div>
+        <div>Electron nghe progress/error từ process rồi gửi event về renderer.</div>
+        <div>UI cập nhật progress, toast lỗi, notification, preview slider/lens hoặc nút mở folder.</div>
+      </div>
+      <table>
+        <thead><tr><th>Layer</th><th>File đại diện</th><th>Vai trò</th></tr></thead>
+        <tbody>
+          <tr><td>Bootstrap</td><td><code>electron/index.ts</code></td><td>Khởi tạo app, protocol, window, IPC.</td></tr>
+          <tr><td>Bridge</td><td><code>electron/preload.ts</code></td><td>Expose API Electron cho renderer.</td></tr>
+          <tr><td>UI</td><td><code>renderer/pages/index.tsx</code></td><td>State chính và event listener.</td></tr>
+          <tr><td>Command</td><td><code>electron/commands/*upscayl.ts</code></td><td>Build path, spawn binary, gửi progress.</td></tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section id="pipeline">
+      <h2>03. Pipeline upscale desktop</h2>
+      <table>
+        <thead><tr><th>Mode</th><th>Input</th><th>Handler</th><th>Output</th></tr></thead>
+        <tbody>
+          <tr><td>Ảnh đơn</td><td>File ảnh hợp lệ</td><td><code>image-upscayl.ts</code></td><td>Một file <code>*_upscayl_*.</code> theo format chọn.</td></tr>
+          <tr><td>Batch folder</td><td>Thư mục ảnh</td><td><code>batch-upscayl.ts</code></td><td>Folder <code>upscayl_{format}_{model}_{scale}x</code>.</td></tr>
+          <tr><td>Double</td><td>Một ảnh</td><td><code>double-upscayl.ts</code></td><td>Một file kết quả sau hai pass.</td></tr>
+          <tr><td>Paste</td><td>Clipboard image</td><td><code>paste-image.ts</code></td><td>File tạm trong output folder.</td></tr>
+        </tbody>
+      </table>
+      <pre><code>upscayl-bin -i input.jpg -o output.png -m resources/models -n upscayl-standard-4x -f png -c 0</code></pre>
+    </section>
+
+    <section id="chuc-nang">
+      <h2>04. Chức năng</h2>
+      <table>
+        <thead><tr><th>Chức năng</th><th>Đầu vào</th><th>Đầu ra</th><th>Ghi chú</th></tr></thead>
+        <tbody>
+          <tr><td>Chọn ảnh</td><td><code>png/jpg/jpeg/jfif/webp</code></td><td><code>imagePath</code></td><td>Có validate ở dialog và renderer.</td></tr>
+          <tr><td>Chọn model</td><td>Model mặc định/custom</td><td><code>selectedModelId</code></td><td>Dialog có ảnh before/after.</td></tr>
+          <tr><td>Scale/custom width</td><td>Slider hoặc number</td><td><code>-s</code> hoặc <code>-w</code></td><td>Custom width ghi đè scale.</td></tr>
+          <tr><td>GPU ID</td><td>Text như <code>0</code>, <code>1</code>, <code>0,1</code></td><td><code>-g</code></td><td>Dành cho Vulkan multi-GPU.</td></tr>
+          <tr><td>TTA</td><td>Toggle</td><td><code>-x</code></td><td>Tăng chất lượng nhưng chậm hơn.</td></tr>
+          <tr><td>Copy metadata</td><td>Toggle</td><td>EXIF trong output</td><td>Dùng <code>exiftool-vendored</code>.</td></tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section id="payload">
+      <h2>05. Input và output</h2>
+      <table>
+        <thead><tr><th>Payload</th><th>Field quan trọng</th><th>Output tương ứng</th></tr></thead>
+        <tbody>
+          <tr><td><code>ImageUpscaylPayload</code></td><td><code>imagePath</code>, <code>outputPath</code>, <code>model</code>, <code>scale</code>, <code>saveImageAs</code></td><td><code>UPSCAYL_DONE</code> trả output file path.</td></tr>
+          <tr><td><code>BatchUpscaylPayload</code></td><td><code>batchFolderPath</code>, <code>outputPath</code>, settings chung</td><td><code>FOLDER_UPSCAYL_DONE</code> trả output folder path.</td></tr>
+          <tr><td><code>DoubleUpscaylPayload</code></td><td><code>imagePath</code>, settings chung</td><td><code>DOUBLE_UPSCAYL_DONE</code> trả output file path.</td></tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section id="prompt">
+      <h2>06. Prompt, command và model</h2>
+      <p class="note">Repo không có prompt LLM hoặc prompt text-to-image. “Prompt” của dự án là bộ tham số command-line điều khiển model upscale.</p>
+      <table>
+        <thead><tr><th>Option</th><th>Ý nghĩa</th></tr></thead>
+        <tbody>
+          <tr><td><code>-i</code></td><td>Input ảnh hoặc thư mục.</td></tr>
+          <tr><td><code>-o</code></td><td>Output file hoặc thư mục.</td></tr>
+          <tr><td><code>-m</code></td><td>Model directory.</td></tr>
+          <tr><td><code>-n</code></td><td>Tên model.</td></tr>
+          <tr><td><code>-s</code></td><td>Scale nếu khác scale gốc của model.</td></tr>
+          <tr><td><code>-w</code></td><td>Chiều rộng output tùy chỉnh.</td></tr>
+          <tr><td><code>-f</code>, <code>-c</code>, <code>-g</code>, <code>-t</code>, <code>-x</code></td><td>Format, compression, GPU, tile size, TTA.</td></tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section id="api">
+      <h2>07. Upscayl Cloud API</h2>
+      <table>
+        <thead><tr><th>Endpoint</th><th>Mục đích</th><th>Đầu vào</th><th>Đầu ra</th></tr></thead>
+        <tbody>
+          <tr><td><code>/get-upload-url</code></td><td>Lấy pre-signed upload URL</td><td>Filename, MIME, size</td><td>Upload URL, fileName, expiresAt.</td></tr>
+          <tr><td><code>/start-task</code></td><td>Bắt đầu upscale cloud</td><td>File/files, model, scale, format</td><td><code>taskId</code>.</td></tr>
+          <tr><td><code>/get-task-status</code></td><td>Poll tiến trình</td><td><code>taskId</code></td><td>Status, progress, files.</td></tr>
+          <tr><td><code>/get-upscayl-history</code></td><td>Lịch sử xử lý</td><td>Filter/pagination</td><td>Danh sách task.</td></tr>
+          <tr><td><code>/complete-multipart-upload</code></td><td>Hoàn tất multipart upload</td><td>Upload ID, key, parts</td><td>Status success.</td></tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section id="diem-hay">
+      <h2>08. Điểm hay và rủi ro</h2>
+      <h3>Điểm hay</h3>
+      <table>
+        <thead><tr><th>Điểm</th><th>Lợi ích</th></tr></thead>
+        <tbody>
+          <tr><td>Tách layer tốt</td><td>Renderer lo UX, Electron lo hệ thống, binary lo xử lý nặng.</td></tr>
+          <tr><td>Custom model linh hoạt</td><td>Người dùng thêm model bằng folder <code>models</code>.</td></tr>
+          <tr><td>UX hỗ trợ debug</td><td>Logs, system info, docs link, toast lỗi cụ thể.</td></tr>
+          <tr><td>Preview trực quan</td><td>Slider/lens giúp so sánh ảnh gốc và ảnh đã upscale.</td></tr>
+        </tbody>
+      </table>
+      <h3>Rủi ro nên để ý</h3>
+      <table>
+        <thead><tr><th>Rủi ro</th><th>Gợi ý</th></tr></thead>
+        <tbody>
+          <tr><td>Preload expose IPC generic</td><td>Whitelist command cụ thể và validate payload ở main.</td></tr>
+          <tr><td><code>webSecurity: false</code>, <code>nodeIntegration: true</code></td><td>Giảm quyền renderer nếu có thể.</td></tr>
+          <tr><td>Batch metadata mapping có thể sai</td><td>Lưu manifest mapping input-output hoặc suy luận tên output chuẩn.</td></tr>
+          <tr><td>Counter batch có vẻ lấy nhầm từ double counter</td><td>Sửa thành <code>prev.batchUpscayls + 1</code>.</td></tr>
+        </tbody>
+      </table>
+    </section>
+  </main>
+
+  <footer>
+    Tài liệu chi tiết nằm trong các file Markdown đánh số tại thư mục <code>refer/</code>.
+  </footer>
+</body>
+</html>

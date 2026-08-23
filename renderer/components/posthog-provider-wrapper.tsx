@@ -3,6 +3,7 @@ import { useAtomValue } from "jotai";
 import posthog from "posthog-js";
 import { PostHogProvider } from "posthog-js/react";
 import { useEffect } from "react";
+import { appRuntime } from "@/lib/app-runtime";
 
 const PostHogProviderWrapper = ({
   children,
@@ -21,8 +22,8 @@ const PostHogProviderWrapper = ({
       disable_session_recording: true,
       loaded: async (posthog) => {
         if (process.env.NODE_ENV === "development") posthog.debug();
-        const systemInfo = await window.electron.getSystemInfo();
-        const appVersion = await window.electron.getAppVersion();
+        const systemInfo = await appRuntime.getSystemInfo();
+        const appVersion = await appRuntime.getAppVersion();
         // Set super properties that will be included with all events
         posthog.register({
           ...systemInfo,
