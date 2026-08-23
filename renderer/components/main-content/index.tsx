@@ -295,7 +295,6 @@ const MainContent = ({
             batchMode={batchMode}
             progress={progress}
             doubleUpscaylCounter={doubleUpscaylCounter}
-            resetImagePaths={resetImagePaths}
           />
         )}
 

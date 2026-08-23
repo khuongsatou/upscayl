@@ -83,3 +83,16 @@
 - Public web UI now shows progress during model loading and native image processing.
 - Single, double, batch and abort paths passed VPS smoke tests.
 - Release `20260824-progress2` is active; previous releases remain available for rollback.
+
+## 2026-08-24 Non-blocking Progress Bar
+
+| Field | Value |
+|---|---|
+| PM Verdict | Done |
+| Scope | Replace blocking upscale overlay with an interactive progress bar |
+
+## Summary
+
+- Upscale progress no longer blocks the image or application controls.
+- The compact bar retains live percentage and Stop behavior.
+- Release `20260824-nonblocking-progress` is active on the public route.

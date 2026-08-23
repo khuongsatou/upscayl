@@ -1,83 +1,75 @@
-import React, { useEffect } from "react";
-import UpscaylSVGLogo from "@/components/icons/upscayl-logo-svg";
+import React from "react";
 import { useAtomValue } from "jotai";
 import { translationAtom } from "@/atoms/translations-atom";
+import { showSidebarAtom } from "@/atoms/user-settings-atom";
 import { ELECTRON_COMMANDS } from "@common/electron-commands";
 import useLogger from "../hooks/use-logger";
-import { appRuntime } from "@/lib/app-runtime";
+import { appRuntime, isElectronRuntime } from "@/lib/app-runtime";
+import { Square } from "lucide-react";
 
 function ProgressBar({
   progress,
   doubleUpscaylCounter,
   batchMode,
-  resetImagePaths,
 }: {
   progress: string;
   doubleUpscaylCounter: number;
   batchMode: boolean;
-  resetImagePaths: () => void;
 }) {
-  const [batchProgress, setBatchProgress] = React.useState(0);
   const t = useAtomValue(translationAtom);
+  const showSidebar = useAtomValue(showSidebarAtom);
   const logit = useLogger();
-
-  useEffect(() => {
-    const progressString = progress.trim().replace(/\n/g, "");
-    // Remove trailing and leading spaces
-    if (progressString.includes("Successful")) {
-      setBatchProgress((prev) => prev + 1);
-    }
-  }, [progress]);
+  const numericProgress = Number.parseFloat(progress.replace("%", ""));
+  const progressValue = Number.isFinite(numericProgress)
+    ? Math.min(100, Math.max(0, numericProgress))
+    : undefined;
+  const statusText = batchMode
+    ? t("APP.PROGRESS_BAR.BATCH_UPSCAYL_IN_PROGRESS_TITLE")
+    : t("APP.PROGRESS_BAR.IN_PROGRESS_TITLE");
+  const passText =
+    isElectronRuntime() && !batchMode && doubleUpscaylCounter > 0
+      ? ` · Pass ${doubleUpscaylCounter}`
+      : "";
 
   const stopHandler = () => {
     appRuntime.send(ELECTRON_COMMANDS.STOP);
     logit("🛑 Stopping Upscayl");
   };
 
-  // const progressStyle = useMemo(() => {
-  //   if (progress.includes("%")) {
-  //     return {
-  //       "--value": parseFloat(progress.replace("%", "")),
-  //     };
-  //   } else if (progress.includes("Success")) {
-  //     return {
-  //       "--value": 100,
-  //     };
-  //   }
-  //   return {
-  //     "--value": 0,
-  //   };
-  // }, [progress]);
-
   return (
-    <div className="absolute z-50 flex h-full w-full flex-col items-center justify-center bg-base-300/50 backdrop-blur-lg">
-      <div className="flex flex-col items-center gap-2 rounded-btn bg-base-100/50 p-4 backdrop-blur-lg">
-        <UpscaylSVGLogo className="spinner h-12 w-12" />
-
-        <p className="rounded-full px-2 pb-2 font-bold">
-          {batchMode &&
-            `${t("APP.PROGRESS_BAR.BATCH_UPSCAYL_IN_PROGRESS_TITLE")} ${batchProgress}`}
-        </p>
-
-        <div className="flex flex-col items-center gap-1">
-          {progress !== "Hold on..." ? (
-            <p className="text-sm font-bold">
+    <div
+      className={`pointer-events-none fixed bottom-4 left-0 right-0 z-40 flex justify-center px-4 ${
+        showSidebar ? "md:left-[350px]" : "md:left-0"
+      }`}
+      role="status"
+      aria-live="polite"
+    >
+      <div className="pointer-events-auto flex w-full max-w-xl items-center gap-3 rounded-lg border border-base-content/10 bg-base-100/95 px-3 py-2 shadow-xl backdrop-blur">
+        <div className="min-w-0 flex-1">
+          <div className="mb-1 flex items-center justify-between gap-3 text-xs">
+            <span className="truncate font-medium text-base-content/70">
+              {statusText}
+              {passText}
+            </span>
+            <span className="shrink-0 font-mono font-semibold tabular-nums text-base-content">
               {progress}
-              {!batchMode &&
-                doubleUpscaylCounter > 0 &&
-                "\nPass " + doubleUpscaylCounter}
-            </p>
-          ) : (
-            <p className="text-sm font-bold">{progress}</p>
-          )}
-
-          <p className="animate-pulse rounded-full px-2 pb-3 text-xs font-medium text-neutral-content/50">
-            {t("APP.PROGRESS_BAR.IN_PROGRESS_TITLE")}
-          </p>
+            </span>
+          </div>
+          <progress
+            className="progress progress-primary block h-2 w-full"
+            value={progressValue}
+            max="100"
+            aria-label={statusText}
+          />
         </div>
-
-        <button onClick={stopHandler} className="btn btn-outline">
-          {t("APP.PROGRESS_BAR.STOP_BUTTON_TITLE")}
+        <button
+          type="button"
+          onClick={stopHandler}
+          className="btn btn-square btn-ghost btn-sm shrink-0"
+          aria-label={t("APP.PROGRESS_BAR.STOP_BUTTON_TITLE")}
+          title={t("APP.PROGRESS_BAR.STOP_BUTTON_TITLE")}
+        >
+          <Square className="h-4 w-4 fill-current" aria-hidden="true" />
         </button>
       </div>
     </div>

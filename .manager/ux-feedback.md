@@ -39,3 +39,17 @@
 
 - Existing progress overlay now receives live 0-100 values without layout or string changes.
 - Progress remains monotonic for single, double and batch jobs.
+
+## 2026-08-24 Non-blocking Progress Bar
+
+| Field | Value |
+|---|---|
+| UI Score | 5/5 |
+| Function Score | 5/5 |
+| Verdict | Approved |
+
+## Findings
+
+- The image remains visible and settings stay usable while upscaling.
+- Progress, percentage and Stop are grouped in one compact control.
+- No new UI text was introduced; existing localized labels are reused.

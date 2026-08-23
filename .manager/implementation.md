@@ -48,3 +48,11 @@
 - Giai doan binary im lang khi nap model duoc bieu dien bang progress 0-20; sau do chuyen sang tile progress native.
 - Double va batch progress duoc quy doi thanh mot dai don dieu 0-100 cho toan job.
 - Progress poll va POST dung chung abort signal, nen Stop van huy child process va khong de job treo.
+
+## 2026-08-24 Non-blocking Progress Bar
+
+- Thay loading overlay toan bo main content bang mot progress bar gon o day viewport.
+- Wrapper dung `pointer-events-none`; chi thanh progress va nut Stop dung `pointer-events-auto`.
+- Them native progress element, phan tram monospace va nut Stop icon co aria-label/title.
+- Thanh tu can theo sidebar tren desktop va dung full viewport duoi breakpoint `md`.
+- Giu khoa nut bat dau job moi trong khi cac tab, settings va noi dung phia sau van tuong tac duoc.

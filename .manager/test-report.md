@@ -123,3 +123,21 @@
 | Abort during model load | Pass, stopped at 6 percent with error state and no child process left |
 | Browser smoke test | Pass, public route renders and has no console warning/error |
 | VPS service | Active, zero unexpected restarts |
+
+## 2026-08-24 Non-blocking Progress Bar QA
+
+| Check | Result |
+|---|---|
+| `npm run tsc` | Pass |
+| Production web build | Pass locally and on VPS |
+| Desktop visual state | Pass, compact 50px bar does not cover the image |
+| Pointer events | Pass, outer wrapper none and inner controls auto |
+| Interaction during job | Pass, switched to Settings while progress and Stop remained visible |
+| Stop control | Pass, icon button has localized accessible label and tooltip |
+| Public API regression | Pass, HTTP 200 PNG output after deploy |
+| Public browser smoke | Pass, app visible with no console warning/error |
+| Responsive implementation | Base class is full viewport; desktop sidebar offset starts at `md` |
+
+## Residual Risk
+
+- Browser viewport override did not resize the final Chrome window to 390px, so final mobile visual screenshot was not available; responsive constraints are present in the built CSS.

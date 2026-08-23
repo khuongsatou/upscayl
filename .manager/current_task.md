@@ -48,3 +48,12 @@
 | Status | Done |
 | Task | Hien thi tien do web upscale lien tuc tu 0 den 100 phan tram |
 | Expected Output | UI hien co nhan progress that tu VPS cho single, double va batch, khong thay doi layout |
+
+## 2026-08-24 Non-blocking Progress Bar
+
+| Field | Value |
+|---|---|
+| Owner | Electron Next Developer |
+| Status | Done |
+| Task | Thay loading overlay bang progress bar khong chan thao tac |
+| Expected Output | Trong luc upscale, UI van tuong tac duoc; progress va Stop luon hien thi gon, ro rang |
