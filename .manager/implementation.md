@@ -31,3 +31,12 @@
 - API noi request abort/response close vao child process de Stop tren web khong de lai `upscayl-bin` treo.
 - Them dependencies server-side `formidable` va `archiver`.
 - Khong import Electron main/preload vao API route de giu dependency boundary.
+
+## 2026-08-24 VPS Web Deployment
+
+- Them web-only `basePath` de phuc vu app tai `/upscale` ma khong anh huong Electron export.
+- Gioi han mot web upscale job chay dong thoi de bao ve VPS 4 GB RAM.
+- Them `deploy/upscayl-web.service` de quan ly Next server tai `127.0.0.1:3030` bang systemd.
+- Them cau hinh Nginx route `/upscale` va `/upscale/*`, giu nguyen backend hien co tai cong `17311`.
+- Cai Vulkan Mesa tren VPS; backend dung `llvmpipe` CPU vi may khong co GPU vat ly.
+- Release duoc dat tai `/opt/mtips5s-upscale/releases/20260824-web`, symlink `current` ho tro rollback.

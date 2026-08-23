@@ -30,3 +30,12 @@
 | Status | Done |
 | Task | Implement `/api/upscayl` de web runtime upscale that |
 | Expected Output | Single, double va batch web jobs goi `upscayl-bin`, tra image/zip blob ve browser |
+
+## 2026-08-24 VPS Web Deployment
+
+| Field | Value |
+|---|---|
+| Owner | DevOps Release Operator |
+| Status | Done |
+| Task | Deploy web runtime len VPS va route tai `/upscale` |
+| Expected Output | HTTPS route hoat dong, web service duoc quan ly on dinh, va smoke test UI/API dat yeu cau |

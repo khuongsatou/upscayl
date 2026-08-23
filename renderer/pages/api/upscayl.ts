@@ -41,7 +41,9 @@ const MAX_SCALE = 16;
 const MAX_CUSTOM_WIDTH = 8192;
 const MAX_TILE_SIZE = 4096;
 const MAX_BATCH_FILES = 100;
+const MAX_CONCURRENT_JOBS = 1;
 const VALID_INPUT_EXTENSIONS = new Set([".png", ".jpg", ".jpeg", ".webp"]);
+let activeUpscaleJobs = 0;
 
 const getServerPlatform = () => {
   if (process.platform === "darwin") return "mac";
@@ -334,9 +336,13 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
     return;
   }
 
-  const jobDir = await fs.mkdtemp(join(tmpdir(), "upscayl-web-"));
-  const uploadDir = join(jobDir, "uploads");
-  const outputDir = join(jobDir, "output");
+  if (activeUpscaleJobs >= MAX_CONCURRENT_JOBS) {
+    res.status(429).send("The upscale server is busy. Please try again shortly.");
+    return;
+  }
+
+  activeUpscaleJobs += 1;
+  let jobDir = "";
   const abortController = new AbortController();
   let finished = false;
 
@@ -349,6 +355,10 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   });
 
   try {
+    jobDir = await fs.mkdtemp(join(tmpdir(), "upscayl-web-"));
+    const uploadDir = join(jobDir, "uploads");
+    const outputDir = join(jobDir, "output");
+
     await fs.mkdir(uploadDir, { recursive: true });
     await fs.mkdir(outputDir, { recursive: true });
     await fs.access(getUpscaylBinaryPath(), constants.X_OK);
@@ -419,10 +429,14 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
     );
     await sendZipResponse(res, outputDir, jobDir);
   } catch (error) {
-    await fs.rm(jobDir, { recursive: true, force: true }).catch(() => undefined);
+    if (jobDir) {
+      await fs.rm(jobDir, { recursive: true, force: true }).catch(() => undefined);
+    }
     if (!res.headersSent) {
       res.status(500).send((error as Error).message || "Web upscaling failed.");
     }
+  } finally {
+    activeUpscaleJobs -= 1;
   }
 };
 

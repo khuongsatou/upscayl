@@ -85,3 +85,25 @@
 | Invalid file API call | Pass, rejected before spawn |
 | Playwright UI single + batch backend flow | Pass, no console errors or error boundary |
 | `npm run build` | Pass |
+
+## 2026-08-24 VPS Deployment QA
+
+| Check | Result |
+|---|---|
+| Local `npm run tsc` | Pass |
+| Linux production web build with `/upscale` base path | Pass |
+| Nginx config test and reload | Pass |
+| systemd service | Active, enabled, zero unexpected restarts |
+| Public page, CSS and JavaScript | Pass, HTTP 200 over HTTPS |
+| Public API route | Pass, GET rejected with HTTP 405 |
+| Real VPS upscale | Pass, 128x128 PNG -> 512x512 PNG in about 7.8 seconds |
+| Concurrent request protection | Pass, one HTTP 200 and one HTTP 429 |
+| Process cleanup | Pass, no lingering `upscayl-bin` process |
+| Browser UI smoke test | Pass, title and main controls visible, no console warning/error |
+| Service memory during smoke test | Peak about 580 MB |
+
+## Residual Risk
+
+- VPS khong co GPU vat ly; Vulkan chay bang CPU `llvmpipe`, nen anh lon va double/batch se cham.
+- `npm audit --omit=dev` con 25 advisory (4 moderate, 19 high, 2 critical), phan lon qua dependency Firebase/Electron; can task nang cap dependency rieng.
+- Public upscale endpoint chua co authentication; concurrency duoc gioi han mot job nhung van co nguy co bi lam dung tai nguyen.

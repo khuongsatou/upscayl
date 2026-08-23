@@ -1,0 +1,27 @@
+[Unit]
+Description=MTips5s Upscayl web service
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=upscayl
+Group=upscayl
+WorkingDirectory=/opt/mtips5s-upscale/current
+Environment=NODE_ENV=production
+Environment=UPSCAYL_TARGET=web
+Environment=UPSCAYL_WEB_BASE_PATH=/upscale
+ExecStart=/usr/bin/npm run web:start -- -H 127.0.0.1 -p 3030
+Restart=on-failure
+RestartSec=5
+KillMode=control-group
+TimeoutStopSec=30
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectHome=true
+ProtectSystem=full
+MemoryMax=2500M
+TasksMax=256
+
+[Install]
+WantedBy=multi-user.target

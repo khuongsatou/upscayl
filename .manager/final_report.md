@@ -50,3 +50,23 @@
 ## Remaining Risk
 
 - Production deployment still needs to run on hosts that include compatible `resources/<platform>/bin/upscayl-bin`, model files, and GPU/Vulkan support.
+
+## 2026-08-24 VPS Web Deployment
+
+| Field | Value |
+|---|---|
+| PM Verdict | Go with limitations |
+| Scope | Deploy Upscayl web tai `https://veo3.1nutnhan.com/upscale` |
+
+## Summary
+
+- HTTPS route, Next service va native Linux upscale backend dang hoat dong.
+- Giao dien duoc giu nguyen va browser smoke test khong co console error.
+- systemd tu dong khoi dong lai service; Nginx giu nguyen cac route hien co cua domain.
+- Real API smoke test tao thanh cong anh PNG 512x512 tu input 128x128.
+
+## Remaining Risk
+
+- Chi co Vulkan CPU `llvmpipe`, khong phu hop workload anh lon hoac nhieu nguoi dung.
+- Endpoint public chua co authentication/rate limit theo danh tinh.
+- Production dependency audit van con advisory high/critical va can duoc xu ly trong dot hardening rieng.
