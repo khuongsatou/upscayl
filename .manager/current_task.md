@@ -57,3 +57,12 @@
 | Status | Done |
 | Task | Thay loading overlay bang progress bar khong chan thao tac |
 | Expected Output | Trong luc upscale, UI van tuong tac duoc; progress va Stop luon hien thi gon, ro rang |
+
+## 2026-08-24 Model Comparison Image Hotfix
+
+| Field | Value |
+|---|---|
+| Owner | Electron Next Developer |
+| Status | Done |
+| Task | Sua anh Before/After trong Select AI Model khong hien thi tren web |
+| Expected Output | Tat ca anh model va zoom tai dung tren web; Electron protocol hien co duoc giu nguyen |

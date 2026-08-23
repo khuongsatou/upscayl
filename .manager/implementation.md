@@ -56,3 +56,10 @@
 - Them native progress element, phan tram monospace va nut Stop icon co aria-label/title.
 - Thanh tu can theo sidebar tren desktop va dung full viewport duoi breakpoint `md`.
 - Giu khoa nut bat dau job moi trong khi cac tab, settings va noi dung phia sau van tuong tac duoc.
+
+## 2026-08-24 Model Comparison Image Hotfix
+
+- Them `toPublicAssetSrc` de map public asset theo runtime.
+- Electron tiep tuc dung `public:///`; web dung base path `/upscale` duoc expose tu Next config.
+- Thay URL cho ca thumbnail Before/After va anh zoom cua tat ca model.
+- Them accessible title va bo description warning cho dialog model/zoom.

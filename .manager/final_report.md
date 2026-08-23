@@ -96,3 +96,16 @@
 - Upscale progress no longer blocks the image or application controls.
 - The compact bar retains live percentage and Stop behavior.
 - Release `20260824-nonblocking-progress` is active on the public route.
+
+## 2026-08-24 Model Comparison Image Hotfix
+
+| Field | Value |
+|---|---|
+| PM Verdict | Done |
+| Scope | Restore Select AI Model comparison images on web |
+
+## Summary
+
+- Runtime-aware public asset URLs preserve Electron and fix the `/upscale` web route.
+- All thumbnail and zoom images passed production Playwright validation.
+- Release `20260824-model-images` is active and previous release remains available for rollback.

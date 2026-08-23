@@ -17,6 +17,12 @@ import { selectedModelIdAtom } from "@/atoms/user-settings-atom";
 import { customModelIdsAtom } from "@/atoms/models-list-atom";
 import useTranslation from "@/components/hooks/use-translation";
 import posthog from "posthog-js";
+import { toPublicAssetSrc } from "@/lib/image-src";
+
+const getModelComparisonSrc = (
+  modelId: string,
+  variant: "before" | "after",
+) => toPublicAssetSrc(`model-comparison/${modelId}/${variant}.webp`);
 
 const SelectModelDialog = () => {
   const t = useTranslation();
@@ -55,7 +61,10 @@ const SelectModelDialog = () => {
               : selectedModelId}
           </button>
         </DialogTrigger>
-        <DialogContent className="z-50 sm:max-w-lg">
+        <DialogContent
+          className="z-50 sm:max-w-lg"
+          aria-describedby={undefined}
+        >
           <DialogHeader>
             <DialogTitle>{t("APP.MODEL_SELECTION.DESCRIPTION")}</DialogTitle>
           </DialogHeader>
@@ -79,12 +88,12 @@ const SelectModelDialog = () => {
                     <div className="relative h-52 w-full overflow-hidden rounded-sm">
                       <div className="flex h-full w-full">
                         <img
-                          src={`public:///model-comparison/${model.id}/before.webp`}
+                          src={getModelComparisonSrc(model.id, "before")}
                           alt={`Model Before`}
                           className="h-full w-1/2 object-cover"
                         />
                         <img
-                          src={`public:///model-comparison/${model.id}/after.webp`}
+                          src={getModelComparisonSrc(model.id, "after")}
                           alt={`Model After`}
                           className="h-full w-1/2 object-cover"
                         />
@@ -141,12 +150,19 @@ const SelectModelDialog = () => {
         <DialogContent
           className="h-screen w-screen max-w-full p-0"
           hideCloseButton
+          aria-describedby={undefined}
         >
+          <DialogTitle className="sr-only">
+            {t("APP.MODEL_SELECTION.ZOOM")}
+          </DialogTitle>
           <div className="relative flex h-full w-full items-center justify-center bg-black">
             <div className="flex h-full w-full">
               <div className="relative h-full w-1/2">
                 <img
-                  src={`public:///model-comparison/${MODELS[zoomedModel]?.id}/before.webp`}
+                  src={getModelComparisonSrc(
+                    MODELS[zoomedModel]?.id,
+                    "before",
+                  )}
                   alt={`Zoomed in Image - Before`}
                   className="h-full w-full object-contain"
                 />
@@ -156,7 +172,10 @@ const SelectModelDialog = () => {
               </div>
               <div className="relative h-full w-1/2">
                 <img
-                  src={`public:///model-comparison/${MODELS[zoomedModel]?.id}/after.webp`}
+                  src={getModelComparisonSrc(
+                    MODELS[zoomedModel]?.id,
+                    "after",
+                  )}
                   alt={`Zoomed in Image - After`}
                   className="h-full w-full object-contain"
                 />

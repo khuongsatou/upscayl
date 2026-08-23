@@ -53,3 +53,16 @@
 - The image remains visible and settings stay usable while upscaling.
 - Progress, percentage and Stop are grouped in one compact control.
 - No new UI text was introduced; existing localized labels are reused.
+
+## 2026-08-24 Model Comparison Image Hotfix
+
+| Field | Value |
+|---|---|
+| UI Score | 5/5 |
+| Function Score | 5/5 |
+| Verdict | Approved |
+
+## Findings
+
+- Before/After comparisons are visible for every built-in model.
+- Full-screen comparison zoom renders both images and keeps the existing layout.

@@ -8,6 +8,9 @@ const webBasePath = process.env.UPSCAYL_WEB_BASE_PATH || "";
 const nextConfig = {
   output: isWebTarget ? undefined : "export",
   basePath: isWebTarget ? webBasePath : undefined,
+  env: {
+    NEXT_PUBLIC_UPSCAYL_WEB_BASE_PATH: isWebTarget ? webBasePath : "",
+  },
   images: {
     unoptimized: true,
   },

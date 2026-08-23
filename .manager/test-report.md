@@ -141,3 +141,19 @@
 ## Residual Risk
 
 - Browser viewport override did not resize the final Chrome window to 390px, so final mobile visual screenshot was not available; responsive constraints are present in the built CSS.
+
+## 2026-08-24 Model Comparison Image Hotfix QA
+
+| Check | Result |
+|---|---|
+| Reproduction before fix | Confirmed, 14/14 thumbnail images had natural width 0 |
+| Correct public asset path | Pass, `/upscale/model-comparison/...` returns HTTP 200 WebP |
+| `npm run tsc` | Pass |
+| `npm run web:build` | Pass |
+| `npm run build` | Pass, expected static-export API warning only |
+| Local Playwright thumbnails | Pass, 14/14 loaded |
+| Local Playwright zoom | Pass, 2/2 loaded |
+| Production Playwright thumbnails | Pass, 14/14 loaded, none pending/broken |
+| Production Playwright zoom | Pass, 2/2 loaded |
+| Production console | Pass, no warning/error |
+| VPS service | Active after release switch |
