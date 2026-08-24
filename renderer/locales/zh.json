@@ -196,7 +196,8 @@
       "BATCH_UPSCAYL_IN_PROGRESS_TITLE": "批量升图中",
       "IN_PROGRESS_TITLE": "稍等一下，升图魔法进行中",
       "STOP_BUTTON_TITLE": "取消",
-      "ETA_LABEL": "剩余时间"
+      "ETA_LABEL": "剩余时间",
+      "BACKGROUND_HINT": "将在后台继续处理 — 可以关闭此页面"
     },
     "RESET_BUTTON_TITLE": "重置",
     "RIGHT_PANE_INFO": {

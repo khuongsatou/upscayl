@@ -196,7 +196,8 @@
       "BATCH_UPSCAYL_IN_PROGRESS_TITLE": "Пакетное увеличение в процессе:",
       "IN_PROGRESS_TITLE": "Магия увеличения в процессе...",
       "STOP_BUTTON_TITLE": "СТОП",
-      "ETA_LABEL": "Осталось"
+      "ETA_LABEL": "Осталось",
+      "BACKGROUND_HINT": "Продолжает работу в фоне — страницу можно закрыть"
     },
     "RESET_BUTTON_TITLE": "Сбросить",
     "RIGHT_PANE_INFO": {

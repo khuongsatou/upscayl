@@ -196,7 +196,8 @@
       "BATCH_UPSCAYL_IN_PROGRESS_TITLE": "التحجيم المزدوج قيد العمل:",
       "IN_PROGRESS_TITLE": "القيام ببعض السحر المحجم...",
       "STOP_BUTTON_TITLE": "أيقاف",
-      "ETA_LABEL": "الوقت المتبقي"
+      "ETA_LABEL": "الوقت المتبقي",
+      "BACKGROUND_HINT": "يستمر في الخلفية — يمكنك إغلاق هذه الصفحة"
     },
     "RESET_BUTTON_TITLE": "اعادة ضبط",
     "RIGHT_PANE_INFO": {

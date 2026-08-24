@@ -196,7 +196,8 @@
       "BATCH_UPSCAYL_IN_PROGRESS_TITLE": "Sovracampionamento batch in corso :",
       "IN_PROGRESS_TITLE": "Fare la magia del sovracampionamento...",
       "STOP_BUTTON_TITLE": "FERMARE",
-      "ETA_LABEL": "Tempo rimanente"
+      "ETA_LABEL": "Tempo rimanente",
+      "BACKGROUND_HINT": "Continua in background — puoi chiudere questa pagina"
     },
     "RESET_BUTTON_TITLE": "Resettare",
     "RIGHT_PANE_INFO": {

@@ -196,7 +196,8 @@
       "BATCH_UPSCAYL_IN_PROGRESS_TITLE": "Upscayl Kelompok Sedang Berjalan:",
       "IN_PROGRESS_TITLE": "Melakukan magik Upscayl...",
       "STOP_BUTTON_TITLE": "HENTI",
-      "ETA_LABEL": "Masa berbaki"
+      "ETA_LABEL": "Masa berbaki",
+      "BACKGROUND_HINT": "Berjalan di latar belakang — anda boleh menutup halaman ini"
     },
     "RESET_BUTTON_TITLE": "Tetapkan Semula",
     "RIGHT_PANE_INFO": {

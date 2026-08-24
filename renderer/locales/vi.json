@@ -196,7 +196,8 @@
       "BATCH_UPSCAYL_IN_PROGRESS_TITLE": "Batch Upscayl Đang Tiến Hành:",
       "IN_PROGRESS_TITLE": "Đang thực hiện phép màu Upscayl...",
       "STOP_BUTTON_TITLE": "DỪNG",
-      "ETA_LABEL": "Còn khoảng"
+      "ETA_LABEL": "Còn khoảng",
+      "BACKGROUND_HINT": "Chạy nền — bạn có thể đóng trang này"
     },
     "RESET_BUTTON_TITLE": "Đặt Lại",
     "RIGHT_PANE_INFO": {

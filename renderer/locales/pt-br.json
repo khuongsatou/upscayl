@@ -196,7 +196,8 @@
       "BATCH_UPSCAYL_IN_PROGRESS_TITLE": "Upscayl em Lote em andamento:",
       "IN_PROGRESS_TITLE": "Lançando o feitiço do Upscayl...",
       "STOP_BUTTON_TITLE": "PARAR",
-      "ETA_LABEL": "Tempo restante"
+      "ETA_LABEL": "Tempo restante",
+      "BACKGROUND_HINT": "Continua em segundo plano — você pode fechar esta página"
     },
     "RESET_BUTTON_TITLE": "Resetar",
     "RIGHT_PANE_INFO": {

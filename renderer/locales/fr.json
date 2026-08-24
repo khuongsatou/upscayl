@@ -196,7 +196,8 @@
       "BATCH_UPSCAYL_IN_PROGRESS_TITLE": "Amélioration par lot en cours :",
       "IN_PROGRESS_TITLE": "Faire la magie de l'IA...",
       "STOP_BUTTON_TITLE": "ARRÊTER",
-      "ETA_LABEL": "Temps restant"
+      "ETA_LABEL": "Temps restant",
+      "BACKGROUND_HINT": "Continue en arrière-plan — vous pouvez fermer cette page"
     },
     "RESET_BUTTON_TITLE": "Réinitialiser",
     "RIGHT_PANE_INFO": {

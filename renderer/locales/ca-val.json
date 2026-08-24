@@ -199,7 +199,8 @@
       "BATCH_UPSCAYL_IN_PROGRESS_TITLE": "Augment per lots en progrés:",
       "IN_PROGRESS_TITLE": "S'està fent la màgia d'Upscayl...",
       "STOP_BUTTON_TITLE": "DETÍN",
-      "ETA_LABEL": "Temps restant"
+      "ETA_LABEL": "Temps restant",
+      "BACKGROUND_HINT": "Continua en segon pla — pots tancar aquesta pàgina"
     },
     "RESET_BUTTON_TITLE": "Restablix",
     "RIGHT_PANE_INFO": {

@@ -57,6 +57,18 @@ curl -H "X-API-Key: $UPSCAYL_API_KEY" \
 
 Poll `GET /jobs/{jobId}` until `status` is terminal. Successful jobs contain `result.url`. Cancel with `DELETE /jobs/{jobId}` and delete an output early with `DELETE /jobs/{jobId}/result`.
 
+Creating a job hands processing off to the persistent server worker. Closing the
+HTTP connection, hiding a browser tab, or closing the Upscayl page does not
+cancel that job. Clients should checkpoint the returned `jobId` and reconnect
+with `GET /jobs/{jobId}`; only an explicit `DELETE /jobs/{jobId}` requests
+cancellation.
+
+The public web app stores a versioned browser checkpoint containing only the
+job ID, command and timestamps. It never stores the source image, filesystem
+path, or API credential. On reload it automatically restores polling,
+progress/ETA and the completed result, then clears the checkpoint when the job
+reaches a terminal state.
+
 The full contract is in [upscale-api-v1.openapi.yaml](./upscale-api-v1.openapi.yaml).
 Banana reads cross-principal health, queue and job state only through the
 read-only [Upscale Internal API](./upscale-internal-api-v1.openapi.yaml).

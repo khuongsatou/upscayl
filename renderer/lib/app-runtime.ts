@@ -4,6 +4,13 @@ import {
   DoubleUpscaylPayload,
   ImageUpscaylPayload,
 } from "@common/types/types";
+import {
+  clearWebJobCheckpoint,
+  loadWebJobCheckpoint,
+  saveWebJobCheckpoint,
+  WebJobCheckpoint,
+  WebUpscaleCommand,
+} from "./web-job-checkpoint";
 
 type RuntimeListener = (event: unknown, data?: any) => void;
 type RuntimePlatform = "mac" | "win" | "linux";
@@ -25,7 +32,11 @@ type WebJobResponse = {
   estimatedRemainingSeconds: number | null;
   result: { url: string } | null;
   error: { code: string; message: string } | null;
+  createdAt: number;
+  expiresAt: number;
 };
+
+class TerminalWebJobError extends Error {}
 
 const WEB_FOLDER_PREFIX = "web-folder://";
 export const WEB_OUTPUT_PATH = "web-output://download";
@@ -81,6 +92,7 @@ class WebRuntime {
   private folders = new Map<string, File[]>();
   private abortController: AbortController | null = null;
   private currentJobId: string | null = null;
+  private backgroundActive = false;
 
   on(command: string, func?: RuntimeListener) {
     if (!func) return this;
@@ -108,13 +120,20 @@ class WebRuntime {
     }
 
     if (command === ELECTRON_COMMANDS.STOP) {
-      void this.cancelWebJob();
+      const jobId = this.currentJobId;
       this.abortController?.abort();
+      this.setBackgroundActive(false);
       this.emit(ELECTRON_COMMANDS.WEB_UPSCAYL_ETA, null);
-      this.emit(
-        ELECTRON_COMMANDS.UPSCAYL_ERROR,
-        "The web upscale job stopped.",
-      );
+      if (jobId) {
+        void this.cancelWebJob(jobId).then((canceled) => {
+          this.emit(
+            ELECTRON_COMMANDS.UPSCAYL_ERROR,
+            canceled
+              ? "The web upscale job stopped."
+              : "Could not confirm cancellation. The server job remains saved in the background checkpoint.",
+          );
+        });
+      }
       return this;
     }
 
@@ -199,6 +218,15 @@ class WebRuntime {
     this.listeners.get(command)?.forEach((listener) => listener({}, data));
   }
 
+  private setBackgroundActive(active: boolean) {
+    this.backgroundActive = active;
+    this.emit(ELECTRON_COMMANDS.WEB_UPSCAYL_BACKGROUND_STATUS, active);
+  }
+
+  isBackgroundJobActive() {
+    return this.backgroundActive;
+  }
+
   private getProgressCommand(command: string) {
     if (command === ELECTRON_COMMANDS.DOUBLE_UPSCAYL) {
       return ELECTRON_COMMANDS.DOUBLE_UPSCAYL_PROGRESS;
@@ -226,14 +254,25 @@ class WebRuntime {
     }
   }
 
-  private async cancelWebJob() {
-    if (!this.currentJobId) return;
+  private async cancelWebJob(jobId: string) {
     const endpoint =
       process.env.NEXT_PUBLIC_UPSCAYL_API_V1_URL ?? DEFAULT_WEB_API_V1_ENDPOINT;
-    await fetch(`${endpoint}/jobs/${encodeURIComponent(this.currentJobId)}`, {
-      method: "DELETE",
-      headers: this.getApiHeaders(),
-    }).catch(() => undefined);
+    try {
+      const response = await fetch(
+        `${endpoint}/jobs/${encodeURIComponent(jobId)}`,
+        {
+          method: "DELETE",
+          headers: this.getApiHeaders(),
+        },
+      );
+      if (response.ok || response.status === 404) {
+        clearWebJobCheckpoint(jobId);
+        return true;
+      }
+    } catch {
+      // Keep the checkpoint when cancellation cannot be confirmed.
+    }
+    return false;
   }
 
   private async uploadWebFile(
@@ -263,16 +302,29 @@ class WebRuntime {
     let lastEstimatedRemainingSeconds: number | null = null;
 
     while (!signal.aborted) {
-      const response = await fetch(
-        `${endpoint}/jobs/${encodeURIComponent(jobId)}`,
-        {
-          method: "GET",
-          headers: this.getApiHeaders(),
-          cache: "no-store",
-          signal,
-        },
-      );
-      if (!response.ok) throw new Error(await this.readApiError(response));
+      let response: Response;
+      try {
+        response = await fetch(
+          `${endpoint}/jobs/${encodeURIComponent(jobId)}`,
+          {
+            method: "GET",
+            headers: this.getApiHeaders(),
+            cache: "no-store",
+            signal,
+          },
+        );
+      } catch (error) {
+        if (signal.aborted) throw error;
+        await new Promise((resolve) => setTimeout(resolve, 3000));
+        continue;
+      }
+      if (!response.ok) {
+        if (response.status === 429 || response.status >= 500) {
+          await new Promise((resolve) => setTimeout(resolve, 3000));
+          continue;
+        }
+        throw new TerminalWebJobError(await this.readApiError(response));
+      }
       const data = (await response.json()) as WebJobResponse;
       const progress = Math.min(100, Math.max(0, data.progress));
       if (progress !== lastProgress) {
@@ -290,11 +342,109 @@ class WebRuntime {
       }
       if (data.status === "succeeded") return data;
       if (["failed", "canceled", "expired"].includes(data.status)) {
-        throw new Error(data.error?.message || `Upscale job ${data.status}.`);
+        throw new TerminalWebJobError(
+          data.error?.message || `Upscale job ${data.status}.`,
+        );
       }
       await new Promise((resolve) => setTimeout(resolve, 1000));
     }
     throw new DOMException("The operation was aborted.", "AbortError");
+  }
+
+  private async downloadWebJobResult(
+    checkpoint: WebJobCheckpoint,
+    completed: WebJobResponse,
+    signal: AbortSignal,
+  ) {
+    if (!completed.result?.url)
+      throw new TerminalWebJobError(
+        "Upscale API did not return a result URL.",
+      );
+    while (!signal.aborted) {
+      try {
+        const response = await fetch(completed.result.url, {
+          headers: this.getApiHeaders(),
+          signal,
+        });
+        if (response.ok) {
+          const outputUrl = URL.createObjectURL(await response.blob());
+          clearWebJobCheckpoint(checkpoint.jobId);
+          return outputUrl;
+        }
+        if (response.status !== 429 && response.status < 500) {
+          throw new TerminalWebJobError(await this.readApiError(response));
+        }
+      } catch (error) {
+        if (signal.aborted || error instanceof TerminalWebJobError) throw error;
+      }
+      await new Promise((resolve) => setTimeout(resolve, 3000));
+    }
+    throw new DOMException("The operation was aborted.", "AbortError");
+  }
+
+  private emitWebJobDone(command: WebUpscaleCommand, outputUrl: string) {
+    this.emit(this.getProgressCommand(command), "100.00%");
+    this.emit(
+      command === ELECTRON_COMMANDS.FOLDER_UPSCAYL
+        ? ELECTRON_COMMANDS.FOLDER_UPSCAYL_DONE
+        : command === ELECTRON_COMMANDS.DOUBLE_UPSCAYL
+          ? ELECTRON_COMMANDS.DOUBLE_UPSCAYL_DONE
+          : ELECTRON_COMMANDS.UPSCAYL_DONE,
+      outputUrl,
+    );
+  }
+
+  private async followWebJob(
+    checkpoint: WebJobCheckpoint,
+    abortController: AbortController,
+    checkpointSaved = true,
+  ) {
+    const endpoint =
+      process.env.NEXT_PUBLIC_UPSCAYL_API_V1_URL ?? DEFAULT_WEB_API_V1_ENDPOINT;
+    this.currentJobId = checkpoint.jobId;
+    this.setBackgroundActive(checkpointSaved);
+    const progressCommand = this.getProgressCommand(checkpoint.command);
+    this.emit(progressCommand, "0.00%");
+    this.emit(ELECTRON_COMMANDS.WEB_UPSCAYL_ETA, null);
+    const completed = await this.pollWebJob(
+      endpoint,
+      checkpoint.jobId,
+      progressCommand,
+      abortController.signal,
+    );
+    const outputUrl = await this.downloadWebJobResult(
+      checkpoint,
+      completed,
+      abortController.signal,
+    );
+    this.emitWebJobDone(checkpoint.command, outputUrl);
+  }
+
+  async resumePendingJob() {
+    if (this.currentJobId || this.abortController) return false;
+    const checkpoint = loadWebJobCheckpoint();
+    if (!checkpoint) return false;
+    const abortController = new AbortController();
+    this.abortController = abortController;
+    try {
+      await this.followWebJob(checkpoint, abortController);
+    } catch (error) {
+      if ((error as Error).name === "AbortError") return true;
+      if (error instanceof TerminalWebJobError) {
+        clearWebJobCheckpoint(checkpoint.jobId);
+      }
+      this.emit(
+        ELECTRON_COMMANDS.UPSCAYL_ERROR,
+        (error as Error).message || "Could not resume the background job.",
+      );
+    } finally {
+      abortController.abort();
+      this.setBackgroundActive(false);
+      this.emit(ELECTRON_COMMANDS.WEB_UPSCAYL_ETA, null);
+      if (this.currentJobId === checkpoint.jobId) this.currentJobId = null;
+      if (this.abortController === abortController) this.abortController = null;
+    }
+    return true;
   }
 
   private async runWebUpscayl(command: string, payload: UpscaylPayload) {
@@ -303,6 +453,7 @@ class WebRuntime {
     const progressCommand = this.getProgressCommand(command);
     const abortController = new AbortController();
     this.abortController = abortController;
+    this.setBackgroundActive(false);
     this.emit(progressCommand, "0.00%");
     this.emit(ELECTRON_COMMANDS.WEB_UPSCAYL_ETA, null);
 
@@ -354,32 +505,24 @@ class WebRuntime {
         throw new Error(await this.readApiError(createResponse));
       const created = (await createResponse.json()) as WebJobResponse;
       this.currentJobId = created.id;
-      const completed = await this.pollWebJob(
-        endpoint,
-        created.id,
-        progressCommand,
-        abortController.signal,
-      );
-      if (!completed.result?.url)
-        throw new Error("Upscale API did not return a result URL.");
-      const resultResponse = await fetch(completed.result.url, {
-        headers: this.getApiHeaders(),
-        signal: abortController.signal,
-      });
-      if (!resultResponse.ok)
-        throw new Error(await this.readApiError(resultResponse));
-      this.emit(progressCommand, "100.00%");
-      const outputUrl = URL.createObjectURL(await resultResponse.blob());
-      this.emit(
-        command === ELECTRON_COMMANDS.FOLDER_UPSCAYL
-          ? ELECTRON_COMMANDS.FOLDER_UPSCAYL_DONE
-          : command === ELECTRON_COMMANDS.DOUBLE_UPSCAYL
-            ? ELECTRON_COMMANDS.DOUBLE_UPSCAYL_DONE
-            : ELECTRON_COMMANDS.UPSCAYL_DONE,
-        outputUrl,
+      const checkpoint: WebJobCheckpoint = {
+        version: 1,
+        jobId: created.id,
+        command: command as WebUpscaleCommand,
+        createdAt: created.createdAt,
+        expiresAt: created.expiresAt,
+      };
+      const checkpointSaved = saveWebJobCheckpoint(checkpoint);
+      await this.followWebJob(
+        checkpoint,
+        abortController,
+        checkpointSaved,
       );
     } catch (error) {
       if ((error as Error).name === "AbortError") return;
+      if (error instanceof TerminalWebJobError && this.currentJobId) {
+        clearWebJobCheckpoint(this.currentJobId);
+      }
       this.emit(
         ELECTRON_COMMANDS.UPSCAYL_ERROR,
         (error as Error).message ||
@@ -387,6 +530,7 @@ class WebRuntime {
       );
     } finally {
       abortController.abort();
+      this.setBackgroundActive(false);
       this.emit(ELECTRON_COMMANDS.WEB_UPSCAYL_ETA, null);
       this.currentJobId = null;
       if (this.abortController === abortController) {
@@ -438,3 +582,9 @@ export const getRuntimeFileName = (path: string) =>
 
 export const isRuntimeWebFolder = (path: string) =>
   !isElectronRuntime() && webRuntime.isWebFolder(path);
+
+export const resumePendingWebUpscale = () =>
+  isElectronRuntime() ? Promise.resolve(false) : webRuntime.resumePendingJob();
+
+export const isWebUpscaleBackgroundActive = () =>
+  !isElectronRuntime() && webRuntime.isBackgroundJobActive();

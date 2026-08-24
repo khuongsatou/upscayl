@@ -4,7 +4,11 @@ import { translationAtom } from "@/atoms/translations-atom";
 import { showSidebarAtom } from "@/atoms/user-settings-atom";
 import { ELECTRON_COMMANDS } from "@common/electron-commands";
 import useLogger from "../hooks/use-logger";
-import { appRuntime, isElectronRuntime } from "@/lib/app-runtime";
+import {
+  appRuntime,
+  isElectronRuntime,
+  isWebUpscaleBackgroundActive,
+} from "@/lib/app-runtime";
 import { Square } from "lucide-react";
 
 const formatRemainingTime = (totalSeconds: number) => {
@@ -35,6 +39,9 @@ function ProgressBar({
   const showSidebar = useAtomValue(showSidebarAtom);
   const [estimatedRemainingSeconds, setEstimatedRemainingSeconds] =
     React.useState<number | null>(null);
+  const [backgroundActive, setBackgroundActive] = React.useState(
+    isWebUpscaleBackgroundActive,
+  );
   const logit = useLogger();
   const numericProgress = Number.parseFloat(progress.replace("%", ""));
   const progressValue = Number.isFinite(numericProgress)
@@ -62,10 +69,21 @@ function ProgressBar({
           : null,
       );
     };
+    const backgroundHandler = (_event: unknown, active: boolean) => {
+      setBackgroundActive(Boolean(active));
+    };
 
     appRuntime.on(ELECTRON_COMMANDS.WEB_UPSCAYL_ETA, etaHandler);
+    appRuntime.on(
+      ELECTRON_COMMANDS.WEB_UPSCAYL_BACKGROUND_STATUS,
+      backgroundHandler,
+    );
     return () => {
       appRuntime.off(ELECTRON_COMMANDS.WEB_UPSCAYL_ETA, etaHandler);
+      appRuntime.off(
+        ELECTRON_COMMANDS.WEB_UPSCAYL_BACKGROUND_STATUS,
+        backgroundHandler,
+      );
     };
   }, []);
 
@@ -85,9 +103,16 @@ function ProgressBar({
       <div className="pointer-events-auto flex w-full max-w-xl items-center gap-3 rounded-lg border border-base-content/10 bg-base-100/95 px-3 py-2 shadow-xl backdrop-blur">
         <div className="min-w-0 flex-1">
           <div className="mb-1 flex items-start justify-between gap-3 text-xs">
-            <span className="truncate font-medium text-base-content/70">
-              {statusText}
-              {passText}
+            <span className="min-w-0 truncate font-medium text-base-content/70">
+              <span className="block truncate">
+                {statusText}
+                {passText}
+              </span>
+              {!isElectronRuntime() && backgroundActive && (
+                <span className="block truncate text-[10px] font-normal text-base-content/55">
+                  {t("APP.PROGRESS_BAR.BACKGROUND_HINT")}
+                </span>
+              )}
             </span>
             <span className="shrink-0 text-right">
               <span className="block font-mono font-semibold tabular-nums text-base-content">

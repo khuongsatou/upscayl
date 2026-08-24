@@ -196,7 +196,8 @@
       "BATCH_UPSCAYL_IN_PROGRESS_TITLE": "Topyekün Upscayl ediliyor...",
       "IN_PROGRESS_TITLE": "Upscayl sihrini konuşturuyor...",
       "STOP_BUTTON_TITLE": "DURDUR",
-      "ETA_LABEL": "Kalan süre"
+      "ETA_LABEL": "Kalan süre",
+      "BACKGROUND_HINT": "Arka planda devam eder — bu sayfayı kapatabilirsiniz"
     },
     "RESET_BUTTON_TITLE": "Sıfırla",
     "RIGHT_PANE_INFO": {

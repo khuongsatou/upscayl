@@ -196,7 +196,8 @@
       "BATCH_UPSCAYL_IN_PROGRESS_TITLE": "กำลังขยายรูปแบบกลุ่ม:",
       "IN_PROGRESS_TITLE": "Upscayl กำลังร่ายเวทมนตร์...",
       "STOP_BUTTON_TITLE": "หยุด",
-      "ETA_LABEL": "เวลาที่เหลือ"
+      "ETA_LABEL": "เวลาที่เหลือ",
+      "BACKGROUND_HINT": "ทำงานต่อในพื้นหลัง — คุณสามารถปิดหน้านี้ได้"
     },
     "RESET_BUTTON_TITLE": "คืนค่า",
     "RIGHT_PANE_INFO": {

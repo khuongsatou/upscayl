@@ -102,3 +102,12 @@
 | Status | Done |
 | Task | Tich hop Banana va Upscale thanh hai dich vu doc lap, chi giao tiep qua HTTP API versioned |
 | Expected Output | Banana so huu `bbmcp_` key/quota/usage/MCP; Upscale so huu job pipeline; introspection, internal API va outbox event sync co test va production canary |
+
+## 2026-08-24 Web Checkpoint and Background Processing
+
+| Field | Value |
+|---|---|
+| Owner | Project Manager + Upscale Pipeline Specialist + Electron Next Developer |
+| Status | In Progress |
+| Task | Them checkpoint trinh duyet va co che tiep tuc xu ly background tai `bb.1nutnhan.com/upscale` |
+| Expected Output | Job tiep tuc tren server khi dong/reload tab; web tu dong ket noi lai job dang chay, khoi phuc progress/ETA va lay ket qua khi hoan tat |

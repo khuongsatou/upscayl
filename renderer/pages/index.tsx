@@ -27,6 +27,7 @@ import {
   appRuntime,
   getRuntimeFileName,
   isElectronRuntime,
+  resumePendingWebUpscale,
   WEB_OUTPUT_PATH,
 } from "@/lib/app-runtime";
 
@@ -312,6 +313,7 @@ const Home = () => {
         setModelIds(data);
       },
     );
+    void resumePendingWebUpscale();
   }, []);
 
   // LOADING STATE

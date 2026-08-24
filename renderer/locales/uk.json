@@ -196,7 +196,8 @@
       "BATCH_UPSCAYL_IN_PROGRESS_TITLE": "Виконується пакетна обробка:",
       "IN_PROGRESS_TITLE": "Виконуємо магію Upscayl...",
       "STOP_BUTTON_TITLE": "СТОП",
-      "ETA_LABEL": "Залишилося"
+      "ETA_LABEL": "Залишилося",
+      "BACKGROUND_HINT": "Продовжує працювати у фоні — сторінку можна закрити"
     },
     "RESET_BUTTON_TITLE": "Скинути",
     "RIGHT_PANE_INFO": {

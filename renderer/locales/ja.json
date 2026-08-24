@@ -196,7 +196,8 @@
       "BATCH_UPSCAYL_IN_PROGRESS_TITLE": "バッチUpscayl進行中：",
       "IN_PROGRESS_TITLE": "Upscaylの魔法をかけています...",
       "STOP_BUTTON_TITLE": "停止",
-      "ETA_LABEL": "残り時間"
+      "ETA_LABEL": "残り時間",
+      "BACKGROUND_HINT": "バックグラウンドで続行します — このページは閉じられます"
     },
     "RESET_BUTTON_TITLE": "リセット",
     "RIGHT_PANE_INFO": {

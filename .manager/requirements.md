@@ -94,3 +94,21 @@
 - Banana down khong lam mat job/event Upscale; Upscale down khong lam sai quota Banana.
 - Service-to-service request co timeout, retry chi voi thao tac idempotent va request/event id duy nhat.
 - Canary production xac nhan auth, quota, progress/ETA, result va usage dashboard end-to-end truoc khi retire `up_` key.
+
+## 2026-08-24 Web Checkpoint and Background Processing
+
+### Must-have
+
+- Sau khi API tao job, browser luu checkpoint chi gom job ID, command/mode va thoi gian het han; khong luu API key, raw image hay filesystem path.
+- Dong tab, reload tab hoac dua tab ve background khong gui cancel; worker tren VPS tiep tuc xu ly doc lap voi browser.
+- Khi mo lai trang, web tu dong doc checkpoint, poll job cu, khoi phuc progress/ETA va tai ket qua khi thanh cong.
+- Stop la thao tac huy tuong minh: goi DELETE job, dung polling va xoa checkpoint.
+- Checkpoint bi xoa khi job succeeded, failed, canceled, expired, not found hoac khong con quyen truy cap.
+- Loi mang/5xx tam thoi khong lam mat checkpoint va duoc retry trong khi trang con mo.
+- UI web thong bao ro job dang chay background va co the dong trang; Electron desktop khong doi.
+
+### Acceptance criteria
+
+- TypeScript, schema validation va web build pass.
+- Test bao phu checkpoint validation/save/load/clear va source wiring cho auto-resume/background label.
+- Production smoke: tao job, ngat client polling, job van hoan tat; reload trang co the resume job va tai ket qua.

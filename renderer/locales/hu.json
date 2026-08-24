@@ -196,7 +196,8 @@
       "BATCH_UPSCAYL_IN_PROGRESS_TITLE": "Csoportos Upscayl Folyamatban:",
       "IN_PROGRESS_TITLE": "Az Upscayl varázslata folyamatban...",
       "STOP_BUTTON_TITLE": "MEGÁLLÍTÁS",
-      "ETA_LABEL": "Hátralévő idő"
+      "ETA_LABEL": "Hátralévő idő",
+      "BACKGROUND_HINT": "A háttérben fut — bezárhatja ezt az oldalt"
     },
     "RESET_BUTTON_TITLE": "Visszaállítás",
     "RIGHT_PANE_INFO": {

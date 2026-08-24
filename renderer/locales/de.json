@@ -196,7 +196,8 @@
       "BATCH_UPSCAYL_IN_PROGRESS_TITLE": "Batch-Upscayl in Arbeit:",
       "IN_PROGRESS_TITLE": "Upscayl arbeitet...",
       "STOP_BUTTON_TITLE": "STOPP",
-      "ETA_LABEL": "Verbleibende Zeit"
+      "ETA_LABEL": "Verbleibende Zeit",
+      "BACKGROUND_HINT": "Läuft im Hintergrund — du kannst diese Seite schließen"
     },
     "RESET_BUTTON_TITLE": "Zurücksetzen",
     "RIGHT_PANE_INFO": {
