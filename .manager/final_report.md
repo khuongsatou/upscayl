@@ -188,3 +188,23 @@
 - `bbmcp_` la key chinh cho Banana/MCP/Upscale.
 - Legacy `up_` van hoat dong trong cua so dual-auth; chi retire sau khi client cu da migrate va metric xac nhan khong con su dung.
 - Anonymous same-origin Upscale web duoc giu rieng va da verify.
+
+## 2026-08-24 VPS Synchronization
+
+| Field | Value |
+|---|---|
+| PM Verdict | Done / Production Go |
+| Scope | Dong bo Banana Platform API/MCP va xac minh Upscale production |
+
+## Summary
+
+- Banana Pro `0.1.46`, commit `be09e6176314c9a19541f24515da7f3d6cb88860`, da duoc rebuild va recreate rieng container `banana-pro` sau khi backup `/opt/banana-pro`.
+- Banana health, Platform API service auth, key introspection va MCP session initialization deu pass; `tools/list` tra du 5 Upscale tools.
+- Canary `bbmcp_` da duoc revoke sau smoke test; MCP tra 401 va introspection tra `active=false` sau revoke.
+- Upscale release `20260824-banana-api2` van active; internal health pass, queue rong va outbox `9/9` delivered, `0` pending.
+- Public `bb/upscale` va API health tra 200; route cu `veo3/upscale` tiep tuc redirect 308 sang `bb/upscale`.
+- `profile-pro` va `mtips5s_verify` van absent/stopped theo operational hold.
+
+## Operational Note
+
+- VPS giu mot server-specific read-only mount cho file model watermark trong `docker-compose.yml`; thay doi dong thoi nay duoc bao ton, khong bi rsync ghi de.
