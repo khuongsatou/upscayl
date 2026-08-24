@@ -11,6 +11,7 @@ const ELECTRON_COMMANDS = {
   FOLDER_UPSCAYL_DONE: "Folder upscaling successful",
   FOLDER_UPSCAYL_PROGRESS:
     "Send Folder Upscaling Progress from Main to Renderer",
+  WEB_UPSCAYL_ETA: "Send Web Upscaling ETA to Renderer",
   OPEN_FOLDER: "Open Folder",
   UPSCAYL_VIDEO: "Upscale the Video",
   UPSCAYL_VIDEO_DONE: "Video Upscaling Done",

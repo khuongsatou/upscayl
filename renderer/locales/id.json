@@ -195,7 +195,8 @@
     "PROGRESS_BAR": {
       "BATCH_UPSCAYL_IN_PROGRESS_TITLE": "Upscayl Massal Sedang Berlangsung:",
       "IN_PROGRESS_TITLE": "Melakukan sihir Upscayl...",
-      "STOP_BUTTON_TITLE": "HENTIKAN"
+      "STOP_BUTTON_TITLE": "HENTIKAN",
+      "ETA_LABEL": "Sisa waktu"
     },
     "RESET_BUTTON_TITLE": "Reset",
     "RIGHT_PANE_INFO": {

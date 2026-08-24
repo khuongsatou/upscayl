@@ -195,7 +195,8 @@
     "PROGRESS_BAR": {
       "BATCH_UPSCAYL_IN_PROGRESS_TITLE": "バッチUpscayl進行中：",
       "IN_PROGRESS_TITLE": "Upscaylの魔法をかけています...",
-      "STOP_BUTTON_TITLE": "停止"
+      "STOP_BUTTON_TITLE": "停止",
+      "ETA_LABEL": "残り時間"
     },
     "RESET_BUTTON_TITLE": "リセット",
     "RIGHT_PANE_INFO": {
@@ -277,7 +278,7 @@
       "TITLE": "メタデータの警告",
       "DESCRIPTION": "一部のシステムでは、JPG以外の形式ではメタデータが表示されない場合があります。必要に応じて専用のツールを使用してメタデータを表示してください。"
     }
-  },   
+  },
   "UPSCAYL_CLOUD": {
     "COMING_SOON": "近日公開！",
     "CATCHY_PHRASE_1": "もうエラー、ハードウェアの問題、品質の妥協や長い読み込み時間はありません！",

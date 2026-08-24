@@ -12,14 +12,26 @@ type UpscaylPayload =
   | DoubleUpscaylPayload
   | BatchUpscaylPayload;
 
-type WebProgressResponse = {
+type WebJobResponse = {
+  id: string;
   progress: number;
-  status: "running" | "done" | "error";
+  status:
+    | "queued"
+    | "processing"
+    | "succeeded"
+    | "failed"
+    | "canceled"
+    | "expired";
+  estimatedRemainingSeconds: number | null;
+  result: { url: string } | null;
+  error: { code: string; message: string } | null;
 };
 
 const WEB_FOLDER_PREFIX = "web-folder://";
 export const WEB_OUTPUT_PATH = "web-output://download";
-const DEFAULT_WEB_API_ENDPOINT = "/api/upscayl";
+const DEFAULT_WEB_API_V1_ENDPOINT = `${
+  process.env.NEXT_PUBLIC_UPSCAYL_WEB_BASE_PATH ?? ""
+}/api/v1`;
 
 const getBrowserPlatform = (): RuntimePlatform => {
   if (typeof navigator === "undefined") return "linux";
@@ -68,6 +80,7 @@ class WebRuntime {
   private files = new Map<string, File>();
   private folders = new Map<string, File[]>();
   private abortController: AbortController | null = null;
+  private currentJobId: string | null = null;
 
   on(command: string, func?: RuntimeListener) {
     if (!func) return this;
@@ -95,12 +108,20 @@ class WebRuntime {
     }
 
     if (command === ELECTRON_COMMANDS.STOP) {
+      void this.cancelWebJob();
       this.abortController?.abort();
-      this.emit(ELECTRON_COMMANDS.UPSCAYL_ERROR, "The web upscale job stopped.");
+      this.emit(ELECTRON_COMMANDS.WEB_UPSCAYL_ETA, null);
+      this.emit(
+        ELECTRON_COMMANDS.UPSCAYL_ERROR,
+        "The web upscale job stopped.",
+      );
       return this;
     }
 
-    if (command === ELECTRON_COMMANDS.OPEN_FOLDER && typeof payload === "string") {
+    if (
+      command === ELECTRON_COMMANDS.OPEN_FOLDER &&
+      typeof payload === "string"
+    ) {
       window.open(payload, "_blank");
       return this;
     }
@@ -124,7 +145,9 @@ class WebRuntime {
 
   async invoke(command: string) {
     if (command === ELECTRON_COMMANDS.SELECT_FILE) {
-      const files = await createFileInput({ accept: "image/png,image/jpeg,image/webp" });
+      const files = await createFileInput({
+        accept: "image/png,image/jpeg,image/webp",
+      });
       const file = files?.[0];
       return file ? this.registerFile(file) : null;
     }
@@ -186,111 +209,167 @@ class WebRuntime {
     return ELECTRON_COMMANDS.UPSCAYL_PROGRESS;
   }
 
-  private async pollWebProgress(
-    jobEndpoint: string,
+  private getApiHeaders(includeJson = false) {
+    const headers: Record<string, string> = {};
+    const apiKey = process.env.NEXT_PUBLIC_UPSCAYL_API_KEY;
+    if (apiKey) headers["X-API-Key"] = apiKey;
+    if (includeJson) headers["Content-Type"] = "application/json";
+    return headers;
+  }
+
+  private async readApiError(response: Response) {
+    try {
+      const data = await response.json();
+      return data?.error?.message || `Upscale API returned ${response.status}.`;
+    } catch {
+      return `Upscale API returned ${response.status} ${response.statusText}.`;
+    }
+  }
+
+  private async cancelWebJob() {
+    if (!this.currentJobId) return;
+    const endpoint =
+      process.env.NEXT_PUBLIC_UPSCAYL_API_V1_URL ?? DEFAULT_WEB_API_V1_ENDPOINT;
+    await fetch(`${endpoint}/jobs/${encodeURIComponent(this.currentJobId)}`, {
+      method: "DELETE",
+      headers: this.getApiHeaders(),
+    }).catch(() => undefined);
+  }
+
+  private async uploadWebFile(
+    endpoint: string,
+    file: File,
+    signal: AbortSignal,
+  ) {
+    const formData = new FormData();
+    formData.append("file", file, file.name);
+    const response = await fetch(`${endpoint}/uploads`, {
+      method: "POST",
+      headers: this.getApiHeaders(),
+      body: formData,
+      signal,
+    });
+    if (!response.ok) throw new Error(await this.readApiError(response));
+    return (await response.json()) as { id: string };
+  }
+
+  private async pollWebJob(
+    endpoint: string,
+    jobId: string,
     progressCommand: string,
     signal: AbortSignal,
   ) {
     let lastProgress = -1;
+    let lastEstimatedRemainingSeconds: number | null = null;
 
     while (!signal.aborted) {
-      try {
-        const response = await fetch(jobEndpoint, {
+      const response = await fetch(
+        `${endpoint}/jobs/${encodeURIComponent(jobId)}`,
+        {
           method: "GET",
+          headers: this.getApiHeaders(),
           cache: "no-store",
           signal,
-        });
-
-        if (response.ok) {
-          const data = (await response.json()) as WebProgressResponse;
-          const progress = Math.min(100, Math.max(0, data.progress));
-          if (progress !== lastProgress) {
-            this.emit(progressCommand, `${progress.toFixed(2)}%`);
-            lastProgress = progress;
-          }
-          if (data.status !== "running") return;
-        }
-      } catch (error) {
-        if ((error as Error).name === "AbortError") return;
+        },
+      );
+      if (!response.ok) throw new Error(await this.readApiError(response));
+      const data = (await response.json()) as WebJobResponse;
+      const progress = Math.min(100, Math.max(0, data.progress));
+      if (progress !== lastProgress) {
+        this.emit(progressCommand, `${progress.toFixed(2)}%`);
+        lastProgress = progress;
       }
-
-      await new Promise((resolve) => setTimeout(resolve, 200));
+      const estimatedRemainingSeconds = Number.isFinite(
+        data.estimatedRemainingSeconds,
+      )
+        ? Math.max(0, Math.ceil(data.estimatedRemainingSeconds as number))
+        : null;
+      if (estimatedRemainingSeconds !== lastEstimatedRemainingSeconds) {
+        this.emit(ELECTRON_COMMANDS.WEB_UPSCAYL_ETA, estimatedRemainingSeconds);
+        lastEstimatedRemainingSeconds = estimatedRemainingSeconds;
+      }
+      if (data.status === "succeeded") return data;
+      if (["failed", "canceled", "expired"].includes(data.status)) {
+        throw new Error(data.error?.message || `Upscale job ${data.status}.`);
+      }
+      await new Promise((resolve) => setTimeout(resolve, 1000));
     }
+    throw new DOMException("The operation was aborted.", "AbortError");
   }
 
   private async runWebUpscayl(command: string, payload: UpscaylPayload) {
     const endpoint =
-      process.env.NEXT_PUBLIC_UPSCAYL_WEB_API_URL ?? DEFAULT_WEB_API_ENDPOINT;
-    const formData = new FormData();
-    const jobId = crypto.randomUUID();
-    const jobEndpoint = `${endpoint}${endpoint.includes("?") ? "&" : "?"}jobId=${encodeURIComponent(jobId)}`;
+      process.env.NEXT_PUBLIC_UPSCAYL_API_V1_URL ?? DEFAULT_WEB_API_V1_ENDPOINT;
     const progressCommand = this.getProgressCommand(command);
-
-    formData.append("command", command);
-    formData.append("payload", JSON.stringify(payload));
-
-    if ("imagePath" in payload) {
-      const file = this.files.get(payload.imagePath);
-      if (!file) {
-        this.emit(
-          ELECTRON_COMMANDS.UPSCAYL_ERROR,
-          "The selected browser image is no longer available. Please select it again.",
-        );
-        return;
-      }
-      formData.append("image", file, file.name);
-    }
-
-    if ("batchFolderPath" in payload) {
-      const files = this.folders.get(payload.batchFolderPath) ?? [];
-      files.forEach((file) => formData.append("images", file, file.name));
-    }
-
     const abortController = new AbortController();
     this.abortController = abortController;
     this.emit(progressCommand, "0.00%");
-    const progressPromise = this.pollWebProgress(
-      jobEndpoint,
-      progressCommand,
-      abortController.signal,
-    );
+    this.emit(ELECTRON_COMMANDS.WEB_UPSCAYL_ETA, null);
 
     try {
-      const response = await fetch(jobEndpoint, {
+      const files =
+        "imagePath" in payload
+          ? ([this.files.get(payload.imagePath)].filter(Boolean) as File[])
+          : (this.folders.get(payload.batchFolderPath) ?? []);
+      if (!files.length) {
+        throw new Error(
+          "The selected browser image is no longer available. Please select it again.",
+        );
+      }
+      const uploads = [] as Array<{ id: string }>;
+      for (const file of files) {
+        uploads.push(
+          await this.uploadWebFile(endpoint, file, abortController.signal),
+        );
+      }
+      const mode =
+        command === ELECTRON_COMMANDS.FOLDER_UPSCAYL
+          ? "batch"
+          : command === ELECTRON_COMMANDS.DOUBLE_UPSCAYL
+            ? "double"
+            : "single";
+      const createResponse = await fetch(`${endpoint}/jobs`, {
         method: "POST",
-        body: formData,
+        headers: {
+          ...this.getApiHeaders(true),
+          "Idempotency-Key": crypto.randomUUID(),
+        },
+        body: JSON.stringify({
+          mode,
+          uploadIds: uploads.map((upload) => upload.id),
+          model: payload.model,
+          scale: Number(payload.scale),
+          outputFormat:
+            payload.saveImageAs === "jpeg" ? "jpg" : payload.saveImageAs,
+          compression: Number(payload.compression ?? 0),
+          customWidth: payload.useCustomWidth
+            ? Number(payload.customWidth)
+            : null,
+          tileSize: Number(payload.tileSize ?? 0),
+          tta: Boolean(payload.ttaMode),
+        }),
         signal: abortController.signal,
       });
-
-      if (!response.ok) {
-        const responseContentType = response.headers.get("content-type") ?? "";
-        const errorText = responseContentType.includes("text/html")
-          ? ""
-          : await response.text();
-        throw new Error(
-          errorText ||
-            `Web upscale backend returned ${response.status} ${response.statusText}`,
-        );
-      }
-
-      const contentType = response.headers.get("content-type") ?? "";
-      if (contentType.includes("application/json")) {
-        const data = await response.json();
-        const output = data.outputUrl ?? data.outputPath ?? data.url;
-        if (!output) throw new Error("Web upscale backend did not return an output URL.");
-        this.emit(
-          command === ELECTRON_COMMANDS.FOLDER_UPSCAYL
-            ? ELECTRON_COMMANDS.FOLDER_UPSCAYL_DONE
-            : command === ELECTRON_COMMANDS.DOUBLE_UPSCAYL
-              ? ELECTRON_COMMANDS.DOUBLE_UPSCAYL_DONE
-              : ELECTRON_COMMANDS.UPSCAYL_DONE,
-          output,
-        );
-        return;
-      }
-
+      if (!createResponse.ok)
+        throw new Error(await this.readApiError(createResponse));
+      const created = (await createResponse.json()) as WebJobResponse;
+      this.currentJobId = created.id;
+      const completed = await this.pollWebJob(
+        endpoint,
+        created.id,
+        progressCommand,
+        abortController.signal,
+      );
+      if (!completed.result?.url)
+        throw new Error("Upscale API did not return a result URL.");
+      const resultResponse = await fetch(completed.result.url, {
+        headers: this.getApiHeaders(),
+        signal: abortController.signal,
+      });
+      if (!resultResponse.ok)
+        throw new Error(await this.readApiError(resultResponse));
       this.emit(progressCommand, "100.00%");
-      const outputUrl = URL.createObjectURL(await response.blob());
+      const outputUrl = URL.createObjectURL(await resultResponse.blob());
       this.emit(
         command === ELECTRON_COMMANDS.FOLDER_UPSCAYL
           ? ELECTRON_COMMANDS.FOLDER_UPSCAYL_DONE
@@ -304,11 +383,12 @@ class WebRuntime {
       this.emit(
         ELECTRON_COMMANDS.UPSCAYL_ERROR,
         (error as Error).message ||
-          "Web upscale failed. Configure NEXT_PUBLIC_UPSCAYL_WEB_API_URL or provide /api/upscayl.",
+          "Web upscale failed through the /api/v1 job service.",
       );
     } finally {
       abortController.abort();
-      await progressPromise;
+      this.emit(ELECTRON_COMMANDS.WEB_UPSCAYL_ETA, null);
+      this.currentJobId = null;
       if (this.abortController === abortController) {
         this.abortController = null;
       }
@@ -327,7 +407,10 @@ class WebRuntime {
       const file = new File([bytes], filePayload.name, {
         type: `image/${filePayload.extension}`,
       });
-      this.emit(ELECTRON_COMMANDS.PASTE_IMAGE_SAVE_SUCCESS, this.registerFile(file));
+      this.emit(
+        ELECTRON_COMMANDS.PASTE_IMAGE_SAVE_SUCCESS,
+        this.registerFile(file),
+      );
     } catch (error) {
       this.emit(
         ELECTRON_COMMANDS.PASTE_IMAGE_SAVE_ERROR,
@@ -340,12 +423,15 @@ class WebRuntime {
 const webRuntime = new WebRuntime();
 
 export const appRuntime =
-  typeof window !== "undefined" && window.electron ? window.electron : webRuntime;
+  typeof window !== "undefined" && window.electron
+    ? window.electron
+    : webRuntime;
 
 export const isElectronRuntime = () =>
   typeof window !== "undefined" && Boolean(window.electron);
 
-export const registerBrowserFile = (file: File) => webRuntime.registerFile(file);
+export const registerBrowserFile = (file: File) =>
+  webRuntime.registerFile(file);
 
 export const getRuntimeFileName = (path: string) =>
   isElectronRuntime() ? path : webRuntime.getFileName(path);

@@ -63,3 +63,48 @@
 - Electron tiep tuc dung `public:///`; web dung base path `/upscale` duoc expose tu Next config.
 - Thay URL cho ca thumbnail Before/After va anh zoom cua tat ca model.
 - Them accessible title va bo description warning cho dialog model/zoom.
+
+## 2026-08-24 Web Upscale ETA
+
+- Backend luu `startedAt` va completion estimate cho tung job; chi bat dau uoc tinh tu progress native, bo qua progress mo phong khi nap model.
+- Completion estimate duoc lam muot qua cac tile va API tra `estimatedRemainingSeconds` dong theo thoi gian.
+- Web runtime poll moi 1 giay, phat ETA rieng de giu nguyen progress string cua Electron.
+- Progress bar web hien `--:--` truoc sample that, sau do dem nguoc `MM:SS`/`HH:MM:SS`.
+- Them `ETA_LABEL` cho tat ca locale; tieng Viet hien `Con khoang`.
+- Release production: `20260824-eta2`.
+
+## 2026-08-24 Upscale Route Migration
+
+- Them `deploy/bb.1nutnhan.com.conf` tu server block dang chay va chen route uu tien `/upscale` toi `127.0.0.1:3030`.
+- Giu nguyen backend `/` port 8110, WebSocket `/ws` port 9322, TLS va health check cua `bb`.
+- Doi hai route `/upscale` tren `veo3` thanh redirect 308 toi `bb`, giu nguyen path/query/method.
+- Backup Nginx truoc cutover tai `/etc/nginx/route-backups/20260824-upscale-to-bb`.
+- `nginx -t` pass truoc graceful reload; khong restart web service.
+
+## 2026-08-24 Upscale API v1
+
+- Them catch-all route `renderer/pages/api/v1/[...route].ts` va tach backend theo module auth, config, database, validation, storage, service, worker, error va type trong `renderer/server/upscale-api/`.
+- Cung cap health, models, upload, create/list/get/cancel job, download va xoa result; job persist bang SQLite WAL voi recovery sau restart.
+- API key duoc bam SHA-256, co scope, hourly rate window, revoke CLI; browser same-origin dung anonymous principal rieng va khong lo key operator.
+- Worker concurrency 1, queue 20, timeout 60 phut, process-group cancel, idempotency, ownership isolation, magic-byte/image-dimension validation, 50 MP guard va cleanup TTL.
+- Web runtime chuyen sang upload -> create -> poll -> result/cancel; Electron IPC khong doi. `/api/upscayl` cu tro thanh compatibility adapter tren cung queue.
+- Them OpenAPI 3.1, huong dan, CLI key va contract script; systemd luu state tai `/var/lib/mtips5s-upscale-api` va doc secret root-only tu `/etc/mtips5s-upscale/api.env`.
+- Sua default browser API URL de ton trong base path `/upscale`; successor link cua legacy endpoint cung dung base path.
+- Worker ETA co fallback theo workload output khi binary im lang: progress van tang toi 95%, ETA co ngay tu luc processing va native sample van duoc dung de hieu chinh.
+- Production release hien tai: `/opt/mtips5s-upscale/releases/20260824-api-v1d`; cac release `api-v1c`, `api-v1b`, `api-v1`, `eta2` duoc giu de rollback.
+
+## File Splitting Map - Upscale API v1
+
+- API routing: `renderer/pages/api/v1/[...route].ts` -> `renderer/server/upscale-api/handler.ts`.
+- Domain/persistence: `service.ts`, `database.ts`, `types.ts`, `errors.ts`.
+- Runtime/pipeline: `worker.ts`, `progress.ts`, `storage.ts`, `image-info.ts`, `config.ts`.
+- Boundary/security: `auth.ts`, `validation.ts`.
+
+## 2026-08-24 Banana-Upscale API Integration
+
+- Banana va Upscale giu repo/database/runtime/release rieng; khong co import source, shared JSON/SQLite/volume.
+- `banana-client.ts` introspect `bbmcp_` qua Banana Platform API voi cache ngan, timeout va fail-closed; local `up_` dual-auth va anonymous same-origin duoc giu de migration.
+- Job Banana reserve quota truoc khi enqueue; reservation ID va usage units duoc persist trong SQLite job.
+- `service_outbox` persist lifecycle event va quota complete/release, retry exponential, dedupe bang event ID; restart recovery tao lai event/release cho processing job da nhan cancel.
+- Internal API read-only `/api/internal/v1/{health,queue,jobs}` dung `BANANA_TO_UPSCALE_SERVICE_KEY`, khong expose raw path/key.
+- Banana branch release tach rieng tai `codex/banana-upscale-api`, commit `df79ed48ba2a9fad3d95ab98ac988f72c0630366`, version `0.1.37`.

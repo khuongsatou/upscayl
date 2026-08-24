@@ -195,7 +195,8 @@
     "PROGRESS_BAR": {
       "BATCH_UPSCAYL_IN_PROGRESS_TITLE": "Plikowy Upscayl W Toku:",
       "IN_PROGRESS_TITLE": "Robię magię Upscaylowania...",
-      "STOP_BUTTON_TITLE": "ZATRZYMAJ"
+      "STOP_BUTTON_TITLE": "ZATRZYMAJ",
+      "ETA_LABEL": "Pozostały czas"
     },
     "RESET_BUTTON_TITLE": "Reset",
     "RIGHT_PANE_INFO": {

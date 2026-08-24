@@ -109,3 +109,61 @@
 - Runtime-aware public asset URLs preserve Electron and fix the `/upscale` web route.
 - All thumbnail and zoom images passed production Playwright validation.
 - Release `20260824-model-images` is active and previous release remains available for rollback.
+
+## 2026-08-24 Web Upscale ETA
+
+| Field | Value |
+|---|---|
+| PM Verdict | Done |
+| Scope | Add estimated remaining time to web upscale progress |
+
+## Summary
+
+- Web progress bar now shows a localized remaining-time estimate after the first native tile sample.
+- ETA counts down every second and is recalibrated by later tile progress for single, double and batch jobs.
+- Electron keeps its existing percentage payload and UI behavior.
+- Production release `20260824-eta2` is active; public API and browser smoke tests passed.
+
+## Remaining Risk
+
+- ETA is approximate because tile cost can vary by image content, model and host load.
+- The VPS still uses CPU `llvmpipe`; large images remain slow even though progress is now easier to understand.
+
+## 2026-08-24 Upscale Route Migration
+
+| Field | Value |
+|---|---|
+| PM Verdict | Done |
+| Scope | Move public Upscayl route from `veo3` to `bb` |
+
+## Summary
+
+- `https://bb.1nutnhan.com/upscale` is now the active public page and API route.
+- Existing `bb` root, WebSocket, certificate and health behavior are preserved.
+- Old `veo3` page/API paths return HTTP 308 to the matching `bb` URL.
+- Nginx config, public assets and a real upscale request passed production QA.
+
+## Remaining Risk
+
+- Keep the old redirect until external bookmarks and integrations have migrated to `bb`.
+
+## 2026-08-24 Upscale API v1
+
+| Field | Value |
+|---|---|
+| PM Verdict | Done / Release Go |
+| Scope | Async Upscale REST API v1, web migration and production deployment |
+
+## Summary
+
+- API v1 tai `https://bb.1nutnhan.com/upscale/api/v1` da hoat dong voi API key/scopes/rate limit, SQLite queue, persistent jobs, cancel, result/history, TTL cleanup va restart recovery.
+- Browser same-origin dung cung API ma khong lo operator key; Electron IPC va legacy synchronous endpoint duoc giu tuong thich.
+- Progress khong con dung khi binary im lang; production hien percentage va ETA dem nguoc, sau do tra anh Before/After.
+- Release `20260824-api-v1d` dang active, systemd `NRestarts=0`, Nginx pass, khong job/binary treo va khong warning/error journal.
+- OpenAPI, huong dan, key CLI va contract smoke script da duoc ban giao trong repo.
+
+## Remaining Risk
+
+- CPU-only `llvmpipe` gioi han throughput; concurrency 1 va queue 20 la guardrail co chu dich.
+- ETA chi la uoc tinh va can tune `UPSCAYL_API_ESTIMATED_MS_PER_MEGAPIXEL` neu doi hardware/model profile.
+- Can tiep tuc giu route redirect cu trong giai doan migration va xoay bootstrap key theo chinh sach van hanh.

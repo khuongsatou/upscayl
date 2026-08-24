@@ -1,0 +1,38 @@
+openapi: 3.1.0
+info:
+  title: MTips5s Upscale Internal API
+  version: 1.0.0
+  description: Read-only service API for Banana observability. It never exposes raw storage paths or API keys.
+servers:
+  - url: https://bb.1nutnhan.com/upscale/api/internal/v1
+security:
+  - ServiceKeyAuth: []
+paths:
+  /health:
+    get:
+      summary: Read runtime and Banana integration readiness
+      responses:
+        "200": { description: Runtime ready }
+        "503": { description: Runtime degraded or service auth not configured }
+  /queue:
+    get:
+      summary: Read active queue, progress and ETA
+      responses:
+        "200": { description: Queue snapshot }
+  /jobs:
+    get:
+      summary: List jobs across principals for the Banana dashboard
+      parameters:
+        - { in: query, name: limit, schema: { type: integer, minimum: 1, maximum: 100, default: 20 } }
+        - { in: query, name: cursor, schema: { type: integer, format: int64 } }
+        - { in: query, name: ownerId, schema: { type: string } }
+        - { in: query, name: status, schema: { type: string, enum: [queued, processing, succeeded, failed, canceled, expired] } }
+      responses:
+        "200": { description: Paginated job list without filesystem paths }
+components:
+  securitySchemes:
+    ServiceKeyAuth:
+      type: apiKey
+      in: header
+      name: X-Service-Key
+      description: BANANA_TO_UPSCALE_SERVICE_KEY. Authorization Bearer is also accepted.

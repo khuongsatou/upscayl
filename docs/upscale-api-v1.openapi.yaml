@@ -1,0 +1,248 @@
+openapi: 3.1.0
+info:
+  title: MTips5s Upscale API
+  version: 1.0.0
+  description: Persistent asynchronous image-upscaling API backed by Upscayl NCNN.
+servers:
+  - url: https://bb.1nutnhan.com/upscale/api/v1
+security:
+  - ApiKeyAuth: []
+tags:
+  - name: Runtime
+  - name: Uploads
+  - name: Jobs
+paths:
+  /health:
+    get:
+      tags: [Runtime]
+      security: []
+      summary: Check API, queue, binary, models, and storage readiness
+      responses:
+        "200": { description: Runtime is ready }
+        "503": { description: Runtime is degraded }
+  /models:
+    get:
+      tags: [Runtime]
+      security: []
+      summary: List supported models, formats, scales, and service limits
+      responses:
+        "200": { description: Model catalog }
+  /uploads:
+    post:
+      tags: [Uploads]
+      summary: Upload one PNG, JPEG, or WEBP image
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              required: [file]
+              properties:
+                file: { type: string, format: binary }
+      responses:
+        "201":
+          description: Upload stored temporarily
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/Upload" }
+        "400": { $ref: "#/components/responses/BadRequest" }
+        "401": { $ref: "#/components/responses/Unauthorized" }
+        "413": { description: File too large }
+        "429": { $ref: "#/components/responses/RateLimited" }
+  /jobs:
+    post:
+      tags: [Jobs]
+      summary: Queue an upscale job
+      parameters:
+        - in: header
+          name: Idempotency-Key
+          schema: { type: string, maxLength: 128 }
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: "#/components/schemas/CreateJob" }
+      responses:
+        "202":
+          description: Job queued
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/Job" }
+        "200":
+          description: Existing idempotent job returned
+          headers:
+            Idempotency-Replayed: { schema: { type: string, const: "true" } }
+        "400": { $ref: "#/components/responses/BadRequest" }
+        "401": { $ref: "#/components/responses/Unauthorized" }
+        "429": { $ref: "#/components/responses/RateLimited" }
+    get:
+      tags: [Jobs]
+      summary: List jobs owned by the API key
+      parameters:
+        - {
+            in: query,
+            name: limit,
+            schema: { type: integer, minimum: 1, maximum: 100, default: 20 },
+          }
+        - { in: query, name: cursor, schema: { type: integer, format: int64 } }
+        - {
+            in: query,
+            name: status,
+            schema: { $ref: "#/components/schemas/JobStatus" },
+          }
+      responses:
+        "200": { description: Paginated job history }
+        "401": { $ref: "#/components/responses/Unauthorized" }
+  /jobs/{jobId}:
+    parameters:
+      - $ref: "#/components/parameters/JobId"
+    get:
+      tags: [Jobs]
+      summary: Read status, progress, ETA, queue position, and result metadata
+      responses:
+        "200":
+          description: Job state
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/Job" }
+        "404": { $ref: "#/components/responses/NotFound" }
+    delete:
+      tags: [Jobs]
+      summary: Cancel a queued or processing job
+      responses:
+        "200":
+          description: Current or canceled job state
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/Job" }
+        "404": { $ref: "#/components/responses/NotFound" }
+  /jobs/{jobId}/result:
+    parameters:
+      - $ref: "#/components/parameters/JobId"
+    get:
+      tags: [Jobs]
+      summary: Download an image or batch ZIP result
+      responses:
+        "200":
+          description: Binary result
+          content:
+            image/png: {}
+            image/jpeg: {}
+            image/webp: {}
+            application/zip: {}
+        "409": { description: Result is not ready }
+        "410": { description: Result expired }
+    delete:
+      tags: [Jobs]
+      summary: Delete a completed result before its TTL
+      responses:
+        "204": { description: Result deleted and job marked expired }
+        "409": { description: Job has no deletable result }
+components:
+  securitySchemes:
+    ApiKeyAuth:
+      type: apiKey
+      in: header
+      name: X-API-Key
+      description: Banana-managed bbmcp_ key or temporary legacy Upscale up_ key.
+  parameters:
+    JobId:
+      in: path
+      name: jobId
+      required: true
+      schema: { type: string, format: uuid }
+  responses:
+    BadRequest:
+      description: Invalid request
+      content:
+        application/json:
+          schema: { $ref: "#/components/schemas/Error" }
+    Unauthorized:
+      description: Missing or invalid API key
+      content:
+        application/json:
+          schema: { $ref: "#/components/schemas/Error" }
+    NotFound:
+      description: Resource does not exist or belongs to another principal
+      content:
+        application/json:
+          schema: { $ref: "#/components/schemas/Error" }
+    RateLimited:
+      description: Rate or queue limit exceeded
+      content:
+        application/json:
+          schema: { $ref: "#/components/schemas/Error" }
+  schemas:
+    Upload:
+      type: object
+      required: [id, fileName, mimeType, size, expiresAt]
+      properties:
+        id: { type: string, format: uuid }
+        fileName: { type: string }
+        mimeType: { type: string, enum: [image/png, image/jpeg, image/webp] }
+        size: { type: integer }
+        expiresAt: { type: integer, format: int64 }
+    CreateJob:
+      type: object
+      required: [mode, uploadIds]
+      properties:
+        mode: { type: string, enum: [single, double, batch] }
+        uploadIds:
+          type: array
+          minItems: 1
+          maxItems: 10
+          items: { type: string, format: uuid }
+        model: { type: string, default: upscayl-standard-4x }
+        scale: { type: integer, enum: [2, 3, 4], default: 4 }
+        outputFormat: { type: string, enum: [png, jpg, webp], default: png }
+        compression: { type: integer, minimum: 0, maximum: 100, default: 0 }
+        customWidth: { type: [integer, "null"], minimum: 1, maximum: 8192 }
+        tileSize: { type: integer, minimum: 0, maximum: 4096, default: 0 }
+        tta: { type: boolean, default: false }
+    JobStatus:
+      type: string
+      enum: [queued, processing, succeeded, failed, canceled, expired]
+    Job:
+      type: object
+      required:
+        [
+          id,
+          mode,
+          status,
+          progress,
+          inputCount,
+          createdAt,
+          updatedAt,
+          expiresAt,
+        ]
+      properties:
+        id: { type: string, format: uuid }
+        mode: { type: string, enum: [single, double, batch] }
+        model: { type: string }
+        scale: { type: integer }
+        outputFormat: { type: string }
+        status: { $ref: "#/components/schemas/JobStatus" }
+        progress: { type: number, minimum: 0, maximum: 100 }
+        estimatedRemainingSeconds: { type: [integer, "null"] }
+        queuePosition: { type: [integer, "null"] }
+        inputCount: { type: integer }
+        result: { type: [object, "null"] }
+        error: { type: [object, "null"] }
+        createdAt: { type: integer, format: int64 }
+        startedAt: { type: [integer, "null"], format: int64 }
+        updatedAt: { type: integer, format: int64 }
+        completedAt: { type: [integer, "null"], format: int64 }
+        expiresAt: { type: integer, format: int64 }
+    Error:
+      type: object
+      required: [error]
+      properties:
+        error:
+          type: object
+          required: [code, message, requestId]
+          properties:
+            code: { type: string }
+            message: { type: string }
+            requestId: { type: string, format: uuid }
+            details: {}

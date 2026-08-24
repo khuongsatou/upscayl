@@ -11,6 +11,9 @@ WorkingDirectory=/opt/mtips5s-upscale/current
 Environment=NODE_ENV=production
 Environment=UPSCAYL_TARGET=web
 Environment=UPSCAYL_WEB_BASE_PATH=/upscale
+Environment=UPSCAYL_API_DATA_DIR=/var/lib/mtips5s-upscale-api
+Environment=UPSCAYL_API_ALLOW_ANONYMOUS_WEB=true
+EnvironmentFile=-/etc/mtips5s-upscale/api.env
 ExecStart=/usr/bin/npm run web:start -- -H 127.0.0.1 -p 3030
 Restart=on-failure
 RestartSec=5
@@ -20,6 +23,8 @@ NoNewPrivileges=true
 PrivateTmp=true
 ProtectHome=true
 ProtectSystem=full
+StateDirectory=mtips5s-upscale-api
+StateDirectoryMode=0750
 MemoryMax=2500M
 TasksMax=256
 

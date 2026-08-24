@@ -142,6 +142,45 @@
 
 - Browser viewport override did not resize the final Chrome window to 390px, so final mobile visual screenshot was not available; responsive constraints are present in the built CSS.
 
+## 2026-08-24 Web Upscale ETA QA
+
+| Check | Result |
+|---|---|
+| `npm run tsc` | Pass |
+| `npm run web:build` | Pass |
+| `npm run build` | Pass; locale schema valid |
+| Local API job | Pass; ETA `null` before native progress, then 29s -> 1s -> 0 |
+| Local UI English | Pass; `Time remaining --:--` -> `Time remaining 00:15` |
+| Local UI Vietnamese | Pass; `Con khoang --:--` -> `Con khoang 00:27` -> `00:26` |
+| UI console | Pass; no warning/error |
+| VPS staging job | Pass; PNG 500x480, ETA updated while running |
+| Public production job | Pass; HTTP 200 PNG 256x244, ETA present and done at 0 |
+| Production service | Active, zero unexpected restarts, public HTTP 200 |
+
+## Residual Risk
+
+- ETA la du doan tu toc do cac tile da xong, nen co the tang/giam khi tile sau co chi phi khac.
+- Truoc sample native dau tien UI hien `--:--` de tranh uoc tinh sai tu progress mo phong.
+
+## 2026-08-24 Upscale Route Migration QA
+
+| Check | Result |
+|---|---|
+| DNS `bb.1nutnhan.com` | Pass; cung VPS voi domain cu |
+| TLS `bb.1nutnhan.com` | Pass; certificate dung hostname va con han |
+| `nginx -t` | Pass truoc reload |
+| `GET https://bb.1nutnhan.com/upscale` | HTTP 200 |
+| Static JavaScript asset | HTTP 200 |
+| API guard without job ID | HTTP 400 dung contract |
+| Real API job via new domain | HTTP 200; PNG 128x120 |
+| `bb.1nutnhan.com/` | Van HTTP 200 tu backend hien co |
+| Old page/API URL | HTTP 308 toi `bb`, giu path va query |
+| Upscale service | Active; khong restart khi reload Nginx |
+
+## Residual Risk
+
+- Redirect 308 duoc giu de client cu chuyen dan sang domain moi; xoa route cu can mot dot migration rieng neu muon.
+
 ## 2026-08-24 Model Comparison Image Hotfix QA
 
 | Check | Result |
@@ -157,3 +196,52 @@
 | Production Playwright zoom | Pass, 2/2 loaded |
 | Production console | Pass, no warning/error |
 | VPS service | Active after release switch |
+
+## 2026-08-24 Upscale API v1 QA
+
+| Check | Result |
+|---|---|
+| `npm run tsc` | Pass |
+| `npm run web:build` | Pass |
+| `npm run build` + locale schema | Pass; chi co static-export warning da biet cho Electron |
+| `git diff --check` | Pass |
+| Rule Splitting File | Pass; `worker.ts` 433 dong, `progress.ts` 117 dong |
+| OpenAPI YAML parse | Pass |
+| Final local `npm run api:v1:test` | Pass; upload, validation, idempotency, status, result, history, delete |
+| API key scope | Pass; read key GET 200, write 403 |
+| Rate limit | Pass; limit 1 cho response 200 roi 429 `RATE_LIMIT_EXCEEDED` |
+| Revoke | Pass; truoc revoke 200, sau revoke 401 |
+| Single/double/batch | Pass; PNG 500x480, PNG 2000x1920, ZIP hai output |
+| Queue/ownership | Pass; queue full 429, key khac nhan 404 |
+| Cancel/process cleanup | Pass; processing -> canceled, khong con `upscayl-bin` |
+| Restart recovery/TTL | Pass; processing duoc recover, succeeded -> expired va output duoc xoa |
+| Legacy adapter | Pass; progress GET, PNG 500x480, deprecation/sunset/successor headers |
+| Production page/health/models | HTTP 200 qua `https://bb.1nutnhan.com/upscale` |
+| Production auth | Khong key 401; bootstrap key contract pass |
+| Production anonymous web | Same-origin upload/job/result pass, khong can public key |
+| Production browser | Pass; progress 4.97% -> 32.20%, ETA 00:37 -> 00:25, output Before/After hien thi, console sach |
+| Final `api-v1d` production contract | Pass sau khi tach module progress/ETA |
+| Production cancel | Pass; processing -> canceled, binary clean |
+| Controlled service restart | Pass; cung job recover ve processing, sau do cancel sach |
+| Persistence | SQLite/WAL/SHM ton tai trong state dir 0750, owner `upscayl` |
+| systemd/Nginx | Service active, `NRestarts=0`, `nginx -t` pass, khong warning/error journal |
+| Route compatibility | `bb` root van 200; domain cu redirect 308 va giu path/query |
+
+## Residual Risk
+
+- VPS dung CPU `llvmpipe`; anh lon, double va batch van cham va queue concurrency co chu dich la 1.
+- ETA la du doan theo workload va duoc hieu chinh theo native progress; model, noi dung anh va tai may co the lam sai lech.
+- `node:sqlite` tren Node 22 van phat ExperimentalWarning, du API contract va persistence da pass.
+
+## 2026-08-24 Banana-Upscale API Integration
+
+| Check | Result |
+|---|---|
+| Banana Platform/MCP/Admin unit-contract suite | PASS (11 focused tests; full Banana suite 378/378) |
+| Banana `npm run check` including integration precheck | PASS |
+| Upscale `npm run web:build` | PASS |
+| HTTP contract: bbmcp introspect/upload/create/cancel/internal API | PASS |
+| Outbox Banana-down + Upscale restart + recovery delivery | PASS |
+| Raw service/API keys printed or persisted by new code | NOT OBSERVED; hashes/secret env only |
+
+Residual gate: production service-key provisioning, canary and rollback verification chua chay tai thoi diem ghi muc nay.

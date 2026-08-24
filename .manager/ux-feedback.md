@@ -66,3 +66,32 @@
 
 - Before/After comparisons are visible for every built-in model.
 - Full-screen comparison zoom renders both images and keeps the existing layout.
+
+## 2026-08-24 Web Upscale ETA
+
+| Field | Value |
+|---|---|
+| UI Score | 5/5 |
+| Function Score | 5/5 |
+| Verdict | Approved |
+
+## Findings
+
+- ETA nam ngay duoi phan tram, khong them buoc thao tac va khong che anh.
+- Trang thai `--:--` noi ro chua du du lieu; sau tile dau tien thoi gian dem nguoc de doc.
+- Tieng Viet ngan gon voi nhan `Con khoang`; Stop va cac trang thai done/error giu nguyen.
+
+## 2026-08-24 Upscale API v1
+
+| Field | Value |
+|---|---|
+| UI Score | 5/5 |
+| Function Score | 5/5 |
+| Verdict | Approved |
+
+## Findings
+
+- Luong nguoi dung van la chon anh va bam Upscayl; API bat dong bo khong them buoc thao tac.
+- Progress va ETA cap nhat lien tuc ke ca khi binary VPS im lang, nut Stop luon hien thi va khong chan giao dien.
+- Loading, done va error deu co phan hoi; anh ket qua hien dung Before/After.
+- Browser production khong co warning/error console va khong phai nhung API key vao JavaScript public.

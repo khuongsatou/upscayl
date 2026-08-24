@@ -195,7 +195,8 @@
     "PROGRESS_BAR": {
       "BATCH_UPSCAYL_IN_PROGRESS_TITLE": "Batch-Upscayl in Arbeit:",
       "IN_PROGRESS_TITLE": "Upscayl arbeitet...",
-      "STOP_BUTTON_TITLE": "STOPP"
+      "STOP_BUTTON_TITLE": "STOPP",
+      "ETA_LABEL": "Verbleibende Zeit"
     },
     "RESET_BUTTON_TITLE": "Zurücksetzen",
     "RIGHT_PANE_INFO": {
@@ -277,7 +278,7 @@
       "TITLE": "Metadaten-Warnung",
       "DESCRIPTION": "Auf einigen Systemen sind die Metadaten in anderen Formaten als JPG möglicherweise nicht sichtbar. Verwende gegebenenfalls spezielle Tools zum Anzeigen der Metadaten."
     }
-  },  
+  },
   "UPSCAYL_CLOUD": {
     "COMING_SOON": "Kommt bald!",
     "CATCHY_PHRASE_1": "Keine Fehler mehr, Hardwareprobleme, Qualitätseinbußen oder lange Ladezeiten!",

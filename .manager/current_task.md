@@ -66,3 +66,39 @@
 | Status | Done |
 | Task | Sua anh Before/After trong Select AI Model khong hien thi tren web |
 | Expected Output | Tat ca anh model va zoom tai dung tren web; Electron protocol hien co duoc giu nguyen |
+
+## 2026-08-24 Web Upscale ETA
+
+| Field | Value |
+|---|---|
+| Owner | Upscale Pipeline Specialist + Electron Next Developer |
+| Status | Done |
+| Task | Them thoi gian du doan hoan thanh vao progress web upscale |
+| Expected Output | ETA dua tren progress native, dem nguoc tren progress bar, khong anh huong Electron |
+
+## 2026-08-24 Upscale Route Migration
+
+| Field | Value |
+|---|---|
+| Owner | DevOps Release Operator |
+| Status | Done |
+| Task | Chuyen public route tu `veo3.1nutnhan.com/upscale` sang `bb.1nutnhan.com/upscale` |
+| Expected Output | Route moi proxy toi web service; route cu redirect an toan; cac route hien co cua `bb` giu nguyen |
+
+## 2026-08-24 Upscale API v1
+
+| Field | Value |
+|---|---|
+| Owner | Project Manager + Solution Architect + Upscale Pipeline Specialist |
+| Status | Done |
+| Task | Trien khai bo API upscale bat dong bo theo plan da duyet |
+| Expected Output | OpenAPI v1, API key, SQLite queue, worker, upload/job/status/cancel/result/history/cleanup, web migration va production QA |
+
+## 2026-08-24 Banana-Upscale API Integration
+
+| Field | Value |
+|---|---|
+| Owner | Project Manager + Solution Architect + Upscale Pipeline Specialist |
+| Status | In Progress |
+| Task | Tich hop Banana va Upscale thanh hai dich vu doc lap, chi giao tiep qua HTTP API versioned |
+| Expected Output | Banana so huu `bbmcp_` key/quota/usage/MCP; Upscale so huu job pipeline; introspection, internal API va outbox event sync co test va production canary |

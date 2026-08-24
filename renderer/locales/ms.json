@@ -195,7 +195,8 @@
     "PROGRESS_BAR": {
       "BATCH_UPSCAYL_IN_PROGRESS_TITLE": "Upscayl Kelompok Sedang Berjalan:",
       "IN_PROGRESS_TITLE": "Melakukan magik Upscayl...",
-      "STOP_BUTTON_TITLE": "HENTI"
+      "STOP_BUTTON_TITLE": "HENTI",
+      "ETA_LABEL": "Masa berbaki"
     },
     "RESET_BUTTON_TITLE": "Tetapkan Semula",
     "RIGHT_PANE_INFO": {

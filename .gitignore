@@ -52,6 +52,9 @@ main/utils/*.js
 
 .env
 .env.vps
+*.sqlite
+*.sqlite-shm
+*.sqlite-wal
 *.provisionprofile
 flags.ts
 *.p12

@@ -196,7 +196,8 @@
     "PROGRESS_BAR": {
       "BATCH_UPSCAYL_IN_PROGRESS_TITLE": "Aumento por lotes en progreso:",
       "IN_PROGRESS_TITLE": "Haciendo la magia de Upscayl...",
-      "STOP_BUTTON_TITLE": "DETENER"
+      "STOP_BUTTON_TITLE": "DETENER",
+      "ETA_LABEL": "Tiempo restante"
     },
     "RESET_BUTTON_TITLE": "Restablecer",
     "RIGHT_PANE_INFO": {

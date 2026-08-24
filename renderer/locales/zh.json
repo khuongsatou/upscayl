@@ -195,7 +195,8 @@
     "PROGRESS_BAR": {
       "BATCH_UPSCAYL_IN_PROGRESS_TITLE": "批量升图中",
       "IN_PROGRESS_TITLE": "稍等一下，升图魔法进行中",
-      "STOP_BUTTON_TITLE": "取消"
+      "STOP_BUTTON_TITLE": "取消",
+      "ETA_LABEL": "剩余时间"
     },
     "RESET_BUTTON_TITLE": "重置",
     "RIGHT_PANE_INFO": {
@@ -277,7 +278,7 @@
       "TITLE": "元数据警告",
       "DESCRIPTION": "在某些系统上，JPG 以外的格式可能无法显示元数据。如有需要，请使用专门的工具查看元数据。"
     }
-  },    
+  },
   "UPSCAYL_CLOUD": {
     "COMING_SOON": "即将推出！",
     "CATCHY_PHRASE_1": "该与错误、硬件问题、质量妥协和漫长的等待告别喽！",

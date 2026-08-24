@@ -195,7 +195,8 @@
     "PROGRESS_BAR": {
       "BATCH_UPSCAYL_IN_PROGRESS_TITLE": "Topyekün Upscayl ediliyor...",
       "IN_PROGRESS_TITLE": "Upscayl sihrini konuşturuyor...",
-      "STOP_BUTTON_TITLE": "DURDUR"
+      "STOP_BUTTON_TITLE": "DURDUR",
+      "ETA_LABEL": "Kalan süre"
     },
     "RESET_BUTTON_TITLE": "Sıfırla",
     "RIGHT_PANE_INFO": {
@@ -277,7 +278,7 @@
       "TITLE": "Meta Veri Uyarısı",
       "DESCRIPTION": "Bazı sistemlerde, JPG dışındaki formatlarda meta veriler görüntülenemeyebilir. Gerekirse meta verileri görüntülemek için özel araçlar kullanın."
     }
-  },    
+  },
   "UPSCAYL_CLOUD": {
     "COMING_SOON": "Yakında sizlerle!",
     "CATCHY_PHRASE_1": "Artık hatalar, donanım uyuşmazlıkları, kalite tavizleri ya da uzun yükleme süreleri yok!",
