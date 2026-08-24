@@ -218,6 +218,54 @@ const png = Buffer.from(
     await waitFor(() => received.events.some((event) => event.jobId === job.id), 20_000);
     await waitFor(() => received.finalized.some((item) => item.id === "reservation-1"), 20_000);
 
+    await stopUpscale();
+    const reconciliationJobId = "00000000-0000-4000-8000-000000000042";
+    {
+      const database = new DatabaseSync(databasePath);
+      const now = Date.now();
+      database.prepare(`INSERT INTO jobs(
+        id,owner_id,idempotency_key,mode,model,scale,output_format,compression,custom_width,tile_size,tta,
+        status,progress,estimated_completion_at,input_count,output_path,output_mime,output_name,output_size,
+        error_code,error_message,cancel_requested,created_at,started_at,updated_at,completed_at,expires_at,
+        quota_reservation_id,usage_units
+      ) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)`).run(
+        reconciliationJobId,
+        "banana:contract-key-id",
+        "reconciliation-job",
+        "single",
+        "upscayl-standard-4x",
+        2,
+        "png",
+        0,
+        null,
+        0,
+        0,
+        "succeeded",
+        100,
+        now,
+        1,
+        null,
+        "image/png",
+        "reconciled.png",
+        1,
+        null,
+        null,
+        0,
+        now,
+        now,
+        now,
+        now,
+        now + 60_000,
+        "reservation-reconcile",
+        1,
+      );
+      database.close();
+    }
+    child = startUpscale();
+    await waitFor(async () => (await fetch(`${base}/api/v1/health`)).status < 500);
+    await waitFor(() => received.events.some((event) => event.jobId === reconciliationJobId), 20_000);
+    await waitFor(() => received.finalized.some((item) => item.id === "reservation-reconcile" && item.action === "complete"), 20_000);
+
     const internalJobs = await fetch(`${base}/api/internal/v1/jobs`, {
       headers: { "X-Service-Key": bananaToUpscaleKey },
     });
@@ -231,6 +279,7 @@ const png = Buffer.from(
       finalized: received.finalized.length,
       events: received.events.map((event) => event.type),
       restartRecovery: true,
+      terminalReconciliation: true,
     }, null, 2));
   } finally {
     await stopUpscale();

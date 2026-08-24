@@ -221,6 +221,84 @@ export const getDatabase = (): Database => {
         );
     }
   }
+  const bananaJobs = database
+    .prepare("SELECT * FROM jobs WHERE owner_id LIKE 'banana:%'")
+    .all() as Array<{
+      id: string;
+      owner_id: string;
+      mode: string;
+      model: string;
+      scale: number;
+      status: string;
+      input_count: number;
+      quota_reservation_id: string | null;
+      usage_units: number;
+      updated_at: number;
+    }>;
+  for (const job of bananaJobs) {
+    const eventId = `upscale-job:${job.id}:${job.status}`;
+    database
+      .prepare(
+        `INSERT INTO service_outbox(event_id,action,payload_json,attempts,next_attempt_at,created_at,updated_at)
+         VALUES(?, 'event_batch', ?, 0, ?, ?, ?) ON CONFLICT(event_id) DO NOTHING`,
+      )
+      .run(
+        eventId,
+        JSON.stringify({
+          events: [
+            {
+              eventId,
+              type: `upscale.job.${job.status}`,
+              principalId: job.owner_id,
+              jobId: job.id,
+              reservationId: job.quota_reservation_id || "",
+              status: job.status,
+              units: job.usage_units || job.input_count || 1,
+              occurredAt: new Date(job.updated_at).toISOString(),
+              metadata: {
+                mode: job.mode,
+                model: job.model,
+                scale: job.scale,
+                inputCount: job.input_count,
+                reason: "startup_reconciliation",
+              },
+            },
+          ],
+        }),
+        recoveryTime,
+        recoveryTime,
+        recoveryTime,
+      );
+    if (!job.quota_reservation_id) continue;
+    const quotaAction =
+      job.status === "succeeded"
+        ? "quota_complete"
+        : job.status === "failed" || job.status === "canceled"
+          ? "quota_release"
+          : null;
+    if (!quotaAction) continue;
+    const outcome = quotaAction === "quota_complete" ? "complete" : "release";
+    database
+      .prepare(
+        `INSERT INTO service_outbox(event_id,action,payload_json,attempts,next_attempt_at,created_at,updated_at)
+         VALUES(?, ?, ?, 0, ?, ?, ?) ON CONFLICT(event_id) DO NOTHING`,
+      )
+      .run(
+        `quota:${job.quota_reservation_id}:${outcome}`,
+        quotaAction,
+        JSON.stringify({
+          reservationId: job.quota_reservation_id,
+          metadata: {
+            jobId: job.id,
+            status: job.status,
+            reason: "startup_reconciliation",
+          },
+        }),
+        recoveryTime,
+        recoveryTime,
+        recoveryTime,
+      );
+  }
   database
     .prepare(
       "UPDATE jobs SET status='queued', progress=0, estimated_completion_at=NULL, started_at=NULL, updated_at=? WHERE status='processing' AND cancel_requested=0",
