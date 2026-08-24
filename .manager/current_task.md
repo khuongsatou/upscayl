@@ -99,6 +99,6 @@
 | Field | Value |
 |---|---|
 | Owner | Project Manager + Solution Architect + Upscale Pipeline Specialist |
-| Status | In Progress |
+| Status | Done |
 | Task | Tich hop Banana va Upscale thanh hai dich vu doc lap, chi giao tiep qua HTTP API versioned |
 | Expected Output | Banana so huu `bbmcp_` key/quota/usage/MCP; Upscale so huu job pipeline; introspection, internal API va outbox event sync co test va production canary |

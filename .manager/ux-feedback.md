@@ -95,3 +95,17 @@
 - Progress va ETA cap nhat lien tuc ke ca khi binary VPS im lang, nut Stop luon hien thi va khong chan giao dien.
 - Loading, done va error deu co phan hoi; anh ket qua hien dung Before/After.
 - Browser production khong co warning/error console va khong phai nhung API key vao JavaScript public.
+
+## 2026-08-24 Banana-Upscale Dashboard
+
+| Field | Value |
+|---|---|
+| UI Score | 5/5 |
+| Function Score | 5/5 |
+| Verdict | Approved |
+
+## Findings
+
+- MCP admin dashboard co service badges, running/queued, quota reservation, usage events va job progress/ETA.
+- Loi health/queue/jobs duoc tach rieng; mot endpoint loi khong xoa du lieu cua endpoint con lai.
+- Dashboard chi goi internal API co service auth, khong doc SQLite/file Upscale va khong expose service key ra renderer.

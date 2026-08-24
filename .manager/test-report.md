@@ -237,11 +237,18 @@
 
 | Check | Result |
 |---|---|
-| Banana Platform/MCP/Admin unit-contract suite | PASS (11 focused tests; full Banana suite 378/378) |
+| Banana Platform/MCP/Admin unit-contract suite | PASS; full Banana `0.1.44` suite 386/386 |
 | Banana `npm run check` including integration precheck | PASS |
 | Upscale `npm run web:build` | PASS |
 | HTTP contract: bbmcp introspect/upload/create/cancel/internal API | PASS |
 | Outbox Banana-down + Upscale restart + recovery delivery | PASS |
+| Terminal DB-update/crash gap startup reconciliation | PASS |
+| Production public API real upscale | PASS, PNG 624,031 bytes |
+| Production MCP upload/create/poll/download | PASS, PNG 163,638 bytes |
+| Production MCP tools/list | PASS, 47 tools including 5 Upscale tools |
+| Production outbox | PASS, 9/9 delivered, 0 pending |
+| Dual auth / anonymous web | PASS: legacy `up_` 200; same-origin fake upload reaches validation 400 |
+| Revoked `bbmcp_` canary | PASS: MCP 401 and Upscale 401 |
 | Raw service/API keys printed or persisted by new code | NOT OBSERVED; hashes/secret env only |
 
-Residual gate: production service-key provisioning, canary and rollback verification chua chay tai thoi diem ghi muc nay.
+Production service keys duoc provision trong secret env mode 0600; rollback source, env, SQLite va release symlink da duoc giu. PP/OTP hold khong bi thay doi.

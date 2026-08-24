@@ -45,6 +45,8 @@
 ## 2026-08-24 Banana-Upscale Integration
 
 - Tach Banana implementation sang clean worktree/branch de khong ghi de 15 file dang sua do trong repo nguoi dung.
-- Contract API hai chieu va 5 MCP Upscale tools duoc them; Banana full suite 378 test pass.
+- Contract API hai chieu va 5 MCP Upscale tools duoc them; Banana `0.1.44` full suite 386 test pass.
 - Failure-isolation test phat hien cancel-during-restart thieu quota release; da sua DB recovery tao persistent outbox event/release va test lai pass.
-- Banana exact commit `df79ed48ba2a9fad3d95ab98ac988f72c0630366` da push va trung remote branch.
+- Banana integration duoc rebase theo cac release dong thoi, merge vao `dev_banana`; production source khop SHA `0086835b1d4e342da4bc1d7e5a651c4f2172f32e`.
+- Production MCP SSE gap duoc phat hien tai canary, sua o `0.1.43`; `0.1.44` mang day du integration forward.
+- Startup reconciliation duoc them sau audit crash window; terminal success va cancel recovery test deu pass.

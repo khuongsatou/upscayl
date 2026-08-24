@@ -167,3 +167,24 @@
 - CPU-only `llvmpipe` gioi han throughput; concurrency 1 va queue 20 la guardrail co chu dich.
 - ETA chi la uoc tinh va can tune `UPSCAYL_API_ESTIMATED_MS_PER_MEGAPIXEL` neu doi hardware/model profile.
 - Can tiep tuc giu route redirect cu trong giai doan migration va xoay bootstrap key theo chinh sach van hanh.
+
+## 2026-08-24 Banana-Upscale API Integration
+
+| Field | Value |
+|---|---|
+| PM Verdict | Done / Production Go |
+| Scope | Tach Banana va Upscale, giao tiep hai chieu chi qua versioned HTTP API |
+
+## Summary
+
+- Banana so huu `bbmcp_` key, shared quota, usage, MCP va dashboard; Upscale so huu upload/job/worker/progress/ETA/cancel/result/TTL.
+- Hai dich vu khong chia se repo, DB, JSON store, Docker volume, source import hoac filesystem path.
+- Banana Platform API introspection/quota/events, 5 MCP Upscale tools, Upscale dual-auth/internal API va persistent idempotent outbox dang hoat dong production.
+- Production E2E qua MCP va public REST deu tao/download PNG that; outbox 9/9 delivered, khong event pending.
+- Banana `0.1.44` khop exact source SHA `0086835`; Upscale release `20260824-banana-api2` khop code SHA `8caeade`.
+
+## Migration
+
+- `bbmcp_` la key chinh cho Banana/MCP/Upscale.
+- Legacy `up_` van hoat dong trong cua so dual-auth; chi retire sau khi client cu da migrate va metric xac nhan khong con su dung.
+- Anonymous same-origin Upscale web duoc giu rieng va da verify.

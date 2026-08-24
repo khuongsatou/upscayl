@@ -107,4 +107,5 @@
 - Job Banana reserve quota truoc khi enqueue; reservation ID va usage units duoc persist trong SQLite job.
 - `service_outbox` persist lifecycle event va quota complete/release, retry exponential, dedupe bang event ID; restart recovery tao lai event/release cho processing job da nhan cancel.
 - Internal API read-only `/api/internal/v1/{health,queue,jobs}` dung `BANANA_TO_UPSCALE_SERVICE_KEY`, khong expose raw path/key.
-- Banana branch release tach rieng tai `codex/banana-upscale-api`, commit `df79ed48ba2a9fad3d95ab98ac988f72c0630366`, version `0.1.37`.
+- Banana integration da vao `origin/dev_banana` va production tai commit `0086835b1d4e342da4bc1d7e5a651c4f2172f32e`, version `0.1.44`.
+- Upscale production code khop commit `8caeade29e975e75b1cb86a79f87ef7f9f54e8ea`, release `/opt/mtips5s-upscale/releases/20260824-banana-api2`.
