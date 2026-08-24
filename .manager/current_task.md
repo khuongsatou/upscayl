@@ -108,6 +108,6 @@
 | Field | Value |
 |---|---|
 | Owner | Project Manager + Upscale Pipeline Specialist + Electron Next Developer |
-| Status | In Progress |
+| Status | Done |
 | Task | Them checkpoint trinh duyet va co che tiep tuc xu ly background tai `bb.1nutnhan.com/upscale` |
 | Expected Output | Job tiep tuc tren server khi dong/reload tab; web tu dong ket noi lai job dang chay, khoi phuc progress/ETA va lay ket qua khi hoan tat |

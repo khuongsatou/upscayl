@@ -109,3 +109,18 @@
 - MCP admin dashboard co service badges, running/queued, quota reservation, usage events va job progress/ETA.
 - Loi health/queue/jobs duoc tach rieng; mot endpoint loi khong xoa du lieu cua endpoint con lai.
 - Dashboard chi goi internal API co service auth, khong doc SQLite/file Upscale va khong expose service key ra renderer.
+
+## 2026-08-24 Web Checkpoint and Background Processing
+
+| Field | Value |
+|---|---|
+| UI Score | 5/5 |
+| Function Score | 5/5 |
+| Verdict | Approved |
+
+## Findings
+
+- Nhan `Chay nen — ban co the dong trang nay` nam gon duoi status, khong che anh va chi xuat hien sau khi checkpoint da luu.
+- Reload khong them buoc thao tac: progress/ETA va result tu khoi phuc tu job dang chay.
+- Stop van o dung vi tri cu va la hanh dong huy explicit; Electron desktop khong thay doi.
+- Production page render day du, responsive classes giu nguyen va console sach.

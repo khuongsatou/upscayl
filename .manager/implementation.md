@@ -109,3 +109,13 @@
 - Internal API read-only `/api/internal/v1/{health,queue,jobs}` dung `BANANA_TO_UPSCALE_SERVICE_KEY`, khong expose raw path/key.
 - Banana integration da vao `origin/dev_banana` va production tai commit `0086835b1d4e342da4bc1d7e5a651c4f2172f32e`, version `0.1.44`.
 - Upscale production code khop commit `8caeade29e975e75b1cb86a79f87ef7f9f54e8ea`, release `/opt/mtips5s-upscale/releases/20260824-banana-api2`.
+
+## 2026-08-24 Web Checkpoint and Background Processing
+
+- Them `renderer/lib/web-job-checkpoint.ts` de validate/save/load/clear checkpoint versioned trong browser; payload chi co job ID, command va timestamps.
+- Web chi hien thong bao co the dong trang sau khi API da tao job va checkpoint da ghi thanh cong; upload chua tao job khong hien thong bao sai.
+- Reload trang goi `resumePendingWebUpscale`, poll lai job cu, khoi phuc progress/ETA, tai result va phat done event nhu luong moi.
+- Poll/result download retry vo han voi loi mang, HTTP 429 va 5xx trong khi trang con mo; 401/403/404 va terminal job se xoa checkpoint.
+- Dong/reload tab khong goi DELETE; worker SQLite tren VPS tiep tuc doc lap. Stop van la cancel explicit va chi xoa checkpoint khi server xac nhan.
+- Them `BACKGROUND_HINT` cho 20 locale va status event rieng, khong thay doi UI Electron.
+- Production release `/opt/mtips5s-upscale/releases/20260824-checkpoint-bg`, code SHA `88405937c9f4f918e348c3630ad305c1675a2d98`.

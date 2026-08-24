@@ -252,3 +252,27 @@
 | Raw service/API keys printed or persisted by new code | NOT OBSERVED; hashes/secret env only |
 
 Production service keys duoc provision trong secret env mode 0600; rollback source, env, SQLite va release symlink da duoc giu. PP/OTP hold khong bi thay doi.
+
+## 2026-08-24 Web Checkpoint and Background Processing QA
+
+| Check | Result |
+|---|---|
+| Checkpoint pure tests | Pass 9/9: parse, save, load, mismatch-safe clear, expiry, invalid command/ID, storage failure |
+| `npm run tsc` | Pass |
+| `npm run validate-schema` | Pass, 20 locale files valid |
+| `npm run web:build` | Pass locally and on VPS |
+| Production release build | Pass after using writable build HOME/cache for system user |
+| Safe cutover | Pass; waited for existing user job to finish before atomic symlink switch |
+| Public page/API health | HTTP 200 |
+| Background worker canary | Pass; create client exited, separate client later observed processing then succeeded |
+| Reconnect/result | Pass; HTTP 200 result, 11,483-byte real PNG |
+| Served browser bundle | Contains checkpoint storage key, resume logic and localized background label |
+| Production browser | Main UI visible; no console warning/error |
+| Final service | Active, `NRestarts=0`, queue 0/0, no warning/error journal |
+| Integration outbox | 9 total, 0 pending |
+| PP/OTP operational hold | Preserved; containers remain absent/stopped |
+
+## Residual Risk
+
+- Anonymous web ownership hien gan theo client IP; neu IP thay doi giua luc dong va mo lai trang, server se khong tra job cu va checkpoint se duoc xoa an toan.
+- Browser checkpoint bi mat neu nguoi dung xoa site data/localStorage; server job van chay va result van ton tai den TTL 24 gio.

@@ -50,3 +50,11 @@
 - Banana integration duoc rebase theo cac release dong thoi, merge vao `dev_banana`; production source khop SHA `0086835b1d4e342da4bc1d7e5a651c4f2172f32e`.
 - Production MCP SSE gap duoc phat hien tai canary, sua o `0.1.43`; `0.1.44` mang day du integration forward.
 - Startup reconciliation duoc them sau audit crash window; terminal success va cancel recovery test deu pass.
+
+## 2026-08-24 Web Checkpoint and Background Processing
+
+- Xac nhan backend API v1 da persist job/queue va worker tiep tuc doc lap; gap nam o browser lam mat job ID khi reload.
+- Them checkpoint module, auto-resume, retry tam thoi va background status chi sau khi job da duoc handoff cho server.
+- Local type/build/schema va checkpoint tests pass; push exact SHA `88405937` truoc deploy.
+- VPS dang xu ly mot job nguoi dung tu 24.83%; release watcher doi den job 100% va queue rong moi atomic cutover, tranh mat tien do.
+- Production canary tao job roi ngat client; client moi resume va download PNG thanh cong. Browser page/bundle/log va service/outbox audit deu pass.

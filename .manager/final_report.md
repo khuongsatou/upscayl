@@ -208,3 +208,22 @@
 ## Operational Note
 
 - VPS giu mot server-specific read-only mount cho file model watermark trong `docker-compose.yml`; thay doi dong thoi nay duoc bao ton, khong bi rsync ghi de.
+
+## 2026-08-24 Web Checkpoint and Background Processing
+
+| Field | Value |
+|---|---|
+| PM Verdict | Done / Production Go |
+| Scope | Browser checkpoint, auto-resume va background server processing |
+
+## Summary
+
+- Sau khi job duoc tao, web luu checkpoint khong chua secret/anh/path; dong hoac reload tab khong cancel worker tren VPS.
+- Mo lai trang tu dong poll job cu, khoi phuc progress/ETA va tai result; loi mang/429/5xx duoc retry, terminal state xoa checkpoint.
+- UI chi thong bao co the dong trang sau khi checkpoint da luu; Stop van cancel explicit va Electron khong doi.
+- Production release `20260824-checkpoint-bg`, code SHA `88405937c9f4f918e348c3630ad305c1675a2d98`, active voi health 200, queue rong va `NRestarts=0`.
+- Canary production xac nhan client tao job roi thoat, client moi resume job succeeded va tai PNG 11,483 bytes; public bundle/browser console deu pass.
+
+## Remaining Risk
+
+- Anonymous checkpoint resume can cung client IP; doi IP hoac xoa site data se mat lien ket browser, nhung server job khong bi huy va result van theo TTL 24 gio.
