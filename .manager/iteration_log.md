@@ -153,3 +153,9 @@
 - Local smoke dau tien phat hien bulk create co the partial-create neu upload sau vuot pixel limit; da them pre-validation all uploads truoc khi tao job.
 - Next build bat them type issue `parseJobIdList` va `.entries()` target; da sua return type va for-loop index.
 - Smoke cuoi pass create 2 queue jobs, list/search/filter/page, summary, cancel va retry.
+
+## 2026-09-02 Queue Show In Main Viewer
+
+- User requested a direct per-item action to show queue images in the main viewer.
+- Added an eye action with event isolation and routed original/result state through existing Home viewer state.
+- Validation passed; next step is atomic VPS release and production smoke.

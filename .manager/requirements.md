@@ -204,3 +204,17 @@
 
 - `npm run tsc`, `npm run validate-schema`, OpenAPI YAML parse, `web:build:upscale` va `git diff --check` pass.
 - Local bridge smoke upload 2 anh, bulk create 2 queue jobs, list search/filter/page, summary, cancel nhieu job va retry terminal job pass.
+
+## 2026-09-02 Queue Show In Main Viewer
+
+### Must-have
+
+- Moi queue item co icon mat de mo anh trong viewer chinh.
+- Neu item da co result, viewer chinh nhan ca original va result de dung lai comparison slider hien co.
+- Hanh dong show khong lam thay doi queue status hoac ngat queue processing.
+
+### Acceptance criteria
+
+- Click icon mat tren item mo dung original trong vung Select an Image.
+- Item co result hien comparison voi result; item chua xong hien original va trang thai hien tai.
+- Typecheck, schema validation, web production build va diff whitespace pass.

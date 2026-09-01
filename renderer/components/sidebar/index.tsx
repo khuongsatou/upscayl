@@ -56,6 +56,7 @@ const Sidebar = ({
   imagePath,
   selectImageHandler,
   selectFolderHandler,
+  onShowQueueItemInViewer,
 }: {
   setUpscaledImagePath: React.Dispatch<React.SetStateAction<string>>;
   batchFolderPath: string;
@@ -67,6 +68,7 @@ const Sidebar = ({
   imagePath: string;
   selectImageHandler: () => Promise<void>;
   selectFolderHandler: () => Promise<void>;
+  onShowQueueItemInViewer: (imagePath: string, resultPath?: string) => void;
 }) => {
   const t = useTranslation();
   const logit = useLogger();
@@ -257,6 +259,7 @@ const Sidebar = ({
           <QueueTab
             outputPath={outputPath}
             visible={selectedTab === 1}
+            onShowInViewer={onShowQueueItemInViewer}
           />
         )}
 

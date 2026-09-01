@@ -50,6 +50,7 @@ const Home = () => {
   const setOutputPath = useSetAtom(savedOutputPathAtom);
   const rememberOutputFolder = useAtomValue(rememberOutputFolderAtom);
   const batchMode = useAtomValue(batchModeAtom);
+  const setBatchMode = useSetAtom(batchModeAtom);
   const queueProcessing = useAtomValue(queueProcessingAtom);
   const queueProcessingRef = useRef(false);
   const [batchFolderPath, setBatchFolderPath] = useState("");
@@ -351,6 +352,17 @@ const Home = () => {
     setUpscaledBatchFolderPath("");
   };
 
+  const showQueueItemInViewer = (path: string, resultPath?: string) => {
+    setBatchMode(false);
+    setBatchFolderPath("");
+    setUpscaledBatchFolderPath("");
+    setProgress("");
+    setImagePath(path);
+    setUpscaledImagePath(resultPath || "");
+    validateImagePath(path);
+    logit("👁 Queue preview opened in main viewer: ", getRuntimeFileName(path));
+  };
+
   if (isLoading) {
     return (
       <UpscaylSVGLogo className="absolute left-1/2 top-1/2 w-36 -translate-x-1/2 -translate-y-1/2 animate-pulse" />
@@ -370,6 +382,7 @@ const Home = () => {
         setUpscaledBatchFolderPath={setUpscaledBatchFolderPath}
         selectImageHandler={selectImageHandler}
         selectFolderHandler={selectFolderHandler}
+        onShowQueueItemInViewer={showQueueItemInViewer}
       />
       <MainContent
         imagePath={imagePath}

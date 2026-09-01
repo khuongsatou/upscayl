@@ -180,3 +180,16 @@
 - Queue nam giua Upscayl va Settings dung nhu yeu cau, de tim nhung khong chen vao flow upscale co san.
 - Search, filter va pagination giu sidebar gon khi co nhieu anh.
 - Moi item co progress/status rieng, Retry/Remove/Open result theo tung row; Stop dung item hien tai va pause queue de tranh xu ly tiep ngoai y muon.
+
+## 2026-09-02 Queue Show In Main Viewer
+
+| Field | Value |
+|---|---|
+| UI Score | 5/5 |
+| Function Score | 5/5 |
+| Verdict | Approved |
+
+## Findings
+
+- Icon mắt đặt cạnh các action queue, có tooltip/aria-label nên người dùng hiểu đây là thao tác xem chi tiết.
+- Mở viewer chính giúp dùng lại vùng preview/comparison quen thuộc mà không làm thay đổi trạng thái xử lý queue.

@@ -275,3 +275,9 @@
 - Added preview region with original image, result image when available, status and progress.
 - Preview close action and result placeholder preserve queue controls/processing.
 - Deploy release `/opt/mtips5s-upscale/releases/20260902-queue-preview`.
+
+## 2026-09-02 Queue Show In Main Viewer
+
+- `QueueTab` nhan callback `onShowInViewer` va render icon `Eye` tren moi row; click dung `stopPropagation` de khong doi selection.
+- `Sidebar` truyen callback tu `Home`; `Home.showQueueItemInViewer` tat batch mode, reset folder/progress va nap original/result vao state viewer chinh.
+- Tai su dung `SliderView` hien co thong qua `upscaledImagePath`, khong them pipeline hoac IPC moi.

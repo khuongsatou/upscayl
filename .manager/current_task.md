@@ -308,3 +308,12 @@
 | Expected Output | Preview region opens without interrupting queue processing |
 
 - Production release `20260902-queue-preview` active; page/API smoke pass.
+
+## 2026-09-02 Queue Show In Main Viewer
+
+| Field | Value |
+|---|---|
+| Owner | Electron Next Developer + QA + DevOps |
+| Status | Ready for production sync |
+| Task | Add an eye action to each queue item to open it in the main Select an Image viewer |
+| Expected Output | Original opens in the main viewer; completed items also expose the existing comparison slider |

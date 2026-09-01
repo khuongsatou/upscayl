@@ -584,6 +584,20 @@ Production service keys duoc provision trong secret env mode 0600; rollback sour
 
 - Log level/source are currently inferred from message text; structured metadata and full browser automation coverage remain follow-up improvements.
 
+## 2026-09-02 Queue Show In Main Viewer QA
+
+| Check | Result |
+|---|---|
+| TypeScript | Pass; `npm run tsc` |
+| Locale schema | Pass; `npm run validate-schema` |
+| Web production build | Pass; `npm run web:build:upscale` |
+| Diff whitespace | Pass; `git diff --check` |
+| Eye action wiring | Pass by implementation review; callback opens original/result in main viewer and stops row propagation |
+
+## Residual Risk
+
+- Full browser click-through on production queue data is not automated; local implementation and production smoke are covered after deploy.
+
 ## 2026-09-02 Log Manager Enrichment QA
 
 | Check | Result |

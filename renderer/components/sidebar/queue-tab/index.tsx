@@ -32,6 +32,7 @@ import {
   ChevronRight,
   CirclePlus,
   ExternalLink,
+  Eye,
   ListFilter,
   Pause,
   Play,
@@ -72,9 +73,11 @@ const isValidImagePath = (path: string) => {
 function QueueTab({
   outputPath,
   visible,
+  onShowInViewer,
 }: {
   outputPath: string | null;
   visible: boolean;
+  onShowInViewer: (imagePath: string, resultPath?: string) => void;
 }) {
   const { toast } = useToast();
   const t = useAtomValue(translationAtom);
@@ -518,6 +521,17 @@ function QueueTab({
                 </p>
               </div>
               <div className="flex shrink-0 gap-1">
+                <button
+                  className="btn btn-square btn-ghost btn-xs"
+                  onClick={(event) => {
+                    event.stopPropagation();
+                    onShowInViewer(item.imagePath, item.resultPath);
+                  }}
+                  title="Show in image viewer"
+                  aria-label="Show in image viewer"
+                >
+                  <Eye size={13} />
+                </button>
                 {item.resultPath && (
                   <button
                     className="btn btn-square btn-ghost btn-xs"

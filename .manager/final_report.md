@@ -556,3 +556,20 @@
 - Production Settings now polls the configured loopback health endpoint every 10 seconds and shows `Mac local: Online`, `Offline`, `Checking...`, or `Tắt`.
 - The label is client-side health evidence from the user's Mac; VPS health remains independently visible through the API status endpoint.
 - TypeScript/schema checks pass and the status UI is deployed in release `20260901-local-status`.
+
+## 2026-09-02 Queue Show In Main Viewer
+
+| Field | Value |
+|---|---|
+| PM Verdict | Ready for production sync |
+| Scope | Per-queue-item eye action opening the main image viewer |
+
+## Summary
+
+- Every queue item now has an eye icon with accessible label/tooltip.
+- Original images open in the main Select an Image viewer; completed results populate the existing comparison slider automatically.
+- Queue selection and processing remain isolated from the show action.
+
+## Validation
+
+- `npm run tsc`, `npm run validate-schema`, `npm run web:build:upscale`, and `git diff --check` passed.
