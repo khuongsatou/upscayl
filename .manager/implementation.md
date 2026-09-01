@@ -255,3 +255,9 @@
 - Ho tro search, filter level, badge count, copy, export TXT, clear va mau severity.
 - Chuyen `logAtom` sang `atomWithStorage` voi retention 500 dong; `useLogger` redact key/token va cat log cu.
 - Production release `/opt/mtips5s-upscale/releases/20260902-log-manager` active.
+
+## 2026-09-02 Log Manager Enrichment
+
+- `useLogger` them ISO timestamp va source (`renderer`/`electron`) vao moi entry.
+- Log Manager them source filter, hien source, confirm truoc khi clear; giu copy/export/search/level filter.
+- Deploy release `/opt/mtips5s-upscale/releases/20260902-log-manager-v2`.

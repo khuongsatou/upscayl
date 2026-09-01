@@ -562,6 +562,16 @@ Production service keys duoc provision trong secret env mode 0600; rollback sour
 
 - Log level/source are currently inferred from message text; structured metadata and full browser automation coverage remain follow-up improvements.
 
+## 2026-09-02 Log Manager Enrichment QA
+
+| Check | Result |
+|---|---|
+| Timestamp/source entries | Pass by implementation review; ISO timestamp and source are added at emission |
+| Source filter | Pass by implementation review; renderer/electron/vps/queue/local-mac options wired |
+| Clear confirmation | Pass by implementation review; browser confirmation required |
+| TypeScript/schema/web build | Pass |
+| Production rollout | Pass; release `20260902-log-manager-v2`, page 200, health OK |
+
 ## 2026-09-01 Local Mac Status Label QA
 
 | Check | Result |

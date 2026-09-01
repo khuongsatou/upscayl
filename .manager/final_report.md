@@ -525,6 +525,16 @@
 
 - Structured source/timestamp metadata and automated UI interaction tests are future hardening; current message-based log viewer is operational.
 
+## 2026-09-02 Log Manager Enrichment
+
+- Log entries now include ISO timestamp and runtime source, with independent source filtering and source labels in the list.
+- Clear requires confirmation; persistence, retention, copy and export remain enabled.
+- Production release `20260902-log-manager-v2` is active and health/page smoke passed.
+
+## Remaining Risk
+
+- Metadata remains encoded in the message string rather than a fully typed object; automated browser interaction coverage is still follow-up.
+
 ## 2026-09-01 Local Mac Status Label
 
 - Production Settings now polls the configured loopback health endpoint every 10 seconds and shows `Mac local: Online`, `Offline`, `Checking...`, or `Tắt`.

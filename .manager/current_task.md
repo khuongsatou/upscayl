@@ -275,3 +275,14 @@
 
 - Log Manager da deploy trong release `20260902-log-manager`.
 - Log duoc persist local, gioi han 500 dong va redact key/token co ban.
+
+## 2026-09-02 Log Manager Enrichment
+
+| Field | Value |
+|---|---|
+| Owner | Electron Next Developer + QA + DevOps |
+| Status | Done / Production Go |
+| Task | Bo sung timestamp/source/filter source va confirmation clear cho Log Manager |
+| Expected Output | Log co context, loc duoc theo source, thao tac xoa co xac nhan |
+
+- Production release `20260902-log-manager-v2` active; health/page smoke pass.
