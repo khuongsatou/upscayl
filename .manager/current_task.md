@@ -246,3 +246,18 @@
 | Status | Done locally |
 | Task | Them API ho tro Queue de agent/UI tao hang doi, list/search/filter/page, summary, cancel nhieu job va retry |
 | Expected Output | `/queue/*` API co docs/OpenAPI/manifest va local smoke pass |
+
+## 2026-09-01 Local Mac Processing Completion
+
+| Field | Value |
+|---|---|
+| Owner | PM + DevOps + QA |
+| Status | Done / Production Go |
+| Task | Trien khai worker Mac tu khoi dong va ket noi production web |
+| Expected Output | Cai mot lan, worker listen loopback 3047, production toggle route job qua Mac |
+
+## Notes
+
+- LaunchAgent `com.mtips5s.upscayl-local-worker` da cai tren Mac arm64 va dang running.
+- Local E2E health/upload/create/process/download pass voi anh that.
+- Production release `20260901-local-mac` active; toggle da hien tren bundle production.

@@ -531,3 +531,18 @@ Production service keys duoc provision trong secret env mode 0600; rollback sour
 ## Residual Risk
 
 - Authenticated production smoke was not run for `/queue/*` yet; local loopback bridge smoke and build validation passed.
+
+## 2026-09-01 Local Mac Processing Completion QA
+
+| Check | Result |
+|---|---|
+| Mac arm64 LaunchAgent install | Pass; service running |
+| Local health/models | Pass; health 200, binary/models present |
+| Local E2E real image | Pass; upload 201, create 202, processing succeeded, PNG result 163445 bytes |
+| Production deploy | Pass; release `20260901-local-mac` active and service active |
+| Production page/toggle | Pass; `/upscale` 200 and Local Mac toggle present |
+| Production API health | Pass; database/worker/runtime healthy, queue 0 |
+
+## Residual Risk
+
+- Queue full completion and Safari-specific browser QA remain follow-up coverage; single-image browser-to-Mac path is verified.

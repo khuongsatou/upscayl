@@ -240,3 +240,11 @@
   - `POST /queue/jobs/cancel`
   - `POST /queue/jobs/{jobId}/retry`
 - Cap nhat `agent-support.ts`, `docs/upscale-api-v1.md`, `docs/upscale-agent-api-readme.md`, `docs/upscale-api-v1.openapi.yaml` va contract smoke script.
+
+## 2026-09-01 Local Mac Processing Completion
+
+- Them `scripts/local-mac-worker.sh` voi install/start/stop/restart/status/uninstall.
+- Installer build web `/upscale`, tao LaunchAgent KeepAlive/RunAtLoad, bind 127.0.0.1:3047 va luu log/data rieng.
+- Them tai lieu `docs/local-mac-processing.md` va npm scripts `local:mac:*`.
+- Sua LaunchAgent PATH de chay duoc Node Homebrew khi launchd khong co shell PATH.
+- Deploy release `/opt/mtips5s-upscale/releases/20260901-local-mac`; production health/page/toggle smoke pass.

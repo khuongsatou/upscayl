@@ -19,6 +19,7 @@ write_plist() {
 <key>WorkingDirectory</key><string>$ROOT_DIR</string>
 <key>ProgramArguments</key><array><string>$NPM_BIN</string><string>run</string><string>web:start</string><string>--</string><string>-H</string><string>127.0.0.1</string><string>-p</string><string>$PORT</string></array>
 <key>EnvironmentVariables</key><dict>
+<key>PATH</key><string>/opt/homebrew/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin</string>
 <key>NODE_ENV</key><string>production</string><key>UPSCAYL_TARGET</key><string>web</string><key>UPSCAYL_WEB_BASE_PATH</key><string>/upscale</string>
 <key>UPSCAYL_API_ALLOW_ANONYMOUS_WEB</key><string>false</string><key>UPSCAYL_API_ALLOW_LOCAL_MAC_BRIDGE</key><string>true</string>
 <key>UPSCAYL_API_LOCAL_MAC_BRIDGE_ORIGINS</key><string>https://bb.1nutnhan.com,http://127.0.0.1:3047,http://localhost:3047</string>

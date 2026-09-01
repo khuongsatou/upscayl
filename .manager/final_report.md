@@ -490,3 +490,20 @@
 ## Remaining Risk
 
 - Not deployed to VPS yet; production `bb.1nutnhan.com/upscale/api/v1/queue/*` will not exist until the next sync.
+
+## 2026-09-01 Local Mac Processing Completion
+
+| Field | Value |
+|---|---|
+| PM Verdict | Done / Production Go |
+| Scope | Persistent Mac worker + production web routing |
+
+## Summary
+
+- Mac worker is installed as a LaunchAgent, starts at login, restarts on exit and listens only on `127.0.0.1:3047`.
+- Production web release `20260901-local-mac` contains the Local Mac toggle and routes jobs to the configured endpoint without silent VPS fallback.
+- Real Mac arm64 E2E passed: health, upload, create, native processing and PNG download.
+
+## Remaining Risk
+
+- Queue long-run and Safari coverage are follow-up QA; worker and single-image path are production-ready.
