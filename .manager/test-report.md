@@ -546,3 +546,11 @@ Production service keys duoc provision trong secret env mode 0600; rollback sour
 ## Residual Risk
 
 - Queue full completion and Safari-specific browser QA remain follow-up coverage; single-image browser-to-Mac path is verified.
+
+## 2026-09-01 Local Mac Status Label QA
+
+| Check | Result |
+|---|---|
+| Status polling UI | Pass; polls local `/health` every 10 seconds and maps online/offline states |
+| Production bundle | Pass; status label code present in release `20260901-local-status` |
+| VPS health after deploy | Pass; API health 200, worker queue 0 |

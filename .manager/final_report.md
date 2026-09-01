@@ -507,3 +507,9 @@
 ## Remaining Risk
 
 - Queue long-run and Safari coverage are follow-up QA; worker and single-image path are production-ready.
+
+## 2026-09-01 Local Mac Status Label
+
+- Production Settings now polls the configured loopback health endpoint every 10 seconds and shows `Mac local: Online`, `Offline`, `Checking...`, or `Tắt`.
+- The label is client-side health evidence from the user's Mac; VPS health remains independently visible through the API status endpoint.
+- TypeScript/schema checks pass and the status UI is deployed in release `20260901-local-status`.
