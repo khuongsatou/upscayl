@@ -39,6 +39,7 @@ import {
   Square,
   Trash2,
 } from "lucide-react";
+import { toImageSrc } from "@/lib/image-src";
 import { useEffect, useMemo, useRef, useState } from "react";
 
 type QueueFilter =
@@ -100,6 +101,7 @@ function QueueTab({
   const [page, setPage] = useState(1);
   const [paused, setPaused] = useState(false);
   const [currentItemId, setCurrentItemId] = useState<string | null>(null);
+  const [previewItemId, setPreviewItemId] = useState<string | null>(null);
   const currentItemRef = useRef<string | null>(null);
   const itemsRef = useRef(items);
   const pausedRef = useRef(false);
@@ -135,6 +137,7 @@ function QueueTab({
     (currentPage - 1) * PAGE_SIZE,
     currentPage * PAGE_SIZE,
   );
+  const previewItem = items.find((item) => item.id === previewItemId) ?? null;
   const queuedCount = items.filter((item) => item.status === "queued").length;
   const doneCount = items.filter((item) => item.status === "succeeded").length;
   const failedCount = items.filter((item) => item.status === "failed").length;
@@ -473,6 +476,25 @@ function QueueTab({
         </select>
       </label>
 
+      {previewItem && (
+        <section className="flex flex-col gap-2 rounded-lg border border-primary/40 bg-base-200 p-3" aria-label={`Preview ${previewItem.name}`}>
+          <div className="flex items-center justify-between gap-2">
+            <p className="truncate text-sm font-semibold" title={previewItem.name}>{previewItem.name}</p>
+            <button className="btn btn-ghost btn-xs" onClick={() => setPreviewItemId(null)} aria-label="Close preview">×</button>
+          </div>
+          <div className="grid min-h-32 grid-cols-2 gap-2">
+            <div className="flex min-h-32 items-center justify-center overflow-hidden rounded bg-base-100 p-1">
+              <img src={toImageSrc(previewItem.imagePath)} alt={`${previewItem.name} original`} className="max-h-40 max-w-full object-contain" />
+            </div>
+            <div className="flex min-h-32 items-center justify-center overflow-hidden rounded bg-base-100 p-1">
+              {previewItem.resultPath ? <img src={toImageSrc(previewItem.resultPath)} alt={`${previewItem.name} result`} className="max-h-40 max-w-full object-contain" /> : <span className="text-center text-xs text-base-content/60">Result preview appears when processing finishes.</span>}
+            </div>
+          </div>
+          <div className="flex justify-between text-xs text-base-content/70"><span>Original</span><span>Result</span></div>
+          <p className="text-xs capitalize text-base-content/70">{statusLabels[previewItem.status]} · {Math.round(previewItem.progress)}%</p>
+        </section>
+      )}
+
       <div className="flex flex-col gap-2">
         {pageItems.length === 0 && (
           <div className="rounded-lg border border-base-300 bg-base-200 p-4 text-sm text-base-content/70">
@@ -483,7 +505,16 @@ function QueueTab({
         {pageItems.map((item) => (
           <div
             key={item.id}
-            className="rounded-lg border border-base-300 bg-base-200 p-3"
+            className={`cursor-pointer rounded-lg border bg-base-200 p-3 transition-colors hover:border-primary ${previewItemId === item.id ? "border-primary" : "border-base-300"}`}
+            role="button"
+            tabIndex={0}
+            onClick={() => setPreviewItemId(item.id)}
+            onKeyDown={(event) => {
+              if (event.key === "Enter" || event.key === " ") {
+                event.preventDefault();
+                setPreviewItemId(item.id);
+              }
+            }}
           >
             <div className="flex items-start justify-between gap-2">
               <div className="min-w-0">
