@@ -9,6 +9,7 @@ import { useAtom, useAtomValue } from "jotai";
 import { EllipsisIcon, WrenchIcon } from "lucide-react";
 import { useEffect, useMemo, useState } from "react";
 import useSystemInfo from "../hooks/use-system-info";
+import LogManager from "./log-manager";
 
 const formatDuration = (seconds: number): string => {
   if (seconds < 60) return `${seconds.toFixed(1)}s`;
@@ -187,6 +188,7 @@ const MoreOptionsDrawer = ({
               </div>
             </div>
           </div>
+          <LogManager />
         </div>
       </div>
     </div>
