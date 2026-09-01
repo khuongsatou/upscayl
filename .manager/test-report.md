@@ -569,6 +569,17 @@ Production service keys duoc provision trong secret env mode 0600; rollback sour
 | Redaction/retention | Pass by implementation review; sensitive patterns redacted and 500-entry cap retained |
 | Production rollout | Pass; release `20260902-log-manager-v3`, page 200, health OK, queue 0 |
 
+## 2026-09-02 Queue Image Preview QA
+
+| Check | Result |
+|---|---|
+| TypeScript/schema | Pass |
+| Web production build | Pass |
+| Queue item selection | Pass by implementation review; click/Enter/Space handlers wired |
+| Preview states | Pass by implementation review; original/result placeholder/status/progress rendered |
+| Production rollout | Pass; release `20260902-queue-preview`, service active |
+| Production smoke | Pass; page 200, API health OK, queue 0 |
+
 ## Residual Risk
 
 - Log level/source are currently inferred from message text; structured metadata and full browser automation coverage remain follow-up improvements.

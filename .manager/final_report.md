@@ -537,6 +537,12 @@
 - Existing string logs are normalized automatically; Settings support log viewer and email export remain compatible.
 - Production release `20260902-log-manager-v3` is active with page/API smoke passing.
 
+## 2026-09-02 Queue Image Preview
+
+- Queue items now open an inline preview region when selected, showing the original image and completed result side by side.
+- Keyboard selection is supported; preview state includes status/progress and does not interrupt queue processing.
+- Production release `20260902-queue-preview` is active with page/API smoke passing.
+
 ## Remaining Risk
 
 - UI labels are still English hardcoded in the new manager; localization pass and automated browser interaction tests remain follow-up.

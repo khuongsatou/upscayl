@@ -268,3 +268,10 @@
 - `logAtom` luu typed entries; `useLogger` tao id/timestamp/source/level/message.
 - Settings LogArea, support email/copy va LogManager da adapt typed entries.
 - Deploy release `/opt/mtips5s-upscale/releases/20260902-log-manager-v3`.
+
+## 2026-09-02 Queue Image Preview
+
+- Queue cards are selectable by mouse and keyboard.
+- Added preview region with original image, result image when available, status and progress.
+- Preview close action and result placeholder preserve queue controls/processing.
+- Deploy release `/opt/mtips5s-upscale/releases/20260902-queue-preview`.

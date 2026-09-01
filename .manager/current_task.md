@@ -297,3 +297,14 @@
 | Expected Output | Log Manager loc va export duoc metadata structured, khong mat log cu |
 
 - Production release `20260902-log-manager-v3` active; page/API smoke pass.
+
+## 2026-09-02 Queue Image Preview
+
+| Field | Value |
+|---|---|
+| Owner | Electron Next Developer + QA + DevOps |
+| Status | Done / Production Go |
+| Task | Click queue item to show original/result preview |
+| Expected Output | Preview region opens without interrupting queue processing |
+
+- Production release `20260902-queue-preview` active; page/API smoke pass.
