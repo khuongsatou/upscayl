@@ -7,3 +7,4 @@ MTips5s production API docs live here:
 
 - [Upscale API v1](./upscale-api-v1.md)
 - [Upscale Agent API README](./upscale-agent-api-readme.md)
+- [Local Mac Processing](./local-mac-processing.md)
