@@ -508,6 +508,23 @@
 
 - Queue long-run and Safari coverage are follow-up QA; worker and single-image path are production-ready.
 
+## 2026-09-02 Log Manager
+
+| Field | Value |
+|---|---|
+| PM Verdict | Done / Production Go |
+| Scope | Log Manager beneath Stats |
+
+## Summary
+
+- Production now includes a Log Manager below Stats with search, level filter, count, copy, TXT export and clear actions.
+- Logs persist locally, are capped at 500 entries and basic API key/token patterns are redacted before storage.
+- Release `20260902-log-manager` is active; page HTTP 200, API health OK and VPS queue idle.
+
+## Remaining Risk
+
+- Structured source/timestamp metadata and automated UI interaction tests are future hardening; current message-based log viewer is operational.
+
 ## 2026-09-01 Local Mac Status Label
 
 - Production Settings now polls the configured loopback health endpoint every 10 seconds and shows `Mac local: Online`, `Offline`, `Checking...`, or `Tắt`.

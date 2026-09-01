@@ -248,3 +248,10 @@
 - Them tai lieu `docs/local-mac-processing.md` va npm scripts `local:mac:*`.
 - Sua LaunchAgent PATH de chay duoc Node Homebrew khi launchd khong co shell PATH.
 - Deploy release `/opt/mtips5s-upscale/releases/20260901-local-mac`; production health/page/toggle smoke pass.
+
+## 2026-09-02 Log Manager
+
+- Them `LogManager` duoi Stats trong `MoreOptionsDrawer`.
+- Ho tro search, filter level, badge count, copy, export TXT, clear va mau severity.
+- Chuyen `logAtom` sang `atomWithStorage` voi retention 500 dong; `useLogger` redact key/token va cat log cu.
+- Production release `/opt/mtips5s-upscale/releases/20260902-log-manager` active.

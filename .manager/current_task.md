@@ -261,3 +261,17 @@
 - LaunchAgent `com.mtips5s.upscayl-local-worker` da cai tren Mac arm64 va dang running.
 - Local E2E health/upload/create/process/download pass voi anh that.
 - Production release `20260901-local-mac` active; toggle da hien tren bundle production.
+
+## 2026-09-02 Log Manager
+
+| Field | Value |
+|---|---|
+| Owner | Electron Next Developer + QA + DevOps |
+| Status | Done / Production Go |
+| Task | Them Log Manager ben duoi Stats |
+| Expected Output | Xem, tim, loc, copy, export va clear log trong drawer |
+
+## Notes
+
+- Log Manager da deploy trong release `20260902-log-manager`.
+- Log duoc persist local, gioi han 500 dong va redact key/token co ban.

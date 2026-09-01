@@ -547,6 +547,21 @@ Production service keys duoc provision trong secret env mode 0600; rollback sour
 
 - Queue full completion and Safari-specific browser QA remain follow-up coverage; single-image browser-to-Mac path is verified.
 
+## 2026-09-02 Log Manager QA
+
+| Check | Result |
+|---|---|
+| TypeScript | Pass |
+| Locale schema | Pass; all 20 locale files valid |
+| Diff whitespace | Pass |
+| Log persistence/retention | Pass by implementation review; atom storage capped at 500 |
+| Production deploy | Pass; release `20260902-log-manager` active |
+| Production page/API | Pass; page 200, health OK, queue 0 |
+
+## Residual Risk
+
+- Log level/source are currently inferred from message text; structured metadata and full browser automation coverage remain follow-up improvements.
+
 ## 2026-09-01 Local Mac Status Label QA
 
 | Check | Result |
