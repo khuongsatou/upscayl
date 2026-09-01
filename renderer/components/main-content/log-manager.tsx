@@ -1,17 +1,10 @@
 import { logAtom } from "@/atoms/log-atom";
+import { formatLogEntry, normalizeLogEntry } from "@/lib/log-utils";
 import { useAtomValue, useSetAtom } from "jotai";
 import { useMemo, useState } from "react";
 import { Clipboard, Download, Trash2 } from "lucide-react";
 
 type LogLevel = "info" | "success" | "warning" | "error";
-
-const classify = (line: string): LogLevel => {
-  if (/error|fail|exception|uncaught|🚫/i.test(line)) return "error";
-  if (/warn|warning|⚠️/i.test(line)) return "warning";
-  if (/done|success|complete|🏁|✅/i.test(line)) return "success";
-  return "info";
-};
-const sourceOf = (line: string) => line.match(/\] \[([^\]]+)\]/)?.[1] || "app";
 
 const LogManager = () => {
   const logs = useAtomValue(logAtom);
@@ -24,21 +17,21 @@ const LogManager = () => {
   const visibleLogs = useMemo(() => {
     const normalized = query.trim().toLowerCase();
     return logs
-      .map((message, index) => ({ message, index, level: classify(message), source: sourceOf(message) }))
-      .filter((entry) => level === "all" || entry.level === level)
-      .filter((entry) => source === "all" || entry.source === source)
-      .filter((entry) => !normalized || entry.message.toLowerCase().includes(normalized))
+      .map((entry, index) => ({ entry: normalizeLogEntry(entry, index), index }))
+      .filter((entry) => level === "all" || entry.entry.level === level)
+      .filter((entry) => source === "all" || entry.entry.source === source)
+      .filter((entry) => !normalized || entry.entry.message.toLowerCase().includes(normalized))
       .slice(-500);
   }, [level, logs, query, source]);
 
   const copyLogs = async () => {
-    await navigator.clipboard.writeText(visibleLogs.map((entry) => entry.message).join("\n"));
+    await navigator.clipboard.writeText(visibleLogs.map((entry) => formatLogEntry(entry.entry)).join("\n"));
     setCopied(true);
     window.setTimeout(() => setCopied(false), 1500);
   };
 
   const exportLogs = () => {
-    const blob = new Blob([visibleLogs.map((entry) => entry.message).join("\n")], {
+    const blob = new Blob([visibleLogs.map((entry) => formatLogEntry(entry.entry)).join("\n")], {
       type: "text/plain;charset=utf-8",
     });
     const url = URL.createObjectURL(blob);
@@ -79,7 +72,7 @@ const LogManager = () => {
       </div>
       <div className="max-h-48 min-h-20 overflow-y-auto rounded-btn bg-base-200 p-3 font-mono text-[11px]" aria-live="polite">
         {visibleLogs.length === 0 ? <p className="text-base-content/60">No logs yet.</p> : visibleLogs.map((entry) => (
-          <p key={`${entry.index}-${entry.message}`} className={entry.level === "error" ? "text-error" : entry.level === "warning" ? "text-warning" : entry.level === "success" ? "text-success" : "text-base-content/80"}><span className="mr-1 opacity-60">[{entry.source}]</span>{entry.message}</p>
+          <p key={`${entry.index}-${entry.entry.id}`} className={entry.entry.level === "error" ? "text-error" : entry.entry.level === "warning" ? "text-warning" : entry.entry.level === "success" ? "text-success" : "text-base-content/80"}>{formatLogEntry(entry.entry)}</p>
         ))}
       </div>
     </section>

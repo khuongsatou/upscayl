@@ -33,6 +33,8 @@ import SystemInfo from "./system-info";
 import CopyMetadataToggle from "./copy-metadata-toggle";
 import { appRuntime } from "@/lib/app-runtime";
 import LocalMacProcessingToggle from "./local-mac-processing-toggle";
+import { LogEntry } from "@/atoms/log-atom";
+import { formatLogEntry } from "@/lib/log-utils";
 
 interface IProps {
   batchMode: boolean;
@@ -42,7 +44,7 @@ interface IProps {
   setCompression: React.Dispatch<React.SetStateAction<number>>;
   gpuId: string;
   setGpuId: React.Dispatch<React.SetStateAction<string>>;
-  logData: string[];
+  logData: LogEntry[];
   show: boolean;
   setShow: React.Dispatch<React.SetStateAction<boolean>>;
   setDontShowCloudModal: React.Dispatch<React.SetStateAction<boolean>>;
@@ -87,18 +89,18 @@ function SettingsTab({
   };
 
   const copyOnClickHandler = () => {
-    navigator.clipboard.writeText(logData.join("\n"));
+    navigator.clipboard.writeText(logData.map(formatLogEntry).join("\n"));
     setIsCopied(true);
     setTimeout(() => {
       setIsCopied(false);
     }, 2000);
   };
 
-  const sendToTermbin = async (logData: string[]) => {
+  const sendToTermbin = async (logData: LogEntry[]) => {
     try {
       const response = await fetch("https://termbin.com:9999/", {
         method: "POST",
-        body: logData.join("\n"),
+        body: logData.map(formatLogEntry).join("\n"),
       });
 
       if (!response.ok) {
@@ -161,7 +163,7 @@ function SettingsTab({
             onClick={async () => {
               const systemInfo = await appRuntime.getSystemInfo();
               const appVersion = await appRuntime.getAppVersion();
-              const mailToUrl = `mailto:support@upscayl.org?subject=Upscayl%20Issue%3A%20%3CWRITE%20HERE%3E&body=Hi%20Nayam!%0AI'm%20having%20an%20issue%20with%20Upscayl%20${appVersion}%0A%0A%3CPLEASE%20DESCRIBE%20ISSUE%20HERE%3E%0A%0A---%0ALOGS%3A%0A${logData.join("\n")}%0A%0ADEVICE%20DETAILS%3A%20${JSON.stringify(systemInfo)}`;
+              const mailToUrl = `mailto:support@upscayl.org?subject=Upscayl%20Issue%3A%20%3CWRITE%20HERE%3E&body=Hi%20Nayam!%0AI'm%20having%20an%20issue%20with%20Upscayl%20${appVersion}%0A%0A---%0ALOGS%3A%0A${encodeURIComponent(logData.map(formatLogEntry).join("\n"))}%0ADEVICE%20DETAILS%3A%20${JSON.stringify(systemInfo)}`;
               window.open(mailToUrl, "_blank");
             }}
           >

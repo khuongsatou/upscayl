@@ -1,0 +1,6 @@
+import { LogEntry, LogLevel, LogSource } from "@/atoms/log-atom";
+export const redactLog = (value: string) => value.replace(/(x-api-key|authorization|token|secret|password)\s*[:=]\s*[^\s,]+/gi, "$1: [REDACTED]").replace(/(bbmcp_|up_)[A-Za-z0-9_-]+/g, "[REDACTED]");
+const inferLevel = (line: string): LogLevel => /error|fail|exception|uncaught|🚫/i.test(line) ? "error" : /warn|warning|⚠️/i.test(line) ? "warning" : /done|success|complete|🏁|✅/i.test(line) ? "success" : "info";
+const inferSource = (line: string): LogSource => { const source = line.match(/\[([^\]]+)\]/g)?.[1]?.replace(/[\[\]]/g, ""); return (["renderer", "electron", "vps", "local-mac", "queue"].includes(source) ? source : "app") as LogSource; };
+export const normalizeLogEntry = (value: LogEntry | string, index: number): LogEntry => { if (typeof value !== "string") return value; const timestamp = value.match(/^\[([^\]]+)\]/)?.[1] || new Date().toISOString(); return { id: `legacy-${timestamp}-${index}`, timestamp, source: inferSource(value), level: inferLevel(value), message: value.replace(/^\[[^\]]+\]\s*(\[[^\]]+\]\s*)?/, "") }; };
+export const formatLogEntry = (entry: LogEntry) => `[${entry.timestamp}] [${entry.source}] ${entry.message}`;

@@ -1,14 +1,11 @@
 import { logAtom } from "../../atoms/log-atom";
 import { useSetAtom } from "jotai";
 import { isElectronRuntime } from "@/lib/app-runtime";
+import { LogEntry } from "@/atoms/log-atom";
+import { redactLog } from "@/lib/log-utils";
 
 const useLogger = () => {
   const setLogData = useSetAtom(logAtom);
-
-  const redact = (value: string) =>
-    value
-      .replace(/(x-api-key|authorization|token|secret|password)\s*[:=]\s*[^\s,]+/gi, "$1: [REDACTED]")
-      .replace(/(bbmcp_|up_)[A-Za-z0-9_-]+/g, "[REDACTED]");
 
   const logit = (...args: any) => {
     if (isElectronRuntime()) {
@@ -20,10 +17,9 @@ const useLogger = () => {
     }
 
     const source = isElectronRuntime() ? "electron" : "renderer";
-    const data = redact(
-      `[${new Date().toISOString()}] [${source}] ${[...args].join(" ")}`,
-    );
-    setLogData((prevLogData) => [...prevLogData, data].slice(-500));
+    const raw = [...args].join(" ");
+    const entry: LogEntry = { id: `${Date.now()}-${Math.random().toString(36).slice(2)}`, timestamp: new Date().toISOString(), source, level: /error|fail|exception|uncaught|🚫/i.test(raw) ? "error" : /warn|warning|⚠️/i.test(raw) ? "warning" : /done|success|complete|🏁|✅/i.test(raw) ? "success" : "info", message: redactLog(raw) };
+    setLogData((prevLogData) => [...prevLogData, entry].slice(-500));
   };
 
   return logit;

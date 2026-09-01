@@ -1,11 +1,13 @@
 import { translationAtom } from "@/atoms/translations-atom";
 import { useAtomValue } from "jotai";
 import React, { useEffect } from "react";
+import { LogEntry } from "@/atoms/log-atom";
+import { formatLogEntry } from "@/lib/log-utils";
 
 type LogAreaProps = {
   copyOnClickHandler: () => void;
   isCopied: boolean;
-  logData: string[];
+  logData: LogEntry[];
 };
 
 export function LogArea({
@@ -45,7 +47,7 @@ export function LogArea({
         )}
 
         {logData.map((logLine: any) => {
-          return <p className="">{logLine}</p>;
+          return <p key={logLine.id} className="">{formatLogEntry(logLine)}</p>;
         })}
       </code>
     </div>
