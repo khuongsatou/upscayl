@@ -598,6 +598,19 @@ Production service keys duoc provision trong secret env mode 0600; rollback sour
 
 - Full browser click-through on production queue data is not automated; local implementation and production smoke are covered after deploy.
 
+## Production Smoke
+
+| Check | Result |
+|---|---|
+| Release | Pass; `20260902-queue-show-main-viewer` active |
+| Service | Pass; `upscayl-web` active |
+| API health | Pass; database ok, worker queue 0, storage ready |
+| Page | Pass; `https://bb.1nutnhan.com/upscale` HTTP 200 |
+
+## Residual Risk
+
+- Full browser click-through with a real queued item remains manual follow-up; production infrastructure is healthy.
+
 ## 2026-09-02 Log Manager Enrichment QA
 
 | Check | Result |

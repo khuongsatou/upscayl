@@ -314,6 +314,8 @@
 | Field | Value |
 |---|---|
 | Owner | Electron Next Developer + QA + DevOps |
-| Status | Ready for production sync |
+| Status | Done / Production Go |
 | Task | Add an eye action to each queue item to open it in the main Select an Image viewer |
 | Expected Output | Original opens in the main viewer; completed items also expose the existing comparison slider |
+
+- Production release `20260902-queue-show-main-viewer` active; service, page and API health smoke pass.

@@ -159,3 +159,4 @@
 - User requested a direct per-item action to show queue images in the main viewer.
 - Added an eye action with event isolation and routed original/result state through existing Home viewer state.
 - Validation passed; next step is atomic VPS release and production smoke.
+- VPS release initially hit a full root filesystem and SQLite disk I/O error; obsolete release directories were removed, then service restarted with database/page/API smoke passing.

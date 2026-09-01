@@ -281,3 +281,4 @@
 - `QueueTab` nhan callback `onShowInViewer` va render icon `Eye` tren moi row; click dung `stopPropagation` de khong doi selection.
 - `Sidebar` truyen callback tu `Home`; `Home.showQueueItemInViewer` tat batch mode, reset folder/progress va nap original/result vao state viewer chinh.
 - Tai su dung `SliderView` hien co thong qua `upscaledImagePath`, khong them pipeline hoac IPC moi.
+- Deploy atomic release `/opt/mtips5s-upscale/releases/20260902-queue-show-main-viewer`; cleaned obsolete releases after disk-full guard and restarted `upscayl-web`.

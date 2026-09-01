@@ -573,3 +573,13 @@
 ## Validation
 
 - `npm run tsc`, `npm run validate-schema`, `npm run web:build:upscale`, and `git diff --check` passed.
+
+## Production
+
+- Release `20260902-queue-show-main-viewer` is active on VPS.
+- `upscayl-web` is active; API health reports database/storage/worker OK and page returns HTTP 200.
+- VPS disk pressure was resolved by removing obsolete release artifacts; 35 GB remains available after cleanup.
+
+## PM Verdict
+
+Done / Production Go.
