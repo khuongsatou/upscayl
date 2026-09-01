@@ -5,6 +5,7 @@ import {
 } from "@/atoms/user-settings-atom";
 import { useAtom, useAtomValue } from "jotai";
 import { useEffect, useState } from "react";
+import { CircleCheck, CircleOff, CircleX, Loader2 } from "lucide-react";
 
 type LocalStatus = "idle" | "checking" | "online" | "offline";
 
@@ -52,6 +53,22 @@ const LocalMacProcessingToggle = () => {
         : status === "checking"
           ? "Mac local: Checking..."
           : "Mac local: Tắt";
+  const StatusIcon =
+    status === "online"
+      ? CircleCheck
+      : status === "offline"
+        ? CircleX
+        : status === "checking"
+          ? Loader2
+          : CircleOff;
+  const statusColor =
+    status === "online"
+      ? "text-success"
+      : status === "offline"
+        ? "text-error"
+        : status === "checking"
+          ? "text-warning"
+          : "text-base-content/40";
 
   return (
     <div className="flex flex-col gap-2">
@@ -68,18 +85,14 @@ const LocalMacProcessingToggle = () => {
         onClick={() => setUseLocalMacProcessing((prev) => !prev)}
       />
       <div className="flex items-center gap-2 text-xs" role="status" aria-live="polite">
-        <span
-          className={`h-2 w-2 rounded-full ${
-            status === "online"
-              ? "bg-success"
-              : status === "offline"
-                ? "bg-error"
-                : status === "checking"
-                  ? "bg-warning"
-                  : "bg-base-content/30"
-          }`}
-        />
-        <span>{statusLabel}</span>
+        <span title={statusLabel} aria-label={statusLabel}>
+          <StatusIcon
+            size={16}
+            strokeWidth={2.5}
+            className={`${statusColor} ${status === "checking" ? "animate-spin" : ""}`}
+          />
+        </span>
+        <span className="sr-only">{statusLabel}</span>
       </div>
       {useLocalMacProcessing && (
         <input
