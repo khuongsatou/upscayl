@@ -286,3 +286,14 @@
 | Expected Output | Log co context, loc duoc theo source, thao tac xoa co xac nhan |
 
 - Production release `20260902-log-manager-v2` active; health/page smoke pass.
+
+## 2026-09-02 Log Manager Structured Entries
+
+| Field | Value |
+|---|---|
+| Owner | Electron Next Developer + QA + DevOps |
+| Status | Done / Production Go |
+| Task | Chuyen log sang typed entries co timestamp/source/level va migrate log cu |
+| Expected Output | Log Manager loc va export duoc metadata structured, khong mat log cu |
+
+- Production release `20260902-log-manager-v3` active; page/API smoke pass.

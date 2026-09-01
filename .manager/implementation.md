@@ -261,3 +261,10 @@
 - `useLogger` them ISO timestamp va source (`renderer`/`electron`) vao moi entry.
 - Log Manager them source filter, hien source, confirm truoc khi clear; giu copy/export/search/level filter.
 - Deploy release `/opt/mtips5s-upscale/releases/20260902-log-manager-v2`.
+
+## 2026-09-02 Log Manager Structured Entries
+
+- Them `LogEntry` typed contract va `log-utils.ts` cho redact, normalize legacy va format.
+- `logAtom` luu typed entries; `useLogger` tao id/timestamp/source/level/message.
+- Settings LogArea, support email/copy va LogManager da adapt typed entries.
+- Deploy release `/opt/mtips5s-upscale/releases/20260902-log-manager-v3`.

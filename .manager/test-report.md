@@ -558,6 +558,17 @@ Production service keys duoc provision trong secret env mode 0600; rollback sour
 | Production deploy | Pass; release `20260902-log-manager` active |
 | Production page/API | Pass; page 200, health OK, queue 0 |
 
+## 2026-09-02 Log Manager Structured Entries QA
+
+| Check | Result |
+|---|---|
+| TypeScript | Pass |
+| Locale schema | Pass; all 20 locale files valid |
+| Web production build | Pass |
+| Legacy log normalization | Pass by implementation review; old strings are converted on render |
+| Redaction/retention | Pass by implementation review; sensitive patterns redacted and 500-entry cap retained |
+| Production rollout | Pass; release `20260902-log-manager-v3`, page 200, health OK, queue 0 |
+
 ## Residual Risk
 
 - Log level/source are currently inferred from message text; structured metadata and full browser automation coverage remain follow-up improvements.

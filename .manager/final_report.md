@@ -531,6 +531,16 @@
 - Clear requires confirmation; persistence, retention, copy and export remain enabled.
 - Production release `20260902-log-manager-v2` is active and health/page smoke passed.
 
+## 2026-09-02 Log Manager Structured Entries
+
+- Log Manager now uses typed entries with id, ISO timestamp, source, level and message.
+- Existing string logs are normalized automatically; Settings support log viewer and email export remain compatible.
+- Production release `20260902-log-manager-v3` is active with page/API smoke passing.
+
+## Remaining Risk
+
+- UI labels are still English hardcoded in the new manager; localization pass and automated browser interaction tests remain follow-up.
+
 ## Remaining Risk
 
 - Metadata remains encoded in the message string rather than a fully typed object; automated browser interaction coverage is still follow-up.
