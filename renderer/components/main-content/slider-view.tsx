@@ -7,10 +7,12 @@ const SliderView = ({
   sanitizedImagePath,
   sanitizedUpscaledImagePath,
   zoomAmount,
+  className = "h-screen",
 }: {
   sanitizedImagePath: string;
   sanitizedUpscaledImagePath: string;
   zoomAmount: string;
+  className?: string;
 }) => {
   const t = useTranslation();
 
@@ -66,7 +68,7 @@ const SliderView = ({
           />
         </>
       }
-      className="group h-screen"
+      className={`group ${className}`}
     />
   );
 };
