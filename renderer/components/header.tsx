@@ -3,6 +3,7 @@ import React from "react";
 import UpscaylSVGLogo from "@/components/icons/upscayl-logo-svg";
 import { useAtomValue } from "jotai";
 import { translationAtom } from "@/atoms/translations-atom";
+import LocalMacStatusIcon from "./sidebar/local-mac-status-icon";
 
 export default function Header({ version }: { version: string }) {
   const t = useAtomValue(translationAtom);
@@ -16,7 +17,12 @@ export default function Header({ version }: { version: string }) {
       data-tooltip-content={t("HEADER.GITHUB_BUTTON_TITLE")}
     >
       <div className="flex items-center gap-3 px-5 py-5">
-        <UpscaylSVGLogo className="inline-block h-14 w-14" />
+        <span className="relative inline-flex">
+          <UpscaylSVGLogo className="inline-block h-14 w-14" />
+          <span className="absolute -right-1 bottom-0 rounded-full bg-base-100 p-0.5">
+            <LocalMacStatusIcon />
+          </span>
+        </span>
         <div className="flex flex-col justify-center">
           <h1 className="text-3xl font-bold">
             {t("TITLE")}{" "}
