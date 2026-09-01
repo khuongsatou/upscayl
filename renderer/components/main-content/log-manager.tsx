@@ -11,22 +11,25 @@ const classify = (line: string): LogLevel => {
   if (/done|success|complete|🏁|✅/i.test(line)) return "success";
   return "info";
 };
+const sourceOf = (line: string) => line.match(/\] \[([^\]]+)\]/)?.[1] || "app";
 
 const LogManager = () => {
   const logs = useAtomValue(logAtom);
   const setLogs = useSetAtom(logAtom);
   const [query, setQuery] = useState("");
   const [level, setLevel] = useState<"all" | LogLevel>("all");
+  const [source, setSource] = useState("all");
   const [copied, setCopied] = useState(false);
 
   const visibleLogs = useMemo(() => {
     const normalized = query.trim().toLowerCase();
     return logs
-      .map((message, index) => ({ message, index, level: classify(message) }))
+      .map((message, index) => ({ message, index, level: classify(message), source: sourceOf(message) }))
       .filter((entry) => level === "all" || entry.level === level)
+      .filter((entry) => source === "all" || entry.source === source)
       .filter((entry) => !normalized || entry.message.toLowerCase().includes(normalized))
       .slice(-500);
-  }, [level, logs, query]);
+  }, [level, logs, query, source]);
 
   const copyLogs = async () => {
     await navigator.clipboard.writeText(visibleLogs.map((entry) => entry.message).join("\n"));
@@ -60,7 +63,7 @@ const LogManager = () => {
           <button className="btn btn-ghost btn-xs" title="Export logs" aria-label="Export logs" onClick={exportLogs}>
             <Download size={14} />
           </button>
-          <button className="btn btn-ghost btn-xs text-error" title="Clear logs" aria-label="Clear logs" onClick={() => setLogs([])}>
+          <button className="btn btn-ghost btn-xs text-error" title="Clear logs" aria-label="Clear logs" onClick={() => { if (window.confirm("Clear all logs?")) setLogs([]); }}>
             <Trash2 size={14} />
           </button>
         </div>
@@ -70,10 +73,13 @@ const LogManager = () => {
         <select className="select select-bordered select-xs w-24" value={level} onChange={(event) => setLevel(event.target.value as "all" | LogLevel)} aria-label="Filter log level">
           <option value="all">All</option><option value="info">Info</option><option value="success">Success</option><option value="warning">Warning</option><option value="error">Error</option>
         </select>
+        <select className="select select-bordered select-xs w-24" value={source} onChange={(event) => setSource(event.target.value)} aria-label="Filter log source">
+          <option value="all">Sources</option><option value="renderer">Renderer</option><option value="electron">Electron</option><option value="vps">VPS</option><option value="local-mac">Mac</option><option value="queue">Queue</option>
+        </select>
       </div>
       <div className="max-h-48 min-h-20 overflow-y-auto rounded-btn bg-base-200 p-3 font-mono text-[11px]" aria-live="polite">
         {visibleLogs.length === 0 ? <p className="text-base-content/60">No logs yet.</p> : visibleLogs.map((entry) => (
-          <p key={`${entry.index}-${entry.message}`} className={entry.level === "error" ? "text-error" : entry.level === "warning" ? "text-warning" : entry.level === "success" ? "text-success" : "text-base-content/80"}>{entry.message}</p>
+          <p key={`${entry.index}-${entry.message}`} className={entry.level === "error" ? "text-error" : entry.level === "warning" ? "text-warning" : entry.level === "success" ? "text-success" : "text-base-content/80"}><span className="mr-1 opacity-60">[{entry.source}]</span>{entry.message}</p>
         ))}
       </div>
     </section>

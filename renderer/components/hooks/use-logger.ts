@@ -19,7 +19,10 @@ const useLogger = () => {
       console.log(...args);
     }
 
-    const data = redact([...args].join(" "));
+    const source = isElectronRuntime() ? "electron" : "renderer";
+    const data = redact(
+      `[${new Date().toISOString()}] [${source}] ${[...args].join(" ")}`,
+    );
     setLogData((prevLogData) => [...prevLogData, data].slice(-500));
   };
 
