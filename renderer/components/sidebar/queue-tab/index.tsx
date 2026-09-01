@@ -102,6 +102,8 @@ function QueueTab({
   const [paused, setPaused] = useState(false);
   const [currentItemId, setCurrentItemId] = useState<string | null>(null);
   const [previewItemId, setPreviewItemId] = useState<string | null>(null);
+  const [compareMode, setCompareMode] = useState<"side-by-side" | "slider">("side-by-side");
+  const [comparePosition, setComparePosition] = useState(50);
   const currentItemRef = useRef<string | null>(null);
   const itemsRef = useRef(items);
   const pausedRef = useRef(false);
@@ -482,15 +484,30 @@ function QueueTab({
             <p className="truncate text-sm font-semibold" title={previewItem.name}>{previewItem.name}</p>
             <button className="btn btn-ghost btn-xs" onClick={() => setPreviewItemId(null)} aria-label="Close preview">×</button>
           </div>
-          <div className="grid min-h-32 grid-cols-2 gap-2">
-            <div className="flex min-h-32 items-center justify-center overflow-hidden rounded bg-base-100 p-1">
-              <img src={toImageSrc(previewItem.imagePath)} alt={`${previewItem.name} original`} className="max-h-40 max-w-full object-contain" />
+          {previewItem.resultPath && (
+            <div className="flex gap-1">
+              <button className={`btn btn-xs flex-1 ${compareMode === "side-by-side" ? "btn-primary" : "btn-ghost"}`} onClick={() => setCompareMode("side-by-side")}>Side by side</button>
+              <button className={`btn btn-xs flex-1 ${compareMode === "slider" ? "btn-primary" : "btn-ghost"}`} onClick={() => setCompareMode("slider")}>Slider</button>
             </div>
-            <div className="flex min-h-32 items-center justify-center overflow-hidden rounded bg-base-100 p-1">
-              {previewItem.resultPath ? <img src={toImageSrc(previewItem.resultPath)} alt={`${previewItem.name} result`} className="max-h-40 max-w-full object-contain" /> : <span className="text-center text-xs text-base-content/60">Result preview appears when processing finishes.</span>}
+          )}
+          {previewItem.resultPath && compareMode === "slider" ? (
+            <div className="flex flex-col gap-1">
+              <div className="relative min-h-40 overflow-hidden rounded bg-base-100">
+                <img src={toImageSrc(previewItem.resultPath)} alt={`${previewItem.name} result`} className="absolute inset-0 h-full w-full object-contain" />
+                <div className="absolute inset-y-0 left-0 overflow-hidden border-r-2 border-primary bg-base-100" style={{ width: `${comparePosition}%` }}>
+                  <img src={toImageSrc(previewItem.imagePath)} alt={`${previewItem.name} original`} className="h-full max-w-none object-contain" style={{ width: "100%", minWidth: "100%" }} />
+                </div>
+                <div className="pointer-events-none absolute inset-y-0" style={{ left: `${comparePosition}%` }}><div className="h-full w-0.5 bg-primary" /></div>
+              </div>
+              <input aria-label="Compare original and result" type="range" min="0" max="100" value={comparePosition} onChange={(event) => setComparePosition(Number(event.target.value))} className="range range-primary range-xs" />
+              <div className="flex justify-between text-xs text-base-content/70"><span>Original</span><span>Result</span></div>
             </div>
-          </div>
-          <div className="flex justify-between text-xs text-base-content/70"><span>Original</span><span>Result</span></div>
+          ) : (
+            <div className="grid min-h-32 grid-cols-2 gap-2">
+              <div className="flex min-h-32 items-center justify-center overflow-hidden rounded bg-base-100 p-1"><img src={toImageSrc(previewItem.imagePath)} alt={`${previewItem.name} original`} className="max-h-40 max-w-full object-contain" /></div>
+              <div className="flex min-h-32 items-center justify-center overflow-hidden rounded bg-base-100 p-1">{previewItem.resultPath ? <img src={toImageSrc(previewItem.resultPath)} alt={`${previewItem.name} result`} className="max-h-40 max-w-full object-contain" /> : <span className="text-center text-xs text-base-content/60">Result preview appears when processing finishes.</span>}</div>
+            </div>
+          )}
           <p className="text-xs capitalize text-base-content/70">{statusLabels[previewItem.status]} · {Math.round(previewItem.progress)}%</p>
         </section>
       )}
