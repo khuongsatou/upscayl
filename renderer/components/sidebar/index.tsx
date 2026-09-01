@@ -255,7 +255,6 @@ const Sidebar = ({
 
         {(selectedTab === 1 || queueProcessing) && (
           <QueueTab
-            imagePath={imagePath}
             outputPath={outputPath}
             visible={selectedTab === 1}
           />

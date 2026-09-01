@@ -70,11 +70,9 @@ const isValidImagePath = (path: string) => {
 };
 
 function QueueTab({
-  imagePath,
   outputPath,
   visible,
 }: {
-  imagePath: string;
   outputPath: string | null;
   visible: boolean;
 }) {
@@ -192,14 +190,6 @@ function QueueTab({
       | null;
     if (!paths?.length) return;
     enqueuePaths(paths);
-  };
-
-  const addCurrentImage = () => {
-    if (!imagePath || !isValidImagePath(imagePath)) {
-      toast({ description: t("QUEUE.NO_CURRENT_IMAGE") });
-      return;
-    }
-    enqueuePaths([imagePath]);
   };
 
   const buildPayload = (path: string): ImageUpscaylPayload => ({
@@ -418,13 +408,6 @@ function QueueTab({
           </button>
         </div>
       </div>
-
-      <button
-        className="btn btn-outline btn-sm w-full"
-        onClick={addCurrentImage}
-      >
-        {t("QUEUE.ADD_CURRENT")}
-      </button>
 
       <div className="grid grid-cols-3 gap-2">
         <button
