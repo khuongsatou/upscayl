@@ -49,13 +49,47 @@ curl -H "X-API-Key: $UPSCAYL_API_KEY" \
     "mode": "single",
     "uploadIds": ["UPLOAD_UUID"],
     "model": "upscayl-standard-4x",
-    "scale": 4,
+    "scale": 2,
     "outputFormat": "png"
   }' \
   https://bb.1nutnhan.com/upscale/api/v1/jobs
 ```
 
 Poll `GET /jobs/{jobId}` until `status` is terminal. Successful jobs contain `result.url`. Cancel with `DELETE /jobs/{jobId}` and delete an output early with `DELETE /jobs/{jobId}/result`.
+
+## Queue helper APIs
+
+For UI or agents that need per-image queue rows, use the `/queue/*` helper
+endpoints. They do not bypass the normal upload/job ownership rules; they only
+wrap existing job behavior in Queue-friendly calls.
+
+Create one single-image job for each upload ID:
+
+```bash
+curl -H "X-API-Key: $UPSCAYL_API_KEY" \
+  -H "Idempotency-Key: queue-run-001" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "uploadIds": ["UPLOAD_UUID_1", "UPLOAD_UUID_2"],
+    "model": "upscayl-standard-4x",
+    "scale": 2,
+    "outputFormat": "png"
+  }' \
+  https://bb.1nutnhan.com/upscale/api/v1/queue/jobs
+```
+
+List queue rows with search, filter and page pagination:
+
+```bash
+curl -H "X-API-Key: $UPSCAYL_API_KEY" \
+  "https://bb.1nutnhan.com/upscale/api/v1/queue/jobs?q=icon&status=queued,processing&page=1&limit=20"
+```
+
+Other Queue helpers:
+
+- `GET /queue/summary` returns total, active and per-status counts.
+- `POST /queue/jobs/cancel` with `{ "jobIds": ["JOB_UUID"] }` cancels multiple jobs.
+- `POST /queue/jobs/{jobId}/retry` creates a new job from a terminal job's original upload and settings.
 
 Creating a job hands processing off to the persistent server worker. Closing the
 HTTP connection, hiding a browser tab, or closing the Upscayl page does not
@@ -72,6 +106,9 @@ reaches a terminal state.
 The full contract is in [upscale-api-v1.openapi.yaml](./upscale-api-v1.openapi.yaml).
 Banana reads cross-principal health, queue and job state only through the
 read-only [Upscale Internal API](./upscale-internal-api-v1.openapi.yaml).
+Agents can discover the machine-readable workflow with `GET /agent/manifest`
+and `GET /agent/workflow`; implementation rules are in
+[upscale-agent-api-readme.md](./upscale-agent-api-readme.md).
 
 Against a running non-production server, the contract smoke suite can be run with:
 
@@ -80,6 +117,21 @@ UPSCAYL_API_TEST_URL=http://127.0.0.1:3042/api/v1 \
 UPSCAYL_API_TEST_KEY=test-api-key \
 npm run api:v1:test
 ```
+
+Production readiness can be checked without secrets:
+
+```bash
+npm run api:v1:status
+```
+
+The status command reads public health, public model limits and the legacy route
+redirect, and verifies that the public page references `/upscale/_next` assets
+instead of root `/_next` assets. Override `UPSCAYL_STATUS_BASE_URL`,
+`UPSCAYL_STATUS_APP_URL` or `UPSCAYL_STATUS_LEGACY_URL` for staging or local
+checks.
+
+Remaining migration, dependency and scale gates are tracked in
+[upscale-operations-roadmap.md](./upscale-operations-roadmap.md).
 
 ## Runtime and persistence
 
@@ -96,5 +148,14 @@ npm run api:v1:test
 - Banana auth failure is fail-closed for `bbmcp_`; existing jobs remain owned and processed by Upscale
 - Fallback ETA is derived from output workload at 160,000 ms per megapixel; tune
   `UPSCAYL_API_ESTIMATED_MS_PER_MEGAPIXEL` for the production CPU/GPU profile
+- The current CPU-only VPS service template overrides the generic defaults with
+  `UPSCAYL_API_MAX_OUTPUT_PIXELS=2500000` and
+  `UPSCAYL_API_ESTIMATED_MS_PER_MEGAPIXEL=800000` because llvmpipe benchmark
+  runs showed 0.52 output megapixels taking about 425 seconds.
+- Linux software Vulkan detection is controlled by `UPSCAYL_API_SOFTWARE_VULKAN`:
+  `auto` enables llvmpipe/lavapipe spawn env only when no accessible `/dev/dri/renderD*`
+  node is available, `always` forces it, and `never` disables it. When active,
+  the worker sets software Mesa env vars and uses an `lvp` Vulkan ICD if found.
+  `GET /health` reports the selected mode, active state and reason.
 
 The legacy `/api/upscayl` endpoint remains a synchronous compatibility adapter over the same queue. It returns `Deprecation`, `Sunset`, and successor-version headers.

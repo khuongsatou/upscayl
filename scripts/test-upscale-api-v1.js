@@ -46,6 +46,20 @@ const waitForJob = async (id) => {
 (async () => {
   const health = await json(await fetch(`${base}/health`));
   assert(health.status === "ok", "Health must be ok.");
+  const manifest = await json(await fetch(`${base}/agent/manifest`));
+  assert(
+    manifest.endpoints?.createJob?.path === "/jobs",
+    "Agent manifest must expose the create job endpoint.",
+  );
+  assert(
+    manifest.mcp?.tools?.includes("upscale_create_job"),
+    "Agent manifest must expose Banana MCP Upscale tools.",
+  );
+  const workflow = await json(await fetch(`${base}/agent/workflow`));
+  assert(
+    workflow.workflow?.some((step) => step.step === "poll"),
+    "Agent workflow must include polling guidance.",
+  );
   const unauthorized = await fetch(`${base}/jobs`);
   assert(unauthorized.status === 401, "History must require authentication.");
   const invalidForm = new FormData();
@@ -138,9 +152,80 @@ const waitForJob = async (id) => {
     await fetch(`${base}/jobs/${job.id}`, { headers }),
   );
   assert(expired.status === "expired", "Deleted result must mark job expired.");
+  const queueUploadA = await upload();
+  const queueUploadB = await upload();
+  const queueCreate = await fetch(`${base}/queue/jobs`, {
+    method: "POST",
+    headers: {
+      ...headers,
+      "Content-Type": "application/json",
+      "Idempotency-Key": `queue-contract-${Date.now()}`,
+    },
+    body: JSON.stringify({
+      uploadIds: [queueUploadA.id, queueUploadB.id],
+      model: "upscayl-standard-4x",
+      scale: 2,
+      outputFormat: "png",
+    }),
+  });
+  assert(queueCreate.status === 202, "Queue bulk create must return 202.");
+  const queueCreated = await queueCreate.json();
+  assert(
+    queueCreated.data?.length === 2,
+    "Queue bulk create must return one job per upload.",
+  );
+  const queueSummary = await json(
+    await fetch(`${base}/queue/summary`, { headers }),
+  );
+  assert(
+    queueSummary.total >= 2 && typeof queueSummary.statuses?.queued === "number",
+    "Queue summary must include created jobs and status counts.",
+  );
+  const queueList = await json(
+    await fetch(
+      `${base}/queue/jobs?q=baboon&status=queued,processing&page=1&limit=10`,
+      { headers },
+    ),
+  );
+  assert(
+    queueList.pagination?.page === 1 &&
+      queueList.data.some((item) => item.inputFileNames?.includes("baboon.png")),
+    "Queue list must support search, filter, and page pagination.",
+  );
+  const queueCancel = await fetch(`${base}/queue/jobs/cancel`, {
+    method: "POST",
+    headers: { ...headers, "Content-Type": "application/json" },
+    body: JSON.stringify({
+      jobIds: queueCreated.data.map((item) => item.id),
+    }),
+  });
+  assert(queueCancel.status === 200, "Queue cancel must return 200.");
+  assert(
+    (await queueCancel.json()).data.length === 2,
+    "Queue cancel must return canceled job states.",
+  );
+  const queueRetry = await fetch(`${base}/queue/jobs/${job.id}/retry`, {
+    method: "POST",
+    headers: {
+      ...headers,
+      "Idempotency-Key": `queue-retry-contract-${Date.now()}`,
+    },
+  });
+  assert(queueRetry.status === 202, "Queue retry must return 202.");
+  const retried = await queueRetry.json();
+  assert(retried.retriedFrom === job.id, "Queue retry must reference source job.");
+  await fetch(`${base}/jobs/${retried.job.id}`, {
+    method: "DELETE",
+    headers,
+  });
   console.log(
     JSON.stringify(
-      { status: "pass", jobId: job.id, outputBytes: output.length },
+      {
+        status: "pass",
+        jobId: job.id,
+        outputBytes: output.length,
+        queueJobs: queueCreated.data.length,
+      },
       null,
       2,
     ),

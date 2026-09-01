@@ -111,3 +111,138 @@
 | Status | Done |
 | Task | Them checkpoint trinh duyet va co che tiep tuc xu ly background tai `bb.1nutnhan.com/upscale` |
 | Expected Output | Job tiep tuc tren server khi dong/reload tab; web tu dong ket noi lai job dang chay, khoi phuc progress/ETA va lay ket qua khi hoan tat |
+
+## 2026-08-24 Software Vulkan Auto Detect
+
+| Field | Value |
+|---|---|
+| Owner | Upscale Pipeline Specialist + DevOps Release Operator |
+| Status | Done |
+| Task | Them option detect llvmpipe/lavapipe theo moi truong runtime |
+| Expected Output | Worker web tu dong bat software Vulkan tren Linux khi khong co render node GPU; co option `auto/always/never` va health report de van hanh |
+
+## 2026-08-24 CPU llvmpipe Performance Guardrail
+
+| Field | Value |
+|---|---|
+| Owner | Upscale Pipeline Specialist + DevOps Release Operator |
+| Status | Done |
+| Task | Benchmark CPU llvmpipe va dat guardrail output/ETA cho production |
+| Expected Output | VPS khong nhan job output qua lon tren CPU-only; ETA fallback gan hon profile llvmpipe that |
+
+## 2026-08-24 Dependency Security Hardening
+
+| Field | Value |
+|---|---|
+| Owner | DevOps Release Operator + Code Reviewer |
+| Status | Done with Follow-up |
+| Task | Giam advisory runtime co the fix an toan khong dung major upgrade |
+| Expected Output | Production-scope audit khong con critical/moderate; con lai duoc tach thanh major-upgrade follow-up |
+
+## 2026-08-24 Production Status Command
+
+| Field | Value |
+|---|---|
+| Owner | DevOps Release Operator |
+| Status | Done |
+| Task | Them lenh status khong can secret cho Upscale production |
+| Expected Output | Mot lenh kiem tra health, runtime, queue, limits va legacy redirect de dung sau deploy |
+
+## 2026-08-24 Operations Roadmap Gates
+
+| Field | Value |
+|---|---|
+| Owner | Project Manager + DevOps Release Operator + Solution Architect |
+| Status | Done |
+| Task | Ghi ro gate cho legacy cleanup, major dependency upgrade va scale strategy |
+| Expected Output | Khong force major upgrade/retire route/tang concurrency khi chua du metric va QA gate |
+
+## 2026-08-24 Upscale Page Blank Hotfix
+
+| Field | Value |
+|---|---|
+| Owner | DevOps Release Operator + Electron Next Developer |
+| Status | Done |
+| Task | Sua `https://bb.1nutnhan.com/upscale` chi hien loading/logo do asset path sai |
+| Expected Output | Public page render UI day du; build/deploy co guard bat loi asset `/_next` sai basePath |
+
+## 2026-08-24 Banana MCP Upscale Boundary
+
+| Field | Value |
+|---|---|
+| Owner | Project Manager + Solution Architect + DevOps Release Operator |
+| Status | Done |
+| Task | Xac minh va dong bo MCP Upscale ben Banana chi giao tiep voi Upscale qua HTTP API versioned |
+| Expected Output | Banana MCP co 5 tool `upscale_*`, khong doc DB/file/source/volume cua Upscale; production route `/mcp` va `/api/mcp/upscale` smoke pass |
+
+## 2026-08-24 Agent Support APIs
+
+| Field | Value |
+|---|---|
+| Owner | Solution Architect + Upscale Pipeline Specialist + QA Tester |
+| Status | Done |
+| Task | Tao API ho tro agent discover workflow Upscale va README de agent biet cach goi |
+| Expected Output | Public `GET /agent/manifest`, `GET /agent/workflow`, OpenAPI/docs/README va production smoke pass |
+
+## 2026-08-24 Onboarding Default Off
+
+| Field | Value |
+|---|---|
+| Owner | Product Owner + Electron Next Developer + QA Tester |
+| Status | Done |
+| Task | Tat modal `Welcome to Upscayl` mac dinh; nguoi dung chi mo lai tu Settings |
+| Expected Output | Trang `/upscale` khong tu hien onboarding modal; Settings co nut mo lai onboarding khi nguoi dung muon xem |
+
+## 2026-08-24 Next Vendor Chunk Hotfix
+
+| Field | Value |
+|---|---|
+| Owner | Electron Next Developer + DevOps Release Operator + QA Tester |
+| Status | Done |
+| Task | Sua loi `Cannot find module './chunks/vendor-chunks/lucide-react.js'` khi chay web production |
+| Expected Output | `next dev` va `next build/start` khong dung chung build dir; `/upscale` production start tra 200 |
+
+## 2026-08-24 Default Scale 2X
+
+| Field | Value |
+|---|---|
+| Owner | Product Owner + Upscale Pipeline Specialist + Electron Next Developer |
+| Status | Done |
+| Task | Doi default Image Scale tu 4X xuong 2X de giam loi vuot pixel limit |
+| Expected Output | User/API moi mac dinh 2X; scale cu 4X duoc migrate mot lan ve 2X; user van co the chon lai 4X |
+
+## 2026-08-25 VPS Sync
+
+| Field | Value |
+|---|---|
+| Owner | DevOps Release Operator + QA Tester |
+| Status | Done |
+| Task | Dong bo cac hotfix web chunk, onboarding/news va default scale 2X len VPS |
+| Expected Output | Production release moi active, build `/upscale` dung `.next-web`, health/page/API smoke pass |
+
+## 2026-08-25 Local Mac Processing Option
+
+| Field | Value |
+|---|---|
+| Owner | Product Owner + Electron Next Developer + Upscale Pipeline Specialist + QA Tester |
+| Status | Done locally |
+| Task | Them Settings option de web co the dung Mac local lam noi xu ly upscale khi local server dang bat |
+| Expected Output | Toggle mac dinh tat, endpoint local configurable, web job route qua local API khi bat va fail ro neu local offline |
+
+## 2026-08-25 Queue Tab
+
+| Field | Value |
+|---|---|
+| Owner | Product Owner + Electron Next Developer + Upscale Pipeline Specialist + QA Tester |
+| Status | Done locally |
+| Task | Them tab Queue nam giua Upscayl va Settings de xu ly nhieu anh upscale theo hang doi |
+| Expected Output | Queue co add multi-image, start/pause/stop, progress tung anh 0-100, search, filter va pagination |
+
+## 2026-08-25 Queue Support APIs
+
+| Field | Value |
+|---|---|
+| Owner | Solution Architect + Upscale Pipeline Specialist + QA Tester |
+| Status | Done locally |
+| Task | Them API ho tro Queue de agent/UI tao hang doi, list/search/filter/page, summary, cancel nhieu job va retry |
+| Expected Output | `/queue/*` API co docs/OpenAPI/manifest va local smoke pass |

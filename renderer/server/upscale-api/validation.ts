@@ -2,7 +2,7 @@ import type { NextApiRequest } from "next";
 import { MODELS } from "@common/models-list";
 import { apiConfig } from "./config";
 import { UpscaleApiError } from "./errors";
-import type { JobOptions } from "./types";
+import type { JobOptions, JobStatus } from "./types";
 
 export const readJsonBody = async (req: NextApiRequest) => {
   const chunks: Buffer[] = [];
@@ -71,7 +71,7 @@ export const validateJobOptions = (body: any): JobOptions => {
       "Unsupported upscale model.",
     );
   }
-  const scale = Number(body.scale ?? 4);
+  const scale = Number(body.scale ?? 2);
   if (![2, 3, 4].includes(scale)) {
     throw new UpscaleApiError(
       400,
@@ -126,4 +126,61 @@ export const validateJobOptions = (body: any): JobOptions => {
     tileSize,
     tta: Boolean(body.tta),
   };
+};
+
+export const validJobStatuses: JobStatus[] = [
+  "queued",
+  "processing",
+  "succeeded",
+  "failed",
+  "canceled",
+  "expired",
+];
+
+export const validateQueueCreateOptions = (body: any): JobOptions => {
+  const options = validateJobOptions({ ...body, mode: "batch" });
+  return { ...options, mode: "single" };
+};
+
+export const parseQueueStatuses = (value: unknown) => {
+  if (value == null || value === "") return null;
+  const rawValues = Array.isArray(value) ? value : String(value).split(",");
+  const statuses = rawValues
+    .map((item) => String(item).trim())
+    .filter(Boolean);
+  if (
+    statuses.length === 0 ||
+    statuses.some((status) => !validJobStatuses.includes(status as JobStatus))
+  ) {
+    throw new UpscaleApiError(
+      400,
+      "INVALID_STATUS",
+      "Invalid queue status filter.",
+    );
+  }
+  return Array.from(new Set(statuses)) as JobStatus[];
+};
+
+export const parsePageLimit = (
+  pageValue: unknown,
+  limitValue: unknown,
+  maxLimit = 100,
+) => {
+  const page = Math.max(1, Number(pageValue) || 1);
+  const limit = Math.min(maxLimit, Math.max(1, Number(limitValue) || 20));
+  return { page, limit, offset: (page - 1) * limit };
+};
+
+export const parseJobIdList = (body: any): string[] => {
+  const jobIds = Array.isArray(body.jobIds)
+    ? body.jobIds.filter((value) => typeof value === "string")
+    : [];
+  if (jobIds.length < 1 || jobIds.length > 100) {
+    throw new UpscaleApiError(
+      400,
+      "INVALID_JOB_IDS",
+      "jobIds must contain 1-100 job IDs.",
+    );
+  }
+  return Array.from(new Set(jobIds));
 };

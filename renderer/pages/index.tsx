@@ -1,5 +1,5 @@
 "use client";
-import { useState, useEffect } from "react";
+import { useRef, useState, useEffect } from "react";
 import { ELECTRON_COMMANDS } from "@common/electron-commands";
 import { useAtomValue, useSetAtom } from "jotai";
 import { customModelIdsAtom } from "../atoms/models-list-atom";
@@ -7,6 +7,7 @@ import {
   batchModeAtom,
   savedOutputPathAtom,
   progressAtom,
+  queueProcessingAtom,
   rememberOutputFolderAtom,
   userStatsAtom,
 } from "../atoms/user-settings-atom";
@@ -49,12 +50,18 @@ const Home = () => {
   const setOutputPath = useSetAtom(savedOutputPathAtom);
   const rememberOutputFolder = useAtomValue(rememberOutputFolderAtom);
   const batchMode = useAtomValue(batchModeAtom);
+  const queueProcessing = useAtomValue(queueProcessingAtom);
+  const queueProcessingRef = useRef(false);
   const [batchFolderPath, setBatchFolderPath] = useState("");
   const [upscaledBatchFolderPath, setUpscaledBatchFolderPath] = useState("");
   const setProgress = useSetAtom(progressAtom);
   const [doubleUpscaylCounter, setDoubleUpscaylCounter] = useState(0);
   const setModelIds = useSetAtom(customModelIdsAtom);
   const setUserStats = useSetAtom(userStatsAtom);
+
+  useEffect(() => {
+    queueProcessingRef.current = queueProcessing;
+  }, [queueProcessing]);
 
   const selectImageHandler = async () => {
     resetImagePaths();
@@ -186,6 +193,7 @@ const Home = () => {
     appRuntime.on(
       ELECTRON_COMMANDS.SCALING_AND_CONVERTING,
       (_, data: string) => {
+        if (queueProcessingRef.current) return;
         setProgress(t("APP.PROGRESS.PROCESSING_TITLE"));
       },
     );
@@ -205,6 +213,7 @@ const Home = () => {
     });
     // UPSCAYL ERROR
     appRuntime.on(ELECTRON_COMMANDS.UPSCAYL_ERROR, (_, data: string) => {
+      if (queueProcessingRef.current) return;
       toast({
         title: t("ERRORS.GENERIC_ERROR.TITLE"),
         description: data,
@@ -215,6 +224,7 @@ const Home = () => {
     appRuntime.on(
       ELECTRON_COMMANDS.UPSCAYL_PROGRESS,
       (_, data: string) => {
+        if (queueProcessingRef.current) return;
         if (data.length > 0 && data.length < 10) {
           setProgress(data);
         } else if (data.includes("converting")) {
@@ -256,6 +266,7 @@ const Home = () => {
     );
     // UPSCAYL DONE
     appRuntime.on(ELECTRON_COMMANDS.UPSCAYL_DONE, (_, data: string) => {
+      if (queueProcessingRef.current) return;
       setProgress("");
       setUpscaledImagePath(data);
       setUserStats((prev) => ({

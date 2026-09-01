@@ -13,6 +13,10 @@ export const NewsModal = () => {
   const [showNewsModal, setShowNewsModal] = useAtom(showNewsModalAtom);
 
   useEffect(() => {
+    setShowNewsModal(false);
+  }, [setShowNewsModal]);
+
+  useEffect(() => {
     // TODO: ADD AN ABOUT TAB
     if (window && window.navigator.onLine === false) return;
     try {
@@ -44,7 +48,6 @@ export const NewsModal = () => {
             }
           } else if (markdownData) {
             setNews(matter(newsData));
-            setShowNewsModal(true);
           }
         });
     } catch (error) {
@@ -79,8 +82,8 @@ export const NewsModal = () => {
             <path
               fill="none"
               stroke="currentColor"
-              stroke-linecap="round"
-              stroke-width="1.5"
+              strokeLinecap="round"
+              strokeWidth="1.5"
               d="m8.464 15.535l7.072-7.07m-7.072 0l7.072 7.07"
             />
           </svg>

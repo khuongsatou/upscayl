@@ -218,6 +218,42 @@
 | Legacy adapter | Pass; progress GET, PNG 500x480, deprecation/sunset/successor headers |
 | Production page/health/models | HTTP 200 qua `https://bb.1nutnhan.com/upscale` |
 | Production auth | Khong key 401; bootstrap key contract pass |
+
+## 2026-08-24 Banana MCP Upscale Boundary QA
+
+| Check | Result |
+|---|---|
+| Banana `npm run check` | Pass |
+| Banana targeted MCP/API tests | Pass, 32/32 tests |
+| Banana coupling scan | Pass, khong thay direct Upscale DB/file/source/volume reference |
+| Production deploy Banana | Pass, container `banana-pro` recreated va `/api/health` OK |
+| Production MCP config | Pass, `/api/mcp/config` HTTP 200, auth required |
+| Production MCP advertised endpoint | Pass, `https://bb.1nutnhan.com/mcp` |
+| Production MCP handshake + tools/list | Pass, session OK, 47 tools, du 5 tool `upscale_*` |
+| Production MCP local tool call | Pass, `upscale_get_job` handled local va tra `JOB_NOT_FOUND` tu Upscale API cho job smoke khong ton tai |
+| Production Banana upscale dashboard | Pass, `/api/mcp/upscale` HTTP 200, Upscale health `ok`, queue `queued=0`, `processing=0` |
+| Production smoke key cleanup | Pass, `activeSmokeKeys=0` sau revoke |
+| Upscale production status | Pass, `npm run api:v1:status` OK; page asset dung `/upscale/_next`, queue rong |
+
+## Residual Risk
+
+- Smoke khong upload/xu ly anh that qua MCP de tranh tao workload production khong can thiet; contract upload/create/result da duoc cover bang local tests va cac production canary truoc.
+
+## 2026-08-24 Agent Support APIs QA
+
+| Check | Result |
+|---|---|
+| `npm run tsc` | Pass |
+| `node --check scripts/test-upscale-api-v1.js` | Pass |
+| OpenAPI YAML parse | Pass |
+| `npm run web:build:upscale` local | Pass |
+| Local `GET /upscale/api/v1/agent/manifest` | Pass, service `mtips5s-upscale`, 5 MCP tools |
+| Local `GET /upscale/api/v1/agent/workflow` | Pass, 7 workflow steps |
+| VPS build `web:build:upscale` | Pass |
+| Production release switch | Pass, active `/opt/mtips5s-upscale/releases/20260824-agent-api` |
+| Production `GET /agent/manifest` | Pass, base URL `https://bb.1nutnhan.com/upscale/api/v1`, limit `2500000` |
+| Production `GET /agent/workflow` | Pass, steps discover/preflight/upload/create_job/poll/download/cancel |
+| `npm run api:v1:status` | Pass, health OK, page assets OK, queue rong |
 | Production anonymous web | Same-origin upload/job/result pass, khong can public key |
 | Production browser | Pass; progress 4.97% -> 32.20%, ETA 00:37 -> 00:25, output Before/After hien thi, console sach |
 | Final `api-v1d` production contract | Pass sau khi tach module progress/ETA |
@@ -276,3 +312,222 @@ Production service keys duoc provision trong secret env mode 0600; rollback sour
 
 - Anonymous web ownership hien gan theo client IP; neu IP thay doi giua luc dong va mo lai trang, server se khong tra job cu va checkpoint se duoc xoa an toan.
 - Browser checkpoint bi mat neu nguoi dung xoa site data/localStorage; server job van chay va result van ton tai den TTL 24 gio.
+
+## 2026-08-24 Software Vulkan Auto Detect QA
+
+| Check | Result |
+|---|---|
+| `npm run tsc` | Pass |
+| `npm run web:build` | Pass |
+| `npm run build` | Pass, expected static-export API warning only |
+| Local health smoke on macOS | Pass; reports `mode=always`, `active=false`, `reason=unsupported_platform` when forced, so non-Linux is not mutated |
+| VPS release build | Pass; `npm run web:build` in `/opt/mtips5s-upscale/releases/20260824-software-vulkan-auto` |
+| Production cutover | Pass; `current` points to `20260824-software-vulkan-auto`, service active, `NRestarts=0` |
+| Production health | Pass; `softwareVulkan.mode=auto`, `active=true`, `reason=no_accessible_render_node`, `icdPath=/usr/share/vulkan/icd.d/lvp_icd.x86_64.json` |
+| Real production upscale | Pass; job `61654912-567b-4594-a400-287e819b4d68`, PNG output 624,031 bytes |
+| Process cleanup | Pass; no `upscayl-bin` process remains after job completion |
+| Journal audit | Pass; no `upscayl-web` warning/error entries in the post-cutover window |
+
+## Residual Risk
+
+- CPU-only software Vulkan remains slow for larger images; performance profiling and ETA tuning are still separate follow-up work.
+
+## 2026-08-24 CPU llvmpipe Performance Guardrail QA
+
+| Check | Result |
+|---|---|
+| Small production benchmark | Pass; 125x120 scale4 job `3eeadda8-58e5-4423-afec-b22593e3eeef`, 56.2s, 624,031-byte PNG |
+| Medium production benchmark | Pass; 500x261 scale2 job `e4582f09-b0a6-464f-bd41-631690ace1fe`, 425s, 238,866-byte PNG |
+| Large benchmark abort | Pass; 960x540 scale2 job `f546baa1-89a3-4e91-8e85-b236e202750c` canceled at 19.37%, final status `canceled` |
+| Service env | Pass; `UPSCAYL_API_ESTIMATED_MS_PER_MEGAPIXEL=800000`, `UPSCAYL_API_MAX_OUTPUT_PIXELS=2500000` active |
+| `/api/v1/models` limits | Pass; reports `maxOutputPixels=2500000` |
+| Oversized create guard | Pass; 1080p scale2 rejected with `OUTPUT_PIXEL_LIMIT_EXCEEDED` before spawn |
+| Final health/process/log | Pass; queue 0/0, no `upscayl-bin` process, no warning/error journal entries |
+
+## Residual Risk
+
+- CPU-only throughput remains low; 0.52 output MP took about 7 minutes, so scale strategy still requires GPU or a separate worker before raising limits/concurrency.
+
+## 2026-08-24 Dependency Security Hardening QA
+
+| Check | Result |
+|---|---|
+| Initial `npm audit --omit=dev` | 25 total: 4 moderate, 19 high, 2 critical |
+| `npm audit fix --omit=dev` | Applied; package-lock updated with non-breaking/transitive fixes |
+| Local `npm run tsc` | Pass |
+| Local `npm run web:build` | Pass |
+| Local `npm run build` | Pass, expected static-export warnings only |
+| Post-fix production-scope audit | 6 high, 0 critical, 0 moderate |
+| VPS install/build | Pass; `npm install` and `npm run web:build` in active release |
+| VPS health/logs | Pass; health ok, queue 0/0, service active, `NRestarts=0`, no warning/error journal entries |
+
+## Residual Risk
+
+- Remaining 6 high advisories require breaking/major upgrades: Electron 43, exiftool-vendored 37, and eslint-config-next 16. These need a separate desktop/web compatibility task before force-upgrading.
+
+## 2026-08-24 Production Status Command QA
+
+| Check | Result |
+|---|---|
+| Local `npm run api:v1:status` | Pass; reports health ok, queue 0/0, software Vulkan active, 2.5MP limit and 308 legacy redirect |
+| Local `npm run tsc` | Pass |
+| VPS `npm run api:v1:status` | Pass in active release |
+| Service state after sync | Pass; `upscayl-web` active, `NRestarts=0` |
+
+## Residual Risk
+
+- Status command uses public endpoints only; internal outbox/Banana service-key checks still require authenticated server-side commands.
+
+## 2026-08-24 Operations Roadmap Gates QA
+
+| Check | Result |
+|---|---|
+| Roadmap file | Pass; `docs/upscale-operations-roadmap.md` created |
+| API guide link | Pass; `docs/upscale-api-v1.md` links to roadmap |
+| VPS sync | Pass; roadmap present in active release |
+| Service state after doc sync | Pass; `upscayl-web` active, `NRestarts=0` |
+
+## Residual Risk
+
+- Roadmap defines gates; actual legacy cleanup, Electron/exiftool major upgrade and GPU/separate-worker scale work remain future tasks pending metrics and compatibility windows.
+
+## 2026-08-24 Upscale Page Blank Hotfix QA
+
+| Check | Result |
+|---|---|
+| Reproduction | Confirmed; `/upscale` HTML referenced root `/_next/...` assets before fix |
+| Asset root check | Pass after rebuild; HTML has `/upscale/_next` and no root `/_next` asset refs |
+| Public asset | Pass; `/upscale/_next/static/chunks/main-76078f1737a7dc6b.js` HTTP 200 |
+| Browser render | Pass; Playwright body text includes full Upscayl UI, 12 buttons, no console errors or request failures |
+| `npm run api:v1:status` | Pass locally and on VPS; includes `pageAssets.hasExpectedAssets=true`, `hasRootNextAssets=false` |
+| `npm run web:build:upscale` | Pass locally |
+| `npm run tsc` | Pass |
+| VPS service | Pass; `upscayl-web` active, `NRestarts=0`, no warning/error journal entries |
+
+## Residual Risk
+
+- Future production builds must use `web:build:upscale` or set `UPSCAYL_WEB_BASE_PATH=/upscale`; the status command now catches this regression before handoff.
+
+## 2026-08-24 Onboarding Default Off QA
+
+| Check | Result |
+|---|---|
+| `npm run tsc` | Pass |
+| `git diff --check` scoped UI files | Pass |
+| Local browser reload `/upscale` | Pass; `openDialogCount=0`, welcome text not visible |
+| Settings manual open | Pass; Settings shows `Get Started`, clicking it opens `Welcome to Upscayl` dialog |
+| Reset local tab state | Pass; reload returns to `openDialogCount=0` |
+| `UPSCAYL_TARGET=web UPSCAYL_WEB_BASE_PATH=/upscale npm run web:build:upscale` | Pass |
+
+## Residual Risk
+
+- Settings uses existing localized onboarding strings, so no new locale key was added. The control is clear enough but label/button copy can be polished later if product wants a distinct "Open onboarding" phrase.
+
+## 2026-08-24 Next Vendor Chunk Hotfix QA
+
+| Check | Result |
+|---|---|
+| Reproduce on old artifact | Pass; `next start` port 3057 returned `GET /upscale` 500 with missing `./chunks/vendor-chunks/lucide-react.js` |
+| `UPSCAYL_TARGET=web UPSCAYL_WEB_BASE_PATH=/upscale npm run web:build:upscale` | Pass; builds into `renderer/.next-web` |
+| Artifact scan | Pass; no stale `vendor-chunks/lucide-react` require remains in `.next-web/server` |
+| Production start smoke | Pass; `next start` port 3057 returned `GET /upscale` 200 |
+| Asset path smoke | Pass; HTML assets use `/upscale/_next/...` |
+| Local dev restart | Pass; `GET http://127.0.0.1:3047/upscale` returned 200 using `.next-web-dev` |
+| `npm run tsc` | Pass |
+| `git diff --check` scoped files | Pass |
+
+## Residual Risk
+
+- Existing broken `renderer/.next` may remain locally until clean, but web scripts now use `.next-web`/`.next-web-dev` and no longer depend on it.
+
+## 2026-08-24 Default Scale 2X QA
+
+| Check | Result |
+|---|---|
+| `npm run tsc` | Pass |
+| `git diff --check` scoped files | Pass |
+| Search stale scale defaults | Pass; no API/UI default `4` remains, only selectable scale references |
+| Local UI no stored scale | Pass; browser text shows `Image Scale (2X)` |
+| API create job without `scale` | Pass; returned `scale=2`, job canceled immediately |
+| `UPSCAYL_TARGET=web UPSCAYL_WEB_BASE_PATH=/upscale npm run web:build:upscale` | Pass |
+
+## Residual Risk
+
+- Migration intentionally lowers stored `scale=4` once. Users who truly want 4X can select it again after the migration flag is set.
+
+## 2026-08-25 VPS Sync QA
+
+| Check | Result |
+|---|---|
+| Pre-deploy health | Pass; active old release `20260824-agent-api`, worker queue 0/0 |
+| Remote `npm install` | Pass; install completed, audit warnings remain as known dependency backlog |
+| Remote `npm run tsc` | Pass |
+| Remote `web:build:upscale` | Pass; built into `.next-web` |
+| Stale vendor chunk scan | Pass; no `chunks/vendor-chunks/lucide-react` reference in `.next-web/server` |
+| Release switch | Pass; current -> `/opt/mtips5s-upscale/releases/20260825-default-scale-webfix` |
+| Service restart | Pass; `upscayl-web` active, `NRestarts=0` |
+| `npm run api:v1:status` | Pass; health OK, queue 0/0, page assets `/upscale/_next`, legacy redirect 308 |
+| Agent manifest | Pass; service `mtips5s-upscale`, 5 MCP tools |
+| Production API default scale | Pass; create job without `scale` returned `scale=2`, then canceled |
+| Journal audit | Pass; no module missing/error in post-deploy window; known SQLite ExperimentalWarning only |
+
+## Residual Risk
+
+- VPS is still CPU-only llvmpipe with `maxOutputPixels=2500000`; throughput remains intentionally limited.
+
+## 2026-08-25 Local Mac Processing Option QA
+
+| Check | Result |
+|---|---|
+| `npm run validate-schema` | Pass; all 20 locale files valid |
+| `npm run tsc` | Pass |
+| `UPSCAYL_TARGET=web UPSCAYL_WEB_BASE_PATH=/upscale npm run web:build:upscale` | Pass |
+| `git diff --check` scoped feature files | Pass |
+| Local bridge CORS preflight | Pass; OPTIONS from `https://bb.1nutnhan.com` to loopback returned 204 and allow-origin |
+| Local bridge upload/create/cancel | Pass; upload 201, create 202, cancel 200 without API key from production Origin, `scale=2`, `mode=single` |
+| Local browser `/upscale` render | Pass; main UI rendered and `Image Scale (2X)` visible |
+| Settings default off | Pass; `USE LOCAL MAC PROCESSING` visible and endpoint input hidden before toggle |
+| Settings toggle on | Pass; endpoint input appears with `http://127.0.0.1:3047/upscale/api/v1` |
+| Reset after UI smoke | Pass; toggle turned off again in local test tab |
+
+## Residual Risk
+
+- Feature has passed local and build validation but has not been deployed to VPS in this task entry yet.
+
+## 2026-08-25 Queue Tab QA
+
+| Check | Result |
+|---|---|
+| `npm run validate-schema` | Pass; all locale files valid with `QUEUE` namespace |
+| `npm run tsc` | Pass |
+| `UPSCAYL_TARGET=web UPSCAYL_WEB_BASE_PATH=/upscale npm run web:build:upscale` | Pass |
+| `git diff --check` scoped queue files | Pass |
+| Browser tab order | Pass; tabs show `Upscayl`, `Queue`, `Settings` |
+| Empty Queue UI | Pass; Queue empty state and pagination render |
+| Multi-select enqueue | Pass; adding 6 local image fixtures shows `6 queued` |
+| Pagination | Pass; 6 items at page size 5 shows `Page 1 / 2` |
+| Search/filter | Pass; search `icon` and filter `queued` keep matching queued image rows visible |
+| Start/Stop smoke | Pass; first item entered processing, reached 6%, Stop marked it canceled and left 5 items queued |
+
+## Residual Risk
+
+- Full completion of a large queue was not run to avoid tying up the local worker; start/progress/cancel and build-level regressions were validated.
+
+## 2026-08-25 Queue Support APIs QA
+
+| Check | Result |
+|---|---|
+| `npm run tsc` | Pass |
+| `npm run validate-schema` | Pass |
+| OpenAPI YAML parse | Pass; `docs/upscale-api-v1.openapi.yaml` parsed |
+| `UPSCAYL_TARGET=web UPSCAYL_WEB_BASE_PATH=/upscale npm run web:build:upscale` | Pass |
+| `git diff --check` scoped API/docs files | Pass |
+| Local Queue API smoke | Pass; upload 2 images, `POST /queue/jobs` created 2 jobs |
+| Queue list/search/filter/page | Pass; `GET /queue/jobs?q=baboon&status=queued,processing&page=1&limit=10` returned page 1 and matching row |
+| Queue summary | Pass; `GET /queue/summary` returned totals/status counts |
+| Multi-cancel | Pass; `POST /queue/jobs/cancel` returned 2 job states |
+| Retry terminal job | Pass; canceled job retried through `POST /queue/jobs/{jobId}/retry`, retry job canceled after smoke |
+
+## Residual Risk
+
+- Authenticated production smoke was not run for `/queue/*` yet; local loopback bridge smoke and build validation passed.

@@ -6,6 +6,7 @@ import getModelScale from "@common/check-model-scale";
 import { apiConfig, getModelsPath, getUpscaylBinaryPath } from "./config";
 import { getDatabase } from "./database";
 import { startEstimatedProgress, updateJobProgress } from "./progress";
+import { buildUpscaylSpawnEnv } from "./runtime-env";
 import type { JobRow, UploadRow } from "./types";
 import {
   enqueueJobLifecycle,
@@ -75,6 +76,7 @@ const runBinary = (
     const child = spawn(getUpscaylBinaryPath(), args.filter(Boolean), {
       cwd: process.cwd(),
       detached: process.platform !== "win32",
+      env: buildUpscaylSpawnEnv(),
     });
     state.child = child;
     let settled = false;

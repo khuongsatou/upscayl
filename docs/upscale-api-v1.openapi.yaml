@@ -9,8 +9,10 @@ security:
   - ApiKeyAuth: []
 tags:
   - name: Runtime
+  - name: Agent
   - name: Uploads
   - name: Jobs
+  - name: Queue
 paths:
   /health:
     get:
@@ -27,6 +29,28 @@ paths:
       summary: List supported models, formats, scales, and service limits
       responses:
         "200": { description: Model catalog }
+  /agent/manifest:
+    get:
+      tags: [Agent]
+      security: []
+      summary: Machine-readable contract manifest for agents and MCP adapters
+      responses:
+        "200":
+          description: Agent manifest with endpoints, auth rules, limits, statuses, and tool names
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/AgentManifest" }
+  /agent/workflow:
+    get:
+      tags: [Agent]
+      security: []
+      summary: Recommended agent workflow for upload, job creation, polling, result download, and cancel
+      responses:
+        "200":
+          description: Ordered workflow and integration rules for API-only agents
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/AgentWorkflow" }
   /uploads:
     post:
       tags: [Uploads]
@@ -139,6 +163,122 @@ paths:
       responses:
         "204": { description: Result deleted and job marked expired }
         "409": { description: Job has no deletable result }
+  /queue/summary:
+    get:
+      tags: [Queue]
+      summary: Count queue jobs by status for the authenticated principal
+      responses:
+        "200":
+          description: Queue status counts
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/QueueSummary" }
+        "401": { $ref: "#/components/responses/Unauthorized" }
+  /queue/jobs:
+    get:
+      tags: [Queue]
+      summary: List queue jobs with search, status filter, and page pagination
+      parameters:
+        - { in: query, name: q, schema: { type: string, maxLength: 128 } }
+        - {
+            in: query,
+            name: status,
+            schema: { type: string, description: "One status or comma-separated statuses" },
+          }
+        - { in: query, name: page, schema: { type: integer, minimum: 1, default: 1 } }
+        - {
+            in: query,
+            name: limit,
+            schema: { type: integer, minimum: 1, maximum: 100, default: 20 },
+          }
+      responses:
+        "200":
+          description: Paginated queue rows
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/QueueJobList" }
+        "401": { $ref: "#/components/responses/Unauthorized" }
+    post:
+      tags: [Queue]
+      summary: Create one single-image queue job for each uploaded image
+      parameters:
+        - in: header
+          name: Idempotency-Key
+          schema: { type: string, maxLength: 128 }
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: "#/components/schemas/CreateQueueJobs" }
+      responses:
+        "202":
+          description: Queue jobs created
+          content:
+            application/json:
+              schema:
+                type: object
+                required: [data, replayed]
+                properties:
+                  data:
+                    type: array
+                    items: { $ref: "#/components/schemas/Job" }
+                  replayed: { type: boolean }
+        "200":
+          description: Existing idempotent queue jobs returned
+          headers:
+            Idempotency-Replayed: { schema: { type: string, const: "true" } }
+        "400": { $ref: "#/components/responses/BadRequest" }
+        "401": { $ref: "#/components/responses/Unauthorized" }
+        "429": { $ref: "#/components/responses/RateLimited" }
+  /queue/jobs/cancel:
+    post:
+      tags: [Queue]
+      summary: Cancel multiple queue jobs by ID
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: "#/components/schemas/CancelQueueJobs" }
+      responses:
+        "200":
+          description: Current states for canceled jobs
+          content:
+            application/json:
+              schema:
+                type: object
+                required: [data]
+                properties:
+                  data:
+                    type: array
+                    items: { $ref: "#/components/schemas/Job" }
+        "400": { $ref: "#/components/responses/BadRequest" }
+        "401": { $ref: "#/components/responses/Unauthorized" }
+        "404": { $ref: "#/components/responses/NotFound" }
+  /queue/jobs/{jobId}/retry:
+    parameters:
+      - $ref: "#/components/parameters/JobId"
+    post:
+      tags: [Queue]
+      summary: Retry a terminal queue job using the original upload and options
+      parameters:
+        - in: header
+          name: Idempotency-Key
+          schema: { type: string, maxLength: 128 }
+      responses:
+        "202":
+          description: Retry job queued
+          content:
+            application/json:
+              schema:
+                type: object
+                required: [job, replayed, retriedFrom]
+                properties:
+                  job: { $ref: "#/components/schemas/Job" }
+                  replayed: { type: boolean }
+                  retriedFrom: { type: string, format: uuid }
+        "401": { $ref: "#/components/responses/Unauthorized" }
+        "404": { $ref: "#/components/responses/NotFound" }
+        "409": { description: Job is not terminal yet }
 components:
   securitySchemes:
     ApiKeyAuth:
@@ -194,12 +334,28 @@ components:
           maxItems: 10
           items: { type: string, format: uuid }
         model: { type: string, default: upscayl-standard-4x }
-        scale: { type: integer, enum: [2, 3, 4], default: 4 }
+        scale: { type: integer, enum: [2, 3, 4], default: 2 }
         outputFormat: { type: string, enum: [png, jpg, webp], default: png }
         compression: { type: integer, minimum: 0, maximum: 100, default: 0 }
         customWidth: { type: [integer, "null"], minimum: 1, maximum: 8192 }
         tileSize: { type: integer, minimum: 0, maximum: 4096, default: 0 }
         tta: { type: boolean, default: false }
+    CreateQueueJobs:
+      allOf:
+        - $ref: "#/components/schemas/CreateJob"
+        - type: object
+          description: mode is ignored; the Queue API creates one single job per uploadId.
+          properties:
+            mode: { type: string, enum: [single], default: single }
+    CancelQueueJobs:
+      type: object
+      required: [jobIds]
+      properties:
+        jobIds:
+          type: array
+          minItems: 1
+          maxItems: 100
+          items: { type: string, format: uuid }
     JobStatus:
       type: string
       enum: [queued, processing, succeeded, failed, canceled, expired]
@@ -234,6 +390,46 @@ components:
         updatedAt: { type: integer, format: int64 }
         completedAt: { type: [integer, "null"], format: int64 }
         expiresAt: { type: integer, format: int64 }
+    QueueJob:
+      allOf:
+        - $ref: "#/components/schemas/Job"
+        - type: object
+          properties:
+            inputFileNames:
+              type: array
+              items: { type: string }
+    QueueJobList:
+      type: object
+      required: [data, pagination]
+      properties:
+        data:
+          type: array
+          items: { $ref: "#/components/schemas/QueueJob" }
+        pagination:
+          type: object
+          required: [page, limit, total, totalPages, hasMore]
+          properties:
+            page: { type: integer }
+            limit: { type: integer }
+            total: { type: integer }
+            totalPages: { type: integer }
+            hasMore: { type: boolean }
+    QueueSummary:
+      type: object
+      required: [total, active, statuses]
+      properties:
+        total: { type: integer }
+        active: { type: integer }
+        statuses:
+          type: object
+          required: [queued, processing, succeeded, failed, canceled, expired]
+          properties:
+            queued: { type: integer }
+            processing: { type: integer }
+            succeeded: { type: integer }
+            failed: { type: integer }
+            canceled: { type: integer }
+            expired: { type: integer }
     Error:
       type: object
       required: [error]
@@ -246,3 +442,83 @@ components:
             message: { type: string }
             requestId: { type: string, format: uuid }
             details: {}
+    AgentManifest:
+      type: object
+      required: [service, apiVersion, baseUrl, auth, endpoints, limits, statuses]
+      properties:
+        service: { type: string, const: mtips5s-upscale }
+        apiVersion: { type: string, const: v1 }
+        contractVersion: { type: string }
+        baseUrl: { type: string }
+        auth:
+          type: object
+          properties:
+            header: { type: string, const: X-API-Key }
+            acceptedKeyPrefixes:
+              type: array
+              items: { type: string }
+            preferredKeyPrefix: { type: string, const: bbmcp_ }
+            note: { type: string }
+        endpoints:
+          type: object
+          additionalProperties:
+            type: object
+            properties:
+              method: { type: string }
+              path: { type: string }
+              auth: { type: boolean }
+        mcp:
+          type: object
+          properties:
+            recommendedEndpoint: { type: string }
+            transport: { type: string }
+            tools:
+              type: array
+              items: { type: string }
+        models:
+          type: array
+          items:
+            type: object
+        limits: { type: object }
+        statuses:
+          type: object
+          properties:
+            terminal:
+              type: array
+              items: { $ref: "#/components/schemas/JobStatus" }
+            retryableHttp:
+              type: array
+              items: { type: integer }
+            failClosedAuth: { type: boolean }
+        documentation: { type: object }
+    AgentWorkflow:
+      type: object
+      required: [service, apiVersion, baseUrl, workflow, rules]
+      properties:
+        service: { type: string, const: mtips5s-upscale }
+        apiVersion: { type: string, const: v1 }
+        baseUrl: { type: string }
+        workflow:
+          type: array
+          items:
+            type: object
+            properties:
+              step: { type: string }
+              request: { type: object }
+              requests:
+                type: array
+                items: { type: object }
+              purpose: { type: string }
+              contentType: { type: string }
+              headers:
+                type: array
+                items: { type: string }
+              intervalMs: { type: integer }
+              backoffAfterSeconds: { type: integer }
+              stopWhenStatusIn:
+                type: array
+                items: { $ref: "#/components/schemas/JobStatus" }
+              when: { type: string }
+        rules:
+          type: array
+          items: { type: string }

@@ -124,3 +124,59 @@
 - Reload khong them buoc thao tac: progress/ETA va result tu khoi phuc tu job dang chay.
 - Stop van o dung vi tri cu va la hanh dong huy explicit; Electron desktop khong thay doi.
 - Production page render day du, responsive classes giu nguyen va console sach.
+
+## 2026-08-24 Onboarding Default Off
+
+| Field | Value |
+|---|---|
+| UI Score | 5/5 |
+| Function Score | 5/5 |
+| Verdict | Approved |
+
+## Findings
+
+- App vao thang man hinh upscale, khong bi modal welcome chan luong chon anh.
+- Settings co nut mo onboarding ro rang bang text localized san co.
+- Khong them dialog/error/loading moi; hanh vi dong/mo van theo component dialog hien co.
+
+## 2026-08-24 Default Scale 2X
+
+| Field | Value |
+|---|---|
+| UI Score | 5/5 |
+| Function Score | 5/5 |
+| Verdict | Approved |
+
+## Findings
+
+- Default 2X giam kha nang gap loi output pixel limit voi anh lon.
+- Nguoi dung van thay va chon duoc scale cao hon khi co nhu cau.
+- Khong them buoc thao tac hay text moi vao giao dien.
+
+## 2026-08-25 Local Mac Processing Option
+
+| Field | Value |
+|---|---|
+| UI Score | 5/5 |
+| Function Score | 5/5 |
+| Verdict | Approved |
+
+## Findings
+
+- Toggle nam trong Settings dung vi tri voi cac option nang cao, mac dinh tat nen khong lam thay doi hanh vi cua nguoi dung binh thuong.
+- Endpoint input chi hien khi bat option, giup UI gon va tranh nguoi dung moi bi roi.
+- Mo ta noi ro chi bat khi Mac local worker dang online; khi offline runtime bao loi thay vi gui ngam len VPS.
+
+## 2026-08-25 Queue Tab
+
+| Field | Value |
+|---|---|
+| UI Score | 5/5 |
+| Function Score | 5/5 |
+| Verdict | Approved |
+
+## Findings
+
+- Queue nam giua Upscayl va Settings dung nhu yeu cau, de tim nhung khong chen vao flow upscale co san.
+- Search, filter va pagination giu sidebar gon khi co nhieu anh.
+- Moi item co progress/status rieng, Retry/Remove/Open result theo tung row; Stop dung item hien tai va pause queue de tranh xu ly tiep ngoai y muon.

@@ -26,6 +26,14 @@ const Tabs = ({ selectedTab, setSelectedTab }: TabsProps) => {
           setSelectedTab(1);
         }}
       >
+        {t("QUEUE.TITLE")}
+      </a>
+      <a
+        className={`tab ${selectedTab === 2 && "tab-active"}`}
+        onClick={() => {
+          setSelectedTab(2);
+        }}
+      >
         {t("SETTINGS.TITLE")}
       </a>
     </div>

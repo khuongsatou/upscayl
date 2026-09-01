@@ -43,6 +43,11 @@ export const WEB_OUTPUT_PATH = "web-output://download";
 const DEFAULT_WEB_API_V1_ENDPOINT = `${
   process.env.NEXT_PUBLIC_UPSCAYL_WEB_BASE_PATH ?? ""
 }/api/v1`;
+const DEFAULT_LOCAL_MAC_API_V1_ENDPOINT =
+  process.env.NEXT_PUBLIC_UPSCAYL_LOCAL_MAC_API_V1_URL ||
+  "http://127.0.0.1:3047/upscale/api/v1";
+const LOCAL_MAC_PROCESSING_STORAGE_KEY = "useLocalMacProcessing";
+const LOCAL_MAC_ENDPOINT_STORAGE_KEY = "localMacApiEndpoint";
 
 const getBrowserPlatform = (): RuntimePlatform => {
   if (typeof navigator === "undefined") return "linux";
@@ -55,15 +60,17 @@ const getBrowserPlatform = (): RuntimePlatform => {
 const createFileInput = ({
   accept,
   directory,
+  multiple,
 }: {
   accept?: string;
   directory?: boolean;
+  multiple?: boolean;
 }) =>
   new Promise<FileList | null>((resolve) => {
     const input = document.createElement("input");
     input.type = "file";
     input.accept = accept ?? "";
-    input.multiple = Boolean(directory);
+    input.multiple = Boolean(directory || multiple);
 
     if (directory) {
       input.setAttribute("webkitdirectory", "");
@@ -92,6 +99,7 @@ class WebRuntime {
   private folders = new Map<string, File[]>();
   private abortController: AbortController | null = null;
   private currentJobId: string | null = null;
+  private currentEndpoint: string | null = null;
   private backgroundActive = false;
 
   on(command: string, func?: RuntimeListener) {
@@ -171,6 +179,15 @@ class WebRuntime {
       return file ? this.registerFile(file) : null;
     }
 
+    if (command === ELECTRON_COMMANDS.SELECT_FILES) {
+      const files = await createFileInput({
+        accept: "image/png,image/jpeg,image/webp",
+        multiple: true,
+      });
+      if (!files?.length) return null;
+      return Array.from(files).map((file) => this.registerFile(file));
+    }
+
     if (
       command === ELECTRON_COMMANDS.SELECT_FOLDER ||
       command === ELECTRON_COMMANDS.SELECT_CUSTOM_MODEL_FOLDER
@@ -245,6 +262,70 @@ class WebRuntime {
     return headers;
   }
 
+  private readStoredValue(key: string) {
+    if (typeof window === "undefined") return null;
+    try {
+      const raw = window.localStorage.getItem(key);
+      if (raw === null) return null;
+      try {
+        return JSON.parse(raw);
+      } catch {
+        return raw;
+      }
+    } catch {
+      return null;
+    }
+  }
+
+  private isLocalMacProcessingEnabled() {
+    return this.readStoredValue(LOCAL_MAC_PROCESSING_STORAGE_KEY) === true;
+  }
+
+  private getLocalMacEndpoint() {
+    const stored = this.readStoredValue(LOCAL_MAC_ENDPOINT_STORAGE_KEY);
+    const endpoint =
+      typeof stored === "string" && stored.trim()
+        ? stored.trim()
+        : DEFAULT_LOCAL_MAC_API_V1_ENDPOINT;
+    return endpoint.replace(/\/+$/, "");
+  }
+
+  private getApiEndpoint() {
+    if (this.isLocalMacProcessingEnabled()) {
+      return this.getLocalMacEndpoint();
+    }
+    return (
+      process.env.NEXT_PUBLIC_UPSCAYL_API_V1_URL ?? DEFAULT_WEB_API_V1_ENDPOINT
+    ).replace(/\/+$/, "");
+  }
+
+  private async ensureApiEndpointReady(endpoint: string, signal: AbortSignal) {
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 2500);
+    const onAbort = () => controller.abort();
+    signal.addEventListener("abort", onAbort, { once: true });
+    try {
+      const response = await fetch(`${endpoint}/health`, {
+        headers: this.getApiHeaders(),
+        cache: "no-store",
+        signal: controller.signal,
+      });
+      if (!response.ok) {
+        throw new Error(await this.readApiError(response));
+      }
+    } catch (error) {
+      if (this.isLocalMacProcessingEnabled()) {
+        throw new Error(
+          `Local Mac processing is enabled, but ${endpoint} is not reachable. Start the local Mac worker or turn this setting off.`,
+        );
+      }
+      throw error;
+    } finally {
+      clearTimeout(timeoutId);
+      signal.removeEventListener("abort", onAbort);
+    }
+  }
+
   private async readApiError(response: Response) {
     try {
       const data = await response.json();
@@ -255,8 +336,7 @@ class WebRuntime {
   }
 
   private async cancelWebJob(jobId: string) {
-    const endpoint =
-      process.env.NEXT_PUBLIC_UPSCAYL_API_V1_URL ?? DEFAULT_WEB_API_V1_ENDPOINT;
+    const endpoint = this.currentEndpoint || this.getApiEndpoint();
     try {
       const response = await fetch(
         `${endpoint}/jobs/${encodeURIComponent(jobId)}`,
@@ -352,6 +432,7 @@ class WebRuntime {
   }
 
   private async downloadWebJobResult(
+    endpoint: string,
     checkpoint: WebJobCheckpoint,
     completed: WebJobResponse,
     signal: AbortSignal,
@@ -360,9 +441,10 @@ class WebRuntime {
       throw new TerminalWebJobError(
         "Upscale API did not return a result URL.",
       );
+    const resultUrl = new URL(completed.result.url, endpoint).toString();
     while (!signal.aborted) {
       try {
-        const response = await fetch(completed.result.url, {
+        const response = await fetch(resultUrl, {
           headers: this.getApiHeaders(),
           signal,
         });
@@ -399,9 +481,9 @@ class WebRuntime {
     abortController: AbortController,
     checkpointSaved = true,
   ) {
-    const endpoint =
-      process.env.NEXT_PUBLIC_UPSCAYL_API_V1_URL ?? DEFAULT_WEB_API_V1_ENDPOINT;
+    const endpoint = checkpoint.endpoint || this.getApiEndpoint();
     this.currentJobId = checkpoint.jobId;
+    this.currentEndpoint = endpoint;
     this.setBackgroundActive(checkpointSaved);
     const progressCommand = this.getProgressCommand(checkpoint.command);
     this.emit(progressCommand, "0.00%");
@@ -413,6 +495,7 @@ class WebRuntime {
       abortController.signal,
     );
     const outputUrl = await this.downloadWebJobResult(
+      endpoint,
       checkpoint,
       completed,
       abortController.signal,
@@ -442,22 +525,24 @@ class WebRuntime {
       this.setBackgroundActive(false);
       this.emit(ELECTRON_COMMANDS.WEB_UPSCAYL_ETA, null);
       if (this.currentJobId === checkpoint.jobId) this.currentJobId = null;
+      this.currentEndpoint = null;
       if (this.abortController === abortController) this.abortController = null;
     }
     return true;
   }
 
   private async runWebUpscayl(command: string, payload: UpscaylPayload) {
-    const endpoint =
-      process.env.NEXT_PUBLIC_UPSCAYL_API_V1_URL ?? DEFAULT_WEB_API_V1_ENDPOINT;
+    const endpoint = this.getApiEndpoint();
     const progressCommand = this.getProgressCommand(command);
     const abortController = new AbortController();
     this.abortController = abortController;
+    this.currentEndpoint = endpoint;
     this.setBackgroundActive(false);
     this.emit(progressCommand, "0.00%");
     this.emit(ELECTRON_COMMANDS.WEB_UPSCAYL_ETA, null);
 
     try {
+      await this.ensureApiEndpointReady(endpoint, abortController.signal);
       const files =
         "imagePath" in payload
           ? ([this.files.get(payload.imagePath)].filter(Boolean) as File[])
@@ -509,6 +594,7 @@ class WebRuntime {
         version: 1,
         jobId: created.id,
         command: command as WebUpscaleCommand,
+        endpoint,
         createdAt: created.createdAt,
         expiresAt: created.expiresAt,
       };
@@ -533,6 +619,7 @@ class WebRuntime {
       this.setBackgroundActive(false);
       this.emit(ELECTRON_COMMANDS.WEB_UPSCAYL_ETA, null);
       this.currentJobId = null;
+      this.currentEndpoint = null;
       if (this.abortController === abortController) {
         this.abortController = null;
       }

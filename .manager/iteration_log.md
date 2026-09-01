@@ -58,3 +58,98 @@
 - Local type/build/schema va checkpoint tests pass; push exact SHA `88405937` truoc deploy.
 - VPS dang xu ly mot job nguoi dung tu 24.83%; release watcher doi den job 100% va queue rong moi atomic cutover, tranh mat tien do.
 - Production canary tao job roi ngat client; client moi resume va download PNG thanh cong. Browser page/bundle/log va service/outbox audit deu pass.
+
+## 2026-08-24 Software Vulkan Auto Detect
+
+- Them helper runtime env cho web worker de auto bat llvmpipe/lavapipe tren Linux khi khong co render node GPU doc/ghi duoc.
+- Expose trang thai `runtime.softwareVulkan` trong health API va them service env `UPSCAYL_API_SOFTWARE_VULKAN=auto`.
+- Local tsc, web build, desktop/static build va health smoke macOS pass; VPS Linux can smoke sau deploy.
+- Deploy release `20260824-software-vulkan-auto` len VPS, cap nhat systemd env, health xac nhan auto software Vulkan active va real PNG job pass; service restart count van 0.
+
+## 2026-08-24 CPU llvmpipe Performance Guardrail
+
+- Chay production benchmark small/medium; medium 500x261 scale2 mat 425s nen xac nhan CPU llvmpipe khong nen nhan output lon.
+- Huy benchmark 960x540 scale2 khi ETA tang qua cao de tranh chiem worker; cancel sach va queue ve 0.
+- Cap nhat service env ETA 800,000 ms/MP va max output 2.5MP; verify models limit va oversized job reject truoc spawn.
+
+## 2026-08-24 Dependency Security Hardening
+
+- Audit production scope ban dau co 25 advisory, gom 2 critical; `npm audit fix --omit=dev` giam xuong 6 high va khong con critical/moderate.
+- Local tsc, web build va full build pass; deploy lockfile moi len VPS, chay install/build/restart thanh cong.
+- De lai major-upgrade backlog cho Electron, exiftool-vendored va eslint-config-next vi can compatibility QA rieng.
+
+## 2026-08-24 Production Status Command
+
+- Them secret-free status script doc health/models/redirect; local va VPS deu pass.
+- Script duoc deploy vao active release de dung nhu post-deploy smoke command.
+
+## 2026-08-24 Operations Roadmap Gates
+
+- Them operations roadmap de dong khung legacy cleanup, major dependency upgrades va scale strategy bang gate cu the.
+- Sync roadmap len active release; service khong restart va van active.
+
+## 2026-08-24 Upscale Page Blank Hotfix
+
+- User bao `bb.1nutnhan.com/upscale` khong hien thi; curl HTML phat hien asset bi build sai root `/_next`.
+- Rebuild production voi `UPSCAYL_WEB_BASE_PATH=/upscale`, restart service va verify HTML asset path dung.
+- Them `web:build:upscale` va status guard page asset; browser render smoke pass.
+
+## 2026-08-24 Banana MCP Upscale Boundary
+
+- Audit Banana MCP adapter va docker compose: khong thay direct coupling voi Upscale DB/file/source/volume.
+- Local Banana `npm run check` pass; targeted MCP/API tests pass 32/32.
+- Production phat hien container Banana chua co `flowkit-socket-service.cjs` moi de gan local tool hook, nen deploy lai Banana tu repo local.
+- Sau deploy, MCP handshake/tools-list pass voi 5 tool `upscale_*`; local `upscale_get_job` smoke handled qua API va dashboard `/api/mcp/upscale` bao Upscale health `ok`, queue rong.
+
+## 2026-08-24 Agent Support APIs
+
+- Them manifest/workflow API cho agent discover endpoint, limit, MCP tool mapping va workflow bat dong bo.
+- Them README cho agent va update OpenAPI/docs; local tsc, YAML parse, Next build va curl smoke pass.
+- Deploy release `20260824-agent-api`; production `/agent/manifest`, `/agent/workflow` va `api:v1:status` deu pass.
+
+## 2026-08-24 Onboarding Default Off
+
+- Xac dinh modal user noi la `OnboardingDialog` voi text `Welcome to Upscayl`, khac voi news/cloud modal.
+- Doi onboarding sang atom state mac dinh off, bo auto-open tu `localStorage.showOnboarding`.
+- Them Settings control mo lai onboarding va sua React SVG prop warning trong modal lien quan.
+- Local browser reload khong hien modal; Settings -> `Get Started` mo lai modal; tsc va web build `/upscale` pass.
+
+## 2026-08-24 Next Vendor Chunk Hotfix
+
+- Tai hien `next start` port 3057 tra 500 voi missing `./chunks/vendor-chunks/lucide-react.js`.
+- Phat hien `.next` bi tron giua dev server va production build/start.
+- Tach distDir theo phase web va clean `.next-web` truoc build.
+- Build `/upscale`, scan artifact va `next start` smoke pass; restart local dev 3047 bang `.next-web-dev` va `/upscale` tra 200.
+
+## 2026-08-24 Default Scale 2X
+
+- User de xuat mac dinh 2X de tranh anh lon bi loi pixel limit.
+- Doi default UI/API/docs sang 2X va them migration mot lan cho stored `scale=4`.
+- Verify UI hien 2X khi khong co stored scale, API job khong truyen scale tra `scale=2`, build/typecheck pass.
+
+## 2026-08-25 VPS Sync
+
+- Preflight VPS health xac nhan queue idle truoc deploy.
+- Rsync source vao release `20260825-default-scale-webfix`, build tren VPS va switch symlink sau khi build pass.
+- Restart service thanh cong, `api:v1:status` public pass, production create job khong truyen scale tra `scale=2`.
+
+## 2026-08-25 Local Mac Processing Option
+
+- Chuyen yeu cau "tan dung local khi Mac bat" thanh opt-in browser-side route override trong Settings, mac dinh off.
+- Them atoms/UI locale, runtime endpoint selection, checkpoint endpoint persistence va local loopback CORS/auth bridge.
+- Schema fail lan dau vi chi co en/vi; bo sung key cho tat ca locale va build pass.
+- Smoke local bridge tu Origin production upload/create/cancel thanh cong khong can API key; UI Settings toggle off/on pass.
+
+## 2026-08-25 Queue Tab
+
+- Them tab Queue vao sidebar va mo rong file picker web/Electron de chon nhieu anh.
+- Chon huong queue renderer-side xu ly tung single job de moi anh co progress/status rieng thay vi dung batch folder progress tong.
+- QA phat hien Stop nen pause queue; da sua de Stop current khong tu chay tiep item ke.
+- Browser smoke xac nhan tab order, empty state, add 6 anh, search/filter/pagination va start/stop/cancel.
+
+## 2026-08-25 Queue Support APIs
+
+- Them `/queue/*` API thay vi mo rong `/jobs` de giu backward compatibility.
+- Local smoke dau tien phat hien bulk create co the partial-create neu upload sau vuot pixel limit; da them pre-validation all uploads truoc khi tao job.
+- Next build bat them type issue `parseJobIdList` va `.entries()` target; da sua return type va for-loop index.
+- Smoke cuoi pass create 2 queue jobs, list/search/filter/page, summary, cancel va retry.

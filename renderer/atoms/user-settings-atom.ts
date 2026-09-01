@@ -19,9 +19,11 @@ export const saveImageAsAtom = atomWithStorage<ImageFormat>(
   "png",
 );
 
-export const scaleAtom = atomWithStorage<string>("scale", "4");
+export const scaleAtom = atomWithStorage<string>("scale", "2");
 
 export const batchModeAtom = atom<boolean>(false);
+
+export const showOnboardingDialogAtom = atom<boolean>(false);
 
 /**
  * The path to the last folder the user saved an image to.
@@ -33,6 +35,30 @@ export const savedOutputPathAtom = atomWithStorage<string | null>(
 );
 
 export const progressAtom = atom<string>("");
+
+export type QueueItemStatus =
+  | "queued"
+  | "processing"
+  | "succeeded"
+  | "failed"
+  | "canceled";
+
+export type UpscaleQueueItem = {
+  id: string;
+  imagePath: string;
+  name: string;
+  status: QueueItemStatus;
+  progress: number;
+  resultPath?: string;
+  error?: string;
+  createdAt: number;
+  startedAt?: number;
+  finishedAt?: number;
+};
+
+export const upscaleQueueItemsAtom = atom<UpscaleQueueItem[]>([]);
+
+export const queueProcessingAtom = atom<boolean>(false);
 
 export const rememberOutputFolderAtom = atomWithStorage<boolean>(
   "rememberOutputFolder",
@@ -99,4 +125,14 @@ export const userStatsAtom = atomWithStorage("userStats", {
 export const copyMetadataAtom = atomWithStorage<boolean>(
   "copyMetadata",
   false,
+);
+
+export const useLocalMacProcessingAtom = atomWithStorage<boolean>(
+  "useLocalMacProcessing",
+  false,
+);
+
+export const localMacApiEndpointAtom = atomWithStorage<string>(
+  "localMacApiEndpoint",
+  "http://127.0.0.1:3047/upscale/api/v1",
 );

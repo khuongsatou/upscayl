@@ -13,6 +13,8 @@ out/
 
 # next.js
 /renderer/.next/
+/renderer/.next-web/
+/renderer/.next-web-dev/
 /renderer/out/
 
 # production

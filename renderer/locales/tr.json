@@ -11,6 +11,37 @@
     "TITLE": "Geliştiren: ",
     "LINK_TITLE": "The Upscayl Ekibi"
   },
+  "QUEUE": {
+    "TITLE": "Queue",
+    "SUMMARY": "{queued} queued / {done} done / {failed} failed",
+    "ADD_IMAGES": "Add images",
+    "ADD_CURRENT": "Add current image",
+    "CLEAR_FINISHED": "Clear finished",
+    "START": "Start",
+    "PAUSE": "Pause",
+    "STOP": "Stop",
+    "SEARCH_PLACEHOLDER": "Search images",
+    "EMPTY": "Queue is empty.",
+    "OPEN_RESULT": "Open result",
+    "RETRY": "Retry",
+    "REMOVE": "Remove",
+    "PREV_PAGE": "Previous page",
+    "NEXT_PAGE": "Next page",
+    "PAGE": "Page {page} / {total}",
+    "INVALID_IMAGES": "Please add PNG, JPG, JPEG, JFIF or WEBP images.",
+    "NO_CURRENT_IMAGE": "Select a valid image in the Upscayl tab first.",
+    "BUSY": "Another upscale job is already running.",
+    "FILTER": {
+      "ALL": "All"
+    },
+    "STATUS": {
+      "QUEUED": "Queued",
+      "PROCESSING": "Processing",
+      "SUCCEEDED": "Done",
+      "FAILED": "Failed",
+      "CANCELED": "Canceled"
+    }
+  },
   "SETTINGS": {
     "TITLE": "Ayarlar",
     "CHANGE_LANGUAGE": { "TITLE": "Dili Değiştirin" },
@@ -108,6 +139,10 @@
     },
     "SYSTEM_INFO": {
       "TITLE": "Sistem Bilgisi"
+    },
+    "LOCAL_MAC_PROCESSING": {
+      "TITLE": "USE LOCAL MAC PROCESSING",
+      "DESCRIPTION": "When enabled, web upscaling uses the local Mac API endpoint if that server is running. Keep this off unless your Mac local worker is online."
     }
   },
   "APP": {

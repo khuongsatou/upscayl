@@ -12,6 +12,7 @@ import SelectTheme from "@/components/sidebar/settings-tab/select-theme";
 import {
   autoUpdateAtom,
   enableContributionAtom,
+  showOnboardingDialogAtom,
 } from "@/atoms/user-settings-atom";
 import { useAtom, useAtomValue } from "jotai";
 import useTranslation from "../hooks/use-translation";
@@ -39,7 +40,7 @@ export function OnboardingDialog() {
   const [settings, setSettings] = useState<Record<string, any>>({});
   const locale = useAtomValue(localeAtom);
 
-  const [open, setOpen] = useState(false);
+  const [open, setOpen] = useAtom(showOnboardingDialogAtom);
 
   const onboardingSteps: OnboardingStep[] = useMemo(
     () => [
@@ -111,18 +112,14 @@ export function OnboardingDialog() {
   );
 
   useEffect(() => {
-    const storedValue = localStorage.getItem("showOnboarding");
-    if (storedValue !== null) {
-      setOpen(JSON.parse(storedValue));
-    } else {
-      setOpen(true);
+    if (open) {
+      setCurrentStep(0);
     }
-  }, []);
+  }, [open]);
 
   const handleNext = () => {
     if (isLastStep) {
       setOpen(false);
-      localStorage.setItem("showOnboarding", JSON.stringify(false));
     } else {
       setCurrentStep((prev) => prev + 1);
     }

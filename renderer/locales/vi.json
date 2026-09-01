@@ -11,6 +11,37 @@
     "TITLE": "Bởi ",
     "LINK_TITLE": "Đội ngũ Upscayl"
   },
+  "QUEUE": {
+    "TITLE": "Queue",
+    "SUMMARY": "{queued} đang chờ / {done} xong / {failed} lỗi",
+    "ADD_IMAGES": "Thêm ảnh",
+    "ADD_CURRENT": "Thêm ảnh hiện tại",
+    "CLEAR_FINISHED": "Xóa mục đã xong",
+    "START": "Chạy",
+    "PAUSE": "Tạm dừng",
+    "STOP": "Dừng",
+    "SEARCH_PLACEHOLDER": "Tìm ảnh",
+    "EMPTY": "Queue đang trống.",
+    "OPEN_RESULT": "Mở kết quả",
+    "RETRY": "Chạy lại",
+    "REMOVE": "Xóa",
+    "PREV_PAGE": "Trang trước",
+    "NEXT_PAGE": "Trang sau",
+    "PAGE": "Trang {page} / {total}",
+    "INVALID_IMAGES": "Vui lòng thêm ảnh PNG, JPG, JPEG, JFIF hoặc WEBP.",
+    "NO_CURRENT_IMAGE": "Hãy chọn một ảnh hợp lệ trong tab Upscayl trước.",
+    "BUSY": "Đang có job upscale khác chạy.",
+    "FILTER": {
+      "ALL": "Tất cả"
+    },
+    "STATUS": {
+      "QUEUED": "Đang chờ",
+      "PROCESSING": "Đang xử lý",
+      "SUCCEEDED": "Xong",
+      "FAILED": "Lỗi",
+      "CANCELED": "Đã hủy"
+    }
+  },
   "SETTINGS": {
     "TITLE": "Cài đặt",
     "CHANGE_LANGUAGE": { "TITLE": "Thay đổi ngôn ngữ" },
@@ -108,6 +139,10 @@
     },
     "SYSTEM_INFO": {
       "TITLE": "Thông tin Hệ thống"
+    },
+    "LOCAL_MAC_PROCESSING": {
+      "TITLE": "DÙNG MAC LOCAL ĐỂ XỬ LÝ",
+      "DESCRIPTION": "Khi bật, web upscale sẽ dùng API local trên Mac nếu server đó đang chạy. Giữ tắt nếu Mac local chưa online."
     }
   },
   "APP": {

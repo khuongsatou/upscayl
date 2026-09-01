@@ -89,6 +89,10 @@ ipcMain.handle(ELECTRON_COMMANDS.SELECT_FOLDER, selectFolder);
 
 ipcMain.handle(ELECTRON_COMMANDS.SELECT_FILE, selectFile);
 
+ipcMain.handle(ELECTRON_COMMANDS.SELECT_FILES, (event) =>
+  selectFile(event, { multiple: true }),
+);
+
 ipcMain.on(ELECTRON_COMMANDS.GET_MODELS_LIST, getModelsList);
 
 ipcMain.handle(

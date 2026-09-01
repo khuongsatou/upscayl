@@ -8,13 +8,21 @@ import { getDatabase } from "./database";
 import { UpscaleApiError } from "./errors";
 import { readImageDimensions } from "./image-info";
 import { safeDownloadName, streamFile } from "./storage";
-import type { ApiPrincipal, JobOptions, JobRow, UploadRow } from "./types";
+import type {
+  ApiPrincipal,
+  JobOptions,
+  JobRow,
+  JobStatus,
+  UploadRow,
+} from "./types";
 import { requestWorkerCancellation, scheduleWorker } from "./worker";
 import { reserveBananaQuota } from "./banana-client";
+import { getSoftwareVulkanInfo } from "./runtime-env";
 import {
   enqueueJobLifecycle,
   enqueueQuotaRelease,
 } from "./outbox";
+import { parsePageLimit, parseQueueStatuses } from "./validation";
 
 const publicApiBase = () => `${process.env.UPSCAYL_WEB_BASE_PATH || ""}/api/v1`;
 
@@ -79,6 +87,15 @@ export const serializeJob = (job: JobRow) => {
     expiresAt: job.expires_at,
   };
 };
+
+type QueueJobRow = JobRow & { input_names?: string | null };
+
+const serializeQueueJob = (job: QueueJobRow) => ({
+  ...serializeJob(job),
+  inputFileNames: job.input_names
+    ? job.input_names.split("\n").filter(Boolean)
+    : [],
+});
 
 const assertOutputBudget = async (
   options: JobOptions,
@@ -309,6 +326,221 @@ export const listJobs = (
   };
 };
 
+export const listQueueJobs = (
+  principal: ApiPrincipal,
+  query: {
+    q?: unknown;
+    status?: unknown;
+    page?: unknown;
+    limit?: unknown;
+  },
+) => {
+  const database = getDatabase();
+  const { page, limit, offset } = parsePageLimit(query.page, query.limit);
+  const statuses = parseQueueStatuses(query.status);
+  const search = typeof query.q === "string" ? query.q.trim() : "";
+  if (search.length > 128) {
+    throw new UpscaleApiError(
+      400,
+      "INVALID_SEARCH",
+      "Queue search must be at most 128 characters.",
+    );
+  }
+
+  const where = ["j.owner_id=?"];
+  const params: unknown[] = [principal.id];
+  if (statuses?.length) {
+    where.push(`j.status IN (${statuses.map(() => "?").join(",")})`);
+    params.push(...statuses);
+  }
+  if (search) {
+    const like = `%${search}%`;
+    where.push(
+      "(j.id LIKE ? OR j.model LIKE ? OR j.output_name LIKE ? OR u.original_name LIKE ?)",
+    );
+    params.push(like, like, like, like);
+  }
+  const whereSql = where.join(" AND ");
+  const total = (
+    database
+      .prepare(
+        `SELECT COUNT(DISTINCT j.id) AS count
+         FROM jobs j
+         LEFT JOIN job_uploads ju ON ju.job_id=j.id
+         LEFT JOIN uploads u ON u.id=ju.upload_id
+         WHERE ${whereSql}`,
+      )
+      .get(...params) as { count: number }
+  ).count;
+  const rows = database
+    .prepare(
+      `SELECT j.*, GROUP_CONCAT(u.original_name, '\n') AS input_names
+       FROM jobs j
+       LEFT JOIN job_uploads ju ON ju.job_id=j.id
+       LEFT JOIN uploads u ON u.id=ju.upload_id
+       WHERE ${whereSql}
+       GROUP BY j.id
+       ORDER BY j.created_at DESC
+       LIMIT ? OFFSET ?`,
+    )
+    .all(...params, limit, offset) as QueueJobRow[];
+  return {
+    data: rows.map(serializeQueueJob),
+    pagination: {
+      page,
+      limit,
+      total,
+      totalPages: Math.max(1, Math.ceil(total / limit)),
+      hasMore: offset + rows.length < total,
+    },
+  };
+};
+
+export const queueSummary = (principal: ApiPrincipal) => {
+  const rows = getDatabase()
+    .prepare(
+      "SELECT status, COUNT(*) AS count FROM jobs WHERE owner_id=? GROUP BY status",
+    )
+    .all(principal.id) as Array<{ status: JobStatus; count: number }>;
+  const statuses: Record<JobStatus, number> = {
+    queued: 0,
+    processing: 0,
+    succeeded: 0,
+    failed: 0,
+    canceled: 0,
+    expired: 0,
+  };
+  rows.forEach((row) => {
+    statuses[row.status] = row.count;
+  });
+  return {
+    total: Object.values(statuses).reduce((sum, count) => sum + count, 0),
+    active: statuses.queued + statuses.processing,
+    statuses,
+  };
+};
+
+export const createQueueJobs = async (
+  principal: ApiPrincipal,
+  options: JobOptions,
+  idempotencyKey?: string,
+) => {
+  const normalizedIdempotency = idempotencyKey?.trim() || "";
+  const placeholders = options.uploadIds.map(() => "?").join(",");
+  const uploads = getDatabase()
+    .prepare(
+      `SELECT * FROM uploads WHERE owner_id=? AND id IN (${placeholders}) AND expires_at>?`,
+    )
+    .all(principal.id, ...options.uploadIds, Date.now()) as UploadRow[];
+  if (uploads.length !== options.uploadIds.length) {
+    throw new UpscaleApiError(
+      404,
+      "UPLOAD_NOT_FOUND",
+      "One or more uploads do not exist, expired, or belong to another principal.",
+    );
+  }
+  const orderedUploads = options.uploadIds.map(
+    (id) => uploads.find((upload) => upload.id === id)!,
+  );
+  await assertOutputBudget(
+    { ...options, mode: "single" },
+    orderedUploads,
+  );
+  const activeCount = (
+    getDatabase()
+      .prepare(
+        "SELECT COUNT(*) AS count FROM jobs WHERE status IN ('queued','processing')",
+      )
+      .get() as { count: number }
+  ).count;
+  if (activeCount + options.uploadIds.length > apiConfig.maxQueueDepth) {
+    throw new UpscaleApiError(
+      429,
+      "QUEUE_FULL",
+      "Upscale queue does not have enough free slots for this batch.",
+      {
+        maxQueueDepth: apiConfig.maxQueueDepth,
+        activeCount,
+        requested: options.uploadIds.length,
+      },
+    );
+  }
+  const jobs = [];
+  for (let index = 0; index < options.uploadIds.length; index += 1) {
+    const uploadId = options.uploadIds[index];
+    const result = await createJob(
+      principal,
+      { ...options, mode: "single", uploadIds: [uploadId] },
+      normalizedIdempotency
+        ? `${normalizedIdempotency}:queue:${index}`
+        : undefined,
+    );
+    jobs.push(result);
+  }
+  return {
+    data: jobs.map((item) => serializeJob(item.job)),
+    replayed: jobs.every((item) => item.replayed),
+  };
+};
+
+export const cancelQueueJobs = (
+  principal: ApiPrincipal,
+  jobIds: string[],
+) => ({
+  data: jobIds.map((jobId) => serializeJob(cancelJob(principal, jobId))),
+});
+
+export const retryQueueJob = async (
+  principal: ApiPrincipal,
+  id: string,
+  idempotencyKey?: string,
+) => {
+  const job = getOwnedJob(principal, id);
+  if (!terminalStatuses.has(job.status)) {
+    throw new UpscaleApiError(
+      409,
+      "JOB_NOT_TERMINAL",
+      "Only terminal jobs can be retried.",
+    );
+  }
+  const uploads = getDatabase()
+    .prepare(
+      `SELECT u.*
+       FROM job_uploads ju
+       JOIN uploads u ON u.id=ju.upload_id
+       WHERE ju.job_id=?
+       ORDER BY ju.position ASC`,
+    )
+    .all(id) as UploadRow[];
+  if (!uploads.length) {
+    throw new UpscaleApiError(
+      404,
+      "UPLOAD_NOT_FOUND",
+      "The original upload for this queue job was not found.",
+    );
+  }
+  const result = await createJob(
+    principal,
+    {
+      mode: job.mode,
+      uploadIds: uploads.map((upload) => upload.id),
+      model: job.model,
+      scale: job.scale,
+      outputFormat: job.output_format,
+      compression: job.compression,
+      customWidth: job.custom_width,
+      tileSize: job.tile_size,
+      tta: Boolean(job.tta),
+    },
+    idempotencyKey,
+  );
+  return {
+    job: serializeJob(result.job),
+    replayed: result.replayed,
+    retriedFrom: id,
+  };
+};
+
 export const cancelJob = (principal: ApiPrincipal, id: string) => {
   const database = getDatabase();
   const job = getOwnedJob(principal, id);
@@ -409,7 +641,7 @@ export const health = async () => {
       queued: queue.queued || 0,
       processing: queue.processing || 0,
     },
-    runtime: { binary, models },
+    runtime: { binary, models, softwareVulkan: getSoftwareVulkanInfo() },
     storage: {
       availableBytes: disk.bavail * disk.bsize,
       dataDirReady: true,

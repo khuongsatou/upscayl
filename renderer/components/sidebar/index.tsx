@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useAtom, useAtomValue, useSetAtom } from "jotai";
 import {
   batchModeAtom,
@@ -21,6 +21,7 @@ import {
   userStatsAtom,
   ttaModeAtom,
   copyMetadataAtom,
+  queueProcessingAtom,
 } from "../../atoms/user-settings-atom";
 import useLogger from "../hooks/use-logger";
 import {
@@ -31,6 +32,7 @@ import {
 import { useToast } from "@/components/ui/use-toast";
 import UpscaylSteps from "./upscayl-tab/upscayl-steps";
 import SettingsTab from "./settings-tab";
+import QueueTab from "./queue-tab";
 import Footer from "../footer";
 import { NewsModal } from "../news-modal";
 import Tabs from "../tabs";
@@ -43,6 +45,8 @@ import useTranslation from "../hooks/use-translation";
 import UpscaylLogo from "./upscayl-logo";
 import SidebarToggleButton from "./sidebar-button";
 import { appRuntime } from "@/lib/app-runtime";
+
+const SCALE_DEFAULT_MIGRATION_KEY = "scaleDefaultMigratedTo2";
 
 const Sidebar = ({
   setUpscaledImagePath,
@@ -86,7 +90,7 @@ const Sidebar = ({
   const setProgress = useSetAtom(progressAtom);
   const [batchMode, setBatchMode] = useAtom(batchModeAtom);
   const logData = useAtomValue(logAtom);
-  const [scale] = useAtom(scaleAtom);
+  const [scale, setScale] = useAtom(scaleAtom);
   const setDontShowCloudModal = useSetAtom(dontShowCloudModalAtom);
   const noImageProcessing = useAtomValue(noImageProcessingAtom);
   const customWidth = useAtomValue(customWidthAtom);
@@ -96,6 +100,15 @@ const Sidebar = ({
   const setUserStats = useSetAtom(userStatsAtom);
   const ttaMode = useAtomValue(ttaModeAtom);
   const [copyMetadata] = useAtom(copyMetadataAtom);
+  const queueProcessing = useAtomValue(queueProcessingAtom);
+
+  useEffect(() => {
+    if (localStorage.getItem(SCALE_DEFAULT_MIGRATION_KEY) === "true") return;
+    if (localStorage.getItem("scale") === "4") {
+      setScale("2");
+    }
+    localStorage.setItem(SCALE_DEFAULT_MIGRATION_KEY, "true");
+  }, [setScale]);
 
   const upscaylHandler = async () => {
     logit("🔄 Resetting Upscaled Image Path");
@@ -240,7 +253,15 @@ const Sidebar = ({
           />
         )}
 
-        {selectedTab === 1 && (
+        {(selectedTab === 1 || queueProcessing) && (
+          <QueueTab
+            imagePath={imagePath}
+            outputPath={outputPath}
+            visible={selectedTab === 1}
+          />
+        )}
+
+        {selectedTab === 2 && (
           <SettingsTab
             batchMode={batchMode}
             compression={compression}

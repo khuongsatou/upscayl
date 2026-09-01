@@ -15,6 +15,7 @@ export type WebJobCheckpoint = {
   version: 1;
   jobId: string;
   command: WebUpscaleCommand;
+  endpoint?: string;
   createdAt: number;
   expiresAt: number;
 };
@@ -36,6 +37,13 @@ export const parseWebJobCheckpoint = (
     !Number.isFinite(checkpoint.createdAt) ||
     !Number.isFinite(checkpoint.expiresAt) ||
     Number(checkpoint.expiresAt) <= now
+  ) {
+    return null;
+  }
+  if (
+    checkpoint.endpoint !== undefined &&
+    (typeof checkpoint.endpoint !== "string" ||
+      !/^https?:\/\/[^\s]+$/i.test(checkpoint.endpoint))
   ) {
     return null;
   }

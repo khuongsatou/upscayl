@@ -15,6 +15,36 @@ const getClientIp = (req: NextApiRequest) =>
   req.socket.remoteAddress ||
   "unknown";
 
+const getHostName = (req: NextApiRequest) => {
+  const host = firstHeader(req.headers.host);
+  if (!host) return "";
+  try {
+    return new URL(`http://${host}`).hostname.toLowerCase();
+  } catch {
+    return host.split(":")[0].toLowerCase();
+  }
+};
+
+export const isLoopbackRequestHost = (req: NextApiRequest) => {
+  const hostName = getHostName(req);
+  return (
+    hostName === "localhost" ||
+    hostName === "127.0.0.1" ||
+    hostName === "::1" ||
+    hostName === "[::1]"
+  );
+};
+
+export const isAllowedLocalMacBridgeOrigin = (req: NextApiRequest) => {
+  const origin = firstHeader(req.headers.origin);
+  return Boolean(
+    apiConfig.allowLocalMacBridge &&
+      origin &&
+      isLoopbackRequestHost(req) &&
+      apiConfig.localMacBridgeOrigins.includes(origin),
+  );
+};
+
 const constantTimeEqual = (left: string, right: string) => {
   const leftBuffer = Buffer.from(left);
   const rightBuffer = Buffer.from(right);
@@ -105,6 +135,19 @@ export const authenticateRequest = async (
       .slice(0, 24);
     return {
       id: `web:${anonymousId}`,
+      kind: "anonymous_web",
+      scopes: new Set(["read", "write"]),
+      rateLimitPerHour: apiConfig.anonymousRateLimitPerHour,
+    };
+  }
+
+  if (isAllowedLocalMacBridgeOrigin(req)) {
+    const localBridgeId = createHash("sha256")
+      .update(`${firstHeader(req.headers.origin)}:${getClientIp(req)}`)
+      .digest("hex")
+      .slice(0, 24);
+    return {
+      id: `local-mac:${localBridgeId}`,
       kind: "anonymous_web",
       scopes: new Set(["read", "write"]),
       rateLimitPerHour: apiConfig.anonymousRateLimitPerHour,

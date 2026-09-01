@@ -7,8 +7,13 @@ import { SelectImageScale } from "./select-image-scale";
 import { SelectImageFormat } from "./select-image-format";
 import { DonateButton } from "./donate-button";
 import React, { useState } from "react";
-import { useAtom, useAtomValue } from "jotai";
-import { customModelsPathAtom, scaleAtom } from "@/atoms/user-settings-atom";
+import { useAtom, useAtomValue, useSetAtom } from "jotai";
+import {
+  customModelsPathAtom,
+  scaleAtom,
+  showOnboardingDialogAtom,
+} from "@/atoms/user-settings-atom";
+import { newsAtom, showNewsModalAtom } from "@/atoms/news-atom";
 import { InputCompression } from "./input-compression";
 import OverwriteToggle from "./overwrite-toggle";
 import { UpscaylCloudModal } from "@/components/upscayl-cloud-modal";
@@ -27,6 +32,7 @@ import TTAModeToggle from "./tta-mode-toggle";
 import SystemInfo from "./system-info";
 import CopyMetadataToggle from "./copy-metadata-toggle";
 import { appRuntime } from "@/lib/app-runtime";
+import LocalMacProcessingToggle from "./local-mac-processing-toggle";
 
 interface IProps {
   batchMode: boolean;
@@ -61,6 +67,9 @@ function SettingsTab({
   const [scale, setScale] = useAtom(scaleAtom);
   const [enableScrollbar, setEnableScrollbar] = useState(true);
   const [timeoutId, setTimeoutId] = useState(null);
+  const news = useAtomValue(newsAtom);
+  const setShowOnboardingDialog = useSetAtom(showOnboardingDialogAtom);
+  const setShowNewsModal = useSetAtom(showNewsModalAtom);
   const t = useAtomValue(translationAtom);
 
   // HANDLERS
@@ -173,6 +182,30 @@ function SettingsTab({
 
       <LanguageSwitcher />
 
+      <div className="flex flex-col gap-2">
+        <p className="text-sm font-medium">
+          {t("ONBOARDING_DIALOG.STEP_1.TITLE")}
+        </p>
+        <button
+          className="btn btn-neutral"
+          onClick={() => setShowOnboardingDialog(true)}
+        >
+          {t("ONBOARDING_DIALOG.GET_STARTED_BUTTON_TITLE")}
+        </button>
+      </div>
+
+      {news && !news?.data?.dontShow && (
+        <div className="flex flex-col gap-2">
+          <p className="text-sm font-medium">{t("FOOTER.NEWS_TITLE")}</p>
+          <button
+            className="btn btn-neutral"
+            onClick={() => setShowNewsModal(true)}
+          >
+            {t("FOOTER.NEWS_TITLE")}
+          </button>
+        </div>
+      )}
+
       {/* IMAGE FORMAT BUTTONS */}
       <SelectImageFormat
         batchMode={batchMode}
@@ -199,6 +232,7 @@ function SettingsTab({
       <TurnOffNotificationsToggle />
       <AutoUpdateToggle />
       <EnableContributionToggle />
+      <LocalMacProcessingToggle />
 
       {/* GPU ID INPUT */}
       <InputGpuId gpuId={gpuId} handleGpuIdChange={handleGpuIdChange} />

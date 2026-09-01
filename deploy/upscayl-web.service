@@ -13,6 +13,9 @@ Environment=UPSCAYL_TARGET=web
 Environment=UPSCAYL_WEB_BASE_PATH=/upscale
 Environment=UPSCAYL_API_DATA_DIR=/var/lib/mtips5s-upscale-api
 Environment=UPSCAYL_API_ALLOW_ANONYMOUS_WEB=true
+Environment=UPSCAYL_API_SOFTWARE_VULKAN=auto
+Environment=UPSCAYL_API_ESTIMATED_MS_PER_MEGAPIXEL=800000
+Environment=UPSCAYL_API_MAX_OUTPUT_PIXELS=2500000
 EnvironmentFile=-/etc/mtips5s-upscale/api.env
 ExecStart=/usr/bin/npm run web:start -- -H 127.0.0.1 -p 3030
 Restart=on-failure

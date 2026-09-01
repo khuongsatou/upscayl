@@ -5,15 +5,16 @@ import logit from "../utils/logit";
 import settings from "electron-settings";
 import { FEATURE_FLAGS } from "../../common/feature-flags";
 
-const selectFile = async () => {
+const selectFile = async (_event?: unknown, options?: { multiple?: boolean }) => {
   const mainWindow = getMainWindow();
+  const multiple = Boolean(options?.multiple);
 
   const { canceled, filePaths, bookmarks } = await dialog.showOpenDialog({
-    properties: ["openFile"],
-    title: "Select Image",
+    properties: multiple ? ["openFile", "multiSelections"] : ["openFile"],
+    title: multiple ? "Select Images" : "Select Image",
     defaultPath: savedImagePath,
     securityScopedBookmarks: true,
-    message: "Select Image to Upscale",
+    message: multiple ? "Select Images to Upscale" : "Select Image to Upscale",
     filters: [
       {
         name: "Images",
@@ -79,7 +80,7 @@ const selectFile = async () => {
 
     logit("📄 Selected File Path: ", filePaths[0]);
     // CREATE input AND upscaled FOLDER
-    return filePaths[0];
+    return multiple ? filePaths : filePaths[0];
   }
 };
 

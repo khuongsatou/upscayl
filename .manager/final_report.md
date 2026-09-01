@@ -209,6 +209,42 @@
 
 - VPS giu mot server-specific read-only mount cho file model watermark trong `docker-compose.yml`; thay doi dong thoi nay duoc bao ton, khong bi rsync ghi de.
 
+## 2026-08-24 Banana MCP Upscale Boundary
+
+| Field | Value |
+|---|---|
+| PM Verdict | Done / Production Go |
+| Scope | Dam bao MCP Upscale ben Banana chi qua API, khong coupling voi runtime Upscale |
+
+## Summary
+
+- Banana MCP Upscale da duoc xac minh la adapter HTTP rieng, khong import source, khong mount volume, khong doc SQLite/file runtime cua Upscale.
+- Production Banana da duoc rebuild/recreate de dong bo `flowkit-socket-service.cjs` co `localToolsHandler` va `transformResponse`.
+- MCP config production advertise endpoint chuan `https://bb.1nutnhan.com/mcp`.
+- `/mcp` production sau handshake tra 47 tools, gom du 5 tool `upscale_*`; `upscale_get_job` smoke duoc xu ly local va tra loi tu Upscale API.
+- `/api/mcp/upscale` production tra OK voi Upscale health `ok`, queue rong.
+
+## Remaining Risk
+
+- Chua chay MCP upload/create anh that trong lan smoke nay de khong tao workload; local contract va production REST/Upscale canary da cover duong xu ly anh.
+
+## 2026-08-24 Agent Support APIs
+
+| Field | Value |
+|---|---|
+| PM Verdict | Done / Production Go |
+| Scope | Public metadata APIs va README cho AI agent/MCP adapter |
+
+## Summary
+
+- Them public `GET /agent/manifest` va `GET /agent/workflow` vao Upscale API v1 de agent discover contract ma khong doc source/runtime.
+- Them README `docs/upscale-agent-api-readme.md` voi hard boundary, flow, auth, MCP mapping va retry rules.
+- Production release `20260824-agent-api` dang active; manifest/workflow public smoke pass va `api:v1:status` OK.
+
+## Remaining Risk
+
+- Agent support APIs la metadata read-only; upload/create/download production workload van nen smoke rieng khi can test end-to-end bang key that.
+
 ## 2026-08-24 Web Checkpoint and Background Processing
 
 | Field | Value |
@@ -227,3 +263,230 @@
 ## Remaining Risk
 
 - Anonymous checkpoint resume can cung client IP; doi IP hoac xoa site data se mat lien ket browser, nhung server job khong bi huy va result van theo TTL 24 gio.
+
+## 2026-08-24 Software Vulkan Auto Detect
+
+| Field | Value |
+|---|---|
+| PM Verdict | Done / Production Go |
+| Scope | Auto-detect llvmpipe/lavapipe runtime env for web worker |
+
+## Summary
+
+- Web worker now supports `UPSCAYL_API_SOFTWARE_VULKAN=auto|always|never`.
+- Linux auto mode enables Mesa software Vulkan only when no accessible render node is available or software driver env is already preset.
+- Health response reports the selected mode, active state and reason, so deploy can verify whether CPU software Vulkan is active.
+- Service template and API docs now include the option.
+- Production release `20260824-software-vulkan-auto` is active; health reports `auto` software Vulkan active through `lvp`, and a real public upscale job returned a 624,031-byte PNG.
+
+## Remaining Risk
+
+- CPU-only software Vulkan is operational but still throughput-limited; run the planned performance profile before increasing traffic or queue/concurrency.
+
+## 2026-08-24 CPU llvmpipe Performance Guardrail
+
+| Field | Value |
+|---|---|
+| PM Verdict | Done / Production Go |
+| Scope | Benchmark CPU llvmpipe and protect production queue from oversized jobs |
+
+## Summary
+
+- Production benchmark confirmed CPU llvmpipe is slow: 125x120 scale4 took 56.2s; 500x261 scale2 took 425s.
+- A 960x540 scale2 benchmark was canceled cleanly after ETA rose above 2,000s, validating that larger jobs should not run on this CPU-only VPS.
+- Production now uses `UPSCAYL_API_ESTIMATED_MS_PER_MEGAPIXEL=800000` and `UPSCAYL_API_MAX_OUTPUT_PIXELS=2500000`.
+- `/api/v1/models` exposes the 2.5MP limit and oversized 1080p scale2 jobs are rejected before spawning `upscayl-bin`.
+
+## Remaining Risk
+
+- This protects the current VPS but does not make it fast; GPU/separate-worker scale work remains needed before serving larger images or higher concurrency.
+
+## 2026-08-24 Dependency Security Hardening
+
+| Field | Value |
+|---|---|
+| PM Verdict | Done with Follow-up |
+| Scope | Reduce production-scope npm advisories without breaking major upgrades |
+
+## Summary
+
+- `npm audit fix --omit=dev` reduced production-scope audit from 25 advisories, including 2 critical, to 6 high and 0 critical/moderate.
+- Local `tsc`, `web:build` and full `build` passed after lockfile changes.
+- Updated lockfile was deployed to the active VPS release; remote `npm install`, `web:build`, service restart and health checks passed.
+
+## Remaining Risk
+
+- The remaining 6 high advisories require breaking upgrades for Electron, exiftool-vendored and eslint-config-next. Do not force them without a dedicated desktop/web compatibility pass.
+
+## 2026-08-24 Production Status Command
+
+| Field | Value |
+|---|---|
+| PM Verdict | Done |
+| Scope | Secret-free production status smoke command |
+
+## Summary
+
+- Added `npm run api:v1:status` to check public health, worker queue, runtime software Vulkan, model limits and legacy redirect.
+- The command passes locally and on the active VPS release, reporting queue 0/0, software Vulkan active and `maxOutputPixels=2500000`.
+
+## Remaining Risk
+
+- It intentionally avoids secrets, so internal Banana/outbox checks remain a separate server-side operator action.
+
+## 2026-08-24 Operations Roadmap Gates
+
+| Field | Value |
+|---|---|
+| PM Verdict | Done |
+| Scope | Document gates for remaining migration, dependency and scale work |
+
+## Summary
+
+- Added `docs/upscale-operations-roadmap.md` with the current production baseline, legacy cleanup gates, major dependency upgrade gates and scale strategy gates.
+- Linked it from the API guide and synced it to the active VPS release.
+
+## Remaining Risk
+
+- These are governance gates, not execution of the future major tasks. The remaining work should be launched only when logs, metrics and compatibility windows are available.
+
+## 2026-08-24 Upscale Page Blank Hotfix
+
+| Field | Value |
+|---|---|
+| PM Verdict | Done / Production Go |
+| Scope | Restore public page rendering at `https://bb.1nutnhan.com/upscale` |
+
+## Summary
+
+- The page was serving HTML built without `/upscale` basePath, so CSS/JS pointed at root `/_next` and the app did not hydrate.
+- Production was rebuilt with `UPSCAYL_WEB_BASE_PATH=/upscale` and now serves `/upscale/_next` assets.
+- Added `web:build:upscale` and upgraded `api:v1:status` to fail on this asset-base regression.
+- Browser smoke confirmed the full UI renders with no console errors or failed requests.
+
+## Remaining Risk
+
+- None known for this bug after the production smoke; keep using `npm run api:v1:status` after each deploy.
+
+## 2026-08-24 Onboarding Default Off
+
+| Field | Value |
+|---|---|
+| PM Verdict | Done |
+| Scope | Tat auto-open modal `Welcome to Upscayl`, them entry mo lai trong Settings |
+
+## Summary
+
+- Onboarding dialog khong con tu doc `localStorage.showOnboarding` de bat mac dinh; state mo dialog mac dinh la `false`.
+- Settings co nut `Get Started` de nguoi dung chu dong mo lai onboarding.
+- Local `/upscale` da verify khong hien welcome modal khi reload; Settings manual open pass; typecheck va production web build pass.
+
+## Remaining Risk
+
+- Chua deploy production cho thay doi UI nay; local dev va build artifact da pass.
+
+## 2026-08-24 Next Vendor Chunk Hotfix
+
+| Field | Value |
+|---|---|
+| PM Verdict | Done |
+| Scope | Prevent mixed Next dev/build artifact from breaking web production server chunks |
+
+## Summary
+
+- Tach Next web output: dev vao `.next-web-dev`, production build/start vao `.next-web`, Electron/export khong doi.
+- Web build scripts clean `.next-web` truoc build de tranh stale server chunks.
+- Da tai hien loi 500 missing `lucide-react.js` tren artifact cu; sau fix `next start` `/upscale` tra 200, asset basePath dung, local dev 3047 cung tra 200.
+
+## Remaining Risk
+
+- Chua deploy production cho hotfix nay; can rebuild/restart VPS bang script moi de production nhan `.next-web`.
+
+## 2026-08-24 Default Scale 2X
+
+| Field | Value |
+|---|---|
+| PM Verdict | Done |
+| Scope | Doi default UI/API scale ve 2X de tranh loi output qua lon |
+
+## Summary
+
+- UI default scale moi la 2X; scale cu 4X trong localStorage duoc migrate mot lan ve 2X.
+- API create job thieu `scale` fallback 2; OpenAPI/docs/agent README da cap nhat.
+- Local UI hien `Image Scale (2X)`, API smoke tao job khong scale tra `scale=2`, typecheck va web build pass.
+
+## Remaining Risk
+
+- Chua deploy production cho thay doi nay; production can rebuild/restart sau khi gom cung hotfix web chunk.
+
+## 2026-08-25 VPS Sync
+
+| Field | Value |
+|---|---|
+| PM Verdict | Done / Production Go |
+| Scope | Sync local fixes to VPS production web route |
+
+## Summary
+
+- Deployed release `/opt/mtips5s-upscale/releases/20260825-default-scale-webfix` and switched `/opt/mtips5s-upscale/current`.
+- Production now uses separated Next web build dir `.next-web`, avoiding mixed dev/build vendor chunks.
+- Public status passed: health OK, worker idle, page assets use `/upscale/_next`, legacy `veo3` redirect remains 308.
+- Production API default scale smoke passed with `scale=2`.
+
+## Remaining Risk
+
+- Dependency audit warnings remain as previously tracked major-upgrade/security-hardening backlog; deploy did not change that risk class.
+
+## 2026-08-25 Local Mac Processing Option
+
+| Field | Value |
+|---|---|
+| PM Verdict | Done locally |
+| Scope | Add opt-in local Mac processing route for web upscaling |
+
+## Summary
+
+- Added a Settings toggle, default off, to route web upscale jobs to a configurable local Mac API endpoint.
+- Web upload/job/poll/result/cancel now use the selected endpoint and checkpoint stores that endpoint for resume safety.
+- Local bridge CORS/auth is limited to loopback host plus configured trusted Origins.
+- Schema, TypeScript, production web build, local bridge API smoke and Settings UI smoke all pass.
+
+## Remaining Risk
+
+- Production `bb.1nutnhan.com/upscale` will not show the new toggle until the validated changes are synced to VPS.
+
+## 2026-08-25 Queue Tab
+
+| Field | Value |
+|---|---|
+| PM Verdict | Done locally |
+| Scope | Add sidebar Queue tab for multi-image sequential upscaling |
+
+## Summary
+
+- Added a new Queue tab between Upscayl and Settings with multi-image enqueue, Add current image, Start/Pause/Stop, retry/remove, search, filter and pagination.
+- Queue processes images one by one through the existing single-image upscale command so each row gets its own 0-100 progress and terminal status.
+- Home viewer progress is isolated from Queue jobs to avoid the main before/after surface reacting to background queue events.
+- Local schema, TypeScript, production web build, browser UI, multi-select/search/filter/pagination and Start/Stop smoke all pass.
+
+## Remaining Risk
+
+- Full long-running queue completion was not executed in QA; local worker progress/cancel path was verified.
+
+## 2026-08-25 Queue Support APIs
+
+| Field | Value |
+|---|---|
+| PM Verdict | Done locally |
+| Scope | Add Queue-oriented API helpers for UI and agents |
+
+## Summary
+
+- Added `/api/v1/queue/*` helper endpoints for summary, searchable/filterable/pageable job rows, bulk single-job creation, multi-cancel and retry.
+- Queue bulk create reuses existing upload/job ownership, auth, rate limits, output pixel checks and worker queue, while avoiding partial creation when any image is invalid.
+- Agent manifest/workflow, human docs, agent README, OpenAPI and contract smoke script now document the Queue helpers.
+- Local smoke through the loopback bridge passed for create/list/summary/cancel/retry.
+
+## Remaining Risk
+
+- Not deployed to VPS yet; production `bb.1nutnhan.com/upscale/api/v1/queue/*` will not exist until the next sync.

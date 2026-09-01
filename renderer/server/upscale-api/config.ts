@@ -6,6 +6,12 @@ const numberFromEnv = (name: string, fallback: number) => {
   return Number.isFinite(value) && value > 0 ? value : fallback;
 };
 
+const listFromEnv = (name: string, fallback: string[] = []) =>
+  (process.env[name] || fallback.join(","))
+    .split(",")
+    .map((value) => value.trim())
+    .filter(Boolean);
+
 export const apiConfig = {
   dataDir: resolve(
     process.env.UPSCAYL_API_DATA_DIR ||
@@ -33,6 +39,14 @@ export const apiConfig = {
   allowAnonymousWeb:
     process.env.UPSCAYL_API_ALLOW_ANONYMOUS_WEB === "true" ||
     process.env.NODE_ENV !== "production",
+  corsOrigins: listFromEnv("UPSCAYL_API_CORS_ORIGINS"),
+  allowLocalMacBridge:
+    process.env.UPSCAYL_API_ALLOW_LOCAL_MAC_BRIDGE !== "false",
+  localMacBridgeOrigins: listFromEnv("UPSCAYL_API_LOCAL_MAC_BRIDGE_ORIGINS", [
+    "https://bb.1nutnhan.com",
+    "http://127.0.0.1:3047",
+    "http://localhost:3047",
+  ]),
   bananaPlatformApiBaseUrl: (
     process.env.BANANA_PLATFORM_API_BASE_URL ||
     "http://127.0.0.1:8110/api/platform/v1"

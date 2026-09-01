@@ -523,7 +523,7 @@ paths:
                   enhanceFace: true
                   model: digital-art-4x
                   progress: "75"
-                  scale: "4"
+                  scale: "2"
                   status: processing
                   files: []
         "400":
