@@ -348,3 +348,14 @@
 | Status | Done |
 | Task | Copy the supporting Banana MCP Upscale skills into this repository's `.agent/skills` |
 | Expected Output | Project-local single, queue and operations skill guides |
+
+## 2026-09-02 Banana MCP Queue Smoke Test (5 Images)
+
+| Field | Value |
+|---|---|
+| Owner | QA + Upscale MCP |
+| Status | Done |
+| Task | Smoke test five local images through Banana MCP Queue |
+| Expected Output | Five independent jobs complete and downloadable results are verified |
+
+- 5/5 jobs succeeded at 100%; result downloads returned valid PNG bytes.

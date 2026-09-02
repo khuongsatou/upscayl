@@ -644,6 +644,20 @@ Production service keys duoc provision trong secret env mode 0600; rollback sour
 | Contract references | Pass; tools match expanded Banana MCP catalog |
 | Secrets scan | Pass by review; no keys, tokens or private paths embedded |
 
+## 2026-09-02 Banana MCP Queue Smoke Test
+
+| Check | Result |
+|---|---|
+| MCP session/tools handshake | Pass; expanded Upscale catalog visible |
+| Upload | Pass; 5 local WEBP images uploaded |
+| Queue creation | Pass; 5 independent jobs created |
+| Processing | Pass; 5/5 reached `succeeded` at 100% |
+| Result download | Pass; PNG outputs 234,092–1,231,598 bytes with base64 payloads |
+
+## Residual Risk
+
+- The supplied MCP key was used only in memory for this smoke test; rotate/revoke it because it was shared in chat.
+
 ## 2026-09-02 Log Manager Enrichment QA
 
 | Check | Result |

@@ -598,6 +598,15 @@ Done / Deployed; authenticated live tool smoke remains an operational follow-up 
   carries its own MCP workflow instructions.
 - Commit includes no secrets or generated artifacts.
 
+## 2026-09-02 Banana MCP Queue Smoke Test
+
+- Ran the five local sample images through Banana MCP using `upscale_upload`,
+  `upscale_queue_create`, `upscale_get_job`, and `upscale_download_result`.
+- All five independent jobs completed successfully and returned valid PNG
+  result payloads; the queue worker processed them sequentially as expected.
+- The provided key was not stored or printed. Rotate/revoke it after the test
+  because it was exposed in the conversation.
+
 ## 2026-09-02 Queue Show In Main Viewer
 
 | Field | Value |
