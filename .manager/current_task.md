@@ -330,3 +330,12 @@
 | Expected Output | Agents can preflight, discover models, create/poll/download/cleanup jobs and manage queue jobs through MCP |
 
 - Banana platform container rebuilt and healthy on VPS; MCP auth remains fail-closed.
+
+## 2026-09-02 Supporting Upscale MCP Skills
+
+| Field | Value |
+|---|---|
+| Owner | Skill Creator + Upscale MCP Developer |
+| Status | Done locally |
+| Task | Create reusable skills for single-image, queue and operations workflows |
+| Expected Output | Discoverable skills under `/Users/apple/.codex/skills/upscale-mcp-*` |

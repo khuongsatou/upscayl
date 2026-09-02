@@ -624,6 +624,18 @@ Production service keys duoc provision trong secret env mode 0600; rollback sour
 
 - Banana production container deployment passed; live authenticated `tools/list` was not run because no test API key was available in the deployment shell (unauthenticated request correctly returned 401).
 
+## 2026-09-02 Supporting Upscale MCP Skills QA
+
+| Check | Result |
+|---|---|
+| Skill folders/frontmatter | Pass; 3 skills have valid lowercase names and descriptions |
+| UI metadata | Pass; each skill has `agents/openai.yaml` |
+| Skill validator | Not run; bundled validator requires unavailable Python `yaml` module |
+
+## Residual Risk
+
+- Install `pyyaml` in the skill-validation environment and rerun `quick_validate.py` for formal parser validation.
+
 ## 2026-09-02 Log Manager Enrichment QA
 
 | Check | Result |

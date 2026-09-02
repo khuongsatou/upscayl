@@ -586,6 +586,12 @@
 
 Done / Deployed; authenticated live tool smoke remains an operational follow-up requiring a real key.
 
+## 2026-09-02 Supporting Upscale MCP Skills
+
+- Created and installed three reusable skills: `upscale-mcp-single`, `upscale-mcp-queue`, and `upscale-mcp-ops`.
+- Skills route to the expanded Banana MCP tool catalog and preserve auth, privacy, idempotency, queue, and fail-closed rules.
+- Formal validator was blocked only by missing Python `yaml`; frontmatter and metadata were checked manually.
+
 ## 2026-09-02 Queue Show In Main Viewer
 
 | Field | Value |

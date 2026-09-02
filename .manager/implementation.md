@@ -288,3 +288,10 @@
 - Expanded Banana adapter with authenticated health/models, delete-result and full queue methods/tools.
 - Kept boundary intact: adapter calls public HTTP APIs only, never Upscale storage or SQLite.
 - Synchronized Upscale agent manifest and API README tool mapping.
+
+## 2026-09-02 Supporting Upscale MCP Skills
+
+- Added `upscale-mcp-single` for preflight/upload/create/poll/download/cancel.
+- Added `upscale-mcp-queue` for per-image queue creation, progress, cancel/retry and cleanup.
+- Added `upscale-mcp-ops` for health/model/queue diagnostics and fail-closed incident handling.
+- Each skill includes UI metadata in `agents/openai.yaml`; no secrets or project files are embedded.
