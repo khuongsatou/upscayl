@@ -160,3 +160,9 @@
 - Added an eye action with event isolation and routed original/result state through existing Home viewer state.
 - Validation passed; next step is atomic VPS release and production smoke.
 - VPS release initially hit a full root filesystem and SQLite disk I/O error; obsolete release directories were removed, then service restarted with database/page/API smoke passing.
+
+## 2026-09-02 Banana MCP Upscale Expansion
+
+- Audited Banana adapter and Upscale public contract.
+- Added preflight/model/cleanup and queue tool families while preserving existing names and auth boundary.
+- Adapter tests pass; Banana deployment is the next release action.

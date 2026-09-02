@@ -218,3 +218,16 @@
 - Click icon mat tren item mo dung original trong vung Select an Image.
 - Item co result hien comparison voi result; item chua xong hien original va trang thai hien tai.
 - Typecheck, schema validation, web production build va diff whitespace pass.
+
+## 2026-09-02 Banana MCP Upscale Expansion
+
+### Must-have
+
+- Banana MCP exposes health/model discovery, result cleanup, and queue summary/list/create/cancel/retry.
+- Existing upload/create/get/cancel/download tools remain backward compatible.
+- Queue create preserves one job per upload and supports idempotency.
+
+### Acceptance criteria
+
+- Adapter lists and dispatches all tools with `bbmcp_` auth in memory.
+- Private URL protection and result size limits remain intact; syntax/tests pass.

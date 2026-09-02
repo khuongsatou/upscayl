@@ -557,6 +557,27 @@
 - The label is client-side health evidence from the user's Mac; VPS health remains independently visible through the API status endpoint.
 - TypeScript/schema checks pass and the status UI is deployed in release `20260901-local-status`.
 
+## 2026-09-02 Banana MCP Upscale Expansion
+
+| Field | Value |
+|---|---|
+| PM Verdict | Implemented / Banana release pending |
+| Scope | Expand Banana MCP Upscale capabilities |
+
+## Summary
+
+- Banana MCP now covers health, model discovery, single-job lifecycle, result cleanup, and queue summary/list/create/cancel/retry.
+- Calls remain authenticated with the caller's `bbmcp_` key and relay through the Upscale public API.
+- Upscale agent manifest and docs advertise the expanded catalog.
+
+## Validation
+
+- Banana `precheck` passed; adapter tests passed 5/5.
+
+## Next Step
+
+- Deploy Banana platform release and run live `tools/list` plus authenticated health/models/queue smoke.
+
 ## 2026-09-02 Queue Show In Main Viewer
 
 | Field | Value |

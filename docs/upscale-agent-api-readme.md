@@ -136,6 +136,14 @@ Banana exposes these local MCP tools, all backed by the Upscale public API:
 | `upscale_get_job` | `GET /jobs/{jobId}` |
 | `upscale_cancel_job` | `DELETE /jobs/{jobId}` |
 | `upscale_download_result` | `GET /jobs/{jobId}/result` |
+| `upscale_health` | `GET /health` |
+| `upscale_list_models` | `GET /models` |
+| `upscale_delete_result` | `DELETE /jobs/{jobId}/result` |
+| `upscale_queue_summary` | `GET /queue/summary` |
+| `upscale_queue_list` | `GET /queue/jobs` |
+| `upscale_queue_create` | `POST /queue/jobs` |
+| `upscale_queue_cancel` | `POST /queue/jobs/cancel` |
+| `upscale_queue_retry` | `POST /queue/jobs/{jobId}/retry` |
 
 The MCP adapter relays the caller's `bbmcp_` key in memory only.
 

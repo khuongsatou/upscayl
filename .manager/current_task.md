@@ -319,3 +319,12 @@
 | Expected Output | Original opens in the main viewer; completed items also expose the existing comparison slider |
 
 - Production release `20260902-queue-show-main-viewer` active; service, page and API health smoke pass.
+
+## 2026-09-02 Banana MCP Upscale Expansion
+
+| Field | Value |
+|---|---|
+| Owner | Solution Architect + Banana MCP Developer + QA |
+| Status | Implemented locally; ready for Banana deployment |
+| Task | Expand Banana MCP to the full Upscale lifecycle and Queue API |
+| Expected Output | Agents can preflight, discover models, create/poll/download/cleanup jobs and manage queue jobs through MCP |

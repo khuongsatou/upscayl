@@ -282,3 +282,9 @@
 - `Sidebar` truyen callback tu `Home`; `Home.showQueueItemInViewer` tat batch mode, reset folder/progress va nap original/result vao state viewer chinh.
 - Tai su dung `SliderView` hien co thong qua `upscaledImagePath`, khong them pipeline hoac IPC moi.
 - Deploy atomic release `/opt/mtips5s-upscale/releases/20260902-queue-show-main-viewer`; cleaned obsolete releases after disk-full guard and restarted `upscayl-web`.
+
+## 2026-09-02 Banana MCP Upscale Expansion
+
+- Expanded Banana adapter with authenticated health/models, delete-result and full queue methods/tools.
+- Kept boundary intact: adapter calls public HTTP APIs only, never Upscale storage or SQLite.
+- Synchronized Upscale agent manifest and API README tool mapping.

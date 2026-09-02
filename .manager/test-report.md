@@ -611,6 +611,19 @@ Production service keys duoc provision trong secret env mode 0600; rollback sour
 
 - Full browser click-through with a real queued item remains manual follow-up; production infrastructure is healthy.
 
+## 2026-09-02 Banana MCP Upscale Expansion QA
+
+| Check | Result |
+|---|---|
+| Banana syntax | Pass; `npm run precheck` |
+| Banana adapter tests | Pass; 5/5 |
+| Tool catalog | Pass; lifecycle + queue tools asserted |
+| Upscale manifest/docs | Pass by synchronized source review |
+
+## Residual Risk
+
+- Banana production MCP deployment and live authenticated calls are pending release sync.
+
 ## 2026-09-02 Log Manager Enrichment QA
 
 | Check | Result |
