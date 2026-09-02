@@ -295,3 +295,10 @@
 - Added `upscale-mcp-queue` for per-image queue creation, progress, cancel/retry and cleanup.
 - Added `upscale-mcp-ops` for health/model/queue diagnostics and fail-closed incident handling.
 - Each skill includes UI metadata in `agents/openai.yaml`; no secrets or project files are embedded.
+
+## 2026-09-02 Copy MCP Skills Into Project
+
+- Added project-local guides: `.agent/skills/upscale-mcp-single.md`,
+  `.agent/skills/upscale-mcp-queue.md`, and `.agent/skills/upscale-mcp-ops.md`.
+- Kept the project convention of flat Markdown skill files under `.agent/skills`;
+  global discoverable skills remain available under `/Users/apple/.codex/skills`.

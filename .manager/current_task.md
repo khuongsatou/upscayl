@@ -339,3 +339,12 @@
 | Status | Done locally |
 | Task | Create reusable skills for single-image, queue and operations workflows |
 | Expected Output | Discoverable skills under `/Users/apple/.codex/skills/upscale-mcp-*` |
+
+## 2026-09-02 Copy MCP Skills Into Project
+
+| Field | Value |
+|---|---|
+| Owner | Project Manager |
+| Status | Done |
+| Task | Copy the supporting Banana MCP Upscale skills into this repository's `.agent/skills` |
+| Expected Output | Project-local single, queue and operations skill guides |

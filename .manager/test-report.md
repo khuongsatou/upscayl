@@ -636,6 +636,14 @@ Production service keys duoc provision trong secret env mode 0600; rollback sour
 
 - Install `pyyaml` in the skill-validation environment and rerun `quick_validate.py` for formal parser validation.
 
+## 2026-09-02 Copy MCP Skills Into Project QA
+
+| Check | Result |
+|---|---|
+| Project-local skill files | Pass; 3 guides present under `.agent/skills` |
+| Contract references | Pass; tools match expanded Banana MCP catalog |
+| Secrets scan | Pass by review; no keys, tokens or private paths embedded |
+
 ## 2026-09-02 Log Manager Enrichment QA
 
 | Check | Result |

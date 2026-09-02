@@ -592,6 +592,12 @@ Done / Deployed; authenticated live tool smoke remains an operational follow-up 
 - Skills route to the expanded Banana MCP tool catalog and preserve auth, privacy, idempotency, queue, and fail-closed rules.
 - Formal validator was blocked only by missing Python `yaml`; frontmatter and metadata were checked manually.
 
+## 2026-09-02 Copy MCP Skills Into Project
+
+- Copied the three supporting skill guides into `.agent/skills` so this project
+  carries its own MCP workflow instructions.
+- Commit includes no secrets or generated artifacts.
+
 ## 2026-09-02 Queue Show In Main Viewer
 
 | Field | Value |
