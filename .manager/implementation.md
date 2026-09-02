@@ -1,5 +1,17 @@
 # Implementation Notes
 
+## 2026-09-02 Library Tab (In Progress)
+
+- Them `libraryItemsAtom` persisted bang `atomWithStorage`.
+- Them component `renderer/components/sidebar/library-tab/index.tsx` cho danh sach ket qua, preview, viewer va xoa.
+- Chen tab Library truoc Queue; cac index Queue/Settings duoc dich sang 2/3.
+- Queue ghi item succeeded vao Library khi nhan event upscale done.
+
+## 2026-09-02 VPS Sync
+
+- Synced source to `/opt/mtips5s-upscale/releases/20260902-library-tab` using rsync while excluding local build/cache, node_modules, git and smoke artifacts.
+- Built the web bundle on VPS with `/upscale` base path, atomically switched `current`, and restarted `upscayl-web`.
+
 ## 2026-08-23
 
 - Tao `.agent/README.md` va cac folder `skills/`, `rules/`, `workflows/`.

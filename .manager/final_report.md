@@ -633,3 +633,18 @@ Done / Deployed; authenticated live tool smoke remains an operational follow-up 
 ## PM Verdict
 
 Done / Production Go.
+# Final Report
+
+## 2026-09-02 Library Tab
+
+- Status: Done.
+- Delivered: Library tab before Queue; successful upscale results are saved to localStorage and shown as thumbnails with view/open/delete controls.
+- Validation: `npm run build` passed, including TypeScript and all locale schema validation.
+- UX gate: Approved (UI 4/5, Function 4/5).
+- Residual risk: manual UI run was not available; web blob URLs may not survive a full browser restart.
+
+## Production Deployment
+
+- Release `20260902-library-tab` is active at `/opt/mtips5s-upscale/current`.
+- `upscayl-web` is active; API health is OK with queue 0 and storage ready.
+- Public `https://bb.1nutnhan.com/upscale` returns 200 and uses the correct `/upscale/_next/` asset base path.

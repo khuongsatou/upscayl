@@ -33,6 +33,7 @@ import { useToast } from "@/components/ui/use-toast";
 import UpscaylSteps from "./upscayl-tab/upscayl-steps";
 import SettingsTab from "./settings-tab";
 import QueueTab from "./queue-tab";
+import LibraryTab from "./library-tab";
 import Footer from "../footer";
 import { NewsModal } from "../news-modal";
 import Tabs from "../tabs";
@@ -255,15 +256,19 @@ const Sidebar = ({
           />
         )}
 
-        {(selectedTab === 1 || queueProcessing) && (
+        {selectedTab === 1 && (
+          <LibraryTab onShowInViewer={onShowQueueItemInViewer} />
+        )}
+
+        {(selectedTab === 2 || queueProcessing) && (
           <QueueTab
             outputPath={outputPath}
-            visible={selectedTab === 1}
+            visible={selectedTab === 2}
             onShowInViewer={onShowQueueItemInViewer}
           />
         )}
 
-        {selectedTab === 2 && (
+        {selectedTab === 3 && (
           <SettingsTab
             batchMode={batchMode}
             compression={compression}

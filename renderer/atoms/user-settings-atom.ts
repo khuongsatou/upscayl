@@ -58,6 +58,12 @@ export type UpscaleQueueItem = {
 
 export const upscaleQueueItemsAtom = atom<UpscaleQueueItem[]>([]);
 
+/** Completed upscale results kept for quick access from the Library tab. */
+export const libraryItemsAtom = atomWithStorage<UpscaleQueueItem[]>(
+  "upscaleLibraryItems",
+  [],
+);
+
 export const queueProcessingAtom = atom<boolean>(false);
 
 export const rememberOutputFolderAtom = atomWithStorage<boolean>(

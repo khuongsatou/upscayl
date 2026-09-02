@@ -13,6 +13,7 @@ import {
   tileSizeAtom,
   ttaModeAtom,
   upscaleQueueItemsAtom,
+  libraryItemsAtom,
   useCustomWidthAtom,
   userStatsAtom,
 } from "@/atoms/user-settings-atom";
@@ -82,6 +83,7 @@ function QueueTab({
   const { toast } = useToast();
   const t = useAtomValue(translationAtom);
   const [items, setItems] = useAtom(upscaleQueueItemsAtom);
+  const setLibraryItems = useSetAtom(libraryItemsAtom);
   const [isProcessing, setIsProcessing] = useAtom(queueProcessingAtom);
   const selectedModelId = useAtomValue(selectedModelIdAtom);
   const gpuId = useAtomValue(gpuIdAtom);
@@ -327,6 +329,13 @@ function QueueTab({
         resultPath,
         finishedAt: Date.now(),
       }));
+      const completedItem = itemsRef.current.find((item) => item.id === id);
+      if (completedItem) {
+        setLibraryItems((previous) => [
+          { ...completedItem, status: "succeeded", progress: 100, resultPath, finishedAt: Date.now() },
+          ...previous.filter((item) => item.id !== id),
+        ]);
+      }
       setUserStats((previous) => ({
         ...previous,
         lastUpscaylDuration: duration,

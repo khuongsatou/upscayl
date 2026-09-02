@@ -11,6 +11,7 @@
     "TITLE": "di",
     "LINK_TITLE": "Il team di Upscayl"
   },
+  "LIBRARY": { "TITLE": "Library", "SUMMARY": "{count} saved result(s)", "EMPTY": "Your saved results will appear here.", "CLEAR": "Clear library", "REMOVE": "Remove from library", "VIEW": "View result" },
   "QUEUE": {
     "TITLE": "Queue",
     "SUMMARY": "{queued} queued / {done} done / {failed} failed",

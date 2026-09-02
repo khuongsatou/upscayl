@@ -1,5 +1,20 @@
 # Requirements
 
+## 2026-09-02 Library Tab
+
+- Them tab `Library` ngay ben trai tab `Queue`.
+- Khi mot queue item upscale thanh cong, ket qua duoc them vao Library.
+- Library duoc luu qua localStorage de van con sau khi reload/mo lai renderer.
+- Library cho phep xem anh ket qua, mo trong viewer hien co va xoa tung muc/xoa tat ca.
+- Queue va Settings hien co tiep tuc hoat dong binh thuong.
+
+### Acceptance criteria
+
+- Tab order la Upscayl, Library, Queue, Settings.
+- Anh thanh cong xuat hien trong Library ma khong can them lai thu cong.
+- Reload van giu danh sach Library (trong runtime desktop va voi cac path luu duoc).
+- Empty state va thao tac xoa co text/tooltip ro rang.
+
 ## Output tu Product Owner
 
 - Tao `.agent` gom it nhat 5 skills, 5 rules, 5 workflows phu hop van hanh du an.

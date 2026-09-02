@@ -166,3 +166,12 @@
 - Audited Banana adapter and Upscale public contract.
 - Added preflight/model/cleanup and queue tool families while preserving existing names and auth boundary.
 - Adapter tests pass; Banana deployment is the next release action.
+# Iteration Log
+
+## 2026-09-02
+
+- Added Library tab before Queue.
+- Persisted completed queue results with `libraryItemsAtom`.
+- Added result thumbnail, viewer, open-result, remove and clear-library actions.
+- First build exposed missing locale schema keys; added `LIBRARY` keys to all locales, then build passed.
+- Synced and activated production release `20260902-library-tab`; VPS health and public page/assets smoke passed.

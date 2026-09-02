@@ -13,6 +13,20 @@
 - PM dung dau du an va dieu phoi cac role.
 - Task nay chi tao cau hinh van hanh, khong thay doi code ung dung.
 
+## 2026-09-02 Library Tab
+
+| Field | Value |
+|---|---|
+| Owner | Project Manager + Electron Next Developer |
+| Status | Done |
+| Task | Them tab Library ben trai Queue de luu va xem lai anh da upscale |
+| Expected Output | Library hien cac ket qua succeeded, persist qua localStorage, co xem/xoa |
+
+## Production Sync
+
+- Release `20260902-library-tab` active on VPS.
+- `upscayl-web` active; API health/database/worker/storage OK; public page and `/upscale/_next` assets pass.
+
 ## 2026-08-23 Web Runtime Refactor
 
 | Field | Value |

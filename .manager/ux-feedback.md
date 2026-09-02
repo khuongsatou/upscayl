@@ -193,3 +193,11 @@
 
 - Icon mắt đặt cạnh các action queue, có tooltip/aria-label nên người dùng hiểu đây là thao tác xem chi tiết.
 - Mở viewer chính giúp dùng lại vùng preview/comparison quen thuộc mà không làm thay đổi trạng thái xử lý queue.
+# UX / Customer Feedback
+
+## 2026-09-02 Library Tab
+
+- UI: 4/5 — Library is placed before Queue, has clear empty state, thumbnails, view and delete actions.
+- Function: 4/5 — completed results are persisted and automatically added; clear-all and per-item removal are available.
+- Customer verdict: Approved.
+- Residual note: browser-created blob URLs are session-scoped; desktop file paths persist reliably, while a later web-specific asset persistence enhancement may be useful.

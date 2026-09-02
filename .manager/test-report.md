@@ -675,3 +675,19 @@ Production service keys duoc provision trong secret env mode 0600; rollback sour
 | Status polling UI | Pass; polls local `/health` every 10 seconds and maps online/offline states |
 | Production bundle | Pass; status label code present in release `20260901-local-status` |
 | VPS health after deploy | Pass; API health 200, worker queue 0 |
+# Test Report
+
+## 2026-09-02 Library Tab
+
+- `npm run tsc`: PASS.
+- `npm run validate-schema`: PASS; all 19 locale files valid.
+- `npm run build`: PASS; Next production build completed successfully.
+- Manual UI flow: NOT RUN in this environment; residual risk is visual spacing and browser-specific persisted blob URL behavior.
+
+## 2026-09-02 VPS Sync
+
+- Pre-deploy health: PASS; queue 0, service active, storage available.
+- VPS `npm install`, `npm run tsc`, and `UPSCAYL_TARGET=web UPSCAYL_WEB_BASE_PATH=/upscale npm run web:build:upscale`: PASS.
+- Atomic release switch: PASS; `/opt/mtips5s-upscale/current` -> `20260902-library-tab`.
+- Service restart: PASS; `upscayl-web` active.
+- Public smoke: PASS; API health 200, page 200, assets use `/upscale/_next/` with no root `/_next/` references.

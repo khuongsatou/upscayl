@@ -11,6 +11,14 @@
     "TITLE": "Bởi ",
     "LINK_TITLE": "Đội ngũ Upscayl"
   },
+  "LIBRARY": {
+    "TITLE": "Thư viện",
+    "SUMMARY": "{count} kết quả đã lưu",
+    "EMPTY": "Các kết quả đã lưu sẽ xuất hiện ở đây.",
+    "CLEAR": "Xóa thư viện",
+    "REMOVE": "Xóa khỏi thư viện",
+    "VIEW": "Xem kết quả"
+  },
   "QUEUE": {
     "TITLE": "Queue",
     "SUMMARY": "{queued} đang chờ / {done} xong / {failed} lỗi",
