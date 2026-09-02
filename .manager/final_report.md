@@ -576,7 +576,15 @@
 
 ## Next Step
 
-- Deploy Banana platform release and run live `tools/list` plus authenticated health/models/queue smoke.
+
+## Deployment Update
+
+- Banana Pro container rebuilt and restarted on VPS; `/api/health` reports `ok`, extension/socket ready and MCP public auth enabled.
+- Unauthenticated `/mcp` smoke returned HTTP 401 as expected. Authenticated tool smoke requires a valid `bbmcp_` key and was not attempted without one.
+
+## PM Verdict
+
+Done / Deployed; authenticated live tool smoke remains an operational follow-up requiring a real key.
 
 ## 2026-09-02 Queue Show In Main Viewer
 

@@ -622,7 +622,7 @@ Production service keys duoc provision trong secret env mode 0600; rollback sour
 
 ## Residual Risk
 
-- Banana production MCP deployment and live authenticated calls are pending release sync.
+- Banana production container deployment passed; live authenticated `tools/list` was not run because no test API key was available in the deployment shell (unauthenticated request correctly returned 401).
 
 ## 2026-09-02 Log Manager Enrichment QA
 

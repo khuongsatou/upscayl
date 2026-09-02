@@ -325,6 +325,8 @@
 | Field | Value |
 |---|---|
 | Owner | Solution Architect + Banana MCP Developer + QA |
-| Status | Implemented locally; ready for Banana deployment |
+| Status | Done / Banana deployed |
 | Task | Expand Banana MCP to the full Upscale lifecycle and Queue API |
 | Expected Output | Agents can preflight, discover models, create/poll/download/cleanup jobs and manage queue jobs through MCP |
+
+- Banana platform container rebuilt and healthy on VPS; MCP auth remains fail-closed.
